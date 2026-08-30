@@ -1,0 +1,7 @@
+cfg/
+build/
+roms/pps*
+roms/*.zip
+
+!.gitignore
+!roms/orig/profpac.zip

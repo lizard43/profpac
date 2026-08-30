@@ -1,65 +1,135 @@
-# Professor Pac-Man プロフェッサー・パックマン Disassembly
+# Professor Pac-Man disassembly
 
-Professor Pac-Man was a Dave Nutting Associates game, developed for Bally Midway’s Astrocade-derived arcade platform. Released in August 1983, it was the final commercial arcade game built around that hardware family. It was a multiple-choice educational/trivia game—not a maze game despite the Pac-Man license.
+Professor Pac-Man is a 1983 quiz game developed by Dave Nutting Associates and
+published by Bally Midway. It uses the final and most heavily expanded member
+of the Astrocade arcade hardware family: a Z80, 16-color screen RAM, stereo
+Astrocade sound, banked program ROM, and a 640 KB EPROM board containing the
+animated question library.
 
-Professor pacman ran on a version of the bally astrocade hardware with different graphics hardware giving 16 colours and it also had masses of banked rom (768k)
+The source preserves the physical ROM organization, documents the complete MAME
+memory layout, identifies the reset and threaded-runtime entry points, and
+separates executable ROM from the question database. Native routines are
+expressed as Z80 instructions where named; other contents use addressed byte
+definitions that reproduce the original devices exactly.
 
-it uses the same custom chips used by Gorf, Wizard of Wor, Robby Roto etc.
+## Contents
 
+- `src/pps1.asm`-`src/pps9.asm` - byte-exact source for the nine program ROMs
+- `src/profpac_common.include` - shared hardware and runtime definitions
+- `build.sh` - assembles and verifies all nine program ROMs
+- `hardware.md` - CPU, memory, banking, video, sound, and control interface
+- `terse.md` - confirmed threaded-runtime structure and working register model
+- `development_status.md` - reverse-engineering coverage and planned work
+- `roms/orig/profpac.zip` - canonical MAME archive used for verification
 
+The fourteen `ppq` ROMs form the banked question and presentation database.
+The ten `pls153a` files contain programmable-logic fuse maps for the CPU, EPROM,
+game, and screen-RAM boards. They describe hardware logic rather than Z80
+address-space contents.
 
-## Was it written in TERSE?
+## Build
 
-It was written in a Forth-family language and was very likely built with DNA’s TERSE system, but I have not found a primary source explicitly naming TERSE.
+Requirements:
 
-Contemporary-derived game histories consistently say it was programmed in FORTH. That description fits TERSE: DNA’s Astrocade development environment was a compact threaded, Forth-like system, and Professor Pac-Man came from the same shop and technical lineage as Gorf.
+- zmac 1.3
+- POSIX shell utilities plus `cmp`, `sha1sum`, and `unzip`
+- an unmodified MAME `profpac` ROM set
 
-There are additional reasons TERSE is likely:
+Place the canonical MAME archive at `roms/orig/profpac.zip`, then run:
 
-Rick Frankel had already supplied programming support on Gorf, whose surviving program contains a recognizable TERSE threaded-code system.
-Professor Pac-Man appeared late in DNA’s Astrocade period, when reusing that established toolchain would make sense.
-A large, screen-oriented quiz program benefits from TERSE’s compact vocabulary and threaded application code.
-Historical summaries may have called it “FORTH” because that is the recognizable language family rather than DNA’s internal dialect name.
+```sh
+chmod +x build.sh
+./build.sh
+```
 
-Still, “written in FORTH” does not prove “written in TERSE.” We would want to inspect the Professor Pac-Man ROMs for the TERSE fingerprints we found in Gorf: colon-word headers or threaded word bodies, a common inner interpreter, parameter-field addresses, dictionary-like structures, and shared primitive implementations. Until that comparison is made, I would label it:
+The script assembles each physical program ROM independently and compares its
+8 KB image byte-for-byte with the corresponding member of the MAME archive.
+Verified program ROMs are written under `build/`. The complete `profpac.zip`
+retains the canonical TorrentZip container and is checked against the baseline
+archive SHA-1.
 
-Forth-based; probably DNA TERSE, pending ROM confirmation.
+Expected SHA-1 values:
 
-Known creative and development personnel
-Role	Person or organization
-Original game proposal	Johnny Lott and Ed Adlum
-Development studio	Dave Nutting Associates
-Publisher/manufacturer	Bally Midway
-Principal programmer/writer	Rick Frankel
-Graphics and animation	Mark Steven Pierce
-Additional graphics	Sue Forner
-Sound and music	Marc Canter
-Likely studio/product oversight	Dave Nutting
+| ROM | SHA-1 |
+| --- | --- |
+| `pps1` | `f7a9606ce6d66c3e6d210cc25572904aeab2b6c8` |
+| `pps2` | `b730b24088dcfddbe954670ff9212b7383c923f6` |
+| `pps3` | `ffbb156f417d20478117b39de28a15680993b528` |
+| `pps4` | `33c797c690801afded45091d822347e1ecc72b54` |
+| `pps5` | `fb4d3ba40697425d69ee19bfdcf00aea1df5fa80` |
+| `pps6` | `f706cef6518b7d839377aa8a7c75fdeed4985c57` |
+| `pps7` | `201b930cca9669114ffc97978cade69587e34a0f` |
+| `pps8` | `786b30cd7a7db55bdde05909d7a1a7f122b6e546` |
+| `pps9` | `8b7ed84090dbc5181deef6f55ec755c05d4c0d5e` |
 
-The individual credits are consistently reported as Rick Frankel for the program, Mark Steven Pierce and Sue Forner for graphics, and Marc Canter for sound and music.
+## Program architecture
 
-Mark Pierce’s own later account is especially useful. He recalled that Rick Frankel was making the game through Dave Nutting Associates’ relationship with Bally and that Pierce was brought in to animate the multiple-choice questions. He also remembered Marc Canter working on audio at the company.
+```mermaid
+flowchart TD
+    Reset["Z80 reset and diagnostics"] --> Runtime["Native TERSE primitives"]
+    Runtime --> Threaded["Direct-threaded game words"]
+    Threaded --> Presentation["Question and animation presentation"]
+    Presentation --> Bank["Select EPROM bank through port $F3"]
+    Bank --> Questions["PPQ question database at $4000-$7FFF"]
+```
 
-Who designed the concept?
+The native kernel and threaded application share the program ROMs. A colon
+definition enters through `$0008`; the interpreter at `$00F6` fetches the next
+16-bit execution token from the thread in `BC`. See [terse.md](terse.md).
 
-The concept has two distinct stages:
+## ROM organization
 
-Johnny Lott and Ed Adlum proposed a Pac-Man game in which normal maze play would be interrupted by quiz questions after Pac-Man ate a power pellet.
-After Midway accepted it, Dave Nutting Associates substantially redesigned it, removing the maze gameplay and turning it into the animated multiple-choice game that shipped.
+| Devices | Physical capacity | Role |
+| --- | ---: | --- |
+| `pps1`, `pps2` | 16 KB | Fixed ROM at `$0000-$3FFF` |
+| `pps3`-`pps8` | 48 KB | Banked program, graphics, and table data |
+| `pps9` | 8 KB | Fixed ROM at `$C000-$DFFF` |
+| `ppq1`-`ppq14` | 224 KB populated | Question and animation EPROM data |
+| PLD dumps | 10 devices | Address decoding and board control logic |
 
-Accounts say Lott and Adlum were not informed that their maze component had been removed.
+The installed EPROM board is physically capable of 640 KB. This ROM set
+populates fourteen 16 KB question devices, not 640 KB of question content.
+MAME allocates a 640 KB region and leaves the unused space erased.
 
-That makes the design credit less clean than the programming credit. Lott and Adlum originated the quiz/Pac-Man concept, but the shipped game design appears to have been created inside DNA—probably under Dave Nutting’s direction with Rick Frankel doing the principal implementation. I have not found a reliable source assigning the final game-design credit to one named DNA employee.
+## Hardware overview
 
-What made the machine unusual?
+```mermaid
+flowchart LR
+    CPU["Z80"] --> Fixed["Fixed PPS ROM"]
+    CPU --> Banks["Banked PPS and PPQ ROM"]
+    CPU --> RAM["Work and battery RAM"]
+    CPU --> Video["16-color screen RAM"]
+    CPU --> IO["Controls, lamps, counters"]
+    CPU --> Sound["Two Astrocade sound chips"]
+```
 
-Professor Pac-Man was much more ambitious than a normal 16 KB Astrocade title:
+Detailed addresses and bank behavior are maintained in
+[hardware.md](hardware.md).
 
-Z80-based Astrocade-family video hardware
-Two Astrocade custom I/O/sound chips
-Three answer buttons
-Extensive animated question presentations
-A comparatively large collection of program, graphics, and question data
-Planned replacement question sets so operators could refresh the machine
+## Self-test surface
 
-Midway reportedly envisioned family, public/bar, and prize-oriented question packages, with periodic revisions to prevent memorization. Only about 400 cabinets are commonly reported as manufactured, and many were reportedly returned and later converted.
+The operations manual documents unusually extensive built-in diagnostics:
+
+- 16-color write-mode and intercept tests
+- screen RAM, scratch-pad RAM, and write-protect tests
+- Super Game and 16K ROM tests
+- continuous heat testing with retained pass, error, and reset counters
+- crosshatch, color-bar, grey-level, and purity displays
+- stereo sound, switch, lamp, LED, and coin-counter tests
+- bookkeeping statistics and operator game settings
+
+These screens define behavioral anchors for routine identification because
+their observable results are specified independently of the ROM.
+
+## Provenance
+
+The binary baseline is the MAME `profpac` set described by
+`src/mame/bally/astrocde.cpp`. Hardware names, board numbers, switch meanings,
+and diagnostic descriptions are drawn from the Bally Midway Professor Pac-Man
+operations manual and its schematics.
+
+Documented production credits identify Dave Nutting Associates as developer,
+Rick Frankel as programmer, Mark Steven Pierce and Sue Forner for graphics,
+and Marc Canter for sound and music. Johnny Lott and *RePlay* publisher Ed
+Adlum originated the earlier Pac-Man-plus-quiz proposal; the shipped game is
+the DNA animated multiple-choice design.

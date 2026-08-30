@@ -1,0 +1,15 @@
+; Professor Pac-Man shared hardware definitions
+
+SCREEN_WINDOW           equ     $4000
+BANKED_PROGRAM_WINDOW   equ     $8000
+FIXED_HIGH_ROM           equ     $C000
+BATTERY_RAM              equ     $E000
+WORK_RAM                 equ     $E800
+
+PORT_BANK_SELECT        equ     $F3
+PORT_SCREEN_PAGE        equ     $BF
+PORT_SCREEN_CONTROL     equ     $C0
+PORT_SCREEN_INTERCEPT   equ     $C3
+
+TERSE_RETURN_STACK_TOP  equ     $EF50
+NATIVE_STACK_TOP        equ     $F000
