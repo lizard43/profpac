@@ -14,6 +14,9 @@ RESET_ENTRY:
         jp COLD_START                   ; $0003
         db      $25,$00                                                         ; $0006
 TERSE_COLON_ENTRY:
+        ; RST $08 leaves the nested body address on SP. Preserve the caller's
+        ; threaded IP on the downward-growing IX control stack, load the new
+        ; IP into BC, and resume through the cached dispatcher in IY.
         dec ix                          ; $0008
         ld (ix+0),b                     ; $000A
         dec ix                          ; $000D
@@ -46,8 +49,8 @@ L001B:
         out ($fb),a                     ; $003F
         ld a,$03                        ; $0041
         out ($ff),a                     ; $0043
-        ld ix,$ef50                     ; $0045
-        ld sp,$f000                     ; $0049
+        ld ix,TERSE_CONTROL_STACK_TOP   ; $0045
+        ld sp,TERSE_PARAMETER_STACK_TOP ; $0049
         ld a,$a5                        ; $004C
         ld c,$10                        ; $004E
         ld hl,$e280                     ; $0050
@@ -149,13 +152,15 @@ WORK_RAM_FILL_BYTE:
         rla                             ; $00E5
         dec d                           ; $00E6
         jr nz,WORK_RAM_FILL_PASS        ; $00E7
-        ld bc,$6dd2                     ; $00E9
+        ld bc,INITIAL_THREAD_IP         ; $00E9
         jp TERSE_INIT                   ; $00EC
 SERVICE_THREAD_ENTRY:
-        ld bc,$debe                     ; $00EF
+        ld bc,SERVICE_THREAD_IP         ; $00EF
 TERSE_INIT:
-        ld iy,$00f6                     ; $00F2
+        ld iy,TERSE_NEXT                ; $00F2
 TERSE_NEXT:
+        ; Direct-threaded NEXT: fetch the little-endian execution token at BC,
+        ; advance BC past it, and jump directly to the native implementation.
         ld a,(bc)                       ; $00F6
         inc bc                          ; $00F7
         ld l,a                          ; $00F8
@@ -164,6 +169,7 @@ TERSE_NEXT:
         ld h,a                          ; $00FB
         jp (hl)                         ; $00FC
 _RETURN:
+        ; Restore the caller's threaded IP and release its IX control cell.
         ld c,(ix+0)                     ; $00FD
         inc ix                          ; $0100
         ld b,(ix+0)                     ; $0102
@@ -822,17 +828,17 @@ _CASES:
 L0454:
         jp (iy)                         ; $0454
 frame_open:
-        ld hl,($fefd)                   ; $0456
+        ld hl,(TERSE_FRAME_POINTER)     ; $0456
         push hl                         ; $0459
-        ld ($fefd),sp                   ; $045A
-        ld hl,($fefd)                   ; $045E
+        ld (TERSE_FRAME_POINTER),sp     ; $045A
+        ld hl,(TERSE_FRAME_POINTER)     ; $045E
         add hl,de                       ; $0461
         ld sp,hl                        ; $0462
         jp (iy)                         ; $0463
 _0lessFRAME:
-        ld hl,($fefd)                   ; $0465
+        ld hl,(TERSE_FRAME_POINTER)     ; $0465
         push hl                         ; $0468
-        ld ($fefd),sp                   ; $0469
+        ld (TERSE_FRAME_POINTER),sp     ; $0469
         jp (iy)                         ; $046D
 _1lessFRAME:
         ld de,$fffe                     ; $046F
@@ -841,9 +847,9 @@ _2lessFRAME:
         ld de,$fffc                     ; $0474
         jr frame_open                   ; $0477
 frame_close:
-        ld sp,($fefd)                   ; $0479
+        ld sp,(TERSE_FRAME_POINTER)     ; $0479
         pop hl                          ; $047D
-        ld ($fefd),hl                   ; $047E
+        ld (TERSE_FRAME_POINTER),hl     ; $047E
         ex de,hl                        ; $0481
         add hl,sp                       ; $0482
         ld sp,hl                        ; $0483
@@ -858,7 +864,7 @@ _2FRAMEgt:
         ld de,$0004                     ; $0490
         jr frame_close                  ; $0493
 frame_addr:
-        ld hl,($fefd)                   ; $0495
+        ld hl,(TERSE_FRAME_POINTER)     ; $0495
         add hl,de                       ; $0498
         push hl                         ; $0499
         jp (iy)                         ; $049A
@@ -878,7 +884,7 @@ _2LOCAL:
         ld de,$fffc                     ; $04B2
         jr frame_addr                   ; $04B5
 frame_fetch:
-        ld hl,($fefd)                   ; $04B7
+        ld hl,(TERSE_FRAME_POINTER)     ; $04B7
         add hl,de                       ; $04BA
         ld e,(hl)                       ; $04BB
         inc hl                          ; $04BC

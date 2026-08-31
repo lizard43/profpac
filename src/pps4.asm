@@ -518,26 +518,26 @@
         db      $FD,$00,$03,$5C,$BF,$94,$BF,$DE,$BE                             ; $BFC0
 TERSE_COLON_BFC9:
         rst     $08                             ; $BFC9 colon entry
-        dw      $0109                ; $BFCA _LIT
+        dw      XT_LIT                  ; $BFCA _LIT
         dw      $0324                ; $BFCC inline word
-        dw      $0112                ; $BFCE _LITbyte
+        dw      XT_LITbyte              ; $BFCE _LITbyte
         db      $47                  ; $BFD0 inline byte
-        dw      $0112                ; $BFD1 _LITbyte
+        dw      XT_LITbyte              ; $BFD1 _LITbyte
         db      $56                  ; $BFD3 inline byte
-        dw      $0112                ; $BFD4 _LITbyte
+        dw      XT_LITbyte              ; $BFD4 _LITbyte
         db      $02                  ; $BFD6 inline byte
         dw      $2D3B                ; $BFD7 execution token $2D3B
-        dw      $00FD                ; $BFD9 _RETURN
+        dw      XT_RETURN               ; $BFD9 _RETURN
 TERSE_COLON_BFDB:
         rst     $08                             ; $BFDB colon entry
-        dw      $012A                ; $BFDC _0
-        dw      $0112                ; $BFDE _LITbyte
+        dw      XT_0                    ; $BFDC _0
+        dw      XT_LITbyte              ; $BFDE _LITbyte
         db      $4F                  ; $BFE0 inline byte
-        dw      $0109                ; $BFE1 _LIT
+        dw      XT_LIT                  ; $BFE1 _LIT
         dw      $00C8                ; $BFE3 inline word
-        dw      $0112                ; $BFE5 _LITbyte
+        dw      XT_LITbyte              ; $BFE5 _LITbyte
         db      $01                  ; $BFE7 inline byte
         dw      $2D3B                ; $BFE8 execution token $2D3B
-        dw      $00FD                ; $BFEA _RETURN
+        dw      XT_RETURN               ; $BFEA _RETURN
         db      $B6,$81,$B6,$81,$80,$80,$70,$80,$F6,$81,$C0,$80,$80,$80,$C0,$80 ; $BFEC
         db      $40,$81,$40,$81                                                 ; $BFFC

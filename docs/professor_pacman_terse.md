@@ -1,14 +1,16 @@
 # TERSE runtime notes
 
-Professor Pac-Man contains a direct-threaded, Forth-derived execution engine.
-The identification is based on executable structure in `pps1`, not on the
-generic historical description that the game was written in FORTH.
+Professor Pac-Man contains a direct-threaded TERSE engine. The identification
+rests on the executable kernel in `pps1`, its byte-level correspondence with
+the mature Gorf engine, the recovered threaded application, and the documented
+TERSE vocabulary. It does not depend on a generic claim that the game was
+written in FORTH.
 
 ## Runtime entry points
 
 | Address | Name | Contract |
 | --- | --- | --- |
-| `$0008` | `TERSE_COLON_ENTRY` | Save the caller's threaded instruction pointer and enter a colon definition |
+| `$0008` | `TERSE_COLON_ENTRY` | Consume the return address left by `RST $08`, save the caller's threaded instruction pointer, and enter the nested body |
 | `$00F2` | `TERSE_INIT` | Cache the address of `TERSE_NEXT` in `IY` |
 | `$00F6` | `TERSE_NEXT` | Fetch the next 16-bit execution token and jump to its native implementation |
 
@@ -19,17 +21,19 @@ generic historical description that the game was written in FORTH.
 | `BC` | Threaded instruction pointer |
 | `IY` | Cached address of `TERSE_NEXT` (`$00F6`) |
 | `IX` | Downward-growing threaded return stack, initialized to `$EF50` |
-| `SP` | Native Z80 call/data stack, initialized to `$F000` |
+| `SP` | TERSE parameter stack and balanced native Z80 call stack, initialized to `$F000` |
 | `HL`, `DE` | Primitive operands and conventional parameter-stack values |
 
 The separation between `IX` and `SP` is decisive. Colon entry saves `BC` on the
-`IX` stack, obtains the new threaded address from the native call return on
-`SP`, and dispatches through `IY`.
+`IX` stack, obtains the nested body address from the return address placed on
+`SP` by `RST $08`, and dispatches through `IY`. Native helpers may use `CALL`
+and `PUSH`, but must restore the shared hardware stack before threaded
+execution resumes.
 
 ```mermaid
 flowchart TD
-    Colon["CALL colon word"] --> Enter["$0008 saves BC on IX stack"]
-    Enter --> NewIP["POP BC loads word body"]
+    Colon["RST $08 at colon word"] --> Enter["$0008 saves caller BC on IX"]
+    Enter --> NewIP["POP BC loads nested body address"]
     NewIP --> Next["$00F6 fetches 16-bit token"]
     Next --> Primitive["Jump to native primitive"]
     Primitive --> Next
@@ -81,6 +85,19 @@ and stack-effect reference is maintained in
 The foundational ordering and native implementations establish a direct code
 lineage with Gorf. Sea Wolf II carries the earlier compact form of the same
 dispatcher and register ABI.
+
+## Naming discipline
+
+Canonical TERSE names are used where the 1981 glossary, surviving source, or an
+implementation-identical Gorf word establishes the spelling and semantics.
+Behavioral names are used for game-specific or otherwise unproven entries.
+`TERSE_COLON_ENTRY` is deliberately descriptive: the standard glossary word
+`ENTER` creates a dictionary entry and is not the `$0008` runtime.
+
+The shared include defines `XT_*` constants for the fixed resident vocabulary.
+Banked assembly units use those constants in threaded `DW` cells while `pps1`
+retains the native implementation labels. This makes the execution-token field
+symbolic without linking the nine overlapping physical ROM units together.
 
 ## Threaded application coverage
 

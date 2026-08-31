@@ -17,8 +17,9 @@ technical descriptions remain in `README.md`, `hardware.md`, and `terse.md`.
   verified instruction bodies mnemonically.
 - Closed the native reset, interrupt, program-bank, screen-window, video,
   pattern-mover, sound-register, input, RAM and self-test hardware paths.
-- Established that `pps3`, `pps4`, and `pps7` contain TERSE/data content but no
-  native Z80 bodies.
+- Established that `pps3` and `pps4` contain threaded TERSE definitions but no
+  native Z80 bodies, while `pps7` contains data and no validated native or
+  colon-definition entry.
 - Decoded and named the resident TERSE vocabulary at `$00FD-$05B7`, including
   stack effects, frame words, protected-memory stores, and Gorf/Sea Wolf II
   correspondence.
@@ -28,6 +29,9 @@ technical descriptions remain in `README.md`, `hardware.md`, and `terse.md`.
 - Promoted thread-proven native entries and the configuration-1
   protected-memory linkage vocabulary; total native coverage is 7,627 bytes
   and 4,226 instructions.
+- Replaced 3,423 bare execution-token addresses in the banked threaded source
+  with shared symbolic constants covering the resident vocabulary, proven
+  fixed application words, configuration-1 linkage words, and service root.
 
 ## ROM and logic inventory
 

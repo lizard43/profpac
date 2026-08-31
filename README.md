@@ -37,7 +37,7 @@ address-space contents.
 Requirements:
 
 - zmac 1.3 at `tools/zmac`
-- POSIX shell utilities plus `cmp`, `sha1sum`, and `unzip`
+- Python 3 and POSIX shell utilities including `cmp`, `sha1sum`, and `unzip`
 - an unmodified MAME `profpac` ROM set
 
 Place the canonical MAME archive at `roms/orig/profpac.zip`, then run:
@@ -50,9 +50,12 @@ chmod +x build.sh
 The script assembles each physical program ROM independently and compares its
 8 KB image byte-for-byte with the corresponding member of the MAME archive.
 Verified program ROMs are written as `roms/pps1` through `roms/pps9`; zmac
-listings are retained under `build/`. The complete `roms/profpac.zip` retains the
-canonical TorrentZip container and is checked against the baseline archive
-SHA-1.
+listings are retained under `build/`. It then creates a new 33-member
+TorrentZip-compatible `roms/profpac.zip` from the rebuilt program ROMs and the
+unchanged question-ROM and PLD members carried from the baseline. The generated
+archive is tested, compared byte-for-byte with the baseline, and checked
+against the canonical SHA-1
+`fc2c27f04a1a173ae79b5fb91c69ff85cc479c9c`.
 
 Expected SHA-1 values:
 
@@ -79,11 +82,12 @@ flowchart TD
     Bank --> Questions["PPQ question database at $4000-$7FFF"]
 ```
 
-The native kernel and threaded application share the program ROMs. A colon
-definition enters through `$0008`; the interpreter at `$00F6` fetches the next
-16-bit execution token from the thread in `BC`. See [native_code.md](native_code.md)
-and [terse.md](terse.md). The decoded colon definitions and control-flow roots
-are mapped in [threaded_code.md](threaded_code.md).
+The native kernel and threaded application share the program ROMs. Compiled
+colon definitions begin with `RST $08`; the runtime at `$0008` transfers the
+nested thread address into `BC`, and `TERSE_NEXT` at `$00F6` fetches each
+following 16-bit execution token. See [native_code.md](native_code.md) and
+[terse.md](terse.md). The decoded colon definitions and control-flow roots are
+mapped in [threaded_code.md](threaded_code.md).
 
 ## ROM organization
 

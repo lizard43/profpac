@@ -192,13 +192,13 @@ L21A6:
         jp (iy)                         ; $21AD
 TERSE_COLON_21AF:
         rst     $08                             ; $21AF colon entry
-        dw      $0109                ; $21B0 _LIT
+        dw      XT_LIT                  ; $21B0 _LIT
         dw      $FE8F                ; $21B2 inline word
-        dw      $014C                ; $21B4 _at
-        dw      $0112                ; $21B6 _LITbyte
+        dw      XT_at                   ; $21B4 _at
+        dw      XT_LITbyte              ; $21B6 _LITbyte
         db      $44                  ; $21B8 inline byte
-        dw      $015A                ; $21B9 _plus
-        dw      $00FD                ; $21BB _RETURN
+        dw      XT_plus                 ; $21B9 _plus
+        dw      XT_RETURN               ; $21BB _RETURN
 NATIVE_21BD:
         ld de,($fe8f)                   ; $21BD
         ld hl,$0044                     ; $21C1
@@ -274,75 +274,75 @@ L227A:
         jp (iy)                         ; $228E
 TERSE_COLON_2290:
         rst     $08                             ; $2290 colon entry
-        dw      $0136                ; $2291 _DUP
-        dw      $0112                ; $2293 _LITbyte
+        dw      XT_DUP                  ; $2291 _DUP
+        dw      XT_LITbyte              ; $2293 _LITbyte
         db      $44                  ; $2295 inline byte
-        dw      $015A                ; $2296 _plus
-        dw      $0136                ; $2298 _DUP
-        dw      $0153                ; $229A _Bat
-        dw      $02EA                ; $229C _ROT
-        dw      $012A                ; $229E _0
-        dw      $0146                ; $22A0 _SWAP
-        dw      $0112                ; $22A2 _LITbyte
+        dw      XT_plus                 ; $2296 _plus
+        dw      XT_DUP                  ; $2298 _DUP
+        dw      XT_Bat                  ; $229A _Bat
+        dw      XT_ROT                  ; $229C _ROT
+        dw      XT_0                    ; $229E _0
+        dw      XT_SWAP                 ; $22A0 _SWAP
+        dw      XT_LITbyte              ; $22A2 _LITbyte
         db      $51                  ; $22A4 inline byte
         dw      NATIVE_21A2          ; $22A5 NATIVE_21A2
-        dw      $055C                ; $22A7 _Bbang
-        dw      $00FD                ; $22A9 _RETURN
+        dw      XT_Bbang                ; $22A7 _Bbang
+        dw      XT_RETURN               ; $22A9 _RETURN
         db      $CF,$64,$22,$EA,$03,$B8,$22,$D6,$21,$36,$01,$90,$22,$FD,$00     ; $22AB
 _EXECUTE:
         ret                             ; $22BA
 TERSE_COLON_22BB:
         rst     $08                             ; $22BB colon entry
-        dw      $0136                ; $22BC _DUP
-        dw      $0153                ; $22BE _Bat
+        dw      XT_DUP                  ; $22BC _DUP
+        dw      XT_Bat                  ; $22BE _Bat
         dw      $1F0E                ; $22C0 execution token $1F0E
-        dw      $0112                ; $22C2 _LITbyte
+        dw      XT_LITbyte              ; $22C2 _LITbyte
         db      $47                  ; $22C4 inline byte
-        dw      $015A                ; $22C5 _plus
-        dw      $013B                ; $22C7 _2DUP
-        dw      $054E                ; $22C9 _plusBbang
-        dw      $0146                ; $22CB _SWAP
-        dw      $0112                ; $22CD _LITbyte
+        dw      XT_plus                 ; $22C5 _plus
+        dw      XT_2DUP                 ; $22C7 _2DUP
+        dw      XT_plusBbang            ; $22C9 _plusBbang
+        dw      XT_SWAP                 ; $22CB _SWAP
+        dw      XT_LITbyte              ; $22CD _LITbyte
         db      $02                  ; $22CF inline byte
-        dw      $02FF                ; $22D0 _star
-        dw      $0112                ; $22D2 _LITbyte
+        dw      XT_star                 ; $22D0 _star
+        dw      XT_LITbyte              ; $22D2 _LITbyte
         db      $03                  ; $22D4 inline byte
-        dw      $02F1                ; $22D5 _PICK
-        dw      $015A                ; $22D7 _plus
-        dw      $0195                ; $22D9 _1plus
-        dw      $02EA                ; $22DB _ROT
-        dw      $0195                ; $22DD _1plus
-        dw      $026F                ; $22DF _DO
+        dw      XT_PICK                 ; $22D5 _PICK
+        dw      XT_plus                 ; $22D7 _plus
+        dw      XT_1plus                ; $22D9 _1plus
+        dw      XT_ROT                  ; $22DB _ROT
+        dw      XT_1plus                ; $22DD _1plus
+        dw      XT_DO                   ; $22DF _DO
         dw      $22AB                ; $22E1 execution token $22AB
-        dw      $0136                ; $22E3 _DUP
-        dw      $0112                ; $22E5 _LITbyte
+        dw      XT_DUP                  ; $22E3 _DUP
+        dw      XT_LITbyte              ; $22E5 _LITbyte
         db      $45                  ; $22E7 inline byte
-        dw      $015A                ; $22E8 _plus
-        dw      $0112                ; $22EA _LITbyte
+        dw      XT_plus                 ; $22E8 _plus
+        dw      XT_LITbyte              ; $22EA _LITbyte
         db      $03                  ; $22EC inline byte
-        dw      $02F1                ; $22ED _PICK
-        dw      $0146                ; $22EF _SWAP
-        dw      $0561                ; $22F1 _bang
-        dw      $02B8                ; $22F3 _I
-        dw      $014C                ; $22F5 _at
+        dw      XT_PICK                 ; $22ED _PICK
+        dw      XT_SWAP                 ; $22EF _SWAP
+        dw      XT_bang                 ; $22F1 _bang
+        dw      XT_I                    ; $22F3 _I
+        dw      XT_at                   ; $22F5 _at
         dw      _EXECUTE             ; $22F7 _EXECUTE
-        dw      $0112                ; $22F9 _LITbyte
+        dw      XT_LITbyte              ; $22F9 _LITbyte
         db      $02                  ; $22FB inline byte
-        dw      $0397                ; $22FC _plusLOOP
-        dw      $0143                ; $22FE _DROP
-        dw      $00FD                ; $2300 _RETURN
+        dw      XT_plusLOOP             ; $22FC _plusLOOP
+        dw      XT_DROP                 ; $22FE _DROP
+        dw      XT_RETURN               ; $2300 _RETURN
         db      $CF,$0E,$1F,$12,$01,$45,$5A,$01,$4C,$01,$36,$01,$36,$01,$44,$05 ; $2302
         db      $53,$01,$47,$02,$EA,$03,$25,$23,$12,$01,$47,$60,$01,$08,$16,$E2 ; $2312
         db      $03,$27,$23,$43,$01,$FD,$00                                     ; $2322
 TERSE_COLON_2329:
         rst     $08                             ; $2329 colon entry
         dw      $1F0E                ; $232A execution token $1F0E
-        dw      $0112                ; $232C _LITbyte
+        dw      XT_LITbyte              ; $232C _LITbyte
         db      $47                  ; $232E inline byte
-        dw      $015A                ; $232F _plus
-        dw      $0153                ; $2331 _Bat
-        dw      $01DE                ; $2333 _zeroequal
-        dw      $00FD                ; $2335 _RETURN
+        dw      XT_plus                 ; $232F _plus
+        dw      XT_Bat                  ; $2331 _Bat
+        dw      XT_zeroequal            ; $2333 _zeroequal
+        dw      XT_RETURN               ; $2335 _RETURN
 NATIVE_2337:
         ld hl,($fe8f)                   ; $2337
         ld de,$0048                     ; $233A
@@ -359,45 +359,45 @@ TERSE_COLON_2347:
         rst     $08                             ; $2347 colon entry
         dw      $1C0A                ; $2348 execution token $1C0A
         dw      $1C83                ; $234A execution token $1C83
-        dw      $0188                ; $234C _OR
-        dw      $00FD                ; $234E _RETURN
+        dw      XT_OR                   ; $234C _OR
+        dw      XT_RETURN               ; $234E _RETURN
 TERSE_COLON_2350:
         rst     $08                             ; $2350 colon entry
         dw      $1C30                ; $2351 execution token $1C30
-        dw      $00FD                ; $2353 _RETURN
+        dw      XT_RETURN               ; $2353 _RETURN
 TERSE_COLON_2355:
         rst     $08                             ; $2355 colon entry
-        dw      $0112                ; $2356 _LITbyte
+        dw      XT_LITbyte              ; $2356 _LITbyte
         db      $03                  ; $2358 inline byte
         dw      $1F0E                ; $2359 execution token $1F0E
-        dw      $0112                ; $235B _LITbyte
+        dw      XT_LITbyte              ; $235B _LITbyte
         db      $11                  ; $235D inline byte
-        dw      $015A                ; $235E _plus
+        dw      XT_plus                 ; $235E _plus
         dw      $1A90                ; $2360 execution token $1A90
-        dw      $00FD                ; $2362 _RETURN
+        dw      XT_RETURN               ; $2362 _RETURN
 TERSE_COLON_2364:
         rst     $08                             ; $2364 colon entry
-        dw      $0112                ; $2365 _LITbyte
+        dw      XT_LITbyte              ; $2365 _LITbyte
         db      $03                  ; $2367 inline byte
         dw      $1F0E                ; $2368 execution token $1F0E
-        dw      $0112                ; $236A _LITbyte
+        dw      XT_LITbyte              ; $236A _LITbyte
         db      $11                  ; $236C inline byte
-        dw      $015A                ; $236D _plus
+        dw      XT_plus                 ; $236D _plus
         dw      $1A99                ; $236F execution token $1A99
-        dw      $00FD                ; $2371 _RETURN
+        dw      XT_RETURN               ; $2371 _RETURN
 TERSE_COLON_2373:
         rst     $08                             ; $2373 colon entry
         dw      $1F0E                ; $2374 execution token $1F0E
-        dw      $0112                ; $2376 _LITbyte
+        dw      XT_LITbyte              ; $2376 _LITbyte
         db      $11                  ; $2378 inline byte
-        dw      $015A                ; $2379 _plus
-        dw      $053F                ; $237B _BZERO
+        dw      XT_plus                 ; $2379 _plus
+        dw      XT_BZERO                ; $237B _BZERO
         dw      $1F0E                ; $237D execution token $1F0E
-        dw      $0112                ; $237F _LITbyte
+        dw      XT_LITbyte              ; $237F _LITbyte
         db      $12                  ; $2381 inline byte
-        dw      $015A                ; $2382 _plus
-        dw      $053F                ; $2384 _BZERO
-        dw      $00FD                ; $2386 _RETURN
+        dw      XT_plus                 ; $2382 _plus
+        dw      XT_BZERO                ; $2384 _BZERO
+        dw      XT_RETURN               ; $2386 _RETURN
 NATIVE_2388:
         exx                             ; $2388
         pop hl                          ; $2389
@@ -412,37 +412,37 @@ NATIVE_2388:
         jp (iy)                         ; $2394
 TERSE_COLON_2396:
         rst     $08                             ; $2396 colon entry
-        dw      $0136                ; $2397 _DUP
-        dw      $0195                ; $2399 _1plus
-        dw      $0146                ; $239B _SWAP
-        dw      $0153                ; $239D _Bat
-        dw      $00FD                ; $239F _RETURN
+        dw      XT_DUP                  ; $2397 _DUP
+        dw      XT_1plus                ; $2399 _1plus
+        dw      XT_SWAP                 ; $239B _SWAP
+        dw      XT_Bat                  ; $239D _Bat
+        dw      XT_RETURN               ; $239F _RETURN
 TERSE_COLON_23A1:
         rst     $08                             ; $23A1 colon entry
-        dw      $0136                ; $23A2 _DUP
-        dw      $0195                ; $23A4 _1plus
-        dw      $0146                ; $23A6 _SWAP
+        dw      XT_DUP                  ; $23A2 _DUP
+        dw      XT_1plus                ; $23A4 _1plus
+        dw      XT_SWAP                 ; $23A6 _SWAP
         dw      NATIVE_2388          ; $23A8 NATIVE_2388
-        dw      $00FD                ; $23AA _RETURN
+        dw      XT_RETURN               ; $23AA _RETURN
 TERSE_COLON_23AC:
         rst     $08                             ; $23AC colon entry
-        dw      $0136                ; $23AD _DUP
-        dw      $019A                ; $23AF _2plus
-        dw      $0146                ; $23B1 _SWAP
-        dw      $014C                ; $23B3 _at
-        dw      $00FD                ; $23B5 _RETURN
+        dw      XT_DUP                  ; $23AD _DUP
+        dw      XT_2plus                ; $23AF _2plus
+        dw      XT_SWAP                 ; $23B1 _SWAP
+        dw      XT_at                   ; $23B3 _at
+        dw      XT_RETURN               ; $23B5 _RETURN
 TERSE_COLON_23B7:
         rst     $08                             ; $23B7 colon entry
-        dw      $0190                ; $23B8 _1minus
-        dw      $0136                ; $23BA _DUP
-        dw      $0153                ; $23BC _Bat
-        dw      $00FD                ; $23BE _RETURN
+        dw      XT_1minus               ; $23B8 _1minus
+        dw      XT_DUP                  ; $23BA _DUP
+        dw      XT_Bat                  ; $23BC _Bat
+        dw      XT_RETURN               ; $23BE _RETURN
 TERSE_COLON_23C0:
         rst     $08                             ; $23C0 colon entry
-        dw      $01A0                ; $23C1 _2minus
-        dw      $0136                ; $23C3 _DUP
-        dw      $014C                ; $23C5 _at
-        dw      $00FD                ; $23C7 _RETURN
+        dw      XT_2minus               ; $23C1 _2minus
+        dw      XT_DUP                  ; $23C3 _DUP
+        dw      XT_at                   ; $23C5 _at
+        dw      XT_RETURN               ; $23C7 _RETURN
         db      $CF,$0E,$1F,$65,$1A,$96,$23,$36,$01,$EA,$03,$B4,$24,$6B,$1A,$5F ; $23C9
         db      $1A,$73,$23,$0E,$1F,$65,$1A,$AC,$23,$36,$01,$FD,$1B,$46,$01,$96 ; $23D9
         db      $23,$D4,$1B,$5F,$1A,$E0,$1D,$EA,$03,$0C,$24,$F2,$1B,$E9,$19,$47 ; $23E9
@@ -489,180 +489,180 @@ NATIVE_263F:
 TERSE_COLON_2645:
         rst     $08                             ; $2645 colon entry
         dw      $0C95                ; $2646 execution token $0C95
-        dw      $0109                ; $2648 _LIT
+        dw      XT_LIT                  ; $2648 _LIT
         dw      $0D32                ; $264A inline word
-        dw      $0109                ; $264C _LIT
+        dw      XT_LIT                  ; $264C _LIT
         dw      $FE83                ; $264E inline word
-        dw      $0561                ; $2650 _bang
-        dw      $0109                ; $2652 _LIT
+        dw      XT_bang                 ; $2650 _bang
+        dw      XT_LIT                  ; $2652 _LIT
         dw      $FE8F                ; $2654 inline word
-        dw      $0569                ; $2656 _ZERO
+        dw      XT_ZERO                 ; $2656 _ZERO
         dw      NATIVE_263F          ; $2658 NATIVE_263F
-        dw      $0109                ; $265A _LIT
+        dw      XT_LIT                  ; $265A _LIT
         dw      $12B6                ; $265C inline word
-        dw      $0109                ; $265E _LIT
+        dw      XT_LIT                  ; $265E _LIT
         dw      $FEA4                ; $2660 inline word
-        dw      $0561                ; $2662 _bang
-        dw      $0109                ; $2664 _LIT
+        dw      XT_bang                 ; $2662 _bang
+        dw      XT_LIT                  ; $2664 _LIT
         dw      $006C                ; $2666 inline word
-        dw      $0109                ; $2668 _LIT
+        dw      XT_LIT                  ; $2668 _LIT
         dw      $FEA1                ; $266A inline word
-        dw      $0532                ; $266C _SBbang
-        dw      $0109                ; $266E _LIT
+        dw      XT_SBbang               ; $266C _SBbang
+        dw      XT_LIT                  ; $266E _LIT
         dw      $FE97                ; $2670 inline word
-        dw      $053F                ; $2672 _BZERO
-        dw      $0109                ; $2674 _LIT
+        dw      XT_BZERO                ; $2672 _BZERO
+        dw      XT_LIT                  ; $2674 _LIT
         dw      $FE96                ; $2676 inline word
-        dw      $053F                ; $2678 _BZERO
-        dw      $0109                ; $267A _LIT
+        dw      XT_BZERO                ; $2678 _BZERO
+        dw      XT_LIT                  ; $267A _LIT
         dw      $1405                ; $267C inline word
-        dw      $0109                ; $267E _LIT
+        dw      XT_LIT                  ; $267E _LIT
         dw      $FEA8                ; $2680 inline word
-        dw      $0561                ; $2682 _bang
-        dw      $0109                ; $2684 _LIT
+        dw      XT_bang                 ; $2682 _bang
+        dw      XT_LIT                  ; $2684 _LIT
         dw      $00D0                ; $2686 inline word
-        dw      $0109                ; $2688 _LIT
+        dw      XT_LIT                  ; $2688 _LIT
         dw      $FEA3                ; $268A inline word
-        dw      $0532                ; $268C _SBbang
-        dw      $0109                ; $268E _LIT
+        dw      XT_SBbang               ; $268C _SBbang
+        dw      XT_LIT                  ; $268E _LIT
         dw      $FE98                ; $2690 inline word
-        dw      $053F                ; $2692 _BZERO
-        dw      $0109                ; $2694 _LIT
+        dw      XT_BZERO                ; $2692 _BZERO
+        dw      XT_LIT                  ; $2694 _LIT
         dw      $FE95                ; $2696 inline word
-        dw      $053F                ; $2698 _BZERO
-        dw      $0109                ; $269A _LIT
+        dw      XT_BZERO                ; $2698 _BZERO
+        dw      XT_LIT                  ; $269A _LIT
         dw      $14AB                ; $269C inline word
-        dw      $0109                ; $269E _LIT
+        dw      XT_LIT                  ; $269E _LIT
         dw      $FEA6                ; $26A0 inline word
-        dw      $0561                ; $26A2 _bang
-        dw      $0112                ; $26A4 _LITbyte
+        dw      XT_bang                 ; $26A2 _bang
+        dw      XT_LITbyte              ; $26A4 _LITbyte
         db      $3A                  ; $26A6 inline byte
-        dw      $0109                ; $26A7 _LIT
+        dw      XT_LIT                  ; $26A7 _LIT
         dw      $FEA2                ; $26A9 inline word
-        dw      $0532                ; $26AB _SBbang
-        dw      $0109                ; $26AD _LIT
+        dw      XT_SBbang               ; $26AB _SBbang
+        dw      XT_LIT                  ; $26AD _LIT
         dw      $FE93                ; $26AF inline word
-        dw      $053F                ; $26B1 _BZERO
-        dw      $0112                ; $26B3 _LITbyte
+        dw      XT_BZERO                ; $26B1 _BZERO
+        dw      XT_LITbyte              ; $26B3 _LITbyte
         db      $19                  ; $26B5 inline byte
-        dw      $0109                ; $26B6 _LIT
+        dw      XT_LIT                  ; $26B6 _LIT
         dw      $FE99                ; $26B8 inline word
-        dw      $0532                ; $26BA _SBbang
-        dw      $0109                ; $26BC _LIT
+        dw      XT_SBbang               ; $26BA _SBbang
+        dw      XT_LIT                  ; $26BC _LIT
         dw      $FEA0                ; $26BE inline word
-        dw      $053F                ; $26C0 _BZERO
-        dw      $0109                ; $26C2 _LIT
+        dw      XT_BZERO                ; $26C0 _BZERO
+        dw      XT_LIT                  ; $26C2 _LIT
         dw      $FE92                ; $26C4 inline word
-        dw      $053F                ; $26C6 _BZERO
-        dw      $0109                ; $26C8 _LIT
+        dw      XT_BZERO                ; $26C6 _BZERO
+        dw      XT_LIT                  ; $26C8 _LIT
         dw      $FE91                ; $26CA inline word
-        dw      $053F                ; $26CC _BZERO
-        dw      $0109                ; $26CE _LIT
+        dw      XT_BZERO                ; $26CC _BZERO
+        dw      XT_LIT                  ; $26CE _LIT
         dw      $0D3A                ; $26D0 inline word
         dw      $0C3F                ; $26D2 execution token $0C3F
-        dw      $0109                ; $26D4 _LIT
+        dw      XT_LIT                  ; $26D4 _LIT
         dw      $0D3E                ; $26D6 inline word
         dw      $0C3F                ; $26D8 execution token $0C3F
-        dw      $0109                ; $26DA _LIT
+        dw      XT_LIT                  ; $26DA _LIT
         dw      $0D42                ; $26DC inline word
         dw      $0C3F                ; $26DE execution token $0C3F
-        dw      $0109                ; $26E0 _LIT
+        dw      XT_LIT                  ; $26E0 _LIT
         dw      $0D46                ; $26E2 inline word
         dw      $0C3F                ; $26E4 execution token $0C3F
-        dw      $0130                ; $26E6 _1
-        dw      $0112                ; $26E8 _LITbyte
+        dw      XT_1                    ; $26E6 _1
+        dw      XT_LITbyte              ; $26E8 _LITbyte
         db      $08                  ; $26EA inline byte
-        dw      $02D8                ; $26EB _OUTP
+        dw      XT_OUTP                 ; $26EB _OUTP
         dw      $1F69                ; $26ED execution token $1F69
-        dw      $0112                ; $26EF _LITbyte
+        dw      XT_LITbyte              ; $26EF _LITbyte
         db      $02                  ; $26F1 inline byte
-        dw      $0109                ; $26F2 _LIT
+        dw      XT_LIT                  ; $26F2 _LIT
         dw      $FDA9                ; $26F4 inline word
-        dw      $0532                ; $26F6 _SBbang
-        dw      $0109                ; $26F8 _LIT
+        dw      XT_SBbang               ; $26F6 _SBbang
+        dw      XT_LIT                  ; $26F8 _LIT
         dw      $FE9C                ; $26FA inline word
-        dw      $053F                ; $26FC _BZERO
-        dw      $0109                ; $26FE _LIT
+        dw      XT_BZERO                ; $26FC _BZERO
+        dw      XT_LIT                  ; $26FE _LIT
         dw      $FE9F                ; $2700 inline word
-        dw      $053F                ; $2702 _BZERO
-        dw      $0109                ; $2704 _LIT
+        dw      XT_BZERO                ; $2702 _BZERO
+        dw      XT_LIT                  ; $2704 _LIT
         dw      $FE86                ; $2706 inline word
-        dw      $053F                ; $2708 _BZERO
-        dw      $0109                ; $270A _LIT
+        dw      XT_BZERO                ; $2708 _BZERO
+        dw      XT_LIT                  ; $270A _LIT
         dw      $FE9E                ; $270C inline word
-        dw      $053F                ; $270E _BZERO
-        dw      $0109                ; $2710 _LIT
+        dw      XT_BZERO                ; $270E _BZERO
+        dw      XT_LIT                  ; $2710 _LIT
         dw      $FE9D                ; $2712 inline word
-        dw      $053F                ; $2714 _BZERO
-        dw      $0109                ; $2716 _LIT
+        dw      XT_BZERO                ; $2714 _BZERO
+        dw      XT_LIT                  ; $2716 _LIT
         dw      $FE9A                ; $2718 inline word
-        dw      $053F                ; $271A _BZERO
-        dw      $0109                ; $271C _LIT
+        dw      XT_BZERO                ; $271A _BZERO
+        dw      XT_LIT                  ; $271C _LIT
         dw      $FE9B                ; $271E inline word
-        dw      $053F                ; $2720 _BZERO
-        dw      $0109                ; $2722 _LIT
+        dw      XT_BZERO                ; $2720 _BZERO
+        dw      XT_LIT                  ; $2722 _LIT
         dw      $00C8                ; $2724 inline word
-        dw      $0112                ; $2726 _LITbyte
+        dw      XT_LITbyte              ; $2726 _LITbyte
         db      $0A                  ; $2728 inline byte
-        dw      $02D8                ; $2729 _OUTP
+        dw      XT_OUTP                 ; $2729 _OUTP
         dw      $1F52                ; $272B execution token $1F52
-        dw      $012A                ; $272D _0
-        dw      $0109                ; $272F _LIT
+        dw      XT_0                    ; $272D _0
+        dw      XT_LIT                  ; $272F _LIT
         dw      $00BF                ; $2731 inline word
-        dw      $02D8                ; $2733 _OUTP
-        dw      $0112                ; $2735 _LITbyte
+        dw      XT_OUTP                 ; $2733 _OUTP
+        dw      XT_LITbyte              ; $2735 _LITbyte
         db      $07                  ; $2737 inline byte
-        dw      $012A                ; $2738 _0
-        dw      $02D8                ; $273A _OUTP
-        dw      $0112                ; $273C _LITbyte
+        dw      XT_0                    ; $2738 _0
+        dw      XT_OUTP                 ; $273A _OUTP
+        dw      XT_LITbyte              ; $273C _LITbyte
         db      $35                  ; $273E inline byte
-        dw      $0112                ; $273F _LITbyte
+        dw      XT_LITbyte              ; $273F _LITbyte
         db      $09                  ; $2741 inline byte
-        dw      $02D8                ; $2742 _OUTP
-        dw      $0112                ; $2744 _LITbyte
+        dw      XT_OUTP                 ; $2742 _OUTP
+        dw      XT_LITbyte              ; $2744 _LITbyte
         db      $0F                  ; $2746 inline byte
-        dw      $0109                ; $2747 _LIT
+        dw      XT_LIT                  ; $2747 _LIT
         dw      $00C5                ; $2749 inline word
-        dw      $02D8                ; $274B _OUTP
-        dw      $012A                ; $274D _0
-        dw      $0112                ; $274F _LITbyte
+        dw      XT_OUTP                 ; $274B _OUTP
+        dw      XT_0                    ; $274D _0
+        dw      XT_LITbyte              ; $274F _LITbyte
         db      $0C                  ; $2751 inline byte
-        dw      $02D8                ; $2752 _OUTP
-        dw      $0112                ; $2754 _LITbyte
+        dw      XT_OUTP                 ; $2752 _OUTP
+        dw      XT_LITbyte              ; $2754 _LITbyte
         db      $07                  ; $2756 inline byte
-        dw      $0112                ; $2757 _LITbyte
+        dw      XT_LITbyte              ; $2757 _LITbyte
         db      $04                  ; $2759 inline byte
-        dw      $02D8                ; $275A _OUTP
-        dw      $012A                ; $275C _0
-        dw      $0109                ; $275E _LIT
+        dw      XT_OUTP                 ; $275A _OUTP
+        dw      XT_0                    ; $275C _0
+        dw      XT_LIT                  ; $275E _LIT
         dw      $00C4                ; $2760 inline word
-        dw      $02D8                ; $2762 _OUTP
-        dw      $012A                ; $2764 _0
-        dw      $0109                ; $2766 _LIT
+        dw      XT_OUTP                 ; $2762 _OUTP
+        dw      XT_0                    ; $2764 _0
+        dw      XT_LIT                  ; $2766 _LIT
         dw      $00C3                ; $2768 inline word
-        dw      $02D8                ; $276A _OUTP
-        dw      $13DA                ; $276C INSTALL_INTERRUPT_HANDLER
-        dw      $00FD                ; $276E _RETURN
+        dw      XT_OUTP                 ; $276A _OUTP
+        dw      XT_INSTALL_INTERRUPT_HANDLER ; $276C INSTALL_INTERRUPT_HANDLER
+        dw      XT_RETURN               ; $276E _RETURN
 TERSE_COLON_2770:
         rst     $08                             ; $2770 colon entry
-        dw      $00FD                ; $2771 _RETURN
+        dw      XT_RETURN               ; $2771 _RETURN
 TERSE_COLON_2773:
         rst     $08                             ; $2773 colon entry
-        dw      $00FD                ; $2774 _RETURN
+        dw      XT_RETURN               ; $2774 _RETURN
 TERSE_COLON_2776:
         rst     $08                             ; $2776 colon entry
-        dw      $00FD                ; $2777 _RETURN
+        dw      XT_RETURN               ; $2777 _RETURN
         db      $CF,$73,$27,$DA,$13,$D6,$14,$76,$27,$FD,$00                     ; $2779
 TERSE_COLON_2784:
         rst     $08                             ; $2784 colon entry
         dw      $2779                ; $2785 execution token $2779
-        dw      $00FD                ; $2787 _RETURN
+        dw      XT_RETURN               ; $2787 _RETURN
 TERSE_COLON_2789:
         rst     $08                             ; $2789 colon entry
-        dw      $0109                ; $278A _LIT
+        dw      XT_LIT                  ; $278A _LIT
         dw      $FE91                ; $278C inline word
-        dw      $053A                ; $278E _BONE
-        dw      $00FD                ; $2790 _RETURN
+        dw      XT_BONE                 ; $278E _BONE
+        dw      XT_RETURN               ; $2790 _RETURN
         db      $FD,$E5,$E1,$19,$35,$C2,$2D,$28,$23,$7E,$2B,$77,$23,$23,$CB,$46 ; $2792
         db      $C8,$4E,$23,$CB,$51,$20,$61,$CB,$59,$28,$39,$23,$23,$23,$AF,$BE ; $27A2
         db      $28,$19,$35,$20,$16,$CB,$81,$11,$06,$00,$B7,$ED,$52,$36,$00,$CB ; $27B2
@@ -763,7 +763,7 @@ TERSE_COLON_2B2E:
         rst     $08                             ; $2B2E colon entry
         dw      NATIVE_2B10          ; $2B2F NATIVE_2B10
         dw      NATIVE_2B1F          ; $2B31 NATIVE_2B1F
-        dw      $00FD                ; $2B33 _RETURN
+        dw      XT_RETURN               ; $2B33 _RETURN
 NATIVE_2B35:
         exx                             ; $2B35
         pop hl                          ; $2B36
@@ -809,7 +809,7 @@ TERSE_COLON_2B71:
         dw      NATIVE_2B62          ; $2B72 NATIVE_2B62
         dw      NATIVE_2B53          ; $2B74 NATIVE_2B53
         dw      NATIVE_2B44          ; $2B76 NATIVE_2B44
-        dw      $00FD                ; $2B78 _RETURN
+        dw      XT_RETURN               ; $2B78 _RETURN
 NATIVE_2B7A:
         ld hl,$0002                     ; $2B7A
         ld de,($fd81)                   ; $2B7D
@@ -883,32 +883,32 @@ L2C47:
         db      $00                                                             ; $2C89
 TERSE_COLON_2C8A:
         rst     $08                             ; $2C8A colon entry
-        dw      $0109                ; $2C8B _LIT
+        dw      XT_LIT                  ; $2C8B _LIT
         dw      $FDA9                ; $2C8D inline word
-        dw      $0532                ; $2C8F _SBbang
-        dw      $00FD                ; $2C91 _RETURN
+        dw      XT_SBbang               ; $2C8F _SBbang
+        dw      XT_RETURN               ; $2C91 _RETURN
 TERSE_COLON_2C93:
         rst     $08                             ; $2C93 colon entry
         dw      $1E72                ; $2C94 execution token $1E72
-        dw      $012A                ; $2C96 _0
-        dw      $0136                ; $2C98 _DUP
-        dw      $0109                ; $2C9A _LIT
+        dw      XT_0                    ; $2C96 _0
+        dw      XT_DUP                  ; $2C98 _DUP
+        dw      XT_LIT                  ; $2C9A _LIT
         dw      $00C3                ; $2C9C inline word
-        dw      $02D8                ; $2C9E _OUTP
+        dw      XT_OUTP                 ; $2C9E _OUTP
         dw      $1E5C                ; $2CA0 execution token $1E5C
-        dw      $00FD                ; $2CA2 _RETURN
+        dw      XT_RETURN               ; $2CA2 _RETURN
 TERSE_COLON_2CA4:
         rst     $08                             ; $2CA4 colon entry
-        dw      $0109                ; $2CA5 _LIT
+        dw      XT_LIT                  ; $2CA5 _LIT
         dw      $FDA9                ; $2CA7 inline word
-        dw      $0136                ; $2CA9 _DUP
-        dw      $0153                ; $2CAB _Bat
-        dw      $0146                ; $2CAD _SWAP
-        dw      $053A                ; $2CAF _BONE
+        dw      XT_DUP                  ; $2CA9 _DUP
+        dw      XT_Bat                  ; $2CAB _Bat
+        dw      XT_SWAP                 ; $2CAD _SWAP
+        dw      XT_BONE                 ; $2CAF _BONE
         dw      $1EA8                ; $2CB1 execution token $1EA8
         dw      NATIVE_2083          ; $2CB3 NATIVE_2083
         dw      TERSE_COLON_2C8A     ; $2CB5 TERSE_COLON_2C8A
-        dw      $00FD                ; $2CB7 _RETURN
+        dw      XT_RETURN               ; $2CB7 _RETURN
 NATIVE_2CB9:
         pop hl                          ; $2CB9
         ld a,l                          ; $2CBA
@@ -921,49 +921,49 @@ NATIVE_2CB9:
         jp (iy)                         ; $2CC1
 TERSE_COLON_2CC3:
         rst     $08                             ; $2CC3 colon entry
-        dw      $0109                ; $2CC4 _LIT
+        dw      XT_LIT                  ; $2CC4 _LIT
         dw      $F726                ; $2CC6 inline word
-        dw      $0153                ; $2CC8 _Bat
-        dw      $0109                ; $2CCA _LIT
+        dw      XT_Bat                  ; $2CC8 _Bat
+        dw      XT_LIT                  ; $2CCA _LIT
         dw      $F706                ; $2CCC inline word
-        dw      $0153                ; $2CCE _Bat
-        dw      $01CF                ; $2CD0 _equal
-        dw      $00FD                ; $2CD2 _RETURN
+        dw      XT_Bat                  ; $2CCE _Bat
+        dw      XT_equal                ; $2CD0 _equal
+        dw      XT_RETURN               ; $2CD2 _RETURN
 TERSE_COLON_2CD4:
         rst     $08                             ; $2CD4 colon entry
-        dw      $0109                ; $2CD5 _LIT
+        dw      XT_LIT                  ; $2CD5 _LIT
         dw      $F727                ; $2CD7 inline word
-        dw      $0153                ; $2CD9 _Bat
-        dw      $00FD                ; $2CDB _RETURN
+        dw      XT_Bat                  ; $2CD9 _Bat
+        dw      XT_RETURN               ; $2CDB _RETURN
 TERSE_COLON_2CDD:
         rst     $08                             ; $2CDD colon entry
-        dw      $0195                ; $2CDE _1plus
+        dw      XT_1plus                ; $2CDE _1plus
         dw      $1F0E                ; $2CE0 execution token $1F0E
-        dw      $0112                ; $2CE2 _LITbyte
+        dw      XT_LITbyte              ; $2CE2 _LITbyte
         db      $48                  ; $2CE4 inline byte
-        dw      $015A                ; $2CE5 _plus
-        dw      $0561                ; $2CE7 _bang
-        dw      $00FD                ; $2CE9 _RETURN
+        dw      XT_plus                 ; $2CE5 _plus
+        dw      XT_bang                 ; $2CE7 _bang
+        dw      XT_RETURN               ; $2CE9 _RETURN
 TERSE_COLON_2CEB:
         rst     $08                             ; $2CEB colon entry
         dw      $1CB4                ; $2CEC execution token $1CB4
         dw      $1E0C                ; $2CEE execution token $1E0C
-        dw      $00FD                ; $2CF0 _RETURN
+        dw      XT_RETURN               ; $2CF0 _RETURN
 TERSE_COLON_2CF2:
         rst     $08                             ; $2CF2 colon entry
         dw      TERSE_COLON_2CEB     ; $2CF3 TERSE_COLON_2CEB
-        dw      $00FD                ; $2CF5 _RETURN
+        dw      XT_RETURN               ; $2CF5 _RETURN
 TERSE_COLON_2CF7:
         rst     $08                             ; $2CF7 colon entry
-        dw      $0109                ; $2CF8 _LIT
+        dw      XT_LIT                  ; $2CF8 _LIT
         dw      $F6E9                ; $2CFA inline word
-        dw      $0153                ; $2CFC _Bat
-        dw      $00FD                ; $2CFE _RETURN
+        dw      XT_Bat                  ; $2CFC _Bat
+        dw      XT_RETURN               ; $2CFE _RETURN
 TERSE_COLON_2D00:
         rst     $08                             ; $2D00 colon entry
         dw      $1E8E                ; $2D01 execution token $1E8E
         dw      TERSE_COLON_2CA4     ; $2D03 TERSE_COLON_2CA4
-        dw      $00FD                ; $2D05 _RETURN
+        dw      XT_RETURN               ; $2D05 _RETURN
 NATIVE_2D07:
         ld d,l                          ; $2D07
         di                              ; $2D08
@@ -992,39 +992,39 @@ NATIVE_2D07:
         db      $00,$2A,$01,$08,$2D,$FD,$00                                     ; $2D4B
 TERSE_COLON_2D52:
         rst     $08                             ; $2D52 colon entry
-        dw      $026F                ; $2D53 _DO
-        dw      $0136                ; $2D55 _DUP
-        dw      $0153                ; $2D57 _Bat
-        dw      $02B8                ; $2D59 _I
-        dw      $0109                ; $2D5B _LIT
+        dw      XT_DO                   ; $2D53 _DO
+        dw      XT_DUP                  ; $2D55 _DUP
+        dw      XT_Bat                  ; $2D57 _Bat
+        dw      XT_I                    ; $2D59 _I
+        dw      XT_LIT                  ; $2D5B _LIT
         dw      $FDB0                ; $2D5D inline word
-        dw      $015A                ; $2D5F _plus
-        dw      $0532                ; $2D61 _SBbang
-        dw      $0195                ; $2D63 _1plus
-        dw      $028A                ; $2D65 _LOOP
-        dw      $0143                ; $2D67 _DROP
-        dw      $00FD                ; $2D69 _RETURN
+        dw      XT_plus                 ; $2D5F _plus
+        dw      XT_SBbang               ; $2D61 _SBbang
+        dw      XT_1plus                ; $2D63 _1plus
+        dw      XT_LOOP                 ; $2D65 _LOOP
+        dw      XT_DROP                 ; $2D67 _DROP
+        dw      XT_RETURN               ; $2D69 _RETURN
 TERSE_COLON_2D6B:
         rst     $08                             ; $2D6B colon entry
-        dw      $0112                ; $2D6C _LITbyte
+        dw      XT_LITbyte              ; $2D6C _LITbyte
         db      $0C                  ; $2D6E inline byte
-        dw      $0112                ; $2D6F _LITbyte
+        dw      XT_LITbyte              ; $2D6F _LITbyte
         db      $03                  ; $2D71 inline byte
         dw      TERSE_COLON_2D52     ; $2D72 TERSE_COLON_2D52
-        dw      $0109                ; $2D74 _LIT
+        dw      XT_LIT                  ; $2D74 _LIT
         dw      $FDAF                ; $2D76 inline word
-        dw      $053A                ; $2D78 _BONE
-        dw      $00FD                ; $2D7A _RETURN
+        dw      XT_BONE                 ; $2D78 _BONE
+        dw      XT_RETURN               ; $2D7A _RETURN
 TERSE_COLON_2D7C:
         rst     $08                             ; $2D7C colon entry
-        dw      $0112                ; $2D7D _LITbyte
+        dw      XT_LITbyte              ; $2D7D _LITbyte
         db      $30                  ; $2D7F inline byte
-        dw      $012A                ; $2D80 _0
+        dw      XT_0                    ; $2D80 _0
         dw      TERSE_COLON_2D52     ; $2D82 TERSE_COLON_2D52
-        dw      $0109                ; $2D84 _LIT
+        dw      XT_LIT                  ; $2D84 _LIT
         dw      $FDAF                ; $2D86 inline word
-        dw      $053A                ; $2D88 _BONE
-        dw      $00FD                ; $2D8A _RETURN
+        dw      XT_BONE                 ; $2D88 _BONE
+        dw      XT_RETURN               ; $2D8A _RETURN
         db      $0D,$00,$00,$00,$00,$0C,$0F,$0D,$00,$00,$00,$00,$0D,$06,$06,$0F ; $2D8C
         db      $03,$07,$00,$0F,$00,$04,$04,$04,$08,$08,$08,$00,$00,$00,$06,$00 ; $2D9C
         db      $00,$08,$00,$06,$00,$0A,$0F,$0D,$00,$00,$00,$0A,$00,$00,$00,$0B ; $2DAC
@@ -1128,70 +1128,70 @@ TERSE_COLON_33B1:
         rst     $08                             ; $33B1 colon entry
         dw      $1F0E                ; $33B2 execution token $1F0E
         dw      $1D9B                ; $33B4 execution token $1D9B
-        dw      $015A                ; $33B6 _plus
+        dw      XT_plus                 ; $33B6 _plus
         dw      $1D24                ; $33B8 execution token $1D24
-        dw      $00FD                ; $33BA _RETURN
+        dw      XT_RETURN               ; $33BA _RETURN
 TERSE_COLON_33BC:
         rst     $08                             ; $33BC colon entry
-        dw      $0112                ; $33BD _LITbyte
+        dw      XT_LITbyte              ; $33BD _LITbyte
         db      $0F                  ; $33BF inline byte
         dw      $1E7D                ; $33C0 execution token $1E7D
         dw      $1E9B                ; $33C2 execution token $1E9B
-        dw      $0109                ; $33C4 _LIT
+        dw      XT_LIT                  ; $33C4 _LIT
         dw      $FF70                ; $33C6 inline word
-        dw      $0112                ; $33C8 _LITbyte
+        dw      XT_LITbyte              ; $33C8 _LITbyte
         db      $32                  ; $33CA inline byte
         dw      $1D54                ; $33CB execution token $1D54
-        dw      $0109                ; $33CD _LIT
+        dw      XT_LIT                  ; $33CD _LIT
         dw      $F6EA                ; $33CF inline word
-        dw      $053F                ; $33D1 _BZERO
+        dw      XT_BZERO                ; $33D1 _BZERO
 L33D3:
-        dw      $0109                ; $33D3 _LIT
+        dw      XT_LIT                  ; $33D3 _LIT
         dw      $F6EA                ; $33D5 inline word
-        dw      $0153                ; $33D7 _Bat
-        dw      $0136                ; $33D9 _DUP
-        dw      $0109                ; $33DB _LIT
+        dw      XT_Bat                  ; $33D7 _Bat
+        dw      XT_DUP                  ; $33D9 _DUP
+        dw      XT_LIT                  ; $33DB _LIT
         dw      $3389                ; $33DD inline word
-        dw      $015A                ; $33DF _plus
+        dw      XT_plus                 ; $33DF _plus
         dw      $1E8E                ; $33E1 execution token $1E8E
         dw      NATIVE_2083          ; $33E3 NATIVE_2083
-        dw      $0112                ; $33E5 _LITbyte
+        dw      XT_LITbyte              ; $33E5 _LITbyte
         db      $0A                  ; $33E7 inline byte
         dw      TERSE_COLON_33B1     ; $33E8 TERSE_COLON_33B1
-        dw      $0112                ; $33EA _LITbyte
+        dw      XT_LITbyte              ; $33EA _LITbyte
         db      $24                  ; $33EC inline byte
-        dw      $0208                ; $33ED _less
-        dw      $03EA                ; $33EF _0BRANCH
+        dw      XT_less                 ; $33ED _less
+        dw      XT_0BRANCH              ; $33EF _0BRANCH
         dw      L3407                ; $33F1 branch target
-        dw      $0112                ; $33F3 _LITbyte
+        dw      XT_LITbyte              ; $33F3 _LITbyte
         db      $08                  ; $33F5 inline byte
         dw      TERSE_COLON_33B1     ; $33F6 TERSE_COLON_33B1
-        dw      $0109                ; $33F8 _LIT
+        dw      XT_LIT                  ; $33F8 _LIT
         dw      $33AF                ; $33FA inline word
         dw      $1E8E                ; $33FC execution token $1E8E
         dw      NATIVE_2083          ; $33FE NATIVE_2083
-        dw      $0112                ; $3400 _LITbyte
+        dw      XT_LITbyte              ; $3400 _LITbyte
         db      $08                  ; $3402 inline byte
         dw      TERSE_COLON_33B1     ; $3403 TERSE_COLON_33B1
         dw      NATIVE_2083          ; $3405 NATIVE_2083
 L3407:
-        dw      $0112                ; $3407 _LITbyte
+        dw      XT_LITbyte              ; $3407 _LITbyte
         db      $06                  ; $3409 inline byte
         dw      TERSE_COLON_33B1     ; $340A TERSE_COLON_33B1
-        dw      $0112                ; $340C _LITbyte
+        dw      XT_LITbyte              ; $340C _LITbyte
         db      $04                  ; $340E inline byte
-        dw      $0109                ; $340F _LIT
+        dw      XT_LIT                  ; $340F _LIT
         dw      $F6EA                ; $3411 inline word
-        dw      $054E                ; $3413 _plusBbang
-        dw      $0109                ; $3415 _LIT
+        dw      XT_plusBbang            ; $3413 _plusBbang
+        dw      XT_LIT                  ; $3415 _LIT
         dw      $F6EA                ; $3417 inline word
-        dw      $0153                ; $3419 _Bat
-        dw      $0112                ; $341B _LITbyte
+        dw      XT_Bat                  ; $3419 _Bat
+        dw      XT_LITbyte              ; $341B _LITbyte
         db      $27                  ; $341D inline byte
-        dw      $021C                ; $341E _gt
-        dw      $03EA                ; $3420 _0BRANCH
+        dw      XT_gt                   ; $341E _gt
+        dw      XT_0BRANCH              ; $3420 _0BRANCH
         dw      L33D3                ; $3422 branch target
-        dw      $00FD                ; $3424 _RETURN
+        dw      XT_RETURN               ; $3424 _RETURN
         db      $06,$00,$00,$01,$0A,$78,$FC,$CC,$0C,$3C,$38,$30,$30,$00,$30,$06 ; $3426
         db      $00,$00,$01,$0A,$E4,$A4,$EC,$18,$30,$60,$C0,$DC,$94,$9C,$08,$00 ; $3436
         db      $00,$01,$0A,$0F,$09,$1A,$14,$28,$30,$60,$00,$C0,$C0,$02,$00,$02 ; $3446
@@ -1203,61 +1203,61 @@ L3407:
         db      $FD,$E9                                                         ; $34A6
 TERSE_COLON_34A8:
         rst     $08                             ; $34A8 colon entry
-        dw      $0109                ; $34A9 _LIT
+        dw      XT_LIT                  ; $34A9 _LIT
         dw      $E147                ; $34AB inline word
-        dw      $0153                ; $34AD _Bat
-        dw      $00FD                ; $34AF _RETURN
+        dw      XT_Bat                  ; $34AD _Bat
+        dw      XT_RETURN               ; $34AF _RETURN
 TERSE_COLON_34B1:
         rst     $08                             ; $34B1 colon entry
         dw      TERSE_COLON_2645     ; $34B2 TERSE_COLON_2645
-        dw      $0112                ; $34B4 _LITbyte
+        dw      XT_LITbyte              ; $34B4 _LITbyte
         db      $15                  ; $34B6 inline byte
         dw      $1F4B                ; $34B7 execution token $1F4B
-        dw      $0109                ; $34B9 _LIT
+        dw      XT_LIT                  ; $34B9 _LIT
         dw      $2D95                ; $34BB inline word
         dw      TERSE_COLON_2D7C     ; $34BD TERSE_COLON_2D7C
         dw      $2C64                ; $34BF execution token $2C64
-        dw      $00FD                ; $34C1 _RETURN
+        dw      XT_RETURN               ; $34C1 _RETURN
 TERSE_COLON_34C3:
         rst     $08                             ; $34C3 colon entry
-        dw      $0109                ; $34C4 _LIT
+        dw      XT_LIT                  ; $34C4 _LIT
         dw      $F758                ; $34C6 inline word
-        dw      $0112                ; $34C8 _LITbyte
+        dw      XT_LITbyte              ; $34C8 _LITbyte
         db      $10                  ; $34CA inline byte
-        dw      $012A                ; $34CB _0
-        dw      $026F                ; $34CD _DO
-        dw      $0136                ; $34CF _DUP
-        dw      $0136                ; $34D1 _DUP
-        dw      $02B8                ; $34D3 _I
-        dw      $0125                ; $34D5 _ARRAY
+        dw      XT_0                    ; $34CB _0
+        dw      XT_DO                   ; $34CD _DO
+        dw      XT_DUP                  ; $34CF _DUP
+        dw      XT_DUP                  ; $34D1 _DUP
+        dw      XT_I                    ; $34D3 _I
+        dw      XT_ARRAY                ; $34D5 _ARRAY
         dw      $FD89                ; $34D7 inline word
-        dw      $0561                ; $34D9 _bang
-        dw      $0112                ; $34DB _LITbyte
+        dw      XT_bang                 ; $34D9 _bang
+        dw      XT_LITbyte              ; $34DB _LITbyte
         db      $44                  ; $34DD inline byte
-        dw      $015A                ; $34DE _plus
-        dw      $02B8                ; $34E0 _I
-        dw      $055C                ; $34E2 _Bbang
-        dw      $0112                ; $34E4 _LITbyte
+        dw      XT_plus                 ; $34DE _plus
+        dw      XT_I                    ; $34E0 _I
+        dw      XT_Bbang                ; $34E2 _Bbang
+        dw      XT_LITbyte              ; $34E4 _LITbyte
         db      $51                  ; $34E6 inline byte
-        dw      $015A                ; $34E7 _plus
-        dw      $028A                ; $34E9 _LOOP
-        dw      $0143                ; $34EB _DROP
-        dw      $0109                ; $34ED _LIT
+        dw      XT_plus                 ; $34E7 _plus
+        dw      XT_LOOP                 ; $34E9 _LOOP
+        dw      XT_DROP                 ; $34EB _DROP
+        dw      XT_LIT                  ; $34ED _LIT
         dw      $FD87                ; $34EF inline word
-        dw      $053F                ; $34F1 _BZERO
-        dw      $0109                ; $34F3 _LIT
+        dw      XT_BZERO                ; $34F1 _BZERO
+        dw      XT_LIT                  ; $34F3 _LIT
         dw      $FD88                ; $34F5 inline word
-        dw      $053F                ; $34F7 _BZERO
-        dw      $00FD                ; $34F9 _RETURN
+        dw      XT_BZERO                ; $34F7 _BZERO
+        dw      XT_RETURN               ; $34F9 _RETURN
 TERSE_COLON_34FB:
         rst     $08                             ; $34FB colon entry
-        dw      $0109                ; $34FC _LIT
+        dw      XT_LIT                  ; $34FC _LIT
         dw      $F726                ; $34FE inline word
-        dw      $0153                ; $3500 _Bat
-        dw      $0112                ; $3502 _LITbyte
+        dw      XT_Bat                  ; $3500 _Bat
+        dw      XT_LITbyte              ; $3502 _LITbyte
         db      $04                  ; $3504 inline byte
-        dw      $0208                ; $3505 _less
-        dw      $00FD                ; $3507 _RETURN
+        dw      XT_less                 ; $3505 _less
+        dw      XT_RETURN               ; $3507 _RETURN
         db      $CF,$12,$01,$03,$2A,$01,$6F,$02,$B8,$02,$25,$01,$F4,$F6,$4C,$01 ; $3509
         db      $B8,$02,$09,$01,$26,$F7,$53,$01,$CF,$01,$EA,$03,$2D,$35,$08,$16 ; $3519
         db      $E2,$03,$52,$35,$12,$01,$44,$5A,$01,$53,$01,$36,$01,$12,$01,$08 ; $3529
@@ -1288,62 +1288,62 @@ TERSE_COLON_34FB:
         db      $09,$01,$F9,$FF,$BB,$2B,$12,$01,$10,$A8,$2B,$8C,$2B,$FD,$00     ; $36B9
 TERSE_COLON_36C8:
         rst     $08                             ; $36C8 colon entry
-        dw      $0109                ; $36C9 _LIT
+        dw      XT_LIT                  ; $36C9 _LIT
         dw      $FD83                ; $36CB inline word
-        dw      $053A                ; $36CD _BONE
+        dw      XT_BONE                 ; $36CD _BONE
         dw      $361A                ; $36CF execution token $361A
         dw      $3671                ; $36D1 execution token $3671
-        dw      $00FD                ; $36D3 _RETURN
+        dw      XT_RETURN               ; $36D3 _RETURN
 TERSE_COLON_36D5:
         rst     $08                             ; $36D5 colon entry
         dw      $1EA8                ; $36D6 execution token $1EA8
-        dw      $0112                ; $36D8 _LITbyte
+        dw      XT_LITbyte              ; $36D8 _LITbyte
         db      $0D                  ; $36DA inline byte
         dw      $1E5C                ; $36DB execution token $1E5C
-        dw      $0109                ; $36DD _LIT
+        dw      XT_LIT                  ; $36DD _LIT
         dw      $FF64                ; $36DF inline word
         dw      $1D24                ; $36E1 execution token $1D24
-        dw      $0109                ; $36E3 _LIT
+        dw      XT_LIT                  ; $36E3 _LIT
         dw      $FF9C                ; $36E5 inline word
         dw      $1D3C                ; $36E7 execution token $1D3C
-        dw      $0109                ; $36E9 _LIT
+        dw      XT_LIT                  ; $36E9 _LIT
         dw      $009C                ; $36EB inline word
         dw      $1C5F                ; $36ED execution token $1C5F
-        dw      $0109                ; $36EF _LIT
+        dw      XT_LIT                  ; $36EF _LIT
         dw      $FF9C                ; $36F1 inline word
         dw      $1C71                ; $36F3 execution token $1C71
         dw      $2630                ; $36F5 execution token $2630
-        dw      $0109                ; $36F7 _LIT
+        dw      XT_LIT                  ; $36F7 _LIT
         dw      $009C                ; $36F9 inline word
-        dw      $0136                ; $36FB _DUP
+        dw      XT_DUP                  ; $36FB _DUP
         dw      $1D24                ; $36FD execution token $1D24
         dw      $1C5F                ; $36FF execution token $1C5F
-        dw      $0112                ; $3701 _LITbyte
+        dw      XT_LITbyte              ; $3701 _LITbyte
         db      $2D                  ; $3703 inline byte
         dw      $1C71                ; $3704 execution token $1C71
         dw      $2630                ; $3706 execution token $2630
-        dw      $0112                ; $3708 _LITbyte
+        dw      XT_LITbyte              ; $3708 _LITbyte
         db      $2E                  ; $370A inline byte
         dw      $1D3C                ; $370B execution token $1D3C
-        dw      $0112                ; $370D _LITbyte
+        dw      XT_LITbyte              ; $370D _LITbyte
         db      $2E                  ; $370F inline byte
         dw      $1C71                ; $3710 execution token $1C71
-        dw      $0109                ; $3712 _LIT
+        dw      XT_LIT                  ; $3712 _LIT
         dw      $FF64                ; $3714 inline word
         dw      $1C5F                ; $3716 execution token $1C5F
         dw      $2630                ; $3718 execution token $2630
-        dw      $0109                ; $371A _LIT
+        dw      XT_LIT                  ; $371A _LIT
         dw      $FF63                ; $371C inline word
         dw      $1D24                ; $371E execution token $1D24
-        dw      $0109                ; $3720 _LIT
+        dw      XT_LIT                  ; $3720 _LIT
         dw      $FF63                ; $3722 inline word
         dw      $1C5F                ; $3724 execution token $1C5F
-        dw      $0109                ; $3726 _LIT
+        dw      XT_LIT                  ; $3726 _LIT
         dw      $FF9C                ; $3728 inline word
         dw      $1C71                ; $372A execution token $1C71
         dw      $2630                ; $372C execution token $2630
         dw      TERSE_COLON_2C93     ; $372E TERSE_COLON_2C93
-        dw      $00FD                ; $3730 _RETURN
+        dw      XT_RETURN               ; $3730 _RETURN
         db      $07,$00,$03,$0A,$0F,$00,$00,$3F,$C0,$00,$7F,$E0,$00,$FF,$F0,$00 ; $3732
         db      $FF,$F0,$00,$FF,$F0,$00,$FF,$F0,$00,$7F,$E0,$00,$3F,$C0,$00,$0F ; $3742
         db      $00,$00,$06,$00,$03,$0A,$1E,$00,$00,$7F,$80,$00,$1F,$C0,$00,$0F ; $3752
@@ -1437,85 +1437,85 @@ TERSE_COLON_36D5:
         db      $40,$54,$05,$54,$05,$40,$04,$01,$01,$50,$10,$10                 ; $3CD2
 TERSE_COLON_3CDE:
         rst     $08                             ; $3CDE colon entry
-        dw      $0109                ; $3CDF _LIT
+        dw      XT_LIT                  ; $3CDF _LIT
         dw      $37A7                ; $3CE1 inline word
         dw      $1CB4                ; $3CE3 execution token $1CB4
         dw      $1E0C                ; $3CE5 execution token $1E0C
         dw      $1ECF                ; $3CE7 execution token $1ECF
         dw      $1E0C                ; $3CE9 execution token $1E0C
         dw      $1EF6                ; $3CEB execution token $1EF6
-        dw      $00FD                ; $3CED _RETURN
+        dw      XT_RETURN               ; $3CED _RETURN
 TERSE_COLON_3CEF:
         rst     $08                             ; $3CEF colon entry
         dw      $1F4B                ; $3CF0 execution token $1F4B
-        dw      $0112                ; $3CF2 _LITbyte
+        dw      XT_LITbyte              ; $3CF2 _LITbyte
         db      $0B                  ; $3CF4 inline byte
         dw      $1BDF                ; $3CF5 execution token $1BDF
-        dw      $00FD                ; $3CF7 _RETURN
+        dw      XT_RETURN               ; $3CF7 _RETURN
 TERSE_COLON_3CF9:
         rst     $08                             ; $3CF9 colon entry
-        dw      $0109                ; $3CFA _LIT
+        dw      XT_LIT                  ; $3CFA _LIT
         dw      $F6E2                ; $3CFC inline word
-        dw      $014C                ; $3CFE _at
-        dw      $015A                ; $3D00 _plus
-        dw      $014C                ; $3D02 _at
-        dw      $0109                ; $3D04 _LIT
+        dw      XT_at                   ; $3CFE _at
+        dw      XT_plus                 ; $3D00 _plus
+        dw      XT_at                   ; $3D02 _at
+        dw      XT_LIT                  ; $3D04 _LIT
         dw      $F6DF                ; $3D06 inline word
-        dw      $0153                ; $3D08 _Bat
-        dw      $01A6                ; $3D0A _2splat
-        dw      $015A                ; $3D0C _plus
-        dw      $014C                ; $3D0E _at
-        dw      $0109                ; $3D10 _LIT
+        dw      XT_Bat                  ; $3D08 _Bat
+        dw      XT_2splat               ; $3D0A _2splat
+        dw      XT_plus                 ; $3D0C _plus
+        dw      XT_at                   ; $3D0E _at
+        dw      XT_LIT                  ; $3D10 _LIT
         dw      $F6E5                ; $3D12 inline word
-        dw      $0153                ; $3D14 _Bat
-        dw      $015A                ; $3D16 _plus
-        dw      $0153                ; $3D18 _Bat
-        dw      $00FD                ; $3D1A _RETURN
+        dw      XT_Bat                  ; $3D14 _Bat
+        dw      XT_plus                 ; $3D16 _plus
+        dw      XT_Bat                  ; $3D18 _Bat
+        dw      XT_RETURN               ; $3D1A _RETURN
 TERSE_COLON_3D1C:
         rst     $08                             ; $3D1C colon entry
-        dw      $0112                ; $3D1D _LITbyte
+        dw      XT_LITbyte              ; $3D1D _LITbyte
         db      $03                  ; $3D1F inline byte
         dw      TERSE_COLON_3CF9     ; $3D20 TERSE_COLON_3CF9
-        dw      $0112                ; $3D22 _LITbyte
+        dw      XT_LITbyte              ; $3D22 _LITbyte
         db      $05                  ; $3D24 inline byte
         dw      TERSE_COLON_3CF9     ; $3D25 TERSE_COLON_3CF9
-        dw      $0112                ; $3D27 _LITbyte
+        dw      XT_LITbyte              ; $3D27 _LITbyte
         db      $07                  ; $3D29 inline byte
         dw      TERSE_COLON_3CF9     ; $3D2A TERSE_COLON_3CF9
         dw      TERSE_COLON_2B71     ; $3D2C TERSE_COLON_2B71
-        dw      $00FD                ; $3D2E _RETURN
+        dw      XT_RETURN               ; $3D2E _RETURN
 TERSE_COLON_3D30:
         rst     $08                             ; $3D30 colon entry
-        dw      $0109                ; $3D31 _LIT
+        dw      XT_LIT                  ; $3D31 _LIT
         dw      $F6E0                ; $3D33 inline word
-        dw      $014C                ; $3D35 _at
-        dw      $015A                ; $3D37 _plus
-        dw      $014C                ; $3D39 _at
-        dw      $0109                ; $3D3B _LIT
+        dw      XT_at                   ; $3D35 _at
+        dw      XT_plus                 ; $3D37 _plus
+        dw      XT_at                   ; $3D39 _at
+        dw      XT_LIT                  ; $3D3B _LIT
         dw      $F6DE                ; $3D3D inline word
-        dw      $0153                ; $3D3F _Bat
-        dw      $01A6                ; $3D41 _2splat
-        dw      $015A                ; $3D43 _plus
-        dw      $014C                ; $3D45 _at
-        dw      $0109                ; $3D47 _LIT
+        dw      XT_Bat                  ; $3D3F _Bat
+        dw      XT_2splat               ; $3D41 _2splat
+        dw      XT_plus                 ; $3D43 _plus
+        dw      XT_at                   ; $3D45 _at
+        dw      XT_LIT                  ; $3D47 _LIT
         dw      $F6E4                ; $3D49 inline word
-        dw      $0153                ; $3D4B _Bat
-        dw      $015A                ; $3D4D _plus
-        dw      $0153                ; $3D4F _Bat
-        dw      $00FD                ; $3D51 _RETURN
+        dw      XT_Bat                  ; $3D4B _Bat
+        dw      XT_plus                 ; $3D4D _plus
+        dw      XT_Bat                  ; $3D4F _Bat
+        dw      XT_RETURN               ; $3D51 _RETURN
 TERSE_COLON_3D53:
         rst     $08                             ; $3D53 colon entry
-        dw      $0112                ; $3D54 _LITbyte
+        dw      XT_LITbyte              ; $3D54 _LITbyte
         db      $03                  ; $3D56 inline byte
         dw      TERSE_COLON_3D30     ; $3D57 TERSE_COLON_3D30
-        dw      $0112                ; $3D59 _LITbyte
+        dw      XT_LITbyte              ; $3D59 _LITbyte
         db      $05                  ; $3D5B inline byte
         dw      TERSE_COLON_3D30     ; $3D5C TERSE_COLON_3D30
-        dw      $0112                ; $3D5E _LITbyte
+        dw      XT_LITbyte              ; $3D5E _LITbyte
         db      $07                  ; $3D60 inline byte
         dw      TERSE_COLON_3D30     ; $3D61 TERSE_COLON_3D30
         dw      TERSE_COLON_2B71     ; $3D63 TERSE_COLON_2B71
-        dw      $00FD                ; $3D65 _RETURN
+        dw      XT_RETURN               ; $3D65 _RETURN
         db      $CF,$09,$01,$E2,$F6,$61,$05,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$09 ; $3D67
         db      $01,$DD,$F6,$3F,$05,$09,$01,$E2,$F6,$4C,$01,$12,$01,$09,$5A,$01 ; $3D77
         db      $53,$01,$F2,$2A,$09,$01,$E2,$F6,$4C,$01,$95,$01,$36,$01,$53,$01 ; $3D87
@@ -1535,18 +1535,18 @@ TERSE_COLON_3D53:
         db      $31,$3E,$09,$01,$DC,$F6,$3A,$05,$8C,$2B,$FD,$00                 ; $3E67
 TERSE_COLON_3E73:
         rst     $08                             ; $3E73 colon entry
-        dw      $012A                ; $3E74 _0
-        dw      $012A                ; $3E76 _0
-        dw      $0112                ; $3E78 _LITbyte
+        dw      XT_0                    ; $3E74 _0
+        dw      XT_0                    ; $3E76 _0
+        dw      XT_LITbyte              ; $3E78 _LITbyte
         db      $03                  ; $3E7A inline byte
-        dw      $012A                ; $3E7B _0
-        dw      $012A                ; $3E7D _0
-        dw      $0109                ; $3E7F _LIT
+        dw      XT_0                    ; $3E7B _0
+        dw      XT_0                    ; $3E7D _0
+        dw      XT_LIT                  ; $3E7F _LIT
         dw      $00FF                ; $3E81 inline word
-        dw      $0109                ; $3E83 _LIT
+        dw      XT_LIT                  ; $3E83 _LIT
         dw      $FFF9                ; $3E85 inline word
         dw      NATIVE_2BBB          ; $3E87 NATIVE_2BBB
-        dw      $00FD                ; $3E89 _RETURN
+        dw      XT_RETURN               ; $3E89 _RETURN
         db      $CF,$12,$01,$4A,$F2,$2A,$09,$01,$FE,$00,$01,$2B,$09,$01,$88,$00 ; $3E8B
         db      $35,$2B,$09,$01,$87,$00,$09,$01,$88,$00,$09,$01,$89,$00,$71,$2B ; $3E9B
         db      $FD,$00,$CF,$09,$01,$80,$00,$12,$01,$40,$12,$01,$20,$71,$2B,$12 ; $3EAB
@@ -1559,94 +1559,94 @@ TERSE_COLON_3E73:
         db      $FF,$BB,$2B,$FD,$00                                             ; $3F1B
 TERSE_COLON_3F20:
         rst     $08                             ; $3F20 colon entry
-        dw      $012A                ; $3F21 _0
-        dw      $012A                ; $3F23 _0
-        dw      $0112                ; $3F25 _LITbyte
+        dw      XT_0                    ; $3F21 _0
+        dw      XT_0                    ; $3F23 _0
+        dw      XT_LITbyte              ; $3F25 _LITbyte
         db      $03                  ; $3F27 inline byte
-        dw      $012A                ; $3F28 _0
-        dw      $012A                ; $3F2A _0
-        dw      $0109                ; $3F2C _LIT
+        dw      XT_0                    ; $3F28 _0
+        dw      XT_0                    ; $3F2A _0
+        dw      XT_LIT                  ; $3F2C _LIT
         dw      $00FF                ; $3F2E inline word
-        dw      $0109                ; $3F30 _LIT
+        dw      XT_LIT                  ; $3F30 _LIT
         dw      $FFEB                ; $3F32 inline word
         dw      NATIVE_2BBB          ; $3F34 NATIVE_2BBB
-        dw      $00FD                ; $3F36 _RETURN
+        dw      XT_RETURN               ; $3F36 _RETURN
         db      $CF,$12,$01,$00,$12,$01,$0F,$2E,$2B,$12,$01,$30,$F2,$2A,$09,$01 ; $3F38
         db      $80,$00,$09,$01,$80,$00,$09,$01,$80,$00,$71,$2B,$FD,$00,$CF,$09 ; $3F48
         db      $01,$80,$00,$12,$01,$40,$12,$01,$60,$71,$2B,$12,$01,$30,$F2,$2A ; $3F58
         db      $09,$01,$88,$00,$35,$2B,$12,$01,$0F,$12,$01,$0F,$2E,$2B,$FD,$00 ; $3F68
 TERSE_COLON_3F78:
         rst     $08                             ; $3F78 colon entry
-        dw      $0109                ; $3F79 _LIT
+        dw      XT_LIT                  ; $3F79 _LIT
         dw      $00A0                ; $3F7B inline word
         dw      NATIVE_2B35          ; $3F7D NATIVE_2B35
-        dw      $0112                ; $3F7F _LITbyte
+        dw      XT_LITbyte              ; $3F7F _LITbyte
         db      $0F                  ; $3F81 inline byte
-        dw      $0112                ; $3F82 _LITbyte
+        dw      XT_LITbyte              ; $3F82 _LITbyte
         db      $0F                  ; $3F84 inline byte
         dw      TERSE_COLON_2B2E     ; $3F85 TERSE_COLON_2B2E
-        dw      $00FD                ; $3F87 _RETURN
+        dw      XT_RETURN               ; $3F87 _RETURN
         db      $CF,$12,$01,$30,$F2,$2A,$09,$01,$80,$00,$12,$01,$60,$12,$01,$40 ; $3F89
         db      $71,$2B,$12,$01,$0F,$09,$01,$FF,$00,$2E,$2B,$FD,$00             ; $3F99
 TERSE_COLON_3FA6:
         rst     $08                             ; $3FA6 colon entry
-        dw      $0112                ; $3FA7 _LITbyte
+        dw      XT_LITbyte              ; $3FA7 _LITbyte
         db      $17                  ; $3FA9 inline byte
-        dw      $0109                ; $3FAA _LIT
+        dw      XT_LIT                  ; $3FAA _LIT
         dw      $00DD                ; $3FAC inline word
         dw      TERSE_COLON_2B2E     ; $3FAE TERSE_COLON_2B2E
-        dw      $00FD                ; $3FB0 _RETURN
+        dw      XT_RETURN               ; $3FB0 _RETURN
 TERSE_COLON_3FB2:
         rst     $08                             ; $3FB2 colon entry
-        dw      $0112                ; $3FB3 _LITbyte
+        dw      XT_LITbyte              ; $3FB3 _LITbyte
         db      $0F                  ; $3FB5 inline byte
-        dw      $0136                ; $3FB6 _DUP
+        dw      XT_DUP                  ; $3FB6 _DUP
         dw      TERSE_COLON_2B2E     ; $3FB8 TERSE_COLON_2B2E
-        dw      $00FD                ; $3FBA _RETURN
+        dw      XT_RETURN               ; $3FBA _RETURN
 TERSE_COLON_3FBC:
         rst     $08                             ; $3FBC colon entry
-        dw      $0112                ; $3FBD _LITbyte
+        dw      XT_LITbyte              ; $3FBD _LITbyte
         db      $00                  ; $3FBF inline byte
-        dw      $0109                ; $3FC0 _LIT
+        dw      XT_LIT                  ; $3FC0 _LIT
         dw      $00F0                ; $3FC2 inline word
         dw      TERSE_COLON_2B2E     ; $3FC4 TERSE_COLON_2B2E
-        dw      $00FD                ; $3FC6 _RETURN
+        dw      XT_RETURN               ; $3FC6 _RETURN
 TERSE_COLON_3FC8:
         rst     $08                             ; $3FC8 colon entry
-        dw      $0112                ; $3FC9 _LITbyte
+        dw      XT_LITbyte              ; $3FC9 _LITbyte
         db      $0F                  ; $3FCB inline byte
-        dw      $0109                ; $3FCC _LIT
+        dw      XT_LIT                  ; $3FCC _LIT
         dw      $00F0                ; $3FCE inline word
         dw      TERSE_COLON_2B2E     ; $3FD0 TERSE_COLON_2B2E
-        dw      $00FD                ; $3FD2 _RETURN
+        dw      XT_RETURN               ; $3FD2 _RETURN
 TERSE_COLON_3FD4:
         rst     $08                             ; $3FD4 colon entry
-        dw      $0112                ; $3FD5 _LITbyte
+        dw      XT_LITbyte              ; $3FD5 _LITbyte
         db      $00                  ; $3FD7 inline byte
-        dw      $0112                ; $3FD8 _LITbyte
+        dw      XT_LITbyte              ; $3FD8 _LITbyte
         db      $0F                  ; $3FDA inline byte
         dw      TERSE_COLON_2B2E     ; $3FDB TERSE_COLON_2B2E
-        dw      $00FD                ; $3FDD _RETURN
+        dw      XT_RETURN               ; $3FDD _RETURN
 TERSE_COLON_3FDF:
         rst     $08                             ; $3FDF colon entry
-        dw      $0112                ; $3FE0 _LITbyte
+        dw      XT_LITbyte              ; $3FE0 _LITbyte
         db      $0F                  ; $3FE2 inline byte
-        dw      $0112                ; $3FE3 _LITbyte
+        dw      XT_LITbyte              ; $3FE3 _LITbyte
         db      $00                  ; $3FE5 inline byte
         dw      TERSE_COLON_2B2E     ; $3FE6 TERSE_COLON_2B2E
-        dw      $00FD                ; $3FE8 _RETURN
+        dw      XT_RETURN               ; $3FE8 _RETURN
 TERSE_COLON_3FEA:
         rst     $08                             ; $3FEA colon entry
-        dw      $0112                ; $3FEB _LITbyte
+        dw      XT_LITbyte              ; $3FEB _LITbyte
         db      $00                  ; $3FED inline byte
-        dw      $0136                ; $3FEE _DUP
+        dw      XT_DUP                  ; $3FEE _DUP
         dw      TERSE_COLON_2B2E     ; $3FF0 TERSE_COLON_2B2E
-        dw      $00FD                ; $3FF2 _RETURN
+        dw      XT_RETURN               ; $3FF2 _RETURN
 TERSE_COLON_3FF4:
         rst     $08                             ; $3FF4 colon entry
-        dw      $0112                ; $3FF5 _LITbyte
+        dw      XT_LITbyte              ; $3FF5 _LITbyte
         db      $0F                  ; $3FF7 inline byte
-        dw      $0109                ; $3FF8 _LIT
+        dw      XT_LIT                  ; $3FF8 _LIT
         dw      $00FF                ; $3FFA inline word
         dw      TERSE_COLON_2B2E     ; $3FFC TERSE_COLON_2B2E
-        dw      $00FD                ; $3FFE _RETURN
+        dw      XT_RETURN               ; $3FFE _RETURN

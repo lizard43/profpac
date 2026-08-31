@@ -5,6 +5,12 @@ definitions. A colon definition begins with `RST $08`; its body contains
 little-endian execution-token addresses, inline operands, branch targets,
 counted strings, and bounded `CASES` tables.
 
+`RST $08` places the nested body address on the shared SP stack. The fixed
+runtime at `$0008` moves that address into `BC` after saving the caller's `BC`
+on IX. `RETURN` at `$00FD` restores the saved threaded instruction pointer.
+These are runtime mechanics; the label `TERSE_COLON_ENTRY` does not assert that
+the standard glossary word `ENTER` names this operation.
+
 ## Coverage
 
 The program ROMs contain 357 structurally validated colon definitions and
@@ -35,8 +41,8 @@ byte strings:
 INITIAL_THREAD_WORD:
         rst     $08
 INITIAL_THREAD:
-        dw      $0693                ; VALIDATE_BATTERY_RAM
-        dw      $0109                ; _LIT
+        dw      XT_VALIDATE_BATTERY_RAM
+        dw      XT_LIT               ; _LIT
         dw      $E1DA                ; inline word
         dw      ALIAS_BZERO
         dw      TERSE_COLON_47C5
@@ -57,6 +63,11 @@ The representation is selected by operand format:
 A threaded cell split by a physical 8 KB ROM boundary remains byte-defined in
 the two independent assembly units. This preserves the physical-device build
 without inventing a cross-file linker dependency.
+
+Fixed resident words are emitted through `XT_*` constants from
+`profpac_common.include`. The constants carry numeric execution-token values
+across independent assembly units; they do not merge the overlapping banked
+address spaces or create linker-visible code symbols.
 
 ## Control-flow validation
 
@@ -117,12 +128,14 @@ SERVICE_THREAD:
         dw      _LIT
         dw      $00F3
         dw      _OUTP
-        dw      TERSE_COLON_BE66
+        dw      CFG1_SERVICE_APPLICATION_XT ; SERVICE_APPLICATION_WORD
         dw      _RETURN
 ```
 
 The thread restores program-bank configuration 1 through port `$F3`, invokes
-the service application word at `$BE66`, and returns.
+`SERVICE_APPLICATION_WORD` at `$BE66`, and returns. The shared constant carries
+that configuration-1 execution token across the independent `pps8` and `pps9`
+assembly units.
 
 ## Protected-memory alias table
 

@@ -1,4 +1,7 @@
 ; Professor Pac-Man shared hardware definitions
+;
+; Included by every physical program-ROM assembly unit.  Hardware addresses
+; live here so fixed and banked ROM sources use one consistent board ABI.
 
 SCREEN_WINDOW           equ     $4000
 BANKED_PROGRAM_WINDOW   equ     $8000
@@ -6,10 +9,167 @@ FIXED_HIGH_ROM           equ     $C000
 BATTERY_RAM              equ     $E000
 WORK_RAM                 equ     $E800
 
+; Astrocade and Professor Pac-Man board I/O ports
 PORT_BANK_SELECT        equ     $F3
+PORT_VIDEO_MODE         equ     $08
+PORT_VIDEO_COLOR        equ     $09
+PORT_VIDEO_VERTICAL     equ     $0A
+PORT_VIDEO_STATUS       equ     $0B
+PORT_VIDEO_CONFIG       equ     $0C
+PORT_VIDEO_HORIZON      equ     $0D
+PORT_INTERRUPT_VECTOR   equ     $0E
+PORT_INTERRUPT_ENABLE   equ     $0F
+PORT_INPUT_PRIMARY      equ     $10
+PORT_INPUT_BUTTONS      equ     $11
+PORT_INPUT_DIP          equ     $13
+PORT_SOUND_MASTER       equ     $10
+PORT_SOUND_A            equ     $50
+PORT_EXPAND_COLOR       equ     $19
+PORT_PATTERN_SOURCE_LO  equ     $78
+PORT_PATTERN_SOURCE_HI  equ     $79
+PORT_PATTERN_MODE       equ     $7A
+PORT_PATTERN_SKIP       equ     $7B
+PORT_PATTERN_DEST_LO    equ     $7C
+PORT_PATTERN_DEST_HI    equ     $7D
+PORT_PATTERN_LENGTH     equ     $7E
 PORT_SCREEN_PAGE        equ     $BF
-PORT_SCREEN_CONTROL     equ     $C0
+PORT_SCREEN_CONTROL_0   equ     $C0
+PORT_SCREEN_CONTROL_1   equ     $C1
+PORT_SCREEN_CONTROL_2   equ     $C2
 PORT_SCREEN_INTERCEPT   equ     $C3
+PORT_SCREEN_WRITE_MODE  equ     $C4
+PORT_SCREEN_WRITE_MASK  equ     $C5
 
-TERSE_RETURN_STACK_TOP  equ     $EF50
-NATIVE_STACK_TOP        equ     $F000
+; TERSE runtime state
+TERSE_CONTROL_STACK_TOP equ     $EF50
+TERSE_PARAMETER_STACK_TOP equ   $F000
+TERSE_FRAME_POINTER     equ     $FEFD
+INITIAL_THREAD_IP       equ     $6DD2
+SERVICE_THREAD_IP       equ     $DEBE
+
+; Fixed-ROM TERSE execution tokens.  These aliases let every physical ROM
+; express threaded cells symbolically without creating cross-unit label
+; dependencies on pps1.asm.  Spellings follow the decoded TERSE vocabulary;
+; punctuation is encoded for zmac identifiers as in the native source labels.
+XT_RETURN              equ     $00FD
+XT_LIT                 equ     $0109
+XT_LITbyte             equ     $0112
+XT_BARRAY              equ     $011A
+XT_ARRAY               equ     $0125
+XT_0                   equ     $012A
+XT_1                   equ     $0130
+XT_DUP                 equ     $0136
+XT_2DUP                equ     $013B
+XT_DROP                equ     $0143
+XT_SWAP                equ     $0146
+XT_at                  equ     $014C
+XT_Bat                 equ     $0153
+XT_plus                equ     $015A
+XT_minussign           equ     $0160
+XT_MINUS               equ     $0168
+XT_COM                 equ     $016E
+XT_AND                 equ     $0179
+XT_OR                  equ     $0188
+XT_1minus              equ     $0190
+XT_1plus               equ     $0195
+XT_2plus               equ     $019A
+XT_2minus              equ     $01A0
+XT_2splat              equ     $01A6
+XT_2slash              equ     $01AB
+XT_ABS                 equ     $01B3
+XT_Bat_inc7            equ     $01C3
+XT_equal               equ     $01CF
+XT_zeroequal           equ     $01DE
+XT_NOT                 equ     $01E3
+XT_not_equal           equ     $01E5
+XT_0notequal           equ     $01F4
+XT_Uless               equ     $01F9
+XT_less                equ     $0208
+XT_gt                  equ     $021C
+XT_0less               equ     $0220
+XT_0gt                 equ     $0225
+XT_gt_equal            equ     $022A
+XT_0gtequal            equ     $023E
+XT_less_equal          equ     $0243
+XT_0lessequal          equ     $0247
+XT_minusDUP            equ     $024C
+XT_XOR                 equ     $0256
+XT_BMOVE               equ     $0261
+XT_DO                  equ     $026F
+XT_LOOP                equ     $028A
+XT_I                   equ     $02B8
+XT_J                   equ     $02C1
+XT_OVER                equ     $02CA
+XT_SWAB                equ     $02D1
+XT_OUTP                equ     $02D8
+XT_INP                 equ     $02E0
+XT_ROT                 equ     $02EA
+XT_PICK                equ     $02F1
+XT_2DROP               equ     $02FB
+XT_star                equ     $02FF
+XT_slashMOD            equ     $0378
+XT_MOD                 equ     $0383
+XT_slash               equ     $038D
+XT_plusLOOP            equ     $0397
+XT_BRANCH              equ     $03E2
+XT_0BRANCH             equ     $03EA
+XT_LEAVE               equ     $03F7
+XT_Aquote              equ     $0405
+XT_OF                  equ     $0410
+XT_MAX                 equ     $0425
+XT_CASES               equ     $0436
+XT_0lessFRAME          equ     $0465
+XT_1lessFRAME          equ     $046F
+XT_2lessFRAME          equ     $0474
+XT_0FRAMEgt            equ     $0486
+XT_1FRAMEgt            equ     $048B
+XT_2FRAMEgt            equ     $0490
+XT_1PARAM              equ     $049C
+XT_2PARAM              equ     $04A2
+XT_3PARAM              equ     $04A8
+XT_1LOCAL              equ     $04AD
+XT_2LOCAL              equ     $04B2
+XT_1LOCALat            equ     $04C1
+XT_2LOCALat            equ     $04C6
+XT_3PARAMat            equ     $04CB
+XT_1PARAMat            equ     $04D0
+XT_2PARAMat            equ     $04D6
+XT_SBbang              equ     $0532
+XT_BONE                equ     $053A
+XT_BZERO               equ     $053F
+XT_1minusBbang         equ     $0544
+XT_1plusBbang          equ     $0549
+XT_plusBbang           equ     $054E
+XT_minusBbang          equ     $0555
+XT_Bbang               equ     $055C
+XT_bang                equ     $0561
+XT_ZERO                equ     $0569
+XT_ONE                 equ     $056F
+XT_1minusbang          equ     $0575
+XT_plusbang            equ     $057D
+XT_1plusbang           equ     $0588
+XT_minusbang           equ     $0590
+XT_Sbang               equ     $059E
+XT_MOVE                equ     $05A3
+XT_EXECUTE             equ     $22BA
+
+; Fixed-ROM native application words callable from TERSE threads.
+XT_READ_AND_VALIDATE_CONFIGURATION equ $068B
+XT_VALIDATE_BATTERY_RAM equ    $0693
+XT_FETCH_BANKED_WORD   equ     $0846
+XT_COMPARE_SCREEN_AND_BANK equ  $085F
+XT_READ_SCREEN_WINDOW_BYTE equ  $08A8
+XT_READ_SCREEN_WINDOW_MODE_10 equ $08BB
+XT_INSTALL_INTERRUPT_HANDLER equ $13DA
+
+; Configuration-1 banked execution tokens used outside their defining ROMs.
+CFG1_ALIAS_SBbang_XT   equ     $4070
+CFG1_ALIAS_BONE_XT     equ     $4073
+CFG1_ALIAS_BZERO_XT    equ     $4076
+CFG1_ALIAS_bang_XT     equ     $408B
+CFG1_ALIAS_ZERO_XT     equ     $4091
+CFG1_ALIAS_1plusbang_XT equ    $4097
+CFG1_XT_BFILL          equ     $41F6
+CFG1_COLD_RESTART_XT   equ     $45FA
+CFG1_SELFTEST_HARDWARE_RESET_XT equ $4610
+CFG1_SERVICE_APPLICATION_XT equ $BE66

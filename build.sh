@@ -24,12 +24,20 @@ if [ ! -f "$BASELINE" ]; then
     exit 1
 fi
 
+if ! command -v python3 >/dev/null 2>&1; then
+    echo "python3 not found; required for deterministic MAME ZIP creation" >&2
+    exit 1
+fi
+
 echo "Professor Pac-Man ROM build"
 echo "Tool:     $ZMAC (zmac v1.3)"
 echo "Sources:  src/pps1.asm through src/pps9.asm"
 echo "Common:   $COMMON"
 echo "Baseline: $BASELINE"
 echo "Package:  $OUTPUT"
+echo
+
+echo "$EXPECTED_ZIP_SHA1  $BASELINE" | sha1sum -c -
 echo
 
 mkdir -p "$ROM_OUTPUT_DIR" "$LISTING_OUTPUT_DIR"
@@ -79,10 +87,84 @@ ls -l build/professor_pacman_pps1.lst build/professor_pacman_pps2.lst \
     build/professor_pacman_pps7.lst build/professor_pacman_pps8.lst \
     build/professor_pacman_pps9.lst
 
-# Every rebuilt program ROM now matches the corresponding member of the MAME
-# set. Preserve the baseline TorrentZip container so archive metadata,
-# compression, entry order, and the overall archive SHA-1 remain identical.
-cp "$BASELINE" "$OUTPUT"
+# Build the complete MAME set from the nine assembled program ROMs plus the
+# unchanged question and PLD members carried from the baseline.  The archive is
+# emitted in TorrentZip form so the complete container is reproducible, not
+# merely content-equivalent.
+python3 - "$BASELINE" "$OUTPUT" "$ROM_OUTPUT_DIR" <<'PY'
+from pathlib import Path
+import struct
+import sys
+import zipfile
+import zlib
+
+baseline = Path(sys.argv[1])
+output = Path(sys.argv[2])
+rom_dir = Path(sys.argv[3])
+temporary = output.with_suffix(output.suffix + ".tmp")
+
+with zipfile.ZipFile(baseline, "r") as source:
+    members = {name: source.read(name) for name in source.namelist()}
+
+for number in range(1, 10):
+    name = f"pps{number}"
+    members[name] = (rom_dir / name).read_bytes()
+
+with zipfile.ZipFile(temporary, "w", compression=zipfile.ZIP_DEFLATED,
+                     compresslevel=9, strict_timestamps=True) as target:
+    for name in sorted(members, key=str.lower):
+        info = zipfile.ZipInfo(name, (1996, 12, 24, 23, 32, 0))
+        info.create_system = 0
+        info.create_version = 0
+        info.extract_version = 20
+        info.external_attr = 0
+        info.internal_attr = 0
+        info.compress_type = zipfile.ZIP_DEFLATED
+        target.writestr(info, members[name], compress_type=zipfile.ZIP_DEFLATED,
+                        compresslevel=9)
+
+raw = bytearray(temporary.read_bytes())
+eocd = raw.rfind(b"PK\x05\x06")
+if eocd < 0:
+    raise SystemExit("generated ZIP has no end-of-central-directory record")
+central_size = struct.unpack_from("<I", raw, eocd + 12)[0]
+central_offset = struct.unpack_from("<I", raw, eocd + 16)[0]
+
+# TorrentZip records maximum deflate in general-purpose flag bit 1 and clears
+# host permission attributes. Python emits the same deflate streams but does
+# not expose these two metadata controls.
+position = 0
+while position < central_offset:
+    if raw[position:position + 4] != b"PK\x03\x04":
+        raise SystemExit("invalid generated ZIP local-header sequence")
+    struct.pack_into("<H", raw, position + 6, 2)
+    compressed_size = struct.unpack_from("<I", raw, position + 18)[0]
+    name_length, extra_length = struct.unpack_from("<HH", raw, position + 26)
+    position += 30 + name_length + extra_length + compressed_size
+
+position = central_offset
+central_end = central_offset + central_size
+while position < central_end:
+    if raw[position:position + 4] != b"PK\x01\x02":
+        raise SystemExit("invalid generated ZIP central-directory sequence")
+    struct.pack_into("<H", raw, position + 8, 2)
+    struct.pack_into("<H", raw, position + 36, 0)
+    struct.pack_into("<I", raw, position + 38, 0)
+    name_length, extra_length, comment_length = struct.unpack_from(
+        "<HHH", raw, position + 28)
+    position += 46 + name_length + extra_length + comment_length
+
+central_crc = zlib.crc32(raw[central_offset:central_end]) & 0xFFFFFFFF
+comment = f"TORRENTZIPPED-{central_crc:08X}".encode("ascii")
+struct.pack_into("<H", raw, eocd + 20, len(comment))
+raw[eocd + 22:] = comment
+temporary.write_bytes(raw)
+temporary.replace(output)
+PY
+
+unzip -t "$OUTPUT" >/dev/null
+cmp "$OUTPUT" "$BASELINE"
+echo "Verified $OUTPUT against $BASELINE: complete MAME archive"
 echo "$EXPECTED_ZIP_SHA1  $OUTPUT" | sha1sum -c -
 
 echo
