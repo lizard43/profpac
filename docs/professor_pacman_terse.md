@@ -72,17 +72,24 @@ memory fetch/store, port access, branches, loop control, and transitions back
 through `JP (IY)`. It is therefore treated as a primitive vocabulary, not as
 ordinary game control flow.
 
-Names will be promoted only after each stack effect is proven and, where
-possible, matched against the established Gorf TERSE vocabulary. The next word
-table should record:
+The resident vocabulary at `$00FD-$05B7` is decoded and named. It contains the
+foundational stack, arithmetic, comparison, loop, branch, frame, port-I/O, and
+memory-update words used by compiled game definitions. The complete address
+and stack-effect reference is maintained in
+[terse_vocabulary.md](terse_vocabulary.md).
 
-| Field | Meaning |
-| --- | --- |
-| Execution token | Native entry address stored in a thread |
-| Name | Proven or cross-matched TERSE word |
-| Stack effect | Inputs and outputs on the parameter stack |
-| Clobbers | Z80 registers and flags modified |
-| Evidence | Native behavior, caller use, or Gorf correspondence |
+The foundational ordering and native implementations establish a direct code
+lineage with Gorf. Sea Wolf II carries the earlier compact form of the same
+dispatcher and register ABI.
+
+## Threaded application coverage
+
+The program ROMs contain 357 structurally validated colon definitions and
+4,925 decoded execution-token cells. Threads are represented as `RST $08`
+entries, `DW` execution tokens and word operands, `DB` byte operands and
+counted strings, and labeled branch/`CASES` targets. The complete coverage,
+initial and service roots, bank contexts, and thread-proven native entries are
+documented in [threaded_code.md](threaded_code.md).
 
 ## Architecture identification
 

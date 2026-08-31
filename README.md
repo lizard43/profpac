@@ -8,8 +8,9 @@ animated question library.
 
 The source preserves the physical ROM organization, documents the complete MAME
 memory layout, identifies the reset and threaded-runtime entry points, and
-separates executable ROM from the question database. Native routines are
-expressed as Z80 instructions where named; other contents use addressed byte
+separates executable ROM from the question database. Native Z80 bodies are
+expressed mnemonically; TERSE definitions use structured execution tokens and
+inline operands; graphics and unclassified tables retain addressed byte
 definitions that reproduce the original devices exactly.
 
 ## Contents
@@ -18,7 +19,11 @@ definitions that reproduce the original devices exactly.
 - `src/profpac_common.include` - shared hardware and runtime definitions
 - `build.sh` - assembles and verifies all nine program ROMs
 - `hardware.md` - CPU, memory, banking, video, sound, and control interface
-- `terse.md` - confirmed threaded-runtime structure and working register model
+- `native_code.md` - native-code coverage and reset, interrupt, banking, I/O,
+  video, sound, input, and self-test paths
+- `terse.md` - threaded-runtime architecture and register model
+- `terse_vocabulary.md` - resident words, stack effects, and cross-game lineage
+- `threaded_code.md` - colon definitions, execution-token coverage, and roots
 - `development_status.md` - reverse-engineering coverage and planned work
 - `roms/orig/profpac.zip` - canonical MAME archive used for verification
 
@@ -31,7 +36,7 @@ address-space contents.
 
 Requirements:
 
-- zmac 1.3
+- zmac 1.3 at `tools/zmac`
 - POSIX shell utilities plus `cmp`, `sha1sum`, and `unzip`
 - an unmodified MAME `profpac` ROM set
 
@@ -44,9 +49,10 @@ chmod +x build.sh
 
 The script assembles each physical program ROM independently and compares its
 8 KB image byte-for-byte with the corresponding member of the MAME archive.
-Verified program ROMs are written under `build/`. The complete `profpac.zip`
-retains the canonical TorrentZip container and is checked against the baseline
-archive SHA-1.
+Verified program ROMs are written as `roms/pps1` through `roms/pps9`; zmac
+listings are retained under `build/`. The complete `roms/profpac.zip` retains the
+canonical TorrentZip container and is checked against the baseline archive
+SHA-1.
 
 Expected SHA-1 values:
 
@@ -75,7 +81,9 @@ flowchart TD
 
 The native kernel and threaded application share the program ROMs. A colon
 definition enters through `$0008`; the interpreter at `$00F6` fetches the next
-16-bit execution token from the thread in `BC`. See [terse.md](terse.md).
+16-bit execution token from the thread in `BC`. See [native_code.md](native_code.md)
+and [terse.md](terse.md). The decoded colon definitions and control-flow roots
+are mapped in [threaded_code.md](threaded_code.md).
 
 ## ROM organization
 

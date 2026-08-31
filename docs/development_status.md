@@ -13,6 +13,21 @@ technical descriptions remain in `README.md`, `hardware.md`, and `terse.md`.
 - Established the TERSE register and stack model.
 - Connected manual-defined self-tests to hardware analysis targets.
 - Added per-ROM comparison and whole-archive SHA-1 verification to the build.
+- Completed native Z80 discovery across all nine program ROMs and emitted the
+  verified instruction bodies mnemonically.
+- Closed the native reset, interrupt, program-bank, screen-window, video,
+  pattern-mover, sound-register, input, RAM and self-test hardware paths.
+- Established that `pps3`, `pps4`, and `pps7` contain TERSE/data content but no
+  native Z80 bodies.
+- Decoded and named the resident TERSE vocabulary at `$00FD-$05B7`, including
+  stack effects, frame words, protected-memory stores, and Gorf/Sea Wolf II
+  correspondence.
+- Structurally decoded 357 colon definitions and 4,925 threaded cells across
+  both program-bank configurations, including inline operands, branch graphs,
+  counted strings, and `CASES` tables.
+- Promoted thread-proven native entries and the configuration-1
+  protected-memory linkage vocabulary; total native coverage is 7,627 bytes
+  and 4,226 instructions.
 
 ## ROM and logic inventory
 
@@ -49,21 +64,19 @@ intercept implementation.
 
 ## Plan of attack
 
-1. Complete native code discovery across `pps1`-`pps9` and close reset,
-   interrupt, bank-switching, memory, video, sound, input, and self-test paths.
-2. Decode and name the native TERSE primitive vocabulary beginning at `$00FD`;
-   match shared primitives against Gorf where the implementations agree.
-3. Decode threaded word bodies, recover stack effects, and establish stable
-   execution-token and colon-word names.
-4. Trace every port `$F3` write and map all `pps3`-`pps8` and `ppq1`-`ppq14`
+1. Assign semantic names and stack effects to the structurally decoded colon
+   definitions, beginning with the initial, service, operator, and self-test
+   call graphs.
+2. Map the threaded callers of the port `$F3` primitives and assign all
+   `pps3`-`pps8` and `ppq1`-`ppq14`
    bank selections to their callers and presentation roles.
-5. Decode the `ppq` record format, including text, answers, categories,
+3. Decode the `ppq` record format, including text, answers, categories,
    difficulty, animation commands, timing, and graphics references.
-6. Label the circuitry, video, audio, switch, device, statistics, and settings
+4. Label the threaded circuitry, video, audio, switch, device, statistics, and settings
    self-test paths using the operations manual as the behavioral specification.
-7. Recover the ten PLS153A fuse maps as Boolean equations and reconcile them
+5. Recover the ten PLS153A fuse maps as Boolean equations and reconcile them
    with the schematics and MAME driver.
-8. Classify graphics, sound tables, operator settings, statistics, and
+6. Classify graphics, sound tables, operator settings, statistics, and
    battery-backed bookkeeping structures.
 
 ## Source coverage rule
