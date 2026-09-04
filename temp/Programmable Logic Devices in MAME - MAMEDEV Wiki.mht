@@ -1,0 +1,965 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://wiki.mamedev.org/index.php/Programmable_Logic_Devices_in_MAME?utm_source=chatgpt.com
+Subject: Programmable Logic Devices in MAME - MAMEDEV Wiki
+Date: Fri, 4 Sep 2026 16:26:52 -0400
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----"
+
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: text/html
+Content-ID: <frame-05819A7036E61A1593549EF4967DFDC0@mhtml.blink>
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/index.php/Programmable_Logic_Devices_in_MAME?utm_source=chatgpt.com
+
+<!DOCTYPE html><html class="client-js" lang="en-GB" dir="ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="cid:css-15560b36-a5df-4ef6-b8ea-f1cfe03b9155@mhtml.blink" />
+
+<title>Programmable Logic Devices in MAME - MAMEDEV Wiki</title>
+
+
+<link rel="stylesheet" href="https://wiki.mamedev.org/load.php?lang=en-gb&amp;modules=skins.timeless&amp;only=styles&amp;skin=timeless">
+
+<!--[if IE]><link rel="stylesheet" href="/skins/Timeless/resources/IE9fixes.css?ffe73" media="screen"><![endif]-->
+<meta name="generator" content="MediaWiki 1.41.0">
+<meta name="robots" content="max-image-preview:standard">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0">
+<link rel="icon" href="https://wiki.mamedev.org/favicon.ico">
+<link rel="search" type="application/opensearchdescription+xml" href="https://wiki.mamedev.org/opensearch_desc.php" title="MAMEDEV Wiki (en-gb)">
+<link rel="EditURI" type="application/rsd+xml" href="https://wiki.mamedev.org/api.php?action=rsd">
+<link rel="alternate" type="application/atom+xml" title="MAMEDEV Wiki Atom feed" href="https://wiki.mamedev.org/index.php?title=Special:RecentChanges&amp;feed=atom">
+</head>
+<body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject page-Programmable_Logic_Devices_in_MAME rootpage-Programmable_Logic_Devices_in_MAME skin-timeless action-view skin--responsive"><div id="mw-wrapper"><div id="mw-header-container" class="ts-container"><div id="mw-header" class="ts-inner"><div id="user-tools"><div id="personal"><h2><span>Anonymous</span></h2><div id="personal-inner" class="dropdown"><div role="navigation" class="mw-portlet" id="p-personal" title="User menu" aria-labelledby="p-personal-label"><h3 id="p-personal-label" lang="en-GB" dir="ltr">Not logged in</h3><div class="mw-portlet-body"><ul lang="en-GB" dir="ltr"><li id="pt-login" class="mw-list-item"><a href="https://forum.mamedev.org/ucp.php?mode=login&amp;redirect=https%3A%2F%2Fwiki.mamedev.org%2Findex.php%2FProgrammable_Logic_Devices_in_MAME%3Futm_source%3Dchatgpt.com" title="You are encouraged to log in; however, it is not mandatory [alt-o]" accesskey="o"><span>Log in</span></a></li></ul></div></div></div></div></div><div id="p-logo-text" class="mw-portlet" role="banner"><a id="p-banner" class="mw-wiki-title" href="https://wiki.mamedev.org/index.php?title=Main_Page">MAMEDEV Wiki</a></div><div class="mw-portlet" id="p-search"><h3 lang="en-GB" dir="ltr"><label for="searchInput">Search</label></h3><form action="https://wiki.mamedev.org/index.php" id="searchform"><div id="simpleSearch"><div id="searchInput-container"><input type="search" name="search" placeholder="Search MAMEDEV Wiki" aria-label="Search MAMEDEV Wiki" autocapitalize="sentences" title="Search MAMEDEV Wiki [alt-f]" accesskey="f" id="searchInput"></div><input class="searchButton mw-fallbackSearchButton" type="submit" name="fulltext" title="Search pages for this text" id="mw-searchButton" value="Search"><input class="searchButton" type="submit" name="go" title="Go to a page with this exact name if it exists" id="searchButton" value="Go"></div></form></div></div><div class="visualClear"></div></div><div id="mw-header-hack" class="color-bar"><div class="color-middle-container"><div class="color-middle"></div></div><div class="color-left"></div><div class="color-right"></div></div><div id="mw-header-nav-hack"><div class="color-bar"><div class="color-middle-container"><div class="color-middle"></div></div><div class="color-left"></div><div class="color-right"></div></div></div><div id="menus-cover" style="display: none;"></div><div id="mw-content-container" class="ts-container"><div id="mw-content-block" class="ts-inner"><div id="mw-content-wrapper"><div id="mw-content"><div id="content" class="mw-body" role="main"><div class="mw-indicators">
+</div>
+<h1 id="firstHeading" class="firstHeading mw-first-heading"><span class="mw-page-title-main">Programmable Logic Devices in MAME</span></h1><div id="bodyContentOuter"><div id="siteSub">From MAMEDEV Wiki</div><div id="mw-page-header-links"><div role="navigation" class="mw-portlet tools-inline" id="p-namespaces" aria-labelledby="p-namespaces-label"><h3 id="p-namespaces-label" lang="en-GB" dir="ltr">Namespaces</h3><div class="mw-portlet-body"><ul lang="en-GB" dir="ltr"><li id="ca-nstab-main" class="selected mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Programmable_Logic_Devices_in_MAME" title="View the content page [alt-c]" accesskey="c"><span>Page</span></a></li><li id="ca-talk" class="new mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Talk:Programmable_Logic_Devices_in_MAME&amp;action=edit&amp;redlink=1" rel="discussion" title="Discussion about the content page (page does not exist) [alt-t]" accesskey="t"><span>Discussion</span></a></li></ul></div></div><div role="navigation" class="mw-portlet tools-inline" id="p-more" aria-labelledby="p-more-label"><h3 id="p-more-label" lang="en-GB" dir="ltr">More</h3><div class="mw-portlet-body"><ul lang="en-GB" dir="ltr"><li id="ca-more" class="dropdown-toggle mw-list-item"><span>More</span></li></ul></div></div><div role="navigation" class="mw-portlet tools-inline" id="p-views" aria-labelledby="p-views-label"><h3 id="p-views-label" lang="en-GB" dir="ltr">Page actions</h3><div class="mw-portlet-body"><ul lang="en-GB" dir="ltr"><li id="ca-view" class="selected mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Programmable_Logic_Devices_in_MAME"><span>Read</span></a></li><li id="ca-viewsource" class="mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Programmable_Logic_Devices_in_MAME&amp;action=edit" title="This page is protected.
+You can view its source [alt-e]" accesskey="e"><span>View source</span></a></li><li id="ca-history" class="mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Programmable_Logic_Devices_in_MAME&amp;action=history" title="Past revisions of this page [alt-h]" accesskey="h"><span>History</span></a></li></ul></div></div></div><div class="visualClear"></div><div id="bodyContent"><div id="contentSub"><div id="mw-content-subtitle"></div></div><div id="mw-content-text" class="mw-body-content mw-content-ltr" lang="en-GB" dir="ltr"><div class="mw-parser-output"><p>One of the best uses of MAME is the identification of random video game parts. Thanks to the -romident feature, you can dump a ROM or PROM from a game and pretty quickly identify what game you have. If you've ever owned a giant pile of PCBs, you'll know it's not always easy to tell.
+</p><p>In theory, MAME should catalog all the programmable parts on an arcade PCB. This is useful not only because of the -romident feature, but also because if a part fails due to bit rot or corrosion or some other kind of damage (or is just missing), you can identify it, track down the data, and program yourself a new one. Up until now, we have only been really cataloging ROM-based devices, in spite of the fact that another class of device -- the Programmable Logic Device (PLD) -- is often found on PCBs, especially those dating from the mid-80's onward. PLDs are a class of device that includes PALs, GALs, and other related devices, which are programmable in much the same way that ROMs and EPROMs are.
+</p><p>One of the big reasons why we haven't been including PLDs is because they are generally not stored in raw binary format, like ROM data. Rather, they are stored in a format known as the JEDEC file format (.JED), which is basically a text file containing all the data, with lots of room for programmer-inserted comments and many optional fields.
+</p><p>This is not really a big problem in and of itself, except for the fact that every single programmer out there, when reading a PLD, will produce slightly different output. This in turn makes tools such as the -romident feature useless for such devices because -romident works by comparing the CRCs and SHA1s of the files, which would be different even for the same PLD read by different programmers.
+</p>
+<h2><span class="mw-headline" id="The_solution">The solution</span></h2>
+<p>At the creamy center of a .JED file is what is known as the "fuse map".
+This is the raw set of binary 1s and 0s that get programmed into the PLD. In fact, the rest of the .JED file beyond that is mostly filler:
+some checksums, default states for unspecified fuses, etc. The final fuse map is really the important data, along with the type of device that was used (was it a GAL16V8A or a PAL16L8?)
+</p><p>So the basic premise for logic devices in MAME works like this: the fuse map is stored in raw binary form, preceded by a single 32-bit (big-endian) value that specifies the total number of fuses. Each bit of the fuse map is packed into a byte from LSB to MSB. This, it turns out, is the exact format that is used for the internal fuse map checksum, so it is a natural arrangement. I decided not to try and encode the device type into the file because (a) there are way too many devices to be concerned with, and (b) many devices with similar but not identical names are equivalent. Rather, PLDs that are added to MAME should specify the device type in the filename. (Also keep in mind that if the device type were encoded into the file itself, then if person A reads a GAL16V8 and person B reads a GAL16V8A that contain identical data, they would not match.)
+</p><p>How do you get data in and out of this format? Since <a href="https://wiki.mamedev.org/index.php?title=MAME_0.105u4" title="MAME 0.105u4">0.105u4</a>, the default build of MAME will build a new utility called jedutil, which can convert a .JED file into its binary form, and vice-versa. This means that you can find the binary form of a PLD, run jedutil on it, and extract a .JED which can be programmed into a real life PLD using any standard programmer.
+</p><p>So how does this help -romident? Well, if you read a PLD from a board and want to see if it matches anything we've cataloged, you can do one of two things. You can take the resulting .JED and run jedutil on it to convert it to binary form. Or, you can just point -romident to the .JED file directly, because code has been added to the romident feature that recognizes .JED files and automatically parses them into binary form on the fly.
+</p><p>The first experiments in using this will be the mid-80's and later Atari games. There are several other games out there that we already have good PAL/GAL dumps from as well. Hopefully we can produce an even more complete catalog of arcade game devices as a result.
+</p>
+<!-- 
+NewPP limit report
+Cached time: 20260904042637
+Cache expiry: 86400
+Reduced expiry: false
+Complications: []
+CPU time usage: 0.003 seconds
+Real time usage: 0.003 seconds
+Preprocessor visited node count: 3/1000000
+Post‐expand include size: 0/2097152 bytes
+Template argument size: 0/2097152 bytes
+Highest expansion depth: 2/100
+Expensive parser function count: 0/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 0/5000000 bytes
+-->
+<!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+
+<!-- Saved in parser cache with key mamewiki:pcache:idhash:598-0!canonical and timestamp 20260904042637 and revision id 1856. Rendering was triggered because: page-view
+ -->
+</div></div><div class="printfooter">
+Retrieved from ‘<a dir="ltr" href="https://wiki.mamedev.org/index.php?title=Programmable_Logic_Devices_in_MAME&amp;oldid=1856">https://wiki.mamedev.org/index.php?title=Programmable_Logic_Devices_in_MAME&amp;oldid=1856</a>’</div>
+<div class="visualClear"></div></div></div></div></div><div id="content-bottom-stuff"><div id="catlinks" class="catlinks catlinks-allhidden" data-mw="interface"></div></div></div><div id="mw-site-navigation"><div id="p-logo" class="mw-portlet" role="banner"><a class="mw-wiki-logo fallback" href="https://wiki.mamedev.org/index.php?title=Main_Page" title="Visit the main page"></a></div><div id="site-navigation" class="sidebar-chunk"><h2><span>Navigation</span></h2><div class="sidebar-inner"></div></div><div id="site-tools" class="sidebar-chunk"><h2><span>Wiki tools</span></h2><div class="sidebar-inner" style="display: none;"><div role="navigation" class="mw-portlet" id="p-tb" aria-labelledby="p-tb-label"><h3 id="p-tb-label" lang="en-GB" dir="ltr">Wiki tools</h3><div class="mw-portlet-body"><ul lang="en-GB" dir="ltr"><li id="t-specialpages" class="mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Special:SpecialPages" title="A list of all special pages [alt-q]" accesskey="q"><span>Special pages</span></a></li></ul></div></div></div></div></div><div id="mw-related-navigation"><div id="page-tools" class="sidebar-chunk"><h2><span>Page tools</span></h2><div class="sidebar-inner"><div role="navigation" class="mw-portlet emptyPortlet" id="p-cactions" title="More options" aria-labelledby="p-cactions-label"><h3 id="p-cactions-label" lang="en-GB" dir="ltr">Page tools</h3><div class="mw-portlet-body"><ul lang="en-GB" dir="ltr"></ul></div></div><div role="navigation" class="mw-portlet emptyPortlet" id="p-userpagetools" aria-labelledby="p-userpagetools-label"><h3 id="p-userpagetools-label" lang="en-GB" dir="ltr">User page tools</h3><div class="mw-portlet-body"><ul lang="en-GB" dir="ltr"></ul></div></div><div role="navigation" class="mw-portlet" id="p-pagemisc" aria-labelledby="p-pagemisc-label"><h3 id="p-pagemisc-label" lang="en-GB" dir="ltr">More</h3><div class="mw-portlet-body"><ul lang="en-GB" dir="ltr"><li id="t-whatlinkshere" class="mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Special:WhatLinksHere/Programmable_Logic_Devices_in_MAME" title="A list of all wiki pages that link here [alt-j]" accesskey="j"><span>What links here</span></a></li><li id="t-recentchangeslinked" class="mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Special:RecentChangesLinked/Programmable_Logic_Devices_in_MAME" rel="nofollow" title="Recent changes in pages linked from this page [alt-k]" accesskey="k"><span>Related changes</span></a></li><li id="t-print" class="mw-list-item"><a rel="alternate" title="Printable version of this page [alt-p]" accesskey="p"><span>Printable version</span></a></li><li id="t-permalink" class="mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Programmable_Logic_Devices_in_MAME&amp;oldid=1856" title="Permanent link to this revision of this page"><span>Permanent link</span></a></li><li id="t-info" class="mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Programmable_Logic_Devices_in_MAME&amp;action=info" title="More information about this page"><span>Page information</span></a></li><li id="t-pagelog" class="mw-list-item"><a href="https://wiki.mamedev.org/index.php?title=Special:Log&amp;page=Programmable+Logic+Devices+in+MAME"><span>Page logs</span></a></li></ul></div></div></div></div></div><div class="visualClear"></div></div></div><div id="mw-footer-container" class="mw-footer-container ts-container"><div id="mw-footer" class="mw-footer ts-inner" role="contentinfo" lang="en-GB" dir="ltr"><ul id="footer-icons"><li id="footer-poweredbyico" class="footer-icons"><a href="https://www.mediawiki.org/"><img src="https://wiki.mamedev.org/resources/assets/poweredby_mediawiki_88x31.png" alt="Powered by MediaWiki" width="88" height="31" loading="lazy"></a></li></ul><div id="footer-list"><ul id="footer-info"><li id="footer-info-lastmod"> This page was last modified on 17 July 2008, at 15:26.</li></ul><ul id="footer-places"><li id="footer-places-privacy"><a href="https://wiki.mamedev.org/index.php?title=MAMEDev_Wiki:Privacy_policy">Privacy policy</a></li><li id="footer-places-about"><a href="https://wiki.mamedev.org/index.php?title=MAMEDev_Wiki:About">About MAMEDEV Wiki</a></li><li id="footer-places-disclaimers"><a href="https://wiki.mamedev.org/index.php?title=MAMEDev_Wiki:General_disclaimer">Disclaimers</a></li></ul></div><div class="visualClear"></div></div></div></div>
+
+<div id="mw-teleport-target"></div></body></html>
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/gear-grey.svg?27b72
+
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+	<path d="M9.714 2a1.14 1.14 0 0 0-1.143 1.143v.743a6.286 6.286 0 0 0-1.892.783l-.518-.518a1.14 1.14 0 0 0-1.616 0l-.403.405a1.14 1.14 0 0 0 0 1.616l.521.52a6.286 6.286 0 0 0-.778 1.88h-.743A1.14 1.14 0 0 0 2 9.713v.573c0 .633.51 1.142 1.142 1.142h.743a6.286 6.286 0 0 0 .783 1.892l-.526.528a1.14 1.14 0 0 0 0 1.617l.403.404a1.14 1.14 0 0 0 1.616 0l.533-.533a6.286 6.286 0 0 0 1.877.778v.743c0 .633.51 1.142 1.143 1.142h.572a1.14 1.14 0 0 0 1.143-1.142v-.743a6.286 6.286 0 0 0 1.878-.776l.532.531a1.14 1.14 0 0 0 1.616 0l.404-.404a1.14 1.14 0 0 0 0-1.617l-.53-.531a6.286 6.286 0 0 0 .786-1.889h.743A1.14 1.14 0 0 0 18 10.286v-.573a1.14 1.14 0 0 0-1.142-1.143h-.743a6.286 6.286 0 0 0-.776-1.878l.52-.52a1.14 1.14 0 0 0 0-1.617l-.404-.405a1.14 1.14 0 0 0-1.616 0l-.52.52a6.286 6.286 0 0 0-1.89-.785v-.743a1.14 1.14 0 0 0-1.143-1.143h-.572zM10 6.445A3.556 3.556 0 0 1 13.556 10 3.556 3.556 0 0 1 10 13.556 3.556 3.556 0 0 1 6.444 10 3.556 3.556 0 0 1 10 6.445z" opacity=".33"/>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/gear-large-grey.svg?eba28
+
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 28.147 28.147">
+	<path d="M13.64 2.814a1.738 1.738 0 0 0-1.743 1.743v1.134A9.584 9.584 0 0 0 9.01 6.883l-.789-.788a1.737 1.737 0 0 0-2.464 0l-.615.617a1.738 1.738 0 0 0 0 2.464l.795.794a9.584 9.584 0 0 0-1.187 2.864H3.62a1.738 1.738 0 0 0-1.745 1.742v.871a1.74 1.74 0 0 0 1.743 1.743h1.134a9.584 9.584 0 0 0 1.192 2.885l-.803.804a1.74 1.74 0 0 0 0 2.466l.615.615a1.738 1.738 0 0 0 2.464 0l.812-.811a9.584 9.584 0 0 0 2.862 1.186v1.132a1.74 1.74 0 0 0 1.743 1.742h.871a1.738 1.738 0 0 0 1.742-1.742v-1.134a9.584 9.584 0 0 0 2.866-1.181l.809.809a1.74 1.74 0 0 0 2.465 0l.616-.616a1.74 1.74 0 0 0 0-2.466l-.808-.809a9.584 9.584 0 0 0 1.198-2.88h1.131a1.738 1.738 0 0 0 1.743-1.743v-.87a1.738 1.738 0 0 0-1.743-1.743h-1.134a9.584 9.584 0 0 0-1.18-2.866l.793-.792a1.738 1.738 0 0 0 0-2.464l-.615-.617a1.74 1.74 0 0 0-2.466 0l-.792.791a9.584 9.584 0 0 0-2.883-1.197V4.557a1.738 1.738 0 0 0-1.74-1.743zm.56 6.97a5.102 5.227 0 0 1 5.102 5.228 5.102 5.227 0 0 1-5.101 5.227 5.102 5.227 0 0 1-5.102-5.227A5.102 5.227 0 0 1 14.2 9.784z" opacity=".33"/>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/menu-large-grey.svg?7b579
+
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 28.147 28.147">
+	<g opacity=".33">
+		<rect width="22.518" height="4.691" x="2.815" y="2.815" rx="1.465" ry="1.465"/>
+		<rect width="22.518" height="4.691" x="2.815" y="12.197" rx="1.465" ry="1.465"/>
+		<rect width="22.518" height="4.691" x="2.815" y="21.58" rx="1.465" ry="1.465"/>
+	</g>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/user-large-grey.svg?4070b
+
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 28.147 28.147">
+	<path d="M5.104 12.915c-2.477 3.345-2.756 6.998-1.729 9.42.689 1.652 1.661 2.62 2.802 3.207 1.114.6 2.462.727 3.659.729h8.911c1.297 0 2.606-.29 3.732-.944 1.126-.655 2.056-1.68 2.534-3.206.69-2.17.375-5.642-2.083-9.045-.01.017-.03.026-.04.041a10.568 10.51 0 0 1-8.827 4.746 10.568 10.51 0 0 1-8.96-4.948z" opacity=".33"/>
+	<path d="M14.073 2.728c-3.109 0-5.629 2.449-5.629 5.467s2.52 5.465 5.63 5.465c3.108 0 5.63-2.447 5.63-5.465 0-3.017-2.522-5.465-5.63-5.465z" opacity=".33"/>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/page-grey.svg?a26bc
+
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+	<path d="M4 2v16h12V7.01L11 2zm2 2h3.994v4H14v8H6z" opacity=".33"/>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/brackets-grey.svg?c043f
+
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+	<path d="M3 4h3v1H5v11h1v1H3zm14 0v13h-3v-1h1V5h-1V4zM6.5 4H9v1H8v11h1v1H6.5zm7 0v13H11v-1h1V5h-1V4z" opacity=".33"/>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/talk-grey.svg?b4d04
+
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+	<g opacity=".33">
+		<path d="M5.391 15.575c.553 1.556-.098 2.537-.942 3.425 3.262-.731 3.243-2.134 3.77-3.425zm10.366-3.933c-.553 1.557.098 2.538.942 3.426-3.262-.732-3.242-2.134-3.769-3.426z"/>
+		<path d="M7.768 7.146c-3.202 0-5.798 2.035-5.797 4.545 0 2.51 2.596 4.544 5.797 4.543 3.2 0 5.794-2.034 5.795-4.543 0-2.51-2.595-4.544-5.795-4.545zm-.022 2.247c2.01 0 3.64 1.034 3.639 2.308-.001 1.274-1.63 2.306-3.639 2.307-2.01 0-3.64-1.033-3.64-2.307-.001-1.275 1.629-2.309 3.64-2.308z"/>
+		<path d="M12.473 2.727c-3.604 0-6.525 2.149-6.526 4.8l2.104-.017c.001-1.392 1.974-2.52 4.406-2.52 2.433 0 4.407 1.128 4.408 2.52 0 1.393-1.973 2.522-4.408 2.521l.016 2.3c3.603-.001 6.524-2.152 6.523-4.804 0-2.65-2.92-4.8-6.523-4.8z"/>
+	</g>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/clock-grey.svg?48197
+
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+	<path d="M10 2a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8zm0 2a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6z" opacity=".33"/>
+	<path d="M9.984 4.986A1 1 0 0 0 9 6v5h3a1 1 0 1 0 0-2h-1V6a1 1 0 0 0-1.016-1.014z" opacity=".33"/>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/cat.svg?31aa0
+
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="435" viewBox="0 0 500 435">
+	<defs>
+		<linearGradient id="linearGradient975" x1="273.8" x2="254.1" y1="465.1" y2="610.8" gradientTransform="matrix(1.249 0 0 1.259 -124.2 -438.1)" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-opacity=".078"/>
+			<stop offset="1" stop-opacity="0"/>
+		</linearGradient>
+	</defs>
+	<g opacity=".2">
+		<path fill="url(#linearGradient975)" d="m89.61 35.72-1.023.06c.429.672.835 1.49 1.26 2.526l.623 5.17c-1.194.22-2.519.59-3.775.466-12.92 6.713-19.07 8.063-35.88 2.248-5.766-5.149-8.021 4.08-14.28 2.426-6.552-2.626-16.46-1.399-23.05-1.197-4.937 12.88 6.71 25.84 20.81 31.2l-8.986 12.06c17.12 2.858 29.98 14.08 30.54 35.03l14.82 4.955c.383 10.14-5.824 14.14-1.307 24.93 9.867 1.02 19.74 1.547 29.6 6.213l-13.3 20.88c13.63 1.928 24.79 26.24 31.5 39.41l1.059.786c.468-6.146 3.961-11.45 6.1-17.03-3.72-10.72-6.797-24.16-7.768-43.21-6.191-13.61-10.23-25.62-10.84-41.28-7.717.487-15.87.765-24.76.826 9.139-.345 17.3-.99 24.72-1.838-.016-.548-.01-1.121-.018-1.678-7.965.522-16.38.82-25.6.883 9.502-.36 17.94-1.044 25.59-1.943-.022-4.772.238-9.872.858-15.48-2.392-4.846-5.02-11.94-7.496-20.15-13.68.495-26.92 3.948-39.47 12.78 9.652-8.122 19.74-12.62 30.17-14.7-10.7 1.445-21.1 5.064-31.06 12.07 12.27-10.33 25.24-14.81 38.73-15.9-3.524-12.79-6.533-27.45-7.75-40.5zm249.2 15.24c-4.978 2.251-11.45 7.707-15.31 11.29-7.133 2.813-20.33 2.844-22.65-4.875-7.924 4.783-13.01-1.176-19.02-4.797-4.239 8.855-12.28 8.014-12.28 8.014 1.938 17.42 11.65 21.65 24.65 31.5 6.308 4.306 10.69 9.4 13.51 15.03 26.85-2.815 52.7.691 73.16 9.385l-.69-12.51c2.673-3.931 5.419-7.422 8.28-10.22-2.245-11.77-5.191-23.38-3.445-36.06a17.291 17.291 0 0 0 5.029-4.902c-2.958-3.397-4.811-1.332-6.49 2.35-1.98 4.797-3.287 10.04-7.51 14.01-11.7.296-19.05 13.31-32.42 10.48-8.656-11.33-9.462 7.387-17.92 4.418-7.22 2.803-7.52 1.941-5.148-.494-3.598-.846 4.513-6.656 7.484-10.37-.085.038-.175.068-.258.107-1.542-8.668 5.517-15.07 11.01-22.36zm-44.59 41.13c-.042-.029-.08-.06-.123-.088v.002c.042.028.081.058.123.086zm23.41 15.29a157.26 157.26 0 0 0-9.678.201c.34.705.66 1.416.953 2.137 26.41-2.727 51.84.657 72.11 9.082l-.084-1.529c-14.13-4.365-39.1-9.659-63.3-9.89zm.898 2.633a157.79 157.79 0 0 0-9.432.19 38.428 38.428 0 0 1 1.934 6.788c19.59 7.07 35.09 21.5 63.76 19.4 2.035-1.593 4.32-3.34 6.9-5.348l-.627-11.38c-14.26-4.315-38.79-9.42-62.53-9.648zm-7.406 7.537c.11.63.219 1.259.301 1.896 18.8 6.636 33.73 20.17 59.85 19.76a137.424 137.424 0 0 1 3.373-2.711c-21.64 7.91-39.53-9.681-63.53-18.95zm.372 2.426c.03.255.049.513.074.77.371.071.751.139 1.119.212 4.81 2.003 9.103 4.091 13.08 6.123-4.28-1.717-8.93-3.305-14.08-4.854.021.339.047.676.062 1.016.614.115 1.233.228 1.836.348 4.81 2.003 9.103 4.091 13.08 6.123-4.5-1.805-9.399-3.47-14.87-5.094a53.926 53.926 0 0 1-.246 5.98c14.95 8.932 27.53 23.66 31.78 37.66 1.374 3.667 2.213 7.311 2.4 10.82-.105-.46-.414-1.399-.9-2.65l.002.018-.016-.055c-2.814-7.216-12.35-26.04-33.89-41.18-4.615 26.96-26.61 56.48-43.38 71.94a231.043 231.043 0 0 0 3.34-3.871c.243-.425-4.118 4.158-6.779 6.484l-.002.002c0 .002-.003.003-.004.004-8.378 12.15-16.32 17.11-25.11 17.55-.964 2.392-1.99 5.233-4.748 6.822 23.35 3.117 21.16 41.03 7.545 47.82 58.78-3.64 2.851 19.51 4.922 33.93 14.69 4.321 55.98 15.68 64.38 9.143 10.24-7.963 14.89-24.49 19.34-31.85 4.445-7.365 23.89-29.57 19.34-38.67-4.55-9.1 8.822-13.59 8.822-13.59-1.66-10.85-11.4-31.93-7.662-33.86 8.067-4.167 34.22-15.17 11.07-34.03 6.19-2.073 9.533-5.737 10.71-9.414-11.09-11.6-19.94-19.61-29.77-25.73a66.213 66.213 0 0 0 6.525 2.486 100.983 100.983 0 0 0-7.422-5.119 66.092 66.092 0 0 0 6.537 2.488c-11.57-4.511-23.32-12.53-37.08-17.75zm42.35 19.54c3.872 3.232 7.565 6.904 11.19 11.06-1.217-3.38.446-6.193 4.52-9.873-5.365.873-10.55.29-15.71-1.184zm12.75 12.89c2.204 2.625 4.39 5.44 6.58 8.449.146-4.155-2.39-7.787-6.58-8.449z" transform="translate(-15.336 3) scale(1.321)"/>
+		<path fill="#fff" fill-opacity=".098" fill-rule="evenodd" d="M125.684 18.661c-.904-.012-1.79.014-2.656.08-18.777 1.441-14.398 47.114-2.109 84.589 41.425-.53 86.319 20.317 131.883 23.427-15.258.413-30.626-1.659-45.954-4.562 15.558 3.723 31.306 6.957 47.143 8.04-43.744 1.187-88.478-17.957-130.382-18.977 3.534 9.536 7.541 18.247 11.759 25.126-1.043 6.642-1.86 13.369-2.082 20.798 46.224-6.587 69.71-18.958 108.585-20.908a1303.547 1303.547 0 0 1-19.247 5.56 200.459 200.459 0 0 1 20.427-2.083c-42.024 12.458-72.32 19.817-109.785 22.927.222 19.797 4.901 45.104 20.387 86.308-5.242-10.858-9.999-20.297-14.108-29.186 10.079 74.67 33.685 63.022 30.316 106.586-4.679-17.528-13.728-30.626-20.957-51.473-5.63 14.688-18.398 27.956 7.618 51.423 4.16 35.475 36.245 37.175 60.002 53.773 1.151 8.82 7.688 30.355 13.478 30.255 9.807-5.83 61.841 8.93 80.599 10.09-3.179-19.028 71.35-49.794-6.517-44.975 17.987-8.975 20.877-59.052-9.966-63.171 3.645-2.1 4.998-5.855 6.272-9.015-22.737 1.156-49.733-20.547-93.667-38.455 94.927 34.945 98.527 41.295 131.082 8.614a133.863 133.863 0 0 1-4.3 6.655l.008-.008c3.591-3.14 9.546-9.41 8.942-8.536 21.467-25.386 43.334-59.862 45.313-94.887a144.025 144.025 0 0 0-13.318-7.183c4.513 1.054 9.013 2.626 13.428 4.6v-.077a142.658 142.658 0 0 0-14.618-8c4.922 1.15 9.832 2.908 14.628 5.142-.007-1.987-.053-3.974-.2-5.96-2.03-.55-4.014-1.097-6.164-1.646 2.079.255 4.097.535 6.09.828a83.05 83.05 0 0 0-.249-2.428c-2.296-.626-4.577-1.25-7.028-1.879 2.369.292 4.662.616 6.92.955a80.811 80.811 0 0 0-.356-2.557 98.418 98.418 0 0 0-5.677-1.454c1.916.3 3.785.68 5.622 1.11-.161-.991-.368-1.981-.566-2.972a98.99 98.99 0 0 0-6.24-1.617c2.105.33 4.155.748 6.164 1.234-.382-1.855-.806-3.71-1.328-5.556a146.85 146.85 0 0 0-9.835 1.266 236.153 236.153 0 0 1 9.753-1.543 79.535 79.535 0 0 0-.996-3.209c-3.373.325-6.698.737-9.944 1.273a236.027 236.027 0 0 1 9.843-1.557c-2.386-7.075-5.843-14.068-10.579-20.897.056.038.107.077.162.115-17.177-13.018-30.006-18.597-32.565-41.614-6.28-.416-11.289-5.534-9.294-16.018 2.797-19.307-15.718 1.289-20.357-8.407-7.256-17.957-34.726 7.787-42.295-8.704-9.187-18.007-15.078 3.9-25.466 6.58a204.932 204.932 0 0 0 8.563 5.542 69.943 69.943 0 0 1-10.629-4.352 188.927 188.927 0 0 0 11.819 7.827c-14.798-4.695-25.977-13.458-34.416-24.027-2.176 11.949-5.186 17.168-24.147 10.929a395.207 395.207 0 0 1 3.898 3.798s-6.402-5.293-15.828-11.888c-5.521-2.52-9.36-3.55-4.59-3.136-15.427-10.35-36.544-22.267-52.362-22.487zM220 33.79c-.117.693-.216 1.31-.32 1.949 5.327 6.287 11.758 12.198 20.207 18.277 7.703-12.528-8.78-17.037-19.887-20.227zm-28.216 15.928c.774.732 1.519 1.443 2.246 2.14-.656-.756-1.425-1.462-2.246-2.14zm57.302 18.448c20.427-.177 30.476 21.717 35.595 22.567 4.289.406 8.586.79 12.869 1.192-23.007 17.028-65.841 11.209-90.228-3.782-.97-.698-1.726-1.542-2.25-3.156 14.118 1.178 19.977-16.607 44.004-16.817zm70.94 28.196c10.35.221 21.498 3.782 28.057 7.327.253.425.407 1.284.511 2.28.606.29 1.194.581 1.738.875 1.251 2.101.625 13.449-1.25 11.759-13.218-10.109-.79 11.198-10.628 14.708-3.965 1.412-16.938-3.052-18.608-6.395-1.503-1.13-2.458-2.502-2.4-4.113.106-2.908 6.75-6.854 6.11-11.488-6.498-2.496-12.687 6.02-17.067 1.25-.11-.12-.223-.236-.332-.373-1.502-1.707-3.132-4.819-4.99-10.119 4.192-3.951 10.26-5.563 16.809-5.716.717-.018 1.445-.007 2.058-.002zm7.26 42.984c16.307 16.758 28.796 15.788 29.426 40.994-1.744 20.078-21.258 61.822-27.707 81.4-4.37-.336-3.83-2.377-11.488-6.24-7.661-3.861-37.715.891-47.734.594-9.575.493-36.215-43.974-50.683-56.442-.018-.006-.02-.048-.006-.123.373-2.356 16.748-40.095 60.492-45.264 24.887-2.938 47.444-8.77 47.704-14.918zm-87.419 1.96c-6.606 3.185-11.928 5.808-16.367 8.205 4.797-1.466 10.498-2.955 17.547-4.727-38.615 18.618-35.875 18.738-41.844 59.112.247-5.978.412-11.218.594-15.828-.534 3.679-1.092 7.687-1.781 12.349 1.98-47.844-1.403-48.254 41.844-59.112zm-76.89 14.119a402.97 402.97 0 0 1-29.685 3.64c-.01.583-.024 1.156-.026 1.748 11.039-1.535 20.748-3.404 29.706-5.388z"/>
+		<path fill-opacity=".118" fill-rule="evenodd" d="M218.481 27.61c-.349 2.072-.634 3.96-.924 5.782.686.779 1.393 1.58 2.033 2.342.106-.639.206-1.254.323-1.948 7.187 2.066 16.618 4.684 20.304 9.664 1.792-9.264-12.023-13.051-21.73-15.838zm41.559 9.05c-5.763.04-10.97 12.154-18.6 13.711-.312 1.133-.838 2.34-1.635 3.638 1.122.807 2.292 1.621 3.488 2.436 10.39-2.679 16.288-24.584 25.47-6.579 7.57 16.487 35.045-9.257 42.298 8.706 3.516 7.347 14.993-2.688 19.14.415 1.351-16.13-16.089 2.774-20.567-6.594-7.256-17.966-34.73 7.787-42.298-8.706-2.641-5.174-5.008-7.048-7.29-7.033zm-82.893.066c6.086 5.112 11.862 10.303 17.2 15.601 19.088 6.317 22.1 1.098 24.28-10.888a85.528 85.528 0 0 1-2.047-2.685c-2.39 11.07-7.084 14.36-32.193 4.187-2.04-1.667-4.054-3.754-7.195-6.212l-.036-.005zM103.369 54.15c-1.746.247-3.757.903-5.663.715-17.067 8.868-25.192 10.651-47.398 2.97-7.616-6.802-10.595 5.388-18.863 3.204C22.789 57.57 9.7 59.191.995 59.458a9.365 9.365 0 0 1-1.044.877c.661 1.577 1.803 3.366 2.967 5.276 8.697-.305 21.453-1.806 29.96 1.605 8.272 2.185 11.25-10.006 18.864-3.204 22.206 7.681 30.343 5.898 47.397-2.97 1.66.164 3.41-.325 4.987-.617zm328.797 16.156c-.579-3.209-15.35 2.873-21.651 8.738-9.423 3.716-26.856 3.755-29.92-6.442-10.468 6.318-17.187-1.551-25.126-6.334-5.506 11.594-19.908 14.068-24.518 5.4.24 15.469 19.392 14.57 25.944.777 7.936 4.783 14.65 12.655 25.126 6.336 3.06 10.197 20.489 10.156 29.92 6.44 4.308-3.864 12.27-11.154 20.225-14.914zm62.668-6.015c-1.981-.047-3.523 2.226-4.97 5.398-2.615 6.337-4.342 13.263-9.92 18.507-15.456.391-25.165 17.583-42.827 13.844-11.435-14.967-12.502 9.759-23.672 5.837-2.209.857-3.88 1.428-5.179 1.8-1.508 1.857-2.026 3.29-.188 3.723-3.132 3.216-2.737 4.355 6.8.652 11.174 3.922 12.238-20.792 23.673-5.836 17.662 3.739 27.371-13.448 42.827-13.844 3.04-2.861 4.923-6.224 6.442-9.715.557-2.08 1.398-4.162 2.477-6.207.33-.866.65-1.741 1.001-2.59 1.33-2.913 2.741-5.059 4.497-5.354a50.138 50.138 0 0 1 3.156-3.327c-1.579-2.002-2.926-2.866-4.115-2.894z"/>
+		<path fill-opacity=".059" fill-rule="evenodd" d="M327.463 145.42c-2.41 5.4-22.8 9.504-47.692 12.447-45.054 5.319-61.34 41.636-60.745 41.822 14.477 12.47 41.116 56.943 50.69 56.448 10.02.297 40.075-4.456 47.74-.595 7.663 3.862 7.123 5.904 11.492 6.24 6.443-19.567 25.958-61.315 27.704-81.402-4.758-26.528-12.867-18.205-29.177-34.962zm-58.825 17.574c5.103.647 8.694 1.295 15.765 1.942.194 1.242.384 2.485.602 3.722l.027.003c.042.268.083.537.123.805.399 2.015.955 4 2.037 5.878 2.167-3.345 3.118-6.61 3.873-9.86 13.251 2.724 27.134 2.886 40.918 3.472.652 2.151 1.075 4.37 1.378 6.62 1.152 5.317 1.276 10.93 1.493 16.522 2.218-6.294 3.807-13.227 4.791-20.757l.612 3.84c.005-.039.013-.076.017-.114l.728 4.567c3.535-2.821 3.537-8.311 5.129-12.595 4.33 1.698 6.295 5.852 6.678 11.405 3.535 19.134-20.459 63.804-24.904 71.05.403-1.228.85-2.406 1.306-3.576 1.684-5.687 2.11-11.583 1.947-18.886-2.04 1.934-4.029 4.687-6.025 7.334 0 0-9.901-27.803-17.264-30.763-7.367-2.972-26.527 2.375-34.627.295-8.104-2.08-14.737 9.506-14.737 9.506s-4.421-4.753-9.727-7.873c-5.304-3.118-25.388-7.88-25.388-7.88 8.572-15.728 17.61-27.815 36.547-34.317.845 4.135 1.993 8.331 4.218 12.744 2.386-4.246 3.7-9.357 4.482-13.066zm17.425 54.38c4.447 6.77 4.943 13.263 8.545 18.564 0 0 .217 1.652-.794 3.314-2.997-5.091-3.71-11.161-7.856-17.475-.846 3.83-1.45 7.659-1.683 11.487-.122-5.3.617-10.597 1.787-15.902zm-19.308 10.397c4.444 6.672 8.573 10.8 12.23 11.139 0 0-.795 1.822-2.218 3.824-3.109-1.398-6.507-5.138-10.113-10.552-.378.034-.65 1.128-.8 2.766-.076-3.861.243-7.116.901-7.177zM207.252 88.152c24.386 14.993 67.226 20.819 90.225 3.782 0 0-7.71 1.47-14.373 1.68-5.124-.844-13.738-21.664-31.836-22.285-24.663-.848-25.337 19.101-44.015 16.816zm68.719 7.356s-27.847 7.279-48.48-3.414c19.312-20.793 35.957-14.875 48.48 3.414zm74.346 11.349c1.25 2.1.625 13.448-1.25 11.764-13.223-10.105-.792 11.202-10.627 14.702-4.36 1.552-19.617-3.997-18.759-7.352.855-3.344 9.487-8.353 4.94-14.135-8.669-5.038-16.936 11.77-21.308-6.59 10.543-9.958 35.72-4.487 47.001 1.611z"/>
+		<g fill-opacity=".098">
+			<path fill-opacity=".118" fill-rule="evenodd" d="M327.216 139.352c-.252 6.149-22.812 11.982-47.705 14.923-45.054 5.322-61.08 45.203-60.497 45.389-.591-.19 15.69-36.51 60.745-41.822 24.892-2.939 45.475-6.949 47.692-12.446 16.31 16.756 24.422 8.426 29.178 34.96-.628-25.214-13.115-24.248-29.426-41.004zm-57.947 27.332c-.782 3.707-2.093 8.817-4.48 13.066-2.223-4.413-3.373-8.61-4.217-12.744-18.936 6.5-28.608 14.862-37.178 30.59 0 0 20.087 4.761 25.388 7.88 5.305 3.12 9.727 7.873 9.727 7.873s1.657-2.896 4.327-5.532a20.185 20.185 0 0 1 2.182-1.88c2.352-1.732 5.185-2.875 8.224-2.095 8.105 2.08 27.258-3.267 34.627-.295 7.367 2.97 17.264 30.763 17.264 30.763a300.013 300.013 0 0 1 2.631-3.454c.318-.406.635-.8.953-1.188.808-.986 1.62-1.914 2.441-2.692.874-.829 1.756-1.523 2.654-1.97.472 9.142-2.24 14.8-4.598 20.856l-.002.005c-.16.41-.316.826-.472 1.241a60.33 60.33 0 0 0-.835 2.334c2.552-4.257 5.187-9.187 7.398-13.474.312-.609.617-1.2.938-1.835 7.193-15.035 18.936-39.952 16.57-55.73-.826-3.66-2.72-6.375-6.05-7.68-1.596 4.303-1.59 9.813-5.156 12.633l-.6-3.751-.728-4.568-.017.114c-1.045 7.944-2.752 15.22-5.174 21.784-.247-4.126-.335-8.405-.569-12.222-.002-.036-.002-.071-.005-.107 0-.015-.004-.03-.005-.045a73.28 73.28 0 0 0-.57-5.746 53.825 53.825 0 0 0-.078-.512 45.622 45.622 0 0 0-.491-2.726l-.002-.008-.003-.012a37.16 37.16 0 0 0-.747-2.896c-13.784-.586-27.667-.747-40.918-3.47-.757 3.25-1.71 6.513-3.875 9.858-1.744-3.029-2.174-6.322-2.666-9.603-.04-.268-.081-.537-.123-.805l-.026-.002c-7.057-.647-10.647-1.293-15.741-1.94zm77.13.421a31.601 31.601 0 0 1 3.667 2.784c-.946-1.206-2.162-2.145-3.667-2.784z"/>
+			<path fill-opacity=".118" d="M373.17 124.502c4.732 6.835 8.19 13.831 10.576 20.898 2.489-.341 4.974-.645 7.452-.905-3.744-7.496-9.59-14.28-18.032-20zm18.322 20.621c-2.576.134-5.125.33-7.65.573.356 1.067.69 2.136.996 3.207a234.9 234.9 0 0 1 7.91-.954 48.377 48.377 0 0 0-1.256-2.826zm1.51 3.462c-2.721.137-5.416.338-8.08.596.522 1.847.947 3.7 1.329 5.555a88.944 88.944 0 0 1 9.3 2.82 50.81 50.81 0 0 0-2.549-8.97zm-6.677 6.535c.198.99.406 1.98.567 2.973a87.826 87.826 0 0 1 9.175 2.701 55.656 55.656 0 0 0-.393-2.5 115.888 115.888 0 0 0-9.35-3.174zm.621 3.316c.135.852.25 1.704.356 2.558 3.081.462 6.065.966 8.955 1.521-.032-.34-.058-.683-.098-1.021a113.96 113.96 0 0 0-9.214-3.057zm.465 3.481c.092.809.18 1.618.248 2.428 3.04.446 5.981.936 8.836 1.47-.02-.449-.052-.894-.08-1.342a365.81 365.81 0 0 0-9.004-2.557zm.322 3.246c.148 1.986.195 3.973.202 5.96a91.664 91.664 0 0 1 8.289 4.407 71.35 71.35 0 0 0 .328-7.898c-2.79-.829-5.786-1.65-8.82-2.47zm.189 8.819v.077c.17.076.338.165.508.243l-.508-.32zm-.109 2.66c-2.118 37.424-26.935 74.227-49.722 99.973 22.153-20.409 51.202-59.405 57.305-95.006a139.288 139.288 0 0 0-7.59-4.967z"/>
+			<g fill-rule="evenodd">
+				<path fill-opacity=".137" d="M204.982 84.997c.327.887.707 2.057 2.249 3.154 18.676 2.278 19.344-17.672 44.014-16.818 18.106.622 26.713 21.438 31.84 22.28 6.67-.21 14.379-1.68 14.379-1.68s-8.397-.772-12.868-1.193c-5.123-.845-15.17-22.738-35.592-22.565-24.039.209-29.896 17.995-44.015 16.818zm23.914 5.626c-.471.48-.942.96-1.418 1.471 20.633 10.694 48.473 3.416 48.473 3.416a65.013 65.013 0 0 0-2.294-3.144c-.216.056-24.744 6.404-44.77-1.742zm89.032 5.755c-6.543.153-12.62 1.764-16.806 5.716 1.994 5.685 3.731 8.875 5.324 10.488-1.195-1.3-2.259-3.568-3.157-7.334 10.039-9.483 33.327-4.972 45.265.745-.104-1.001-.261-1.863-.515-2.289-6.995-3.78-19.208-7.581-30.107-7.326zm5.59 14.948c.638 4.633-6.005 8.581-6.11 11.49-.059 1.61.896 2.981 2.4 4.11-.166-.332-.226-.654-.148-.957.855-3.344 9.486-8.352 4.939-14.13a7.517 7.517 0 0 0-1.081-.509z"/>
+				<path d="M206.724 264.822c69.234 28.217 96.42 65.905 131.136 8.616-32.603 32.681-36.209 26.327-131.136-8.617z"/>
+				<path fill-opacity=".078" d="M169.868 326.38c-8.183-30.673-29.749-47.727-31.532-116.459 9.234 85.733 35.033 71.083 31.532 116.46z"/>
+			</g>
+			<path fill-opacity=".118" d="M118.746 2.987c-2.713.043-5.15.64-7.238 1.894-15.773 9.479-8.772 60.595 1.762 98.811a112.28 112.28 0 0 1 7.593-.356c-12.29-37.477-16.671-83.144 2.108-84.597 27.728-2.128 75.443 37.437 75.443 37.437-17.319-17.146-57.583-53.54-79.67-53.183zm.88 108.203c-1.402.006-2.799.04-4.194.09 3.27 10.842 6.74 20.199 9.897 26.592-.82 7.424-1.166 14.175-1.137 20.489 3.124-.367 6.142-.762 9.074-1.18.222-7.423 1.04-14.147 2.081-20.792-4.214-6.882-8.22-15.588-11.754-25.125-1.323-.033-2.65-.072-3.968-.067zm13.606 47.886a453.9 453.9 0 0 1-9.025.679c.01.735.002 1.493.023 2.217a371.08 371.08 0 0 0 8.976-1.146c.001-.592.017-1.167.026-1.749zm-.003 3.59c-2.933.243-5.92.453-8.95.645 1.235 31.558 13.001 51.836 29.34 85.666-15.496-41.202-20.172-66.512-20.397-86.314z"/>
+			<path fill-opacity=".078" fill-rule="evenodd" d="M201.044 7.493c7.654 23.566 22.774 48.718 52.02 58.005a193.192 193.192 0 0 1-11.888-7.864c-21.097-10.766-33.237-30.7-40.132-50.132zM118.428 107.73c-5.215.02-10.383.354-15.495 1.055-13.699 2.773-26.961 8.714-39.643 19.393 57.16-40.198 125.02 3.862 190.62 2.082-15.852-1.084-31.625-4.319-47.2-8.048-30.012-5.688-59.867-14.584-88.334-14.478zm124.624 32.034a200.065 200.065 0 0 0-20.476 2.096c-21.44 6.004-40.25 10.474-59.577 13.58-18.798 4.169-41.004 7.829-71.426 8.978 59.854-.407 95.112-7.95 151.518-24.663zm-2.06 5.052c-7.047 1.77-12.751 3.259-17.543 4.724-18.507 10-20.41 15.839-23.712 38.6-.18 4.604-.344 9.832-.59 15.799 5.97-40.383 3.228-40.502 41.849-59.115zm175.957 1.92c-13.646-.038-27.701 1.175-41.822 3.725 44.12-7.299 101.835 5.992 122.007 13.659-22.18-11.185-50.172-17.305-80.185-17.385zm-35.64 10.26c24.887 5.521 44.53 20.397 63.79 27.94 2.038.654 4.096 1.239 6.208 1.69.285.232.564.476.846.712 9.467 2.704 18.983 3.149 29.129-.687-45.258 3.44-65.694-24.28-99.974-29.656zm.3 6.536c13.685 3.503 24.847 6.925 34.636 10.847-5.251-2.685-10.922-5.443-17.279-8.089-5.442-1.088-11.205-2.001-17.358-2.758zm-7.077 5.942c43.315 20.502 61.07 54.768 65.666 66.486-1.167-4.75-14.121-37.953-51.81-61.691-4.553-2.066-9.2-3.705-13.856-4.794zm63.196 15.68c15.139 9.432 28.48 22.193 46.843 41.968a269.039 269.039 0 0 0-6.27-8.89c-11.957-12.65-21.902-22.22-31.955-29.802a87.678 87.678 0 0 1-8.614-3.279zm.565 40.25c1.085 3.605 1.75 7.17 1.94 10.636.663 1.695 1.052 2.916 1.193 3.533-.245-4.594-1.345-9.365-3.132-14.162z"/>
+		</g>
+		<path fill="#fff" fill-opacity=".118" fill-rule="evenodd" d="M198.798.8c7.305 24.438 22.47 51.492 53.051 61.201C220.661 42.926 211.48 27.708 198.8.8zM62.075 124.682c57.16-40.198 125.019 3.86 190.62 2.08-68.217-4.663-134.874-49.022-190.62-2.08zm179.788 11.585c-49.34 2.477-73.857 21.73-151.519 24.663 59.855-.407 95.112-7.95 151.519-24.663zm-2.061 5.051c-43.25 10.864-39.868 11.271-41.85 59.115 5.972-40.383 3.23-40.502 41.85-59.115zm134.081 5.646c44.122-7.298 101.836 5.994 122.008 13.66-32.259-16.275-76.816-21.824-122.008-13.66zm6.187 6.535c40.171 8.912 66.684 42.246 99.973 29.657-45.257 3.438-65.693-24.28-99.973-29.657zm.297 6.535c13.685 3.503 24.861 6.925 34.637 10.847-5.251-2.684-10.923-5.443-17.28-8.089-5.442-1.088-11.205-2-17.357-2.758zm-7.075 5.942c49.735 23.54 65.785 65.257 66.895 70.106-1.487-27.9-33.936-62.405-66.895-70.106zm63.196 15.68c15.139 9.432 28.481 22.193 46.843 41.968-10.55-15.653-20.713-27.714-32.087-37.014-5.103-1.09-9.92-2.82-14.756-4.951z"/>
+		<path fill="#fff" fill-opacity=".078" d="M268.679 162.957c-.782 3.705-2.098 8.817-4.485 13.063-2.224-4.414-3.372-8.61-4.218-12.745-18.916 6.493-27.952 18.56-36.512 34.267 8.561-15.68 18.23-24.043 37.146-30.542.846 4.135 1.994 8.333 4.218 12.745 2.387-4.246 3.698-9.356 4.48-13.063 5.098.646 8.687 1.294 15.746 1.94-.218-1.237-.407-2.48-.601-3.722-7.075-.647-10.668-1.296-15.773-1.943zm22.43 2.492c-.755 3.25-1.706 6.514-3.873 9.859-1.082-1.879-1.636-3.863-2.035-5.877-.04-.269-.082-.537-.124-.805h-.003c.042.268.084.536.124.805.492 3.28.922 6.573 2.666 9.603 2.166-3.344 3.119-6.607 3.876-9.858 13.25 2.724 27.133 2.884 40.924 3.47.289.954.534 1.92.746 2.894.001.003.001.01.003.014l.002.008c-.001-.007 0-.014-.002-.021-.304-2.251-.727-4.469-1.378-6.62-13.778-.586-27.662-.747-40.925-3.471zm55.073 1.54c-1.59 4.289-1.592 9.78-5.127 12.602l-.73-4.567.728 4.567.6 3.751c3.568-2.813 3.562-8.325 5.158-12.627 3.328 1.304 5.222 4.02 6.048 7.68-.24-3.47-1.095-6.395-2.761-8.514l-.003-.005a31.655 31.655 0 0 0-3.659-2.774c-.086-.037-.167-.08-.256-.114zm6.678 11.407c.416 2.785.374 5.863.015 9.11.423-3.403.467-6.498-.015-9.11zm-13.161-7.097c-.984 7.532-2.575 14.451-4.792 20.753.066 1.624.13 3.256.227 4.871 2.422-6.557 4.131-13.83 5.176-21.783zm-76.817 36.512a25.16 25.16 0 0 0 .003 0zm23.237 9.52c-1.17 5.3-1.909 10.6-1.789 15.905.235-3.828.839-7.66 1.684-11.488 4.147 6.31 4.86 12.38 7.856 17.477 1.01-1.662.793-3.314.793-3.314-3.603-5.305-4.098-11.799-8.546-18.573zm47.754 7.677c-.897.445-1.778 1.14-2.653 1.968.163 7.304-.262 13.198-1.945 18.877 2.358-6.05 5.068-11.712 4.597-20.858zm-67.054 2.724c-.658.06-.978 3.314-.903 7.175.151-1.638.425-2.731.802-2.766 3.607 5.415 7.003 9.155 10.111 10.552a23.875 23.875 0 0 0 2.22-3.824c-3.657-.338-7.786-4.467-12.23-11.138z"/>
+	</g>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/arrow-down-grey.svg?46d67
+
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="16">
+	<path d="m15.5 6-5 5-5-5z" opacity=".33"/>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/skins/Timeless/resources/images/search-ltr.svg?402b1
+
+<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21">
+	<g opacity=".33" transform="rotate(-45 8.525 8.386)">
+		<path d="M8.438.938a7.5 7.5 0 0 0-7.5 7.5 7.5 7.5 0 0 0 7.5 7.5 7.5 7.5 0 0 0 7.5-7.5 7.5 7.5 0 0 0-7.5-7.5zm0 2.812a4.688 4.688 0 0 1 4.687 4.688 4.688 4.688 0 0 1-4.687 4.687A4.688 4.688 0 0 1 3.75 8.438 4.688 4.688 0 0 1 8.438 3.75z"/>
+		<rect width="2.813" height="9.265" x="7.031" y="13.125" ry="1.318"/>
+	</g>
+</svg>
+
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: text/css
+Content-Transfer-Encoding: binary
+Content-Location: https://wiki.mamedev.org/load.php?lang=en-gb&modules=skins.timeless&only=styles&skin=timeless
+
+@charset "utf-8";
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { animation-delay: -0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0ms !important; }
+}
+
+.mw-message-box { background-color: rgb(238, 238, 238); color: rgb(0, 0, 0); box-sizing: border-box; margin-bottom: 16px; border: 1px solid rgb(170, 170, 170); padding: 12px 24px; overflow-wrap: break-word; overflow: hidden; }
+
+.mw-message-box > :only-child { margin: 0px; }
+
+.mw-message-box h2 { color: inherit; display: block; border: 0px; font-size: 1em; font-weight: bold; }
+
+.mw-message-box .mw-logevent-loglines li { font-size: 90%; }
+
+.mw-message-box-error { background-color: rgb(254, 231, 230); border-color: rgb(221, 0, 51); }
+
+.mw-message-box-warning { background-color: rgb(254, 246, 231); border-color: rgb(237, 171, 0); }
+
+.mw-message-box-success { background-color: rgb(213, 253, 244); border-color: rgb(20, 134, 109); }
+
+.toctogglecheckbox:checked ~ ul { display: none; }
+
+figure[typeof~="mw:File"], figure[typeof~="mw:File/Frameless"] { margin: 0px; }
+
+.mw-body-content figure[typeof~="mw:File"] > a, .mw-body-content figure[typeof~="mw:File/Frameless"] > a { border: 0px; }
+
+figure[typeof~="mw:File"].mw-halign-right, figure[typeof~="mw:File/Frameless"].mw-halign-right { margin: 0px 0px 1.5em 2em; clear: right; float: right; }
+
+figure[typeof~="mw:File"].mw-halign-left, figure[typeof~="mw:File/Frameless"].mw-halign-left { margin: 0px 2em 1.5em 0px; clear: left; float: left; }
+
+figure[typeof~="mw:File"].mw-halign-none, figure[typeof~="mw:File/Frameless"].mw-halign-none { clear: none; float: none; }
+
+figure[typeof~="mw:File"].mw-halign-center, figure[typeof~="mw:File/Frameless"].mw-halign-center { margin: 0px auto; display: table; border-collapse: collapse; clear: none; float: none; }
+
+figure[typeof~="mw:File"] > figcaption, figure[typeof~="mw:File/Frameless"] > figcaption { display: none; }
+
+figure[typeof~="mw:File/Thumb"], figure[typeof~="mw:File/Frame"] { display: table; text-align: center; border-collapse: collapse; line-height: 0; margin: 0px 0px 1.5em 2em; clear: right; float: right; }
+
+.mw-body-content figure[typeof~="mw:File/Thumb"] > a, .mw-body-content figure[typeof~="mw:File/Frame"] > a { border: 0px; }
+
+.mw-content-ltr figure[typeof~="mw:File/Thumb"], .mw-content-ltr figure[typeof~="mw:File/Frame"] { margin: 0px 0px 1.5em 2em; clear: right; float: right; }
+
+.mw-content-rtl figure[typeof~="mw:File/Thumb"], .mw-content-rtl figure[typeof~="mw:File/Frame"] { margin: 0px 2em 1.5em 0px; clear: left; float: left; }
+
+figure[typeof~="mw:File/Thumb"].mw-halign-right, figure[typeof~="mw:File/Frame"].mw-halign-right { margin: 0px 0px 1.5em 2em; clear: right; float: right; }
+
+figure[typeof~="mw:File/Thumb"].mw-halign-left, figure[typeof~="mw:File/Frame"].mw-halign-left { margin: 0px 2em 1.5em 0px; clear: left; float: left; }
+
+figure[typeof~="mw:File/Thumb"].mw-halign-none, figure[typeof~="mw:File/Frame"].mw-halign-none { margin: 0px 0px 0.5em; clear: none; float: none; }
+
+figure[typeof~="mw:File/Thumb"].mw-halign-center, figure[typeof~="mw:File/Frame"].mw-halign-center { margin: 0px auto 0.5em; clear: none; float: none; }
+
+figure[typeof~="mw:File/Thumb"] > :not(figcaption), figure[typeof~="mw:File/Frame"] > :not(figcaption) { }
+
+figure[typeof~="mw:File/Thumb"] > :not(figcaption) .mw-file-element, figure[typeof~="mw:File/Frame"] > :not(figcaption) .mw-file-element { margin: 0.75em 0.75em 0.5em; }
+
+figure[typeof~="mw:File/Thumb"] > :not(figcaption) .mw-broken-media, figure[typeof~="mw:File/Frame"] > :not(figcaption) .mw-broken-media { display: inline-block; line-height: 1.5; word-break: break-word; width: 180px; }
+
+figure[typeof~="mw:File/Thumb"] > figcaption, figure[typeof~="mw:File/Frame"] > figcaption { display: table-caption; caption-side: bottom; line-height: 1.5em; min-height: 1em; word-break: break-word; text-align: left; padding: 0px 0.75em 0.75em; }
+
+.mw-content-ltr figure[typeof~="mw:File/Thumb"] > figcaption, .mw-content-ltr figure[typeof~="mw:File/Frame"] > figcaption { text-align: left; }
+
+.mw-content-rtl figure[typeof~="mw:File/Thumb"] > figcaption, .mw-content-rtl figure[typeof~="mw:File/Frame"] > figcaption { text-align: right; }
+
+figure[typeof~="mw:File/Frame"] > figcaption:empty { padding-bottom: 0.25em; min-height: 0px; }
+
+.mw-valign-middle .mw-file-element { vertical-align: middle; }
+
+.mw-valign-baseline .mw-file-element { vertical-align: baseline; }
+
+.mw-valign-sub .mw-file-element { vertical-align: sub; }
+
+.mw-valign-super .mw-file-element { vertical-align: super; }
+
+.mw-valign-top .mw-file-element { vertical-align: top; }
+
+.mw-valign-text-top .mw-file-element { vertical-align: text-top; }
+
+.mw-valign-bottom .mw-file-element { vertical-align: bottom; }
+
+.mw-valign-text-bottom .mw-file-element { vertical-align: text-bottom; }
+
+@media screen and (max-width: 550px) {
+  #p-logo-text { position: static; }
+  #p-logo-text a { padding-top: 0px; }
+  #p-logo-text a.long { padding-bottom: 0.2em; }
+}
+
+@media screen and (-ms-high-contrast:none), (-ms-high-contrast:active) {
+  textarea, #searchInput { box-shadow: none; }
+}
+
+.mw-wiki-logo { background-image: url("/skins/common/images/mame.png?7c220"); }
+
+@media print {
+  .mw-editsection, .mw-editsection-like, .mw-indicators, #siteNotice, .usermessage { display: none; }
+  .printfooter { padding: 1em 0px; }
+  .toctogglecheckbox:checked + .toctitle { display: none; }
+  .toc { background-color: rgb(249, 249, 249); border: 1pt solid rgb(170, 170, 170); padding: 5px; display: table; }
+  .tocnumber, .toctext { display: table-cell; }
+  .tocnumber { padding-left: 0px; padding-right: 0.5em; }
+  .mw-content-ltr .tocnumber { padding-left: 0px; padding-right: 0.5em; }
+  .mw-content-rtl .tocnumber { padding-left: 0.5em; padding-right: 0px; }
+  .noprint, .catlinks, .magnify, .mw-cite-backlink, .mw-editsection, .mw-editsection-like, .mw-hidden-catlinks, .mw-indicators, .mw-redirectedfrom, .patrollink, .usermessage, #siteNotice, #siteSub { display: none; }
+  body { background: rgb(255, 255, 255); color: rgb(0, 0, 0); margin: 0px; padding: 0px; }
+  a { background: none !important; padding: 0px !important; }
+  a, a.external, a.new, a.stub { color: inherit !important; text-decoration: inherit !important; }
+  dt { font-weight: bold; }
+  h1, h2, h3, h4, h5, h6 { font-weight: bold; margin: 2em 0px 0.5em; break-after: avoid; break-before: avoid; }
+  .firstHeading { margin-top: 0px; }
+  p { margin: 1em 0px; line-height: 1.2; orphans: 3; widows: 3; }
+  img, figure, .wikitable, .thumb { break-inside: avoid; }
+  img { border: 0px; vertical-align: middle; }
+  pre, .mw-code { background: rgb(249, 249, 249); color: rgb(0, 0, 0); border: 1pt dashed rgb(170, 170, 170); padding: 1em; font-size: 8pt; white-space: pre-wrap; overflow-wrap: break-word; }
+  sup, sub { line-height: 1; }
+  ul { list-style-type: disc; }
+  .toc { border: 1pt solid rgb(170, 170, 170); padding: 5px 5px 7px; display: table; background: rgb(249, 249, 249); }
+  .toc ul { list-style: none; }
+  .toc ul a { display: block; padding: 0.125em 0px !important; }
+  .toc > ul { margin: 0px; padding-left: 0px; }
+  .toc h2 { margin-top: 0px; }
+  .mw-content-ltr .tocnumber { padding-left: 0px; padding-right: 0.5em; }
+  .mw-content-rtl .tocnumber { padding-left: 0.5em; padding-right: 0px; }
+  table.floatright, div.floatright, div.tright { float: right; clear: right; position: relative; }
+  table.floatleft, div.floatleft, div.tleft { float: left; clear: left; position: relative; }
+  div.tleft { margin: 0.5em 1.4em 1.3em 0px; }
+  div.tright { margin: 0.5em 0px 1.3em 1.4em; }
+  table.floatright, div.floatright { margin: 0px 0px 0.5em 0.5em; border: 0px; }
+  table.floatleft, div.floatleft { margin: 0px 0.5em 0.5em 0px; border: 0px; }
+  .center { text-align: center; }
+  div.thumb { background-color: transparent; width: auto; border: 1pt solid rgb(170, 170, 170); }
+  div.thumb a { border-bottom: 0px; }
+  div.thumbinner { background: rgb(249, 249, 249); padding: 5px; font-size: 10pt; overflow: hidden; min-width: 100px; }
+  html .thumbcaption { text-align: left; line-height: 1.4; padding: 3px; }
+  img.thumbborder { border: 1pt solid rgb(170, 170, 170); }
+  .wikitable, .mw_metadata { background: rgb(255, 255, 255); margin: 1em 0px; border: 1pt solid rgb(170, 170, 170); border-collapse: collapse; font-size: 10pt; }
+  .wikitable > caption, .mw_metadata caption { padding: 5px; font-size: 10pt; }
+  .wikitable > tr > th, .wikitable > tr > td, .wikitable > * > tr > th, .wikitable > * > tr > td, .mw_metadata th, .mw_metadata td { border: 1pt solid rgb(170, 170, 170); padding: 0.4em 0.6em; background: rgb(255, 255, 255) !important; color: rgb(0, 0, 0) !important; }
+  .wikitable > tr > th, .wikitable > * > tr > th, .mw_metadata th { text-align: center; background: rgb(238, 238, 238) !important; }
+  table.listing, table.listing td { border: 1pt solid rgb(170, 170, 170); border-collapse: collapse; }
+  #mw-header, #mw-site-navigation, #mw-related-navigation, #mw-page-header-links, #mw-footer { display: none; }
+  #mw-content-text { margin-bottom: 3em; }
+  figure[typeof~="mw:File/Thumb"], figure[typeof~="mw:File/Frame"] { border-width: 1px 1px 0px; border-style: none; border-color: currentcolor; border-image: none; background-color: rgb(255, 255, 255); }
+  figure[typeof~="mw:File/Thumb"] > :not(figcaption) .mw-file-element, figure[typeof~="mw:File/Frame"] > :not(figcaption) .mw-file-element { border: 1px; }
+  figure[typeof~="mw:File/Thumb"] > figcaption, figure[typeof~="mw:File/Frame"] > figcaption { border-width: 0px 1px 1px; border-style: none; border-color: currentcolor; border-image: none; background-color: rgb(255, 255, 255); font-size: 10pt; color: rgb(102, 102, 102); }
+  .mw-image-border .mw-file-element { border: 1pt solid rgb(170, 170, 170); }
+}
+
+@media screen {
+  a.new { color: rgb(221, 0, 51); }
+  a.mw-selflink { color: inherit; font-weight: bold; text-decoration: inherit; }
+  a.mw-selflink:hover { cursor: inherit; text-decoration: inherit; }
+  a.mw-selflink:active, a.mw-selflink:visited { color: inherit; }
+  a.new:visited { color: rgb(165, 88, 88); }
+  .mw-parser-output a.extiw, .mw-parser-output a.external { color: rgb(51, 102, 187); }
+  .mw-parser-output a.extiw:visited, .mw-parser-output a.external:visited { color: rgb(102, 51, 102); }
+  .mw-parser-output a.extiw:active, .mw-parser-output a.external:active { color: rgb(187, 102, 51); }
+  .mw-underline-always a { text-decoration: underline; }
+  .mw-underline-never a { text-decoration: none; }
+  .plainlinks a.external { background: none !important; padding: 0px !important; }
+  .mw-parser-output a.external { color: rgb(51, 102, 187); }
+  .mw-parser-output a.external, .link-mailto, .link-ftp, .link-irc, .link-audio, .link-video, .link-document { background-image: url("/resources/src/mediawiki.skinning/images/external-ltr.svg?59558"); background-position: right center; background-repeat: no-repeat; padding-right: 13px; }
+  .mw-parser-output a.external[href^="mailto:"], .link-mailto { background-image: url("/resources/src/mediawiki.skinning/images/mail.svg?8a79c"); }
+  .mw-parser-output a.external[href^="ftp://"], .link-ftp { background-image: url("/resources/src/mediawiki.skinning/images/ftp-ltr.svg?c5643"); }
+  .mw-parser-output a.external[href^="irc://"], .mw-parser-output a.external[href^="ircs://"], .link-irc { background-image: url("/resources/src/mediawiki.skinning/images/chat-ltr.svg?e0649"); }
+  .mw-parser-output a.external[href$=".ogg"], .mw-parser-output a.external[href$=".OGG"], .mw-parser-output a.external[href$=".mid"], .mw-parser-output a.external[href$=".MID"], .mw-parser-output a.external[href$=".midi"], .mw-parser-output a.external[href$=".MIDI"], .mw-parser-output a.external[href$=".mp3"], .mw-parser-output a.external[href$=".MP3"], .mw-parser-output a.external[href$=".wav"], .mw-parser-output a.external[href$=".WAV"], .mw-parser-output a.external[href$=".wma"], .mw-parser-output a.external[href$=".WMA"], .link-audio { background-image: url("/resources/src/mediawiki.skinning/images/audio-ltr.svg?74d04"); }
+  .mw-parser-output a.external[href$=".ogm"], .mw-parser-output a.external[href$=".OGM"], .mw-parser-output a.external[href$=".avi"], .mw-parser-output a.external[href$=".AVI"], .mw-parser-output a.external[href$=".mpeg"], .mw-parser-output a.external[href$=".MPEG"], .mw-parser-output a.external[href$=".mpg"], .mw-parser-output a.external[href$=".MPG"], .link-video { background-image: url("/resources/src/mediawiki.skinning/images/video.svg?a3758"); }
+  .mw-parser-output a.external[href$=".pdf"], .mw-parser-output a.external[href$=".PDF"], .mw-parser-output a.external[href*=".pdf#"], .mw-parser-output a.external[href*=".PDF#"], .mw-parser-output a.external[href*=".pdf?"], .mw-parser-output a.external[href*=".PDF?"], .link-document { background-image: url("/resources/src/mediawiki.skinning/images/document-ltr.svg?0bf90"); }
+  .mw-parser-output a.extiw, .mw-parser-output a.extiw:active { color: rgb(51, 102, 187); }
+  .emptyPortlet { display: none; }
+  .printfooter, .client-nojs #t-print { display: none; }
+  @counter-style meetei { system: numeric; symbols: "꯰" "꯱" "꯲" "꯳" "꯴" "꯵" "꯶" "꯷" "꯸" "꯹"; suffix: ") "; }
+  @counter-style santali { system: numeric; symbols: "᱐" "᱑" "᱒" "᱓" "᱔" "᱕" "᱖" "᱗" "᱘" "᱙"; }
+  @counter-style myanmar_with_period { system: numeric; symbols: "၀" "၁" "၂" "၃" "၄" "၅" "၆" "၇" "၈" "၉"; suffix: "။ "; }
+  ol:lang(azb) li, ol:lang(bcc) li, ol:lang(bgn) li, ol:lang(bqi) li, ol:lang(fa) li, ol:lang(glk) li, ol:lang(kk-arab) li, ol:lang(lrc) li, ol:lang(luz) li, ol:lang(mzn) li { list-style-type: persian; }
+  ol:lang(ckb) li, ol:lang(sdh) li { list-style-type: arabic-indic; }
+  ol:lang(hi) li, ol:lang(mai) li, ol:lang(mr) li, ol:lang(ne) li { list-style-type: devanagari; }
+  ol:lang(as) li, ol:lang(bn) li { list-style-type: bengali; }
+  ol:lang(mni) li { list-style-type: meetei; }
+  ol:lang(or) li { list-style-type: oriya; }
+  ol:lang(sat) li { list-style-type: santali; }
+  ol:lang(blk) li, ol:lang(kjp) li, ol:lang(ksw) li, ol:lang(mnw) li, ol:lang(my) li, ol:lang(shn) li { list-style-type: myanmar_with_period; }
+  .mw-content-ltr ul, .mw-content-rtl .mw-content-ltr ul { margin: 0.3em 0px 0px 1.6em; padding: 0px; }
+  .mw-content-rtl ul, .mw-content-ltr .mw-content-rtl ul { margin: 0.3em 1.6em 0px 0px; padding: 0px; }
+  .mw-content-ltr ol, .mw-content-rtl .mw-content-ltr ol { margin: 0.3em 0px 0px 3.2em; padding: 0px; }
+  .mw-content-rtl ol, .mw-content-ltr .mw-content-rtl ol { margin: 0.3em 3.2em 0px 0px; padding: 0px; }
+  .mw-content-ltr dd, .mw-content-rtl .mw-content-ltr dd { margin-left: 1.6em; margin-right: 0px; }
+  .mw-content-rtl dd, .mw-content-ltr .mw-content-rtl dd { margin-right: 1.6em; margin-left: 0px; }
+  h1:lang(anp), h1:lang(as), h1:lang(bh), h1:lang(bho), h1:lang(blk), h1:lang(bn), h1:lang(gu), h1:lang(hi), h1:lang(kjp), h1:lang(kn), h1:lang(ks), h1:lang(ksw), h1:lang(mag), h1:lang(ml), h1:lang(mr), h1:lang(my), h1:lang(mai), h1:lang(mnw), h1:lang(new), h1:lang(or), h1:lang(pa), h1:lang(pi), h1:lang(rki), h1:lang(sa), h1:lang(shn), h1:lang(syl), h1:lang(ta), h1:lang(te) { line-height: 1.6em !important; }
+  h2:lang(anp), h2:lang(as), h2:lang(bh), h2:lang(bho), h2:lang(blk), h2:lang(bn), h2:lang(gu), h2:lang(hi), h2:lang(kjp), h2:lang(kn), h2:lang(ks), h2:lang(ksw), h2:lang(mag), h2:lang(ml), h2:lang(mr), h2:lang(my), h2:lang(mai), h2:lang(mnw), h2:lang(new), h2:lang(or), h2:lang(pa), h2:lang(pi), h2:lang(rki), h2:lang(sa), h2:lang(shn), h2:lang(syl), h2:lang(ta), h2:lang(te), h3:lang(anp), h3:lang(as), h3:lang(bh), h3:lang(bho), h3:lang(blk), h3:lang(bn), h3:lang(gu), h3:lang(hi), h3:lang(kjp), h3:lang(kn), h3:lang(ks), h3:lang(ksw), h3:lang(mag), h3:lang(ml), h3:lang(mr), h3:lang(my), h3:lang(mai), h3:lang(mnw), h3:lang(new), h3:lang(or), h3:lang(pa), h3:lang(pi), h3:lang(rki), h3:lang(sa), h3:lang(shn), h3:lang(syl), h3:lang(ta), h3:lang(te), h4:lang(anp), h4:lang(as), h4:lang(bh), h4:lang(bho), h4:lang(blk), h4:lang(bn), h4:lang(gu), h4:lang(hi), h4:lang(kjp), h4:lang(kn), h4:lang(ks), h4:lang(ksw), h4:lang(mag), h4:lang(ml), h4:lang(mr), h4:lang(my), h4:lang(mai), h4:lang(mnw), h4:lang(new), h4:lang(or), h4:lang(pa), h4:lang(pi), h4:lang(rki), h4:lang(sa), h4:lang(shn), h4:lang(syl), h4:lang(ta), h4:lang(te), h5:lang(anp), h5:lang(as), h5:lang(bh), h5:lang(bho), h5:lang(blk), h5:lang(bn), h5:lang(gu), h5:lang(hi), h5:lang(kjp), h5:lang(kn), h5:lang(ks), h5:lang(ksw), h5:lang(mag), h5:lang(ml), h5:lang(mr), h5:lang(my), h5:lang(mai), h5:lang(mnw), h5:lang(new), h5:lang(or), h5:lang(pa), h5:lang(pi), h5:lang(rki), h5:lang(sa), h5:lang(shn), h5:lang(syl), h5:lang(ta), h5:lang(te), h6:lang(anp), h6:lang(as), h6:lang(bh), h6:lang(bho), h6:lang(blk), h6:lang(bn), h6:lang(gu), h6:lang(hi), h6:lang(kjp), h6:lang(kn), h6:lang(ks), h6:lang(ksw), h6:lang(mag), h6:lang(ml), h6:lang(mr), h6:lang(my), h6:lang(mai), h6:lang(mnw), h6:lang(new), h6:lang(or), h6:lang(pa), h6:lang(pi), h6:lang(rki), h6:lang(sa), h6:lang(shn), h6:lang(syl), h6:lang(ta), h6:lang(te) { line-height: 1.4em; }
+  h1:lang(ne) { line-height: 1.9; }
+  h2:lang(th), h2:lang(ne) { line-height: 1.6; }
+  .toc, .toccolours { background-color: rgb(248, 249, 250); border: 1px solid rgb(170, 170, 170); padding: 5px; font-size: 95%; }
+  .toc { display: table; padding: 7px; }
+  .toc h2 { display: inline; border: 0px; padding: 0px; font-size: 100%; font-weight: bold; }
+  .toc .toctitle { text-align: center; }
+  .toc ul { list-style: none; margin: 0.3em 0px; padding: 0px; text-align: left; }
+  .toc ul ul { margin: 0px 0px 0px 2em; }
+  table.toc { border-collapse: collapse; }
+  table.toc td { padding: 0px; }
+  .tocnumber, .toctext { display: table-cell; text-decoration: inherit; }
+  .tocnumber { color: rgb(34, 34, 34); padding-left: 0px; padding-right: 0.5em; }
+  .mw-content-ltr .tocnumber { padding-left: 0px; padding-right: 0.5em; }
+  .mw-content-rtl .tocnumber { padding-left: 0.5em; padding-right: 0px; }
+  .toctogglecheckbox { position: absolute; opacity: 0; z-index: -1; display: inline !important; }
+  .toctogglespan { font-size: 94%; }
+  .toctogglespan::before { content: " ["; }
+  .toctogglespan::after { content: "]"; }
+  .toctogglelabel { color: rgb(6, 69, 173); cursor: pointer; }
+  .toctogglelabel:hover { text-decoration: underline; }
+  .toctogglecheckbox:focus + .toctitle .toctogglelabel { text-decoration: underline; outline: auto; }
+  .toctogglecheckbox:checked + .toctitle .toctogglelabel::after { content: "show"; }
+  .toctogglecheckbox:not(:checked) + .toctitle .toctogglelabel::after { content: "hide"; }
+  .toc .toctitle { direction: ltr; }
+  .mw-content-ltr .toc ul, .mw-content-rtl .mw-content-ltr .toc ul { text-align: left; }
+  .mw-content-rtl .toc ul, .mw-content-ltr .mw-content-rtl .toc ul { text-align: right; }
+  .mw-content-ltr .toc ul ul, .mw-content-rtl .mw-content-ltr .toc ul ul { margin: 0px 0px 0px 2em; }
+  .mw-content-rtl .toc ul ul, .mw-content-ltr .mw-content-rtl .toc ul ul { margin: 0px 2em 0px 0px; }
+  html { text-size-adjust: 100%; }
+  body { margin: 0px; }
+  article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
+  audio, canvas, progress, video { display: inline-block; vertical-align: baseline; }
+  audio:not([controls]) { display: none; height: 0px; }
+  [hidden], template { display: none; }
+  a { background: transparent; }
+  abbr[title] { border-bottom: 1px dotted; }
+  @supports (text-decoration:underline dotted) {
+  abbr[title] { border-bottom-width: medium; border-bottom-style: none; border-bottom-color: currentcolor; text-decoration: underline dotted; }
+}
+  b, strong { font-weight: bold; }
+  dfn { font-style: italic; }
+  h1 { font-size: 2em; margin: 0.67em 0px; }
+  mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+  small { font-size: 80%; }
+  sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+  sup { top: -0.5em; }
+  sub { bottom: -0.25em; }
+  img { border: 0px; vertical-align: middle; }
+  svg:not(:root) { overflow: hidden; }
+  figure { margin: 1em 40px; }
+  hr { box-sizing: content-box; height: 0px; }
+  code, tt, kbd, pre, samp { font-family: monospace, monospace; font-size: 1em; }
+  button, input, optgroup, select, textarea { font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: inherit; line-height: inherit; margin: 0px; }
+  button { overflow: visible; }
+  button, select { text-transform: none; }
+  button, html input[type="button"], input[type="reset"], input[type="submit"] { appearance: button; cursor: pointer; }
+  button[disabled], html input[disabled] { cursor: default; }
+  input { line-height: normal; }
+  input[type="checkbox"], input[type="radio"] { box-sizing: border-box; padding: 0px; }
+  input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { height: auto; }
+  input[type="search"] { appearance: textfield; box-sizing: content-box; }
+  input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration { appearance: none; }
+  fieldset { border: 1px solid rgb(192, 192, 192); margin: 0px 2px; padding: 0.35em 0.625em 0.75em; }
+  legend { border: 0px; padding: 0px; }
+  textarea { overflow: auto; }
+  optgroup { font-weight: bold; }
+  .mw-content-ltr { direction: ltr; }
+  .mw-content-rtl { direction: rtl; }
+  .sitedir-ltr textarea, .sitedir-ltr input { direction: ltr; }
+  .sitedir-rtl textarea, .sitedir-rtl input { direction: rtl; }
+  .mw-userlink { unicode-bidi: embed; }
+  mark { background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+  wbr { display: inline-block; }
+  input[type="submit"], input[type="button"], input[type="reset"], input[type="file"] { direction: ltr; }
+  textarea[dir="ltr"], input[dir="ltr"] { direction: ltr; }
+  textarea[dir="rtl"], input[dir="rtl"] { direction: rtl; }
+  abbr[title], .explain[title] { border-bottom: 1px dotted; cursor: help; }
+  @supports (text-decoration:underline dotted) {
+  abbr[title], .explain[title] { border-bottom: 0px; text-decoration: underline dotted; }
+}
+  span.comment { font-style: italic; unicode-bidi: isolate; }
+  #editform, #toolbar, #wpTextbox1 { clear: both; }
+  #toolbar { height: 22px; }
+  .mw-underline-always a { text-decoration: underline; }
+  .mw-underline-never a { text-decoration: none; }
+  li span.deleted, span.history-deleted { text-decoration: line-through; color: rgb(114, 119, 125); font-style: italic; }
+  .not-patrolled { background-color: rgb(255, 255, 170); }
+  .unpatrolled { font-weight: bold; color: rgb(221, 51, 51); }
+  div.patrollink { font-size: 75%; text-align: right; }
+  td.mw-label { text-align: right; vertical-align: middle; }
+  td.mw-input { text-align: left; }
+  td.mw-submit { text-align: left; white-space: nowrap; }
+  .mw-input-with-label { white-space: nowrap; display: inline-block; }
+  .mw-content-ltr .thumbcaption { text-align: left; }
+  .mw-content-ltr .magnify { float: right; }
+  .mw-content-rtl .thumbcaption { text-align: right; }
+  .mw-content-rtl .magnify { float: left; }
+  #catlinks { text-align: left; }
+  .catlinks ul { display: inline; margin: 0px; padding: 0px; list-style: none; }
+  .catlinks li { display: inline-block; line-height: 1.25em; border-left: 1px solid rgb(162, 169, 177); margin: 0.125em 0px; padding: 0px 0.5em; zoom: 1; }
+  .catlinks li:first-child { padding-left: 0.25em; border-left: 0px; }
+  .catlinks li a.mw-redirect { font-style: italic; }
+  .mw-hidden-cats-hidden { display: none; }
+  .catlinks-allhidden { display: none; }
+  p.mw-protect-editreasons, p.mw-delete-editreasons { font-size: 90%; text-align: right; }
+  .autocomment, .autocomment a, .autocomment a:visited { color: rgb(114, 119, 125); }
+  .newpage, .minoredit, .botedit { font-weight: bold; }
+  div.mw-warning-with-logexcerpt { padding: 3px; margin-bottom: 3px; border: 2px solid rgb(42, 75, 141); clear: both; }
+  div.mw-warning-with-logexcerpt ul li { font-size: 90%; }
+  span.mw-revdelundel-link, strong.mw-revdelundel-link { font-size: 90%; }
+  span.mw-revdelundel-hidden, input.mw-revdelundel-hidden { visibility: hidden; }
+  td.mw-revdel-checkbox, th.mw-revdel-checkbox { padding-right: 10px; text-align: center; }
+  a.new { color: rgb(186, 0, 0); }
+  .plainlinks a.external { background: none !important; padding: 0px !important; }
+  .rtl a.external.free, .rtl a.external.autonumber { direction: ltr; unicode-bidi: embed; }
+  .wikitable { background-color: rgb(248, 249, 250); color: rgb(34, 34, 34); margin: 1em 0px; border: 1px solid rgb(162, 169, 177); border-collapse: collapse; }
+  .wikitable > tr > th, .wikitable > tr > td, .wikitable > * > tr > th, .wikitable > * > tr > td { border: 1px solid rgb(162, 169, 177); padding: 0.2em 0.4em; }
+  .wikitable > tr > th, .wikitable > * > tr > th { background-color: rgb(234, 236, 240); text-align: center; }
+  .wikitable > caption { font-weight: bold; }
+  .error, .warning, .success { font-size: larger; }
+  .error { color: rgb(221, 51, 51); }
+  .warning { color: rgb(172, 102, 0); }
+  .success { color: rgb(20, 134, 109); }
+  .mw-infobox { border: 2px solid rgb(255, 204, 51); margin: 0.5em; clear: left; overflow: hidden; }
+  .mw-infobox-left { margin: 7px; float: left; width: 35px; }
+  .mw-infobox-right { margin: 0.5em 0.5em 0.5em 49px; }
+  .previewnote { margin-bottom: 1em; }
+  .visualClear { clear: both; }
+  .mw-datatable { border: 1px solid rgb(162, 169, 177); border-collapse: collapse; }
+  .mw-datatable td, .mw-datatable th { border: 1px solid rgb(162, 169, 177); padding: 0.2em 0.4em; }
+  .mw-datatable th { background-color: rgb(234, 238, 255); }
+  .mw-datatable td { background-color: rgb(255, 255, 255); }
+  .mw-datatable tr:hover td { background-color: rgb(234, 243, 255); }
+  div.tright, div.floatright, table.floatright { clear: right; float: right; }
+  div.tleft, div.floatleft, table.floatleft { float: left; clear: left; }
+  div.floatright, table.floatright, div.floatleft, table.floatleft { position: relative; }
+  #mw-credits a { unicode-bidi: embed; }
+  .printfooter { display: none; }
+  .xdebug-error { position: absolute; z-index: 99; }
+  .mw-editsection { user-select: none; }
+  .mw-editsection, .mw-editsection-like { font-size: small; font-weight: normal; margin-left: 1em; vertical-align: baseline; line-height: 1em; }
+  .mw-content-ltr .mw-editsection, .mw-content-rtl .mw-content-ltr .mw-editsection { margin-left: 1em; }
+  .mw-content-rtl .mw-editsection, .mw-content-ltr .mw-content-rtl .mw-editsection { margin-right: 1em; }
+  sup, sub { line-height: 1; }
+  input { font-family: "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", Lato, "Liberation Sans", "Noto Sans", "Helvetica Neue", Helvetica, sans-serif; }
+  form input:not(.mw-widgets-datetime-dateTimeInputWidget-editField):not(.mw-history-compareselectedversions-button) { margin: 0.5em 0px; padding: 0.35em; }
+  form .oo-ui-tagMultiselectWidget-handle input { margin: unset; padding: unset; }
+  form .oo-ui-checkboxInputWidget input:not(.mw-widgets-datetime-dateTimeInputWidget-editField):not(.mw-history-compareselectedversions-button) { margin: unset; }
+  .oo-ui-buttonElement-framed.oo-ui-labelElement > .oo-ui-buttonElement-button, .oo-ui-textInputWidget .oo-ui-inputWidget-input, .oo-ui-dropdownWidget-handle, button, textarea, select { padding: 0.35em; box-sizing: border-box; height: unset; }
+  .oo-ui-buttonElement-framed.oo-ui-labelElement > .oo-ui-buttonElement-button, button { padding: 0.35em 1em; }
+  .mw-input-with-label { display: block; }
+  .mw-widget-dateInputWidget { margin: 0px 0px 0.2em; }
+  input[type="radio"], input[type="checkbox"] { margin: 0.35em 0.2em 0.25em 0.35em; box-sizing: border-box; }
+  textarea, #searchInput { box-sizing: border-box; box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 1px 1px inset; }
+  textarea { width: 100%; resize: vertical; box-sizing: border-box; line-height: 1.3em; }
+  div.editOptions { padding: 1.25em 1.75em; border-style: solid; border-color: rgb(200, 204, 209); border-image: none; border-width: 0px 1px 0.2em; background: rgb(234, 236, 240); }
+  div.editOptions fieldset { margin-top: 1em; }
+  form:not(.oo-ui-layout) textarea, form:not(.oo-ui-layout) input { border: 1px solid rgb(200, 204, 209); border-radius: 2px; }
+  form:not(.oo-ui-layout) input[type="file"] { border: unset; border-radius: unset; }
+  form:not(.oo-ui-layout) button, form:not(.oo-ui-layout) input[type="submit"] { border-radius: 2px; padding: 0.35em 1em; background-color: rgb(51, 102, 204); font-weight: bold; color: rgb(255, 255, 255); border: 1px solid rgb(51, 102, 204); }
+  form:not(.oo-ui-layout) button:not(:disabled):hover, form:not(.oo-ui-layout) input[type="submit"]:not(:disabled):hover, form:not(.oo-ui-layout) button:not(:disabled):active, form:not(.oo-ui-layout) input[type="submit"]:not(:disabled):active { background-color: rgb(68, 119, 255); }
+  form:not(.oo-ui-layout) fieldset { border: 0px; margin: 1.5em 0px 0px; padding: 0px; }
+  form:not(.oo-ui-layout) fieldset legend { font-weight: bold; font-size: 110%; }
+  .mw-editfont-monospace, .mw-editfont-sans-serif, .mw-editfont-serif { font-size: inherit; }
+  body .mw-editfont-monospace { font-family: Menlo, Consolas, Monaco, "Noto Mono", "Nimbus Mono L", monospace; }
+  body .mw-editfont-sans-serif { font-family: "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", Lato, "Liberation Sans", "Noto Sans", "Helvetica Neue", Helvetica, sans-serif; }
+  body .mw-editfont-serif { font-family: "Linux Libertine", "Times New Roman", "Liberation Serif", "Nimbus Roman", "Noto Serif", Times, serif; }
+  .mw-templatesandbox-page label { padding: 0px; }
+  #wpTemplateSandboxPreview { margin-left: 0.5em; }
+  .mw-special-Watchlist .mw-input-with-label { display: inline-block; }
+  figure[typeof~="mw:File/Thumb"], figure[typeof~="mw:File/Frame"] { border-style: solid solid none; border-color: rgb(234, 236, 240) rgb(234, 236, 240) currentcolor; border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; background-color: rgb(248, 249, 250); }
+  figure[typeof~="mw:File/Thumb"] > :not(figcaption) .mw-file-element, figure[typeof~="mw:File/Frame"] > :not(figcaption) .mw-file-element { border: 1px solid rgb(234, 236, 240); }
+  figure[typeof~="mw:File/Thumb"] > figcaption, figure[typeof~="mw:File/Frame"] > figcaption { border-style: none solid solid; border-color: currentcolor rgb(234, 236, 240) rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; background-color: rgb(248, 249, 250); font-size: 95%; }
+  .mw-image-border .mw-file-element { border: 1px solid rgb(234, 236, 240); }
+  figure[typeof~="mw:File/Thumb"] > figcaption::before { content: ""; width: 20px; height: 20px; margin: 0px 0px 0.5em 0.5em; float: right; }
+  .mw-content-ltr figure[typeof~="mw:File/Thumb"] > figcaption::before { margin: 0px 0px 0.5em 0.5em; float: right; }
+  .mw-content-rtl figure[typeof~="mw:File/Thumb"] > figcaption::before { margin: 0px 0.5em 0.5em 0px; float: left; }
+  figure[typeof~="mw:File/Thumb"] > .mw-file-description, figure[typeof~="mw:File/Thumb"] > .mw-file-magnify { display: block; position: relative; }
+  figure[typeof~="mw:File/Thumb"] > .mw-file-description::after, figure[typeof~="mw:File/Thumb"] > .mw-file-magnify::after { content: ""; width: 20px; height: 20px; position: absolute; bottom: -20px; right: 0.75em; background-image: url("/skins/Timeless/resources/images/magnify-ltr.svg?d8c9d"); }
+  .mw-content-ltr figure[typeof~="mw:File/Thumb"] > .mw-file-description::after, .mw-content-ltr figure[typeof~="mw:File/Thumb"] > .mw-file-magnify::after { right: 0.75em; left: auto; background-image: url("/skins/Timeless/resources/images/magnify-ltr.svg?d8c9d"); }
+  .mw-content-rtl figure[typeof~="mw:File/Thumb"] > .mw-file-description::after, .mw-content-rtl figure[typeof~="mw:File/Thumb"] > .mw-file-magnify::after { right: auto; left: 0.75em; background-image: url("/skins/Timeless/resources/images/magnify-rtl.svg?a48ff"); }
+  html, body { margin: 0px; padding: 0px; }
+  body { font-family: "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", Lato, "Liberation Sans", "Noto Sans", "Helvetica Neue", Helvetica, sans-serif; color: rgb(0, 0, 0); background: rgb(114, 119, 125); font-size: 0.95em; line-height: 1.5; }
+  #mw-content { border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; background: rgb(255, 255, 255); padding: 1em 2em 3em; }
+  #bodyContentOuter { position: relative; z-index: 0; }
+  .mw-body { overflow-wrap: break-word; }
+  .mw-footer-container { border-top: 1px solid rgb(84, 89, 93); box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 2px -4px inset; color: rgb(255, 255, 255); }
+  .mw-footer-container a { color: rgb(219, 234, 255); }
+  .mw-footer-container a:hover { color: rgb(203, 226, 255); }
+  .mw-footer-container a:visited { color: rgb(193, 220, 255); }
+  .mw-footer-container a:visited:hover { color: rgb(173, 208, 255); }
+  .mw-footer-container ul { margin: 0px; }
+  #p-logo { text-align: center; margin: auto; }
+  #p-logo-text { max-width: 14em; text-align: center; line-height: 1; }
+  #p-logo-text a { padding: 0.1em 1em 0.2em; color: rgb(0, 0, 0); font-family: "Linux Libertine", "Times New Roman", "Liberation Serif", "Nimbus Roman", "Noto Serif", Times, serif; font-variant: small-caps; font-size: 1.85em; display: block; }
+  #p-logo-text a.long { font-size: 1.5em; padding: 0px 0.75em 0px 0px; line-height: 0.8; }
+  #p-logo-text a.wordmark { padding: 0px 0.5em 0px 0px; }
+  #simpleSearch { box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 4px 0px inset; background: rgb(255, 255, 255); position: relative; border: 1px solid rgb(200, 204, 209); }
+  #searchInput { border: 0px; margin: 0px; height: 2.1em; padding: 0.4em 4.5em 0.2em 2em; box-shadow: none; background: transparent; width: 100%; min-height: 0px; font-family: inherit; }
+  #searchButton, #mw-searchButton { position: absolute; top: 0px; margin: 0px; padding: 0px; right: 1.5em; width: 2.5em; height: 2.5em; text-indent: -99999px; border: 0px; background-color: transparent; background-repeat: no-repeat; background-image: url("/skins/Timeless/resources/images/search-ltr.svg?402b1"); background-position: center 40%; box-shadow: none; }
+  .suggestions { background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 2px 1px; }
+  .suggestions .suggestions-special { background-color: rgb(255, 255, 255); border-width: 1px 1px 0.2em; border-style: solid; border-color: rgb(200, 204, 209); border-image: none; padding: 0.75em 2em; }
+  .suggestions .suggestions-results { background-color: rgb(255, 255, 255); border-width: 1px 1px 0.2em; border-style: solid; border-color: rgb(200, 204, 209); border-image: none; }
+  .suggestions .suggestions-result { color: rgb(0, 0, 0); padding: 0.65em 2em 0.35em; }
+  .suggestions .suggestions-result-current { background-color: rgb(51, 102, 204); color: rgb(255, 255, 255); }
+  .dropdown-toggle { cursor: pointer; margin-bottom: -0.45em; padding-bottom: 0.45em; }
+  .dropdown-toggle::after { display: inline-block; content: ""; width: 22px; height: 12px; background-image: url("/skins/Timeless/resources/images/arrow-down-grey.svg?46d67"); background-position: center center; background-repeat: no-repeat; }
+  .mw-footer { padding-top: 0.5em; padding-bottom: 1em; }
+  .mw-footer ul, .mw-footer li { margin: 1em 0px; list-style: none; padding: 0px; }
+  .mw-footer .footer-icons { float: right; margin: 0px 0px 0px 1em; }
+  .mw-footer #footer-places li { display: inline-block; margin: 0px 1em 0px 0px; }
+  .mw-footer #lastmod, .mw-footer #credits, .mw-footer #copyright { display: block; }
+  #mw-content-container { background: url("/skins/Timeless/resources/images/cat.svg?31aa0") center 10em no-repeat rgb(234, 236, 240); border-bottom: 4px solid rgb(0, 175, 137); }
+  .tools-inline div, .tools-inline div, .tools-inline ul, .tools-inline ul, .tools-inline li, .tools-inline li { list-style: none; display: inline-block; margin: 0px; padding: 0px; }
+  .tools-inline li { margin: 0.25em 0px 1em; border-bottom: 3px solid transparent; }
+  .tools-inline li:hover { border-bottom-color: rgb(200, 204, 209); }
+  .tools-inline li.selected { border-bottom-color: rgb(51, 102, 204); }
+  .tools-inline li.selected a { color: rgb(0, 0, 0); }
+  .tools-inline li a { background-image: url("/skins/Timeless/resources/images/page-misc-grey.svg?806ed"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; padding: 0px 2px 0px 20px; }
+  .tools-inline li a:hover { text-decoration: none; }
+  #p-namespaces { float: left; }
+  #p-namespaces li { margin-right: 1em; }
+  #p-views, #p-more { float: right; }
+  #p-views li, #p-more li { margin-left: 1em; }
+  #ca-watch a { background-image: url("/skins/Timeless/resources/images/star.svg?2328e"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; text-indent: -99999px; width: 20px; overflow: hidden; box-sizing: border-box; padding: 0px; }
+  #ca-unwatch a { background-image: url("/skins/Timeless/resources/images/star-filled.svg?6b78d"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; text-indent: -99999px; width: 20px; overflow: hidden; box-sizing: border-box; padding: 0px; }
+  #ca-unwatch.mw-watchlink-temp a { background-image: url("/skins/Timeless/resources/images/star-half-filled.svg?31733"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; text-indent: -99999px; width: 20px; overflow: hidden; box-sizing: border-box; padding: 0px; }
+  #ca-edit a { background-image: url("/skins/Timeless/resources/images/pencil-grey.svg?530f0"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; padding: 0px 2px 0px 20px; }
+  #ca-history a { background-image: url("/skins/Timeless/resources/images/clock-grey.svg?48197"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; padding: 0px 2px 0px 20px; }
+  #ca-talk a { background-image: url("/skins/Timeless/resources/images/talk-grey.svg?b4d04"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; padding: 0px 2px 0px 20px; }
+  #t-contributions a { background-image: url("/skins/Timeless/resources/images/puzzle-grey.svg?ff4a6"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; padding: 0px 2px 0px 20px; }
+  #ca-addsection a { background-image: url("/skins/Timeless/resources/images/plus-grey.svg?f5373"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; padding: 0px 2px 0px 20px; }
+  #ca-viewsource a { background-image: url("/skins/Timeless/resources/images/brackets-grey.svg?c043f"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; padding: 0px 2px 0px 20px; }
+  #ca-view a, #ca-view-foreign a { background-image: url("/skins/Timeless/resources/images/eyeball-grey.svg?f17bd"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; padding: 0px 2px 0px 20px; }
+  #ca-view { position: absolute; top: -9999px; left: 0px; }
+  .tools-inline li[id^="ca-nstab-"] a { background-image: url("/skins/Timeless/resources/images/page-grey.svg?a26bc"); border: 0px; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; margin-bottom: -0.35em; padding: 0px 2px 0px 20px; }
+  #siteNotice { font-size: 95%; margin: 0.5em auto 1.5em; }
+  #localNotice { background: rgb(248, 249, 250); border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; padding: 0px; text-align: center; }
+  #localNotice p { margin-left: 1em; margin-right: 1em; }
+  a { text-decoration: none; color: rgb(51, 102, 204); }
+  a:hover { color: rgb(41, 82, 163); text-decoration: underline; }
+  a:visited { color: rgb(42, 75, 141); }
+  a:visited:hover { color: rgb(30, 54, 102); }
+  a.new, .new a { color: rgb(221, 51, 51); }
+  a.new:hover, .new a:hover { color: rgb(189, 32, 32); }
+  a.new:visited, .new a:visited { color: rgb(179, 36, 36); }
+  a.new:visited:hover, .new a:visited:hover { color: rgb(137, 27, 27); }
+  .mw-parser-output a.extiw, .mw-parser-output a.extiw:active, .mw-parser-output a.external { color: rgb(51, 119, 170); }
+  .mw-parser-output a.extiw:hover, .mw-parser-output a.extiw:active:hover, .mw-parser-output a.external:hover { color: rgb(39, 92, 131); }
+  .mw-parser-output a.extiw:visited, .mw-parser-output a.extiw:active:visited, .mw-parser-output a.external:visited { color: rgb(39, 92, 131); }
+  .mw-parser-output a.extiw:visited:hover, .mw-parser-output a.extiw:active:visited:hover, .mw-parser-output a.external:visited:hover { color: rgb(27, 64, 92); }
+  a.mw-selflink { color: inherit; font-weight: bold; text-decoration: inherit; }
+  .mw-editsection { font-family: "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", Lato, "Liberation Sans", "Noto Sans", "Helvetica Neue", Helvetica, sans-serif; background-image: url("/skins/Timeless/resources/images/pencil-grey.svg?530f0"); background-repeat: no-repeat; background-position: left bottom; padding-left: 20px; padding-top: 0.5em; }
+  .mw-editsection a { display: inline-block; padding: 0.5em 0px 0.25em; margin-right: 1em; }
+  .mw-editsection a:first-of-type { padding-left: 20px; margin-left: -20px; }
+  .mw-editsection-bracket { display: none; }
+  .mw-indicators { float: right; margin-left: 1em; }
+  .mw-indicators img { margin-top: -0.5em; }
+  .mw-indicator { display: inline-block; margin: 0.65em 0px 0px 0.25em; }
+  div.magnify a { display: block; text-indent: 20px; white-space: nowrap; overflow: hidden; width: 20px; height: 20px; margin: 0px 0px 0.5em 0.5em; background-image: url("/skins/Timeless/resources/images/magnify-ltr.svg?d8c9d"); }
+  #contentSub { font-size: 84%; color: rgb(84, 89, 93); }
+  #contentSub .subpages { display: block; }
+  .usermessage { background-color: rgb(255, 206, 123); border: 1px solid rgb(255, 165, 0); color: rgb(0, 0, 0); font-weight: bold; margin: 2em 0px 1em; padding: 0.5em 1em; vertical-align: middle; }
+  .screenplay, code, tt, kbd, pre, samp, .skin-timeless .monospace { font-family: Menlo, Consolas, Monaco, "Noto Mono", "Nimbus Mono L", monospace; }
+  .skin-timeless .serif { font-family: "Linux Libertine", "Times New Roman", "Liberation Serif", "Nimbus Roman", "Noto Serif", Times, serif; }
+  .skin-timeless .sans-serif { font-family: "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", Lato, "Liberation Sans", "Noto Sans", "Helvetica Neue", Helvetica, sans-serif; }
+  code, pre, .mw-code { color: rgb(0, 0, 0); background-color: rgb(248, 249, 250); border: 1px solid rgb(200, 204, 209); }
+  code { padding: 1px 4px; }
+  pre, .mw-code { padding: 1em; white-space: pre-wrap; }
+  .mw-body h1, .mw-body h2, .mw-body h3, .mw-body h4, .mw-body h5, .mw-body h6, .mw-body dt { font-weight: normal; font-family: "Linux Libertine", "Times New Roman", "Liberation Serif", "Nimbus Roman", "Noto Serif", Times, serif; line-height: 1.125; margin: 1.25em 0px 0.5em; }
+  .mw-body dt { font-weight: bold; font-family: "Linux Libertine", "Times New Roman", "Liberation Serif", "Nimbus Roman", "Noto Serif", Times, serif; line-height: 1.125; margin: 1.5em 0px 0.1em; }
+  .mw-body dl { margin-top: 0.2em; margin-bottom: 0.5em; }
+  .mw-body form dt { margin: 0px 0.5em 0px 0px; }
+  .mw-body h1.firstHeading { margin: 0.25em 0px 0.5em; border-bottom: 4px solid rgb(51, 102, 204); display: block; }
+  .mw-body h1 { font-size: 2em; border-bottom: 3px solid rgb(200, 204, 209); }
+  .mw-body h2 { font-size: 1.8em; border-bottom: 2px solid rgb(200, 204, 209); }
+  .mw-body h1, .mw-body h2 { display: flow-root; }
+  .mw-body h3 { font-size: 1.6em; }
+  .mw-body h4 { font-size: 1.4em; }
+  .mw-body h5 { font-size: 1.25em; }
+  .mw-body h6 { font-size: 1.2em; }
+  .mw-body dt { margin-top: 1em; }
+  .mw-body dd { margin-bottom: 1em; }
+  .mw-body .mw-changeslist-legend dt { margin: 0px 0.5em 0px 0px; }
+  .mw-body .mw-changeslist-legend dd { margin-bottom: 0px; }
+  .mw-body-content a > img, .mw-body-content .floatnone > img { height: auto !important; max-width: 100% !important; }
+  .mw-body-content table a > img, .mw-body-content table .floatnone > img { height: unset !important; max-width: unset !important; }
+  #siteSub { margin: -0.5em 0px 0.5em; font-style: italic; font-family: "Linux Libertine", "Times New Roman", "Liberation Serif", "Nimbus Roman", "Noto Serif", Times, serif; display: none; }
+  hr { border-width: 1px; border-color: rgb(200, 204, 209); border-style: solid none; margin: 0.5em 0px; }
+  pre { overflow: auto; white-space: pre-wrap; }
+  p { margin: 1em 0px; }
+  ul { padding: 0px; margin: 0.3em 0px 0px 1.6em; }
+  .mw-hide-empty-elt .mw-parser-output:not(.mw-show-empty-elt) .mw-empty-elt { display: none; }
+  .center { margin-right: auto; margin-left: auto; text-align: center; }
+  .floatright, .tright { margin: 0px 0px 0.5em 0.5em; padding: 0px 0px 1em 1.5em; }
+  .floatleft, .tleft { margin: 0px 0.5em 0.5em 0px; padding: 0px 1.5em 1em 0px; }
+  .thumbinner { background: rgb(248, 249, 250); border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; padding: 0.75em; margin-left: auto; margin-right: auto; overflow: hidden; }
+  .thumbcaption { font-size: 95%; padding: 0.5em 0px 0px; min-height: 1em; }
+  .thumbcaption:empty { padding: 0px; min-height: 0px; }
+  .thumbinner .thumbimage, .thumbborder { border: 1px solid rgb(234, 236, 240); }
+  .mw-body li.gallerybox div.thumb { background: rgb(248, 249, 250); border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; padding: 0px; }
+  ul#filetoc, .toc, .toccolours, .mw-warning { display: table; background: rgb(248, 249, 250); border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; padding: 1.25em 1.75em; margin-top: 1em; margin-bottom: 1em; min-width: 15em; font-size: 100%; }
+  .toc { line-height: 1.2; }
+  .toc ul { margin: 1em 0px 0px; list-style: none; text-align: left; }
+  .toc li { margin: 0.3em 0px; }
+  .toc li:last-child { margin-bottom: 0.5em; }
+  ul#filetoc { display: block; margin-bottom: 2em; }
+  .mw-body .toctitle { border-bottom: 2px solid rgb(200, 204, 209); text-align: unset; }
+  .mw-body .toctitle h2 { border-bottom: 0px; font-size: 1em; font-family: "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", Lato, "Liberation Sans", "Noto Sans", "Helvetica Neue", Helvetica, sans-serif; margin: 0px; display: inline; }
+  .toctogglespan { float: right; }
+  body :not(:checked) > .toctogglespan::before, body :not(:checked) > .toctogglespan::after { content: ""; }
+  .toctogglelabel { padding-left: 0px; margin-left: 0.5em; }
+  .toclevel-1 { margin-bottom: 0.25em; }
+  .tocnumber { color: rgb(84, 89, 93); }
+  .skin-timeless .mw-body .oo-ui-tagMultiselectWidget-handle, .skin-timeless .mw-body .oo-ui-capsuleMultiselectWidget-handle { margin: 0px; }
+  .mw-body .mw-rcfilters-ui-changesListWrapperWidget .mw-changeslist-legend, .mw-changeslist-legend, .mw-body .mw-search-profile-tabs, .mw-body fieldset#mw-searchoptions, .mw_metadata, .wikitable, .mw-datatable { color: rgb(0, 0, 0); background: rgb(248, 249, 250); border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; padding: 1.25em 1.75em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; }
+  .mw-body .mw-search-profile-tabs { padding: 0.5em; }
+  .mw_metadata, .mw-datatable, .wikitable { border-color: rgb(200, 204, 209); }
+  .mw_metadata > tr > th, .mw-datatable > tr > th, .wikitable > tr > th, .mw_metadata > tr > td, .mw-datatable > tr > td, .wikitable > tr > td, .mw_metadata > * > tr > th, .mw-datatable > * > tr > th, .wikitable > * > tr > th, .mw_metadata > * > tr > td, .mw-datatable > * > tr > td, .wikitable > * > tr > td { border: 1px solid rgb(200, 204, 209); padding: 0.4em 0.5em; }
+  .mw-datatable th { background: rgb(234, 243, 255); }
+  .mw_metadata th, .wikitable th { background: rgb(234, 236, 240); }
+  .mw_metadata { border-bottom-width: 3px; }
+  .color-bar { width: 100%; }
+  .color-left { height: 0.35em; background: rgb(179, 36, 36); width: 50%; float: left; }
+  .color-right { display: inline-block; height: 0.35em; background: rgb(20, 134, 109); width: 50%; float: right; }
+  .color-middle-container { max-width: 115em; margin: 0px auto -0.35em; position: relative; }
+  .color-middle { height: 0.35em; background: rgb(42, 75, 141); margin-left: 15em; margin-right: 17em; }
+  .emptyPortlet, #mw-page-header-links .emptyPortlet { display: none; }
+  #p-lang.emptyPortlet { display: inherit; }
+  #p-namespaces h3, #p-views h3, #p-more h3, #p-search h3 { position: absolute; top: -9999px; left: 0px; }
+}
+
+@media screen and (min-width: 851px) {
+  body, html { scroll-padding-top: 3.625em; }
+  .dropdown, .sidebar-inner { display: block !important; }
+  .ts-inner { max-width: 115em; box-sizing: border-box; padding: 0px 1em; margin: auto; }
+  div.mw-notification-area { top: 3.375em; }
+  #mw-header { display: flex; }
+  #mw-header-container { height: 0px; position: fixed; z-index: 200; top: 0px; width: 100%; background: rgb(255, 255, 255); color: rgb(0, 0, 0); padding: 0.5em 0px 0px; min-height: 3.125em; box-sizing: border-box; }
+  #p-logo-text { justify-content: space-between; width: auto; flex: 0 0 auto; order: 1; }
+  #p-search { justify-content: space-between; width: auto; flex: 1 1 auto; order: 2; }
+  #user-tools { justify-content: space-between; width: auto; flex: 0 1 auto; order: 3; display: inline-block; }
+  #user-tools h2 span { display: inline-block; max-width: 300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #user-tools #personal h2::after { height: 22px; }
+  #mw-header-nav-hack, #mw-header-hack { position: fixed; z-index: 197; top: 3.125em; box-shadow: rgba(0, 0, 0, 0.075) 0px 3px 3px 2px, rgba(0, 0, 0, 0.2) 0px 0px 2px; }
+  #mw-header-nav-hack { display: none; }
+  #personal { display: inline-block; position: relative; padding-left: 1.5em; line-height: 1; }
+  #personal .dropdown { border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; line-height: 1.125; overflow-wrap: break-word; font-size: 0.95em; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px 1px; position: absolute; padding: 20px 2em 0px; margin: 0px; min-width: 9.153em; top: 2.95em; right: -1em; overflow: visible; z-index: 50; display: none !important; }
+  #personal .dropdown ul, #personal .dropdown li { list-style: none; margin: 0px; padding: 0px; }
+  #personal .dropdown label, #personal .dropdown h3 { font-weight: normal; font-size: 1em; margin: 0.25em 0px 0.75em; padding-bottom: 0.15em; border-bottom: 2px solid rgb(200, 204, 209); display: block; }
+  #personal .dropdown .mw-portlet > div, #personal .dropdown .mw-portlet-body { margin-bottom: 2em; }
+  #personal .dropdown li { padding: 0.25em 0px; }
+  #personal .dropdown::before, #personal .dropdown::after { transform: rotate(360deg); border-bottom: 10px solid rgb(234, 236, 240); border-left: 10px solid transparent; border-right: 10px solid transparent; content: ""; height: 0px; width: 0px; position: absolute; right: 1em; z-index: 51; }
+  #personal .dropdown::before { top: -10px; }
+  #personal .dropdown::after { border-bottom-color: rgb(255, 255, 255); top: -8px; }
+  #personal .pokey { top: 1.9em; }
+  #personal h2 { margin: 0px 0px -0.45em; padding: 0.5em 0px 0.45em 25px; font-family: "Linux Libertine", "Times New Roman", "Liberation Serif", "Nimbus Roman", "Noto Serif", Times, serif; font-weight: normal; font-size: 1.25em; background-image: url("/skins/Timeless/resources/images/user-grey.svg?9781b"); background-position: left 9px; background-repeat: no-repeat; cursor: pointer; }
+  #personal h2::after { display: inline-block; content: ""; width: 22px; height: 12px; background-image: url("/skins/Timeless/resources/images/arrow-down-grey.svg?46d67"); background-position: center center; background-repeat: no-repeat; }
+  #personal h2 span { display: inline-block; line-height: normal; overflow-wrap: break-word; }
+  .client-nojs #personal:hover .pokey, .client-nojs #personal:hover .dropdown { display: block !important; }
+  #mw-wrapper .dropdown-active .pokey, #mw-wrapper .dropdown-active .dropdown, #mw-wrapper .dropdown-active .sidebar-inner { display: block !important; }
+  #p-variants-desktop { float: right; margin: 0.25em 0px 1em 1em; position: relative; }
+  #p-variants-desktop h3 { cursor: pointer; background-image: url("/skins/Timeless/resources/images/languages-grey.svg?98f3a"); border-width: 0px 0px medium; border-style: none; border-color: currentcolor currentcolor transparent; border-image: none; background-color: transparent; background-repeat: no-repeat; background-position: left top; display: inline-block; padding: 0px 2px 1em 20px; font-size: 1em; font-family: "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", Lato, "Liberation Sans", "Noto Sans", "Helvetica Neue", Helvetica, sans-serif; margin: 0px 0px -1em; line-height: 1.5; }
+  #p-variants-desktop h3::after { display: inline-block; content: ""; width: 22px; height: 12px; background-image: url("/skins/Timeless/resources/images/arrow-down-grey.svg?46d67"); background-position: center center; background-repeat: no-repeat; }
+  #p-variants-desktop .dropdown { border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; line-height: 1.125; overflow-wrap: break-word; font-size: 0.95em; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px 1px; position: absolute; padding: 20px 2em 2em; margin: 0px 2px 0px 0px; min-width: 9.153em; right: -1em; overflow: visible; z-index: 50; display: none !important; top: 2.25em !important; }
+  #p-variants-desktop .dropdown ul, #p-variants-desktop .dropdown li { list-style: none; margin: 0px; padding: 0px; }
+  #p-variants-desktop .dropdown label, #p-variants-desktop .dropdown h3 { font-weight: normal; font-size: 1em; margin: 0.25em 0px 0.75em; padding-bottom: 0.15em; border-bottom: 2px solid rgb(200, 204, 209); display: block; }
+  #p-variants-desktop .dropdown .mw-portlet > div, #p-variants-desktop .dropdown .mw-portlet-body { margin-bottom: 2em; }
+  #p-variants-desktop .dropdown li { padding: 0.25em 0px; }
+  #p-variants-desktop .dropdown::before, #p-variants-desktop .dropdown::after { transform: rotate(360deg); border-bottom: 10px solid rgb(234, 236, 240); border-left: 10px solid transparent; border-right: 10px solid transparent; content: ""; height: 0px; width: 0px; position: absolute; right: 1em; z-index: 51; }
+  #p-variants-desktop .dropdown::before { top: -10px; }
+  #p-variants-desktop .dropdown::after { border-bottom-color: rgb(255, 255, 255); top: -8px; }
+  #p-variants-desktop .dropdown .selected a { color: rgb(0, 0, 0); }
+  .client-nojs #p-variants-desktop:hover .dropdown { display: block !important; }
+  .mw-wiki-logo { display: block; margin: 0.75em auto 0px; }
+  .mw-wiki-logo.fallback { content: ""; width: 11em; height: 11em; background-repeat: no-repeat; background-position: center center; }
+  .mw-wiki-logo.timeless-logo { background-image: none; }
+  .mw-wiki-logo.timeless-logo img { width: 135px; height: auto; margin: 0.75em 0px 0.5em; }
+  #p-variants, #other-languages.variants-only, #mw-page-header-links #p-more, .sidebar-chunk h2 { display: none; }
+  #mw-content-container { margin-top: 3.475em; padding-bottom: 1em; }
+}
+
+@media screen and (min-width: 1340px) {
+  #mw-content-block { display: flex; clear: both; }
+  #p-logo-text { min-width: 14em; }
+  #mw-site-navigation { padding-right: 1em; box-sizing: border-box; justify-content: space-between; width: 14em; flex: 0 0 14em; order: 1; }
+  #mw-site-navigation .sidebar-chunk { background: rgb(248, 249, 250); border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; padding: 1.5em 1.5em 0px; margin: 1em 0px; line-height: 1.125; overflow-wrap: break-word; font-size: 0.95em; }
+  #mw-site-navigation .sidebar-chunk ul, #mw-site-navigation .sidebar-chunk li { list-style: none; margin: 0px; padding: 0px; }
+  #mw-site-navigation .sidebar-chunk label, #mw-site-navigation .sidebar-chunk h3 { font-weight: normal; font-size: 1em; margin: 0.25em 0px 0.75em; padding-bottom: 0.15em; border-bottom: 2px solid rgb(200, 204, 209); display: block; }
+  #mw-site-navigation .sidebar-chunk .mw-portlet > div, #mw-site-navigation .sidebar-chunk .mw-portlet-body { margin-bottom: 2em; }
+  #mw-site-navigation .sidebar-chunk li { padding: 0.25em 0px; }
+  #mw-content-wrapper { justify-content: space-between; width: auto; flex: 1 1 auto; order: 2; min-width: 50%; }
+  #mw-related-navigation { padding-left: 1em; box-sizing: border-box; justify-content: space-between; width: 16em; flex: 0 0 16em; order: 3; }
+  #mw-related-navigation .sidebar-chunk { background: rgb(248, 249, 250); border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; padding: 1.5em 1.5em 0px; margin: 1em 0px; line-height: 1.125; overflow-wrap: break-word; font-size: 0.95em; }
+  #mw-related-navigation .sidebar-chunk ul, #mw-related-navigation .sidebar-chunk li { list-style: none; margin: 0px; padding: 0px; }
+  #mw-related-navigation .sidebar-chunk label, #mw-related-navigation .sidebar-chunk h3 { font-weight: normal; font-size: 1em; margin: 0.25em 0px 0.75em; padding-bottom: 0.15em; border-bottom: 2px solid rgb(200, 204, 209); display: block; }
+  #mw-related-navigation .sidebar-chunk .mw-portlet > div, #mw-related-navigation .sidebar-chunk .mw-portlet-body { margin-bottom: 2em; }
+  #mw-related-navigation .sidebar-chunk li { padding: 0.25em 0px; }
+  #catlinks { display: none; }
+  #user-tools { min-width: 16em; }
+}
+
+@media screen and (min-width: 1100px) and (max-width: 1339px) {
+  #mw-content-block { clear: both; }
+  #p-logo-text { min-width: 14em; }
+  #mw-site-navigation, #mw-related-navigation { padding-right: 1em; box-sizing: border-box; display: block; width: 14em; position: relative; }
+  #mw-site-navigation .sidebar-chunk, #mw-related-navigation .sidebar-chunk { background: rgb(248, 249, 250); border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 2px 1px; padding: 1.5em 1.5em 0px; margin: 1em 0px; line-height: 1.125; overflow-wrap: break-word; font-size: 0.95em; }
+  #mw-site-navigation .sidebar-chunk ul, #mw-related-navigation .sidebar-chunk ul, #mw-site-navigation .sidebar-chunk li, #mw-related-navigation .sidebar-chunk li { list-style: none; margin: 0px; padding: 0px; }
+  #mw-site-navigation .sidebar-chunk label, #mw-related-navigation .sidebar-chunk label, #mw-site-navigation .sidebar-chunk h3, #mw-related-navigation .sidebar-chunk h3 { font-weight: normal; font-size: 1em; margin: 0.25em 0px 0.75em; padding-bottom: 0.15em; border-bottom: 2px solid rgb(200, 204, 209); display: block; }
+  #mw-site-navigation .sidebar-chunk .mw-portlet > div, #mw-related-navigation .sidebar-chunk .mw-portlet > div, #mw-site-navigation .sidebar-chunk .mw-portlet-body, #mw-related-navigation .sidebar-chunk .mw-portlet-body { margin-bottom: 2em; }
+  #mw-site-navigation .sidebar-chunk li, #mw-related-navigation .sidebar-chunk li { padding: 0.25em 0px; }
+  #mw-site-navigation { overflow: hidden; }
+  #mw-related-navigation > div.sidebar-chunk:first-child { margin-top: 0px; }
+  #mw-content-wrapper { float: right; margin-left: -14em; width: 100%; }
+  #mw-content, #content-bottom-stuff { margin-left: 14em; }
+  #catlinks { display: none; }
+  .color-right { background: rgb(42, 75, 141); }
+  .ts-inner, .color-middle-container { max-width: 99em; }
+}
+
+@media screen and (min-width: 851px) and (max-width: 1099px) {
+  #mw-content-block { padding: 0px; position: relative; max-width: 85em; }
+  .ts-inner { max-width: 85em; }
+  #mw-content { border-width: 0px 0px 1px; clear: both; margin-top: 5.425em; }
+  #mw-content-container { padding-bottom: 0px; }
+  #catlinks-sidebar { display: none; }
+  #catlinks { margin: 0px 2em; padding: 1em 0px 0.5em; }
+  #catlinks li { border-left: 0px; }
+  #catlinks div { margin: 0px 0px 0.35em; }
+  #mw-data-after-content { padding: 0px 2em; }
+  .sidebar-chunk { display: inline-block; position: relative; }
+  .sidebar-chunk h2 { display: inline-block; }
+  .sidebar-inner, #p-logo { display: none !important; }
+  .color-right, .color-middle { background: rgb(179, 36, 36); }
+  #mw-site-navigation, #mw-related-navigation { display: inline-block; position: relative; z-index: 202; }
+  #mw-site-navigation h2, #mw-related-navigation h2 { font-weight: normal; font-family: "Linux Libertine", "Times New Roman", "Liberation Serif", "Nimbus Roman", "Noto Serif", Times, serif; font-size: 1.25em; padding: 0.5em 0px 0.45em; margin: 0px 0px -0.45em; cursor: pointer; }
+  #mw-site-navigation h2::after, #mw-related-navigation h2::after { display: inline-block; content: ""; width: 22px; height: 12px; background-image: url("/skins/Timeless/resources/images/arrow-down-grey.svg?46d67"); background-position: center center; background-repeat: no-repeat; }
+  .client-nojs .sidebar-chunk:hover .sidebar-inner { display: block !important; }
+  #mw-header-nav-hack { border-top: 2px solid rgb(234, 236, 240); display: block; position: absolute; z-index: 198; background: rgb(255, 255, 255); width: 100%; }
+  #mw-header-nav-hack .color-bar { margin-top: 2.5em; }
+  #mw-site-navigation { position: absolute; top: -2.35em; left: 2em; }
+  #mw-site-navigation .sidebar-chunk { margin: 0px 1em 0px 0px; }
+  #mw-site-navigation .sidebar-inner { border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; line-height: 1.125; overflow-wrap: break-word; font-size: 0.95em; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px 1px; position: absolute; padding: 20px 2em 0px; margin: 0px; min-width: 9.153em; top: 2.95em; left: -1em; overflow: visible; z-index: 50; }
+  #mw-site-navigation .sidebar-inner ul, #mw-site-navigation .sidebar-inner li { list-style: none; margin: 0px; padding: 0px; }
+  #mw-site-navigation .sidebar-inner label, #mw-site-navigation .sidebar-inner h3 { font-weight: normal; font-size: 1em; margin: 0.25em 0px 0.75em; padding-bottom: 0.15em; border-bottom: 2px solid rgb(200, 204, 209); display: block; }
+  #mw-site-navigation .sidebar-inner .mw-portlet > div, #mw-site-navigation .sidebar-inner .mw-portlet-body { margin-bottom: 2em; }
+  #mw-site-navigation .sidebar-inner li { padding: 0.25em 0px; }
+  #mw-site-navigation .sidebar-chunk h2 span::before, #mw-site-navigation .sidebar-chunk h2 span::after { transform: rotate(360deg); border-bottom: 10px solid rgb(234, 236, 240); border-left: 10px solid transparent; border-right: 10px solid transparent; content: ""; height: 0px; width: 0px; position: absolute; right: 1em; z-index: 51; }
+  #mw-site-navigation .sidebar-chunk h2 span::before { top: -10px; }
+  #mw-site-navigation .sidebar-chunk h2 span::after { border-bottom-color: rgb(255, 255, 255); top: -8px; }
+  #mw-site-navigation .sidebar-chunk h2 span::before, #mw-site-navigation .sidebar-chunk h2 span::after { right: 1px; display: none; }
+  #mw-site-navigation .sidebar-chunk h2 span::before { top: 34px; }
+  #mw-site-navigation .sidebar-chunk h2 span::after { top: 36px; }
+  #mw-site-navigation .dropdown-active h2 span::before, .client-nojs #mw-site-navigation .sidebar-chunk:hover h2 span::before, #mw-site-navigation .dropdown-active h2 span::after, .client-nojs #mw-site-navigation .sidebar-chunk:hover h2 span::after { display: block; }
+  #mw-related-navigation { position: absolute; top: -2.35em; right: 2em; }
+  #mw-related-navigation .sidebar-chunk { margin: 0px 0px 0px 1em; }
+  #mw-related-navigation .sidebar-inner { border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; line-height: 1.125; overflow-wrap: break-word; font-size: 0.95em; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px 1px; position: absolute; padding: 20px 2em 0px; margin: 0px; min-width: 9.153em; right: -1em; overflow: visible; z-index: 50; top: 2.95em !important; }
+  #mw-related-navigation .sidebar-inner ul, #mw-related-navigation .sidebar-inner li { list-style: none; margin: 0px; padding: 0px; }
+  #mw-related-navigation .sidebar-inner label, #mw-related-navigation .sidebar-inner h3 { font-weight: normal; font-size: 1em; margin: 0.25em 0px 0.75em; padding-bottom: 0.15em; border-bottom: 2px solid rgb(200, 204, 209); display: block; }
+  #mw-related-navigation .sidebar-inner .mw-portlet > div, #mw-related-navigation .sidebar-inner .mw-portlet-body { margin-bottom: 2em; }
+  #mw-related-navigation .sidebar-inner li { padding: 0.25em 0px; }
+  #mw-related-navigation .sidebar-inner::before, #mw-related-navigation .sidebar-inner::after { transform: rotate(360deg); border-bottom: 10px solid rgb(234, 236, 240); border-left: 10px solid transparent; border-right: 10px solid transparent; content: ""; height: 0px; width: 0px; position: absolute; right: 1em; z-index: 51; }
+  #mw-related-navigation .sidebar-inner::before { top: -10px; }
+  #mw-related-navigation .sidebar-inner::after { border-bottom-color: rgb(255, 255, 255); top: -8px; }
+  #mw-header { padding: 0px 2em; }
+  #p-logo-text a { padding-left: 0px; padding-right: 0.5em; }
+  #mw-footer { padding-left: 2em; padding-right: 2em; }
+  #personal { float: right; }
+  #personal h2 span { max-width: 130px; }
+  #personal .dropdown { right: -1em; }
+}
+
+@media screen and (max-width: 850px) {
+  #mw-data-after-content, .mw-footer { padding: 0px 0.45em; }
+  #mw-footer .footer-icons { clear: both; margin-bottom: 0.5em; }
+  .color-middle { margin: auto; width: 34%; }
+  #catlinks-sidebar { display: none; }
+  #catlinks { margin: 0px 0.45em; padding: 1em 0px 0.5em; }
+  #catlinks li { border-left: 0px; }
+  #catlinks div { margin: 0px 0px 0.35em; }
+  #p-variants-desktop, #mw-page-header-links #ca-view, #mw-header-nav-hack, #page-tools h2, #other-languages h2, #p-logo { display: none; }
+  #mw-header-container { background: rgb(255, 255, 255); padding: 3.75em 0.45em 0.35em; }
+  #mw-header-hack { position: relative; z-index: 1; box-shadow: rgba(0, 0, 0, 0.075) 0px 3px 3px 2px, rgba(0, 0, 0, 0.2) 0px 0px 2px; }
+  .color-right, .color-middle, .color-left { background: rgb(179, 36, 36); }
+  .sidebar-inner, .dropdown { display: none; border-style: solid; border-color: rgb(234, 236, 240); border-image: none; border-width: 1px 1px 0.2em; line-height: 1.125; overflow-wrap: break-word; font-size: 0.95em; background: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 3px 1px; position: absolute; padding: 2em 2.5em 1em; margin: 0px; min-width: 9.153em; max-width: 80%; top: 3.25em; right: 0px; overflow: visible; z-index: 350; }
+  .sidebar-inner ul, .dropdown ul, .sidebar-inner li, .dropdown li { list-style: none; margin: 0px; padding: 0px; }
+  .sidebar-inner label, .dropdown label, .sidebar-inner h3, .dropdown h3 { font-weight: normal; font-size: 1em; margin: 0.25em 0px 0.75em; padding-bottom: 0.15em; border-bottom: 2px solid rgb(200, 204, 209); display: block; }
+  .sidebar-inner .mw-portlet > div, .dropdown .mw-portlet > div, .sidebar-inner .mw-portlet-body, .dropdown .mw-portlet-body { margin-bottom: 2em; }
+  .sidebar-inner li, .dropdown li { padding: 0.25em 0px; }
+  .sidebar-inner h3, .dropdown h3 { margin: 0.5em 0px 1.5em; }
+  .sidebar-inner ul, .dropdown ul { margin: 1em 0px 2em; }
+  .sidebar-inner li, .dropdown li { margin: 0px 0px 0.75em; }
+  #menus-cover { display: none; position: fixed; top: 0px; left: 0px; z-index: 300; width: 100%; height: 100%; background: rgb(234, 236, 240); opacity: 0.8; overflow: hidden; }
+  #user-tools h2, .sidebar-chunk h2 { cursor: pointer; margin: 0px; width: 30px; height: 30px; position: absolute; top: 1em; padding-bottom: 0px; font-size: 1em; background-repeat: no-repeat; background-position: center center; }
+  #user-tools h2::after, .sidebar-chunk h2::after { display: inline-block; content: ""; width: 22px; height: 12px; background-image: url("/skins/Timeless/resources/images/arrow-down-grey.svg?46d67"); background-position: center center; background-repeat: no-repeat; }
+  #user-tools h2 span, .sidebar-chunk h2 span { display: inline-block; text-indent: -99999px; border: 0px; background-color: transparent; background-repeat: no-repeat; }
+  #user-tools h2::after, .sidebar-chunk h2::after { position: absolute; top: 0.65em; left: 23px; }
+  #user-tools h2 { right: 1.2em; background-image: url("/skins/Timeless/resources/images/user-large-grey.svg?4070b"); }
+  #site-navigation h2 { left: 0.45em; background-image: url("/skins/Timeless/resources/images/menu-large-grey.svg?7b579"); }
+  #site-navigation .sidebar-inner { left: 0px; right: auto; }
+  #site-tools h2 { right: 4.95em; background-image: url("/skins/Timeless/resources/images/gear-large-grey.svg?eba28"); }
+  #p-logo-text { position: absolute; top: 0.75em; left: 4.45em; text-align: left; }
+  #p-logo-text a { padding-left: 0px; }
+  #p-namespaces li { margin-right: 1.5em; }
+  .tools-inline li a { text-indent: -99999px; width: 20px; overflow: hidden; box-sizing: border-box; padding: 0px; }
+  #ca-more::after, #ca-languages::after { margin-left: -0.35em; }
+  #ca-more span, #ca-languages span { text-indent: -99999px; width: 20px; box-sizing: border-box; padding: 0px; display: inline-block; overflow: visible; }
+  #ca-more span { background-image: url("/skins/Timeless/resources/images/gear-grey.svg?27b72"); background-repeat: no-repeat; }
+  #ca-languages span { background-image: url("/skins/Timeless/resources/images/languages-grey.svg?98f3a"); background-repeat: no-repeat; }
+  div.thumb { float: none; }
+  .thumb { margin: 1em auto; }
+  .floatright, .tright { margin-left: 0px; padding-left: 0px; }
+  .floatleft, .tleft { margin-right: 0px; padding-right: 0px; }
+  .thumbinner { padding: 1em 1.5em; box-sizing: border-box; width: 100% !important; }
+  .thumbimage { display: block; margin: 0px auto 0.5em; }
+  figure[typeof~="mw:File/Thumb"], figure[typeof~="mw:File/Frame"] { box-sizing: border-box; width: 100% !important; float: none !important; margin: 1em 0px !important; }
+  figure[typeof~="mw:File/Thumb"] > :not(figcaption) .mw-file-element, figure[typeof~="mw:File/Frame"] > :not(figcaption) .mw-file-element { margin: 1em auto; box-sizing: border-box; max-width: calc(100% - 3em) !important; }
+  figure[typeof~="mw:File/Thumb"] > figcaption, figure[typeof~="mw:File/Frame"] > figcaption { padding: 0px 1.5em 1em; }
+  figure[typeof~="mw:File/Thumb"] > .mw-file-description::after, figure[typeof~="mw:File/Thumb"] > .mw-file-magnify::after { right: 1.5em; }
+  .mw-content-ltr figure[typeof~="mw:File/Thumb"] > .mw-file-description::after, .mw-content-ltr figure[typeof~="mw:File/Thumb"] > .mw-file-magnify::after { right: 1.5em; }
+  .mw-content-rtl figure[typeof~="mw:File/Thumb"] > .mw-file-description::after, .mw-content-rtl figure[typeof~="mw:File/Thumb"] > .mw-file-magnify::after { left: 1.5em; }
+  .mw-body { border: 0px; }
+  .mw-body table { width: 100%; margin-left: 0px; margin-right: 0px; }
+  .mw-body table table { width: unset; margin-left: unset; margin-right: unset; }
+  #mw-content { padding: 0.45em; border-width: 0px; }
+  #mw-content-block { background: rgb(255, 255, 255); }
+  .toc, .mw-warning { width: 100%; box-sizing: border-box; }
+  .nomobile { display: none; }
+}
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM----
+Content-Type: text/css
+Content-Transfer-Encoding: binary
+Content-Location: cid:css-15560b36-a5df-4ef6-b8ea-f1cfe03b9155@mhtml.blink
+
+@charset "utf-8";
+
+@media screen {
+  .overflowed { margin: 1em 0px; position: relative; overflow: hidden; }
+  .overflowed .content-table-left, .overflowed .content-table-right { height: 100%; position: absolute; bottom: 0px; z-index: 1; }
+  .overflowed .content-table-right { right: 0px; }
+  .mw-content-rtl .overflowed .content-table-right { left: 0px; right: unset; }
+  .scroll-right.overflowed .content-table-right { box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 4px 1px; border-left: 1px solid rgb(200, 204, 209); }
+  .overflowed .content-table-left { left: 0px; }
+  .mw-content-rtl .overflowed .content-table-left { right: 0px; left: unset; }
+  .scroll-left.overflowed .content-table-left { box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 4px 1px; border-left: 1px solid rgb(200, 204, 209); }
+  .overflowed .content-table { overflow: scroll hidden; }
+  .overflowed .content-table > table { margin: 0px; }
+  .overflowed .content-table > table.mw_metadata, .overflowed .content-table > table.mw-datatable, .overflowed .content-table > table.wikitable { border-bottom-width: 0px; }
+  .content-table-scrollbar.inactive { position: absolute; top: -99999px; bottom: unset; left: -99999px; }
+  .content-table-scrollbar { position: fixed; bottom: 0px; overflow-x: scroll; z-index: 1; }
+  .content-table-spoof { height: 1px; }
+}
+
+#mw-teleport-target { position: absolute; z-index: 450; }
+------MultipartBoundary--Q05GsOAyobcP0nseB78v7ANpMTGDsSmYQynPqZxVZM------

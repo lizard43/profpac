@@ -1,0 +1,37 @@
+; Professor Pac-Man question-ROM shared definitions
+;
+; Included by each physical 16 KB PPQ assembly unit.  The program-side
+; hardware, TERSE vocabulary, and configuration-0 execution-token aliases are
+; inherited from the common game include.
+
+        include "src/profpac_common.include"
+
+QUESTION_ROM_WINDOW     equ     $4000
+QUESTION_ROM_END        equ     $8000
+QUESTION_ROM_SIZE       equ     $4000
+QUESTION_TIER_COUNT     equ     $08
+QUESTION_COLON_OPCODE   equ     $CF
+
+; Shared presentation-task execution tokens used by PPQ action graphs.
+XT_ENTER_ACTION_TASK    equ     $1599
+XT_YIELD_ACTION_TASK    equ     $15F7
+XT_SET_TASK_VECTOR_0D   equ     $1BDF
+XT_RENDER_CURRENT_OBJECT equ    $1DF3
+XT_SET_OBJECT_MODE_1    equ     $1ECF
+XT_SET_TASK_BYTE_0C     equ     $1F40
+XT_SET_TASK_ACTIVE_BIT  equ     $225D
+XT_WAIT_FOR_CHILD_ACTIONS equ   $2302
+XT_SWAP_TASK_THREAD_IP  equ     $2337
+XT_APPLY_AND_DRAW_OBJECT equ    $2CF2
+
+; Configuration-0 presentation vocabulary.
+CFG0_XT_PLACE_CORRECT_RANDOM_SLOT equ $8B4F
+CFG0_XT_PLACE_DISTRACTOR_SECOND_SLOT equ $8B7B
+CFG0_XT_CACHE_AND_APPLY_OBJECT_SETUP equ $8BC4
+CFG0_XT_REAPPLY_CACHED_OBJECT_SETUP equ $8BEE
+CFG0_XT_PLACE_DISTRACTOR_REMAINING_SLOT equ $8C12
+CFG0_XT_CONFIGURE_QUESTION_SCENE equ $8C37
+CFG0_XT_COMPLETE_QUESTION_ACTION equ $8C50
+CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS equ $8C61
+CFG0_XT_OPTIONAL_OBJECT_DRAW equ      $8CC5
+CFG0_XT_LOAD_PRESENTATION_TABLE equ   $8CF2
