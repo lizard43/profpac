@@ -1,0 +1,13 @@
+; Professor Pac-Man question-ROM shared definitions
+;
+; Included by each physical 16 KB PPQ assembly unit.  The program-side
+; hardware, TERSE vocabulary, and configuration-0 execution-token aliases are
+; inherited from the common game include.
+
+        include "src/profpac_common.include"
+
+QUESTION_ROM_WINDOW     equ     $4000
+QUESTION_ROM_END        equ     $8000
+QUESTION_ROM_SIZE       equ     $4000
+QUESTION_TIER_COUNT     equ     $08
+QUESTION_COLON_OPCODE   equ     $CF
