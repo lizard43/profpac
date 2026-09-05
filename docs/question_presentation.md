@@ -103,6 +103,11 @@ animation proceeds, draw through fixed object primitives, and synchronize on
 those children. Each finished outer action calls `COMPLETE_QUESTION_ACTION`,
 which publishes completion and releases the scheduler bit for that task.
 
+The renderer consumes a four-byte object-relative image header followed by
+native packed 2-bpp rows. Direct, variant-table, and animation-selected images
+share that representation; [graphics_animation.md](graphics_animation.md)
+documents the format and decoded PPQ inventory.
+
 The action graph, rather than source adjacency, establishes this interface.
 `tools/analyze_question_families.py` walks every action root and every reachable
 bank-local colon definition. It rejects a family unless the universal scene,

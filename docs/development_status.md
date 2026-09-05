@@ -112,6 +112,12 @@ technical descriptions remain in `README.md`, `docs/hardware.md`, and
   operations-manual assembly records. The three Game Board archive suffixes
   are retained as archival identifiers because that schematic revision assigns
   those reference designators to incompatible package types.
+- Decoded 193 reachable native 2-bpp images across the fourteen PPQ banks,
+  including 81 direct draw operands, 112 variant-table or atlas-selected
+  records, and the pointer-addressed PPQ6 image atlas. Each record now emits a
+  symbolic header and one commented source line per raster row. A dedicated
+  analyzer verifies 50,159 packed pixel bytes, non-overlapping bank ranges,
+  image geometry, and source annotations during every build.
 
 ## ROM and logic inventory
 
@@ -149,8 +155,10 @@ documented in `docs/pls153a_equations.md` and checked by
 
 ## Plan of attack
 
-1. Classify graphics, sound tables, operator settings, statistics, and
-   battery-backed bookkeeping structures.
+1. Decode sound-control tables and connect cue identifiers to the dual
+   Astrocade sound-register paths.
+2. Name operator settings, audits, statistics, and battery-backed bookkeeping
+   structures from their self-test and main-game consumers.
 
 ## Source coverage rule
 

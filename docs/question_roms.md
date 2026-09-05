@@ -135,6 +135,11 @@ The bank-by-bank family names, initializer counts, tier coverage, random
 ranges, offsets, directly reached prompts, and renderer/animation features are
 in [question_families.md](question_families.md).
 
+The native 2-bpp image header, pixel order, direct and table-selected drawing
+paths, animation relationship, and bank-by-bank decoded image inventory are in
+[graphics_animation.md](graphics_animation.md). The PPQ assembly files render
+each decoded image as one commented source line per raster row.
+
 The complete path for this family—including its four action tasks, nested image
 actions, three-slot permutation, selected-answer comparison, and scheduler
 completion contract—is documented in
@@ -215,7 +220,7 @@ The PPQ payloads combine several representations under the same directory:
 - compiled TERSE initializers and action bodies;
 - counted action lists and pointer tables;
 - counted prompt and answer strings;
-- bitmap, shape, sequence, and animation data;
+- native 2-bpp image records, shape tables, and animation descriptors;
 - numeric parameters and randomized layout inputs.
 
 Examples include mirror-image comparison, flock matching, missing-sequence
