@@ -1,6 +1,6 @@
 # Professor Pac-Man ROM disassembly
 
-![](images/professor-pac-man-marquee.jpg)
+![](images/professor-pac-man-31925.jpg)
 
 Professor Pac-Man is a 1983 animated quiz game developed by Dave Nutting
 Associates and published by Bally Midway. Its dedicated Astrocade-family board
@@ -21,7 +21,8 @@ question controller, and question-family action graphs as readable source.
 | Application language | Native Z80 and direct-threaded TERSE |
 | Display | 16-color screen RAM with Astrocade drawing hardware and Pattern Mover |
 | Sound | Two Astrocade custom I/O chips arranged as stereo channels |
-| Program storage | Nine 8 KB `pps` ROMs in fixed and banked windows |
+| P
+rogram storage | Nine 8 KB `pps` ROMs in fixed and banked windows |
 | Question storage | Fourteen populated 16 KB `ppq` EPROMs on a forty-bank board |
 | Persistent state | Battery-backed RAM for settings, audits, statistics, and high scores |
 | Bank control | Port `$F3` selects the program configuration and question EPROM |
@@ -38,7 +39,8 @@ flowchart TD
     Reset["Reset and hardware initialization"] --> Mode{"Test switch"}
     Mode -->|"active"| Test["Self-test and operator application"]
     Mode -->|"released"| Main["Normal-play application"]
-    Main --> Attract["Attract, credits, and start control"]
+    Main --> Attrac
+t["Attract, credits, and start control"]
     Attract --> Round["Question-round controller"]
     Round --> Bank["Select PPQ module through port $F3"]
     Bank --> Present["Run four-stage presentation graph"]
@@ -56,7 +58,8 @@ presentation, coin and credit handling, one- or two-player start selection,
 question rounds, scoring, bonus questions, game over, high-score qualification,
 and initials entry. The recovered configuration-1 graph is documented in
 [game_progression.md](docs/game_progression.md); the complete question executive
-is documented in [question_round.md](docs/question_round.md).
+is documented in [question_round.md](docs/ques
+tion_round.md).
 
 ## Memory and ROM organization
 
@@ -80,7 +83,8 @@ The six banked program ROMs form two populated configurations:
 | `$20` | `pps5` and `pps6` | `pps7` | `pps8` | Main application |
 | `$80-$8D` | `ppq1`-`ppq14` | `pps3` | `pps4` | Question presentation |
 
-The EPROM board provides forty 16 KB question-bank positions. The production
+T
+he EPROM board provides forty 16 KB question-bank positions. The production
 set populates banks 0 through 13; banks 14 through 39 are empty. The complete
 memory, I/O, banking, video, and control map is maintained in
 [hardware.md](docs/hardware.md).
@@ -102,7 +106,8 @@ the `IX` return stack, loads the nested body into `BC`, and dispatches through
 | --- | --- |
 | `BC` | Threaded instruction pointer |
 | `IY` | Cached address of `TERSE_NEXT` |
-| `IX` | Downward-growing threaded return stack, initialized to `$EF50` |
+| `IX` | Downward-gro
+wing threaded return stack, initialized to `$EF50` |
 | `SP` | Parameter stack and balanced native-call stack, initialized to `$F000` |
 | `HL`, `DE` | Primitive operands and parameter-stack values |
 
@@ -127,7 +132,8 @@ The fixed and banked sources emit execution tokens symbolically, including
 inline operands, branch targets, counted strings, and `CASES` tables.
 
 - [terse.md](docs/terse.md) defines the runtime and execution model.
-- [terse_vocabulary.md](docs/terse_vocabulary.md) catalogs resident words, stack
+- [terse_vocabulary.md](docs/terse_vocabulary.md) catalogs re
+sident words, stack
   effects, and cross-game correspondences.
 - [threaded_code.md](docs/threaded_code.md) maps definitions, roots, bank contexts,
   and the decoded task graphs.
@@ -150,7 +156,8 @@ flowchart TD
     Select --> Init["Choose and execute initializer"]
     Init --> Filter["Apply sixteen-entry repeat filter"]
     Filter --> Actions["Start counted four-action list"]
-    Actions --> Resolve["Collect response and update state"]
+    Actions --> Resolve["Co
+llect response and update state"]
 ```
 
 The fourteen banks contain 201 rooted directory references resolving to 130
@@ -171,7 +178,8 @@ signals completion. The fixed question-round controller owns answer timing,
 correctness, score awards, player state, bonus scheduling, and the return to the
 main application.
 
-- [question_roms.md](docs/question_roms.md) specifies the bank directory, tier
+- [question_roms.md](docs/question_roms.md) specifies the ba
+nk directory, tier
   calculation, initializers, action lists, and repeat filter.
 - [question_families.md](docs/question_families.md) inventories all 45 families,
   tier coverage, variants, prompts, and execution features.
@@ -188,7 +196,8 @@ main application.
 
 The test-switch path is a separate TERSE application. It implements circuitry,
 RAM, ROM, continuous-operation, video, audio, switch, device, statistics, and
-operator-settings menus. Its ROM tests cover the populated program and question
+operator-settings menus. Its ROM test
+s cover the populated program and question
 devices and distinguish empty question sockets. See
 [self_test.md](docs/self_test.md) for the decoded hierarchy and execution tokens.
 
@@ -204,7 +213,8 @@ devices and distinguish empty question sockets. See
 | `tools/analyze_question_families.py` | Family identity, action-graph, and source validation |
 | `tools/analyze_ppq_graphics.py` | Native 2-bpp PPQ image discovery and inline-pixel validation |
 | `tools/analyze_question_round.py` | Fixed question-round closure validation |
-| `tools/analyze_game_progression.py` | Configuration-1 application closure validation |
+| `tools/analyze_game_progression.py` | Configuration-1 application closure valida
+tion |
 | `tools/decode_pls153a.py` | PLS153A fuse-map validation and Boolean-equation recovery |
 | `docs/*.md` | Hardware, TERSE, question-system, game-flow, and self-test references |
 | `build.sh` | Assembly, packaging, byte comparison, SHA-1, and structural verification |
@@ -234,7 +244,8 @@ chmod +x build.sh
 ./build.sh
 ```
 
-The build performs the following checks:
+The build performs the following c
+hecks:
 
 1. Assemble `pps1`-`pps9` and `ppq1`-`ppq14` independently.
 2. Print and compare every ROM's expected and actual SHA-1.
@@ -254,7 +265,8 @@ The structural analyzers protect the readable disassembly as well as the ROM
 bytes. They reject changes that preserve binary output while replacing decoded
 definitions or action lists with undifferentiated data.
 
-## Provenance and credits
+## Provenance and
+ credits
 
 The binary baseline is the MAME `profpac` set defined in
 `src/mame/bally/astrocde.cpp`. Board names, switch assignments, memory
@@ -266,3 +278,4 @@ as programmer, Mark Steven Pierce and Sue Forner for graphics, and Marc Canter
 for sound and music. Johnny Lott and *RePlay* publisher Ed Adlum originated the
 earlier Pac-Man-plus-quiz proposal; the released game is DNA's animated
 multiple-choice implementation.
+
