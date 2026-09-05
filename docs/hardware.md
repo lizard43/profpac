@@ -15,6 +15,19 @@ Astrocade board.
 | 91488 | Pattern Mover |
 | 91846 | 640K EPROM Board |
 
+## Programmable logic
+
+Ten archived Signetics PLS153A devices implement two-level combinatorial logic
+on the CPU, EPROM, game, and screen-RAM boards. Each 235-byte MAME member
+contains a four-byte fuse-count header followed by a complete 1,842-fuse map.
+The maps recover 63 driven outputs and 199 connected product terms, including
+output-enable and polarity programming.
+
+The exact pin-level Boolean equations and archive SHA-1 values are documented
+in [pls153a_equations.md](pls153a_equations.md). MAME preserves these members in
+its `plds` region while implementing the corresponding machine behavior in the
+driver.
+
 ## Z80 memory map
 
 | Address | Access | Function |
