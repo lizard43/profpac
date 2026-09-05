@@ -1,5 +1,7 @@
 # Professor Pac-Man ROM disassembly
 
+![](images/professor-pac-man-marquee.jpg)
+
 Professor Pac-Man is a 1983 animated quiz game developed by Dave Nutting
 Associates and published by Bally Midway. Its dedicated Astrocade-family board
 set combines a Z80, 16-color screen RAM, stereo Astrocade sound, banked program
@@ -57,6 +59,8 @@ and initials entry. The recovered configuration-1 graph is documented in
 is documented in [question_round.md](docs/question_round.md).
 
 ## Memory and ROM organization
+
+![Professor Pac-Man Z80 CPU memory map](images/professor-pacman-memory-map.png)
 
 | Address | Read mapping | Write mapping |
 | --- | --- | --- |
@@ -137,6 +141,8 @@ with an eight-tier directory of initializer buckets. The fixed controller
 selects a tier and populated bank, executes one initializer, filters the
 returned action-list identity against recent history, and launches the accepted
 presentation.
+
+![Professor Pac-Man question EPROM map](images/professor-pacman-question-rom-map.png)
 
 ```mermaid
 flowchart TD
