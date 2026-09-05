@@ -23,6 +23,7 @@ question controller, and question-family action graphs as readable source.
 | Question storage | Fourteen populated 16 KB `ppq` EPROMs on a forty-bank board |
 | Persistent state | Battery-backed RAM for settings, audits, statistics, and high scores |
 | Bank control | Port `$F3` selects the program configuration and question EPROM |
+| Programmable logic | Ten PLS153A fuse maps implementing board-level combinatorial glue |
 
 The fixed ROMs contain the runtime, interrupt handlers, hardware services, game
 executive, and bank-control code. Banked program ROMs provide additional TERSE
@@ -79,6 +80,11 @@ The EPROM board provides forty 16 KB question-bank positions. The production
 set populates banks 0 through 13; banks 14 through 39 are empty. The complete
 memory, I/O, banking, video, and control map is maintained in
 [hardware.md](docs/hardware.md).
+
+Ten PLS153A devices provide combinatorial decode, timing, selection, and
+control logic across four boards. Their complete 1,842-fuse maps, pin roles,
+output enables, polarities, and Boolean equations are recovered in
+[pls153a_equations.md](docs/pls153a_equations.md).
 
 ## TERSE execution model
 
@@ -187,6 +193,7 @@ devices and distinguish empty question sockets. See
 | `tools/analyze_question_families.py` | Family identity, action-graph, and source validation |
 | `tools/analyze_question_round.py` | Fixed question-round closure validation |
 | `tools/analyze_game_progression.py` | Configuration-1 application closure validation |
+| `tools/decode_pls153a.py` | PLS153A fuse-map validation and Boolean-equation recovery |
 | `docs/*.md` | Hardware, TERSE, question-system, game-flow, and self-test references |
 | `build.sh` | Assembly, packaging, byte comparison, SHA-1, and structural verification |
 
@@ -225,7 +232,9 @@ The build performs the following checks:
    `roms/profpac.zip`, including the ten unchanged PLS153A dumps.
 6. Compare the package byte-for-byte with the baseline and verify SHA-1
    `fc2c27f04a1a173ae79b5fb91c69ff85cc479c9c`.
-7. Validate the promoted question-family, question-round, and main-progression
+7. Decode and validate all ten PLS153A fuse maps and their canonical SHA-1
+   values.
+8. Validate the promoted question-family, question-round, and main-progression
    TERSE structures.
 
 The structural analyzers protect the readable disassembly as well as the ROM
