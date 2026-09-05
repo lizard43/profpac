@@ -11,7 +11,7 @@ The reusable fixed-ROM layer is specified in
 one PPQ family through that interface.
 
 This family is available in root tiers 0 and 2 through
-`QUESTION_INITIALIZER_539E`.
+`MIRROR_FLOCK_V0_1_T0_2_INIT`.
 
 ## Execution path
 
@@ -23,7 +23,7 @@ flowchart TD
     Distractors --> Evaluate["Compare selected slot with correct slot"]
 ```
 
-The PPQ initializer returns `MIRROR_FLOCK_ACTION_LIST`. The fixed
+The PPQ initializer returns `PPQ1_MIRROR_FLOCK_ACTIONS`. The fixed
 `START_COUNTED_ACTION_LIST` word creates the four action tasks in list order.
 Scheduler state and explicit yields control their visible timing. Each action
 terminates through `COMPLETE_QUESTION_ACTION` after its drawing or child work
@@ -34,14 +34,14 @@ has completed.
 The initializer is compact TERSE:
 
 ```z80
-QUESTION_INITIALIZER_539E:
+MIRROR_FLOCK_V0_1_T0_2_INIT:
         rst     $08
         dw      XT_LITbyte
         db      $02
         dw      XT_RANDOM_BELOW
         dw      CFG0_XT_SET_QUESTION_VARIANT_BYTE
         dw      XT_LIT
-        dw      MIRROR_FLOCK_ACTION_LIST
+        dw      PPQ1_MIRROR_FLOCK_ACTIONS
         dw      XT_RETURN
 ```
 
@@ -60,14 +60,14 @@ mode inside the action graph.
 
 ## Four-stage action graph
 
-`MIRROR_FLOCK_ACTION_LIST` contains four TERSE execution tokens:
+`MIRROR_FLOCK_ACTIONS` contains four TERSE execution tokens:
 
 | Stage | Source label | Function |
 | ---: | --- | --- |
 | 1 | `MIRROR_FLOCK_SETUP_ACTION` | Select the prompt, install the scene tables, and draw the primary flock object. |
-| 2 | `MIRROR_FLOCK_FIRST_ANSWER_ACTION` | Choose the randomized correct slot, install the correct candidate, and start its three image-component actions. |
-| 3 | `MIRROR_FLOCK_SECOND_ANSWER_ACTION` | Choose a different slot and install the first distractor with the variant-specific render mode. |
-| 4 | `MIRROR_FLOCK_REMAINING_ANSWER_ACTION` | Use the only unoccupied slot and install the second distractor with the complementary render mode. |
+| 2 | `MIRROR_FLOCK_CORRECT_ACTION` | Choose the randomized correct slot, install the correct candidate, and start its three image-component actions. |
+| 3 | `MIRROR_FLOCK_SECOND_ACTION` | Choose a different slot and install the first distractor with the variant-specific render mode. |
+| 4 | `MIRROR_FLOCK_REMAINING_ACTION` | Use the only unoccupied slot and install the second distractor with the complementary render mode. |
 
 The scene uses two principal bitmap payloads:
 

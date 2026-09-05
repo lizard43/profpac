@@ -54,10 +54,11 @@ technical descriptions remain in `README.md`, `docs/hardware.md`, and
   action-list history ring, the every-fifth-candidate relaxation, and the
   bounded forced-accept path. Added a validator that reproduces the complete
   PPQ directory inventory from the MAME archive.
-- Closed the first `ppq1` family from `QUESTION_INITIALIZER_539E` through its
-  two prompt variants, four outer actions, three child image actions, bitmap
-  and descriptor objects, randomized three-slot permutation, fixed-ROM answer
-  comparison, and scheduler completion contract.
+- Closed the first `ppq1` family from
+  `MIRROR_FLOCK_V0_1_T0_2_INIT` through its two prompt
+  variants, four outer actions, three child image actions, bitmap and descriptor
+  objects, randomized three-slot permutation, fixed-ROM answer comparison, and
+  scheduler completion contract.
 - Grouped all 130 bank-local rooted initializers by the action-list identity
   consumed by the repeat filter, establishing 45 executable question families.
   Every rooted initializer is emitted as symbolic TERSE source with named
@@ -69,6 +70,12 @@ technical descriptions remain in `README.md`, `docs/hardware.md`, and
   child-action join, cooperative yield, and completion contract. The family
   inventory records tier coverage, variant ranges and offsets, direct prompts,
   drawing paths, and task-vector animation use.
+- Completed semantic naming across the PPQ execution layer. All 401 reachable
+  colon definitions, 130 rooted initializers, 45 action lists, and 106 unique
+  tier buckets now carry role-based names. Initializer labels encode family,
+  variant range, and tier membership; internal words encode graph ownership,
+  lifecycle stage, and demonstrated behavior. The family analyzer rejects the
+  former address-derived execution labels.
 - Added a reproducible PPQ family analyzer and made the build verify the 130
   promoted initializers and 45 family graphs after the complete MAME package
   passes its byte and SHA-1 checks.

@@ -80,22 +80,26 @@ address is both an executable presentation descriptor and the identity used by
 the repeat filter.
 
 The first `ppq1` family is a compact example. Its tier-0 bucket points to the
-initializer at `$539E`:
+initializer that selects mirror/flock variants 0 and 1:
 
 ```text
-PPQ1_INITIALIZER_539E:
+MIRROR_FLOCK_V0_1_T0_2_INIT:
     LITBYTE 2
     RANDOM_BELOW
     SET_QUESTION_VARIANT_BYTE
-    LIT $5395
+    LIT PPQ1_MIRROR_FLOCK_ACTIONS
     RETURN
 ```
 
 The initializer chooses variant 0 or 1 and returns this four-action list:
 
 ```text
-$5395:  db 4
-        dw $52AA, $52DE, $5327, $535F
+MIRROR_FLOCK_ACTIONS:
+        db 4
+        dw MIRROR_FLOCK_SETUP_ACTION
+        dw MIRROR_FLOCK_CORRECT_ACTION
+        dw MIRROR_FLOCK_SECOND_ACTION
+        dw MIRROR_FLOCK_REMAINING_ACTION
 ```
 
 `START_COUNTED_ACTION_LIST` reads the count, walks the word array, prepares
@@ -188,8 +192,13 @@ CPU window at `$4000-$7FFF`. Shared mapping and format constants are defined in
 `src/profpac_question_common.include`.
 
 Within each unit, the bank-header pointer, root directory, tier buckets, and
-rooted initializer entry points are symbolic. The complete payload remains at
-its original CPU addresses, including action threads, strings, graphics,
+rooted initializer entry points are symbolic. Tier-bucket names record the
+selected tier or shared tier set. Initializer names record family, variant
+range, and tier membership. Every reachable action word is named by family,
+lifecycle stage, and demonstrated execution role. Source symbols use compact
+`V` (variant), `T` (tier), `INIT`, and action-stage suffixes to remain within
+zmac 1.3's forty-character symbol limit. The complete payload remains
+at its original CPU addresses, including action threads, strings, graphics,
 tables, unused space, and erased fill. This representation assembles directly
 to the physical 16 KB device image and preserves the address relationships
 required by its threaded code and data.

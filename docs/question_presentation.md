@@ -112,8 +112,11 @@ reports both family coverage and exact reachable call counts.
 
 The PPQ sources contain the complete transitive closure of those graphs as
 structured TERSE: 401 colon definitions and 10,532 execution cells. Each
-family's outer actions are named by presentation role; shared internal words
-use stable bank-and-address names until their individual behavior is decoded.
+family's outer actions are named by presentation role. Internal words are named
+from their family ownership, reachable lifecycle stage, and demonstrated
+operation: rendering, animation, looping, variant dispatch, randomization,
+state setup, or child synchronization. Definitions shared by several families
+carry a bank-local `SHARED` prefix.
 
 ## Verification
 

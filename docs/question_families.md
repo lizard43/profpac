@@ -102,6 +102,19 @@ ROM; a definition reached by several families is counted once.
 | `ppq14` | 4 | 39 | 1058 | 2735 |
 | **Total** | **45** | **401** | **10,532** | **27,353** |
 
+## Semantic source names
+
+All 401 reachable colon definitions, 130 rooted initializers, 45
+action lists, and 106 unique tier buckets carry functional names.
+Outer actions identify their lifecycle stage. Internal words identify
+family ownership, reachable stage, and demonstrated execution role.
+Initializer names encode family, variant range, and tier membership;
+bucket names encode their root tier or shared tier set.
+Compact `V`, `T`, `INIT`, and action-stage suffixes keep every
+symbol within zmac 1.3's forty-character limit.
+
+Source validation rejects address-derived PPQ execution labels.
+
 Prompt text is listed only when the action graph reaches its counted
 string through a direct literal. A dash does not mean that a family has no
 prompt; several families select text indirectly through variant tables.
