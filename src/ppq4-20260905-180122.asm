@@ -1,0 +1,2462 @@
+; Professor Pac-Man question ROM PPQ4
+; CPU address $4000-$7FFF when selected through port $F3
+; The root directory, rooted TERSE initializers, and complete reachable family
+; action graphs are structured symbolically. Unclassified data retains its
+; original addressed byte representation.
+
+        include "src/profpac_question_common.include"
+
+        org     QUESTION_ROM_WINDOW
+
+PPQ4_COMPLETE_FIGURE_A_ACTIONS               equ     $4E34
+PPQ4_COMPLETE_FIGURE_B_ACTIONS               equ     $5827
+PPQ4_LEFT_RIGHT_TURNS_ACTIONS                equ     $73FC
+
+
+QUESTION_BANK_HEADER:
+        dw      QUESTION_ROOT_DIRECTORY                                         ; $4000 root-directory pointer
+        db      $0F,$00,$09,$00,$04,$0E,$0F,$0A,$00,$03,$0E,$00,$00,$00,$0A,$0E ; $4002
+        db      $05,$06,$0F,$0B,$00,$0F,$00,$00,$0C,$00,$08,$0E,$05,$06,$00,$00 ; $4012
+        db      $0A,$0F,$04,$00,$07,$00,$07,$0E,$05,$06,$0F,$0B,$00,$0E,$05,$06 ; $4022
+        db      $0F,$0A,$00,$00,$00,$0E,$00,$01,$0F,$0F,$00,$00,$07,$07,$07,$0F ; $4032
+        db      $0B,$00,$0F,$00,$00,$0C,$00,$08,$0F,$0B,$00,$0E,$05,$06,$07,$00 ; $4042
+        db      $07,$05,$05,$05,$03,$03,$03,$07,$07,$07,$00,$00,$09,$00,$04,$0E ; $4052
+        db      $0F,$0A,$00,$00,$0A,$00,$00,$04,$0E,$0F,$0A,$00,$09,$00,$07,$00 ; $4062
+        db      $04,$0E,$0F,$0A,$00,$0C,$00,$00,$00,$09,$00,$0F,$0D,$00,$4A,$40 ; $4072
+        db      $77,$40,$38,$40,$2F,$40,$5C,$40,$26,$40,$41,$40,$14,$40,$8C,$2D ; $4082
+        db      $CF,$12,$01,$10,$09,$01,$6D,$FD,$EF,$2B,$EC,$3E,$12,$01,$1D,$A8 ; $4092
+        db      $2B,$EA,$3F,$30,$01,$A8,$2B,$8C,$2B,$FD,$00,$CF,$12,$01,$10,$09 ; $40A2
+        db      $01,$3D,$FD,$EF,$2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01,$02 ; $40B2
+        db      $A8,$2B,$EC,$3E,$12,$01,$1B,$A8,$2B,$EA,$3F,$30,$01,$A8,$2B,$8C ; $40C2
+        db      $2B,$FD,$00,$CF,$92,$40,$AD,$40,$FD,$00,$CF,$99,$15,$12,$01,$04 ; $40D2
+        db      $09,$01,$FF,$F2,$32,$05,$09,$01,$FE,$F2,$3F,$05,$D5,$40,$09,$01 ; $40E2
+        db      $FE,$F2,$53,$01,$25,$01,$80,$40,$4C,$01,$6B,$2D,$12,$01,$03,$DF ; $40F2
+        db      $1B,$2C,$1A,$09,$01,$FE,$F2,$36,$01,$49,$05,$53,$01,$12,$01,$08 ; $4102
+        db      $1C,$02,$EA,$03,$F0,$40,$09,$01,$FF,$F2,$36,$01,$44,$05,$53,$01 ; $4112
+        db      $DE,$01,$EA,$03,$E8,$40,$12,$01,$20,$DF,$1B,$2C,$1A,$02,$23,$54 ; $4122
+        db      $22,$FD,$00,$01,$DC,$40                                         ; $4132 preserved bytes
+; -----------------------------------------------------------------------------
+; COMPLETE_FIGURE_A native 2-bpp image
+; 7 bytes/row = 28 pixels, 25 rows; 175 packed pixel bytes
+; Pixels are MSB-first pairs: . = 0, 1 = 1, 2 = 2, 3 = 3.
+; X/Y reference bytes position the image relative to the current object.
+; -----------------------------------------------------------------------------
+COMPLETE_FIGURE_A_IMG_01:
+        db      $0C,$0C,$07,$19                                                 ; $4138 X reference, Y reference, source-byte width, height
+        db      $00,$00,$0F,$FC,$00,$00,$00                                     ; $413C row 00: ..........33333.............
+        db      $00,$00,$FA,$AB,$C0,$00,$00                                     ; $4143 row 01: ........332222233...........
+        db      $00,$0F,$AA,$AA,$BC,$00,$00                                     ; $414A row 02: ......3322222222233.........
+        db      $00,$3A,$AA,$AA,$AB,$00,$00                                     ; $4151 row 03: .....322222222222223........
+        db      $00,$EA,$AA,$AA,$AA,$C0,$00                                     ; $4158 row 04: ....32222222222222223.......
+        db      $03,$AA,$AA,$AA,$AA,$B0,$00                                     ; $415F row 05: ...3222222222222222223......
+        db      $0E,$AA,$AA,$AA,$AA,$AC,$00                                     ; $4166 row 06: ..322222222222222222223.....
+        db      $0E,$AA,$AA,$AA,$AA,$AC,$00                                     ; $416D row 07: ..322222222222222222223.....
+        db      $3F,$FF,$FE,$95,$6A,$AB,$00                                     ; $4174 row 08: .33333333332211112222223....
+        db      $00,$00,$0E,$5F,$5A,$AB,$00                                     ; $417B row 09: ..........32113311222223....
+        db      $FF,$FF,$CE,$7F,$DA,$AA,$C0                                     ; $4182 row 10: 333333333.321333312222223...
+        db      $EA,$AA,$CE,$7F,$DA,$AA,$C0                                     ; $4189 row 11: 322222223.321333312222223...
+        db      $EA,$AA,$CE,$5F,$5A,$AA,$C0                                     ; $4190 row 12: 322222223.321133112222223...
+        db      $EA,$AA,$CE,$95,$6A,$AA,$C0                                     ; $4197 row 13: 322222223.322111122222223...
+        db      $EA,$AA,$CF,$FF,$FF,$FF,$C0                                     ; $419E row 14: 322222223.333333333333333...
+        db      $3A,$AA,$C0,$00,$00,$00,$00                                     ; $41A5 row 15: .32222223...................
+        db      $3A,$AA,$FF,$FF,$FF,$FF,$00                                     ; $41AC row 16: .32222223333333333333333....
+        db      $0E,$AA,$A9,$56,$AA,$AC,$00                                     ; $41B3 row 17: ..322222222111122222223.....
+        db      $0E,$AA,$A5,$F5,$AA,$AC,$00                                     ; $41BA row 18: ..322222221133112222223.....
+        db      $03,$AA,$A7,$FD,$AA,$B0,$00                                     ; $41C1 row 19: ...3222222133331222223......
+        db      $00,$EA,$A7,$FD,$AA,$C0,$00                                     ; $41C8 row 20: ....32222213333122223.......
+        db      $00,$3A,$A5,$F5,$AB,$00,$00                                     ; $41CF row 21: .....322221133112223........
+        db      $00,$0F,$A9,$56,$BC,$00,$00                                     ; $41D6 row 22: ......3322211112233.........
+        db      $00,$00,$FA,$AA,$C0,$00,$00                                     ; $41DD row 23: ........332222223...........
+        db      $00,$00,$0F,$FC,$00,$00,$00                                     ; $41E4 row 24: ..........33333.............
+        db      $0C,$0C,$07,$19,$00,$00,$0F                                     ; $41EB preserved bytes
+        db      $FC,$00,$00,$00,$00,$00,$FA,$AC,$C0,$00,$00,$00,$0F,$AA,$AC,$FC ; $41F2
+        db      $00,$00,$00,$3A,$AA,$AC,$EB,$00,$00,$00,$EA,$AA,$AC,$EA,$C0,$00 ; $4202
+        db      $03,$AA,$AA,$AC,$EA,$B0,$00,$0E,$AA,$AA,$AC,$EA,$AC,$00,$0E,$AA ; $4212
+        db      $AA,$AC,$EA,$AC,$00,$3A,$AA,$FF,$FC,$EA,$AB,$00,$3A,$AA,$C0,$00 ; $4222
+        db      $EA,$AB,$00,$E9,$56,$CF,$FF,$EA,$AA,$C0,$E5,$F5,$CE,$AA,$AA,$AA ; $4232
+        db      $C0,$E7,$FD,$CE,$55,$AA,$AA,$C0,$E7,$FD,$CD,$7D,$6A,$AA,$C0,$E5 ; $4242
+        db      $F5,$CD,$FF,$6A,$AA,$C0,$29,$56,$CD,$FF,$6A,$AB,$00,$3A,$AA,$CD ; $4252
+        db      $7D,$6A,$AB,$00,$0E,$AA,$CE,$55,$AA,$AC,$00,$0E,$AA,$CE,$AA,$AA ; $4262
+        db      $AC,$00,$03,$AA,$CE,$AA,$AA,$B0,$00,$00,$EA,$CE,$AA,$AA,$C0,$00 ; $4272
+        db      $00,$3A,$CE,$AA,$AB,$00,$00,$00,$0F,$CE,$AA,$BC,$00,$00,$00,$00 ; $4282
+        db      $CE,$AB,$C0,$00,$00,$00,$00,$0F,$FC,$00,$00,$00,$0C,$0C,$07,$19 ; $4292
+        db      $00,$00,$0F,$FC,$00,$00,$00,$00,$00,$EA,$AB,$C0,$00,$00,$00,$0F ; $42A2
+        db      $A5,$5A,$BC,$00,$00,$00,$3A,$97,$D6,$AB,$00,$00,$00,$EA,$9F,$F6 ; $42B2
+        db      $AA,$C0,$00,$03,$AA,$9F,$F6,$AA,$B0,$00,$0E,$AA,$97,$D6,$AA,$AC ; $42C2
+        db      $00,$0E,$AA,$A5,$5A,$AA,$AC,$00,$3F,$FF,$FF,$FF,$EA,$AB,$00,$00 ; $42D2
+        db      $00,$00,$00,$EA,$AB,$00,$FF,$FF,$FF,$FC,$EA,$AA,$C0,$EA,$AA,$55 ; $42E2
+        db      $AC,$EA,$AA,$C0,$EA,$A9,$7D,$6C,$EA,$AA,$C0,$EA,$A9,$FF,$6C,$EA ; $42F2
+        db      $AA,$C0,$EA,$A9,$FF,$6C,$FF,$FF,$C0,$3A,$A9,$7D,$6C,$00,$00,$00 ; $4302
+        db      $3A,$AA,$55,$AF,$FF,$FF,$00,$0E,$AA,$AA,$AA,$AA,$AC,$00,$0E,$AA ; $4312
+        db      $AA,$AA,$AA,$AC,$00,$03,$AA,$AA,$AA,$AA,$B0,$00,$00,$EA,$AA,$AA ; $4322
+        db      $AA,$C0,$00,$00,$3A,$AA,$AA,$AB,$00,$00,$00,$0F,$AA,$AA,$BC,$00 ; $4332
+        db      $00,$00,$00,$FA,$AB,$C0,$00,$00,$00,$00,$0F,$FC,$00,$00,$00,$0C ; $4342
+        db      $0C,$07,$19,$00,$00,$0F,$FC,$00,$00,$00,$00,$00,$FA,$AC,$C0,$00 ; $4352
+        db      $00,$00,$0F,$AA,$AC,$FC,$00,$00,$00,$3A,$AA,$AC,$EB,$00,$00,$00 ; $4362
+        db      $EA,$AA,$AC,$EA,$C0,$00,$03,$AA,$AA,$AC,$EA,$B0,$00,$0E,$AA,$AA ; $4372
+        db      $AC,$EA,$AC,$00,$0E,$AA,$95,$6C,$EA,$AC,$00,$3A,$AA,$5F,$5C,$EA ; $4382
+        db      $AB,$00,$3A,$AA,$7F,$DC,$E5,$5A,$00,$EA,$AA,$7F,$DC,$D7,$D6,$C0 ; $4392
+        db      $EA,$AA,$5F,$5C,$DF,$F6,$C0,$EA,$AA,$95,$6C,$DF,$F6,$C0,$EA,$AA ; $43A2
+        db      $AA,$AC,$D7,$D6,$C0,$EA,$AA,$FF,$FC,$E5,$5A,$C0,$3A,$AA,$C0,$00 ; $43B2
+        db      $EA,$AB,$00,$3A,$AA,$CF,$FF,$EA,$AB,$00,$0E,$AA,$CE,$AA,$AA,$AC ; $43C2
+        db      $00,$0E,$AA,$CE,$AA,$AA,$AC,$00,$03,$AA,$CE,$AA,$AA,$B0,$00,$00 ; $43D2
+        db      $EA,$CE,$AA,$AA,$C0,$00,$00,$3A,$CE,$AA,$AB,$00,$00,$00,$0F,$CE ; $43E2
+        db      $AA,$BC,$00,$00,$00,$00,$CE,$AB,$C0,$00,$00,$00,$00,$0F,$FC,$00 ; $43F2
+        db      $00,$00,$0C,$0C,$07,$19,$00,$00,$0F,$FC,$00,$00,$00,$00,$00,$FA ; $4402
+        db      $AB,$C0,$00,$00,$00,$0F,$AA,$AA,$BC,$00,$00,$00,$3A,$AA,$AA,$AB ; $4412
+        db      $00,$00,$00,$EA,$AA,$AA,$AA,$C0,$00,$03,$AA,$AA,$AA,$AA,$B0,$00 ; $4422
+        db      $0E,$AA,$AA,$AA,$AA,$AC,$00,$0F,$FF,$FF,$FA,$AA,$AC,$00,$00,$00 ; $4432
+        db      $00,$3A,$55,$AB,$00,$3F,$FF,$FF,$39,$7D,$6B,$00,$EA,$95,$6B,$39 ; $4442
+        db      $FF,$6A,$C0,$EA,$5F,$5B,$39,$FF,$6A,$C0,$EA,$7F,$DB,$39,$7D,$6A ; $4452
+        db      $C0,$EA,$7F,$DB,$3A,$55,$AA,$C0,$EA,$5F,$5B,$3F,$FF,$FF,$C0,$3A ; $4462
+        db      $95,$6B,$00,$00,$00,$00,$3A,$AA,$AB,$FF,$FF,$FF,$00,$0E,$AA,$AA ; $4472
+        db      $AA,$AA,$AC,$00,$0E,$AA,$AA,$AA,$AA,$AC,$00,$03,$AA,$AA,$AA,$AA ; $4482
+        db      $B0,$00,$00,$EA,$AA,$AA,$AA,$C0,$00,$00,$3A,$AA,$AA,$AB,$00,$00 ; $4492
+        db      $00,$0F,$AA,$AA,$BC,$00,$00,$00,$00,$FA,$AA,$C0,$00,$00,$00,$00 ; $44A2
+        db      $0F,$FC,$00,$00,$00,$0C,$0C,$07,$19,$00,$00,$0F,$FC,$00,$00,$00 ; $44B2
+        db      $00,$00,$FA,$AB,$00,$00,$00,$00,$0F,$AA,$AB,$3C,$00,$00,$00,$3A ; $44C2
+        db      $AA,$AB,$3B,$00,$00,$00,$EA,$A5,$5B,$3A,$C0,$00,$03,$AA,$97,$D7 ; $44D2
+        db      $3A,$B0,$00,$0E,$AA,$9F,$F7,$3A,$AC,$00,$0E,$AA,$9F,$F7,$3A,$AC ; $44E2
+        db      $00,$3A,$AA,$97,$D7,$3A,$AB,$00,$3A,$AA,$A5,$5B,$3A,$AB,$00,$EA ; $44F2
+        db      $AA,$AA,$AB,$3A,$AA,$C0,$EA,$AA,$FF,$FF,$3A,$AA,$C0,$EA,$AA,$C0 ; $4502
+        db      $00,$3A,$AA,$C0,$EA,$AA,$CF,$FF,$FA,$AA,$C0,$EA,$AA,$CE,$AA,$AA ; $4512
+        db      $AA,$C0,$2A,$AA,$CE,$55,$AA,$AB,$00,$3A,$AA,$CD,$7D,$6A,$AB,$00 ; $4522
+        db      $0E,$AA,$CD,$FF,$6A,$AC,$00,$0E,$AA,$CD,$FF,$6A,$AC,$00,$03,$AA ; $4532
+        db      $CD,$7D,$6A,$B0,$00,$00,$EA,$CE,$55,$AA,$C0,$00,$00,$3A,$CE,$AA ; $4542
+        db      $AB,$00,$00,$00,$0F,$CE,$AA,$BC,$00,$00,$00,$00,$CE,$AB,$C0,$00 ; $4552
+        db      $00,$00,$00,$0F,$FC,$00,$00,$00,$0C,$0C,$07,$19,$00,$00,$0F,$FC ; $4562
+        db      $00,$00,$00,$00,$00,$EA,$AB,$C0,$00,$00,$00,$0F,$AA,$AA,$BC,$00 ; $4572
+        db      $00,$00,$3A,$AA,$AA,$AB,$00,$00,$00,$EA,$AA,$AA,$AA,$C0,$00,$03 ; $4582
+        db      $AA,$AA,$AA,$AA,$B0,$00,$0E,$AA,$AA,$AA,$AA,$AC,$00,$0E,$AA,$AA ; $4592
+        db      $AA,$AA,$AC,$00,$3F,$FF,$FF,$FA,$AA,$AB,$00,$00,$00,$00,$3A,$55 ; $45A2
+        db      $AB,$00,$FF,$FF,$FF,$39,$7D,$6A,$C0,$EA,$95,$6B,$39,$FF,$6A,$C0 ; $45B2
+        db      $EA,$5F,$5B,$39,$FF,$6A,$C0,$EA,$7F,$DB,$39,$7D,$6A,$C0,$EA,$7F ; $45C2
+        db      $DB,$3A,$55,$AA,$C0,$3A,$5F,$5B,$3F,$FF,$FF,$00,$3A,$95,$6B,$00 ; $45D2
+        db      $00,$00,$00,$0E,$AA,$AB,$FF,$FF,$FC,$00,$0E,$AA,$AA,$AA,$AA,$AC ; $45E2
+        db      $00,$03,$AA,$AA,$AA,$AA,$B0,$00,$00,$EA,$AA,$AA,$AA,$C0,$00,$00 ; $45F2
+        db      $3A,$AA,$AA,$AB,$00,$00,$00,$0F,$AA,$AA,$BC,$00,$00,$00,$00,$FA ; $4602
+        db      $AB,$C0,$00,$00,$00,$00,$0F,$FC,$00,$00,$00,$0C,$0C,$07,$19,$00 ; $4612
+        db      $00,$0F,$FC,$00,$00,$00,$00,$00,$FA,$AC,$C0,$00,$00,$00,$0F,$AA ; $4622
+        db      $AC,$FC,$00,$00,$00,$3A,$AA,$AC,$EB,$00,$00,$00,$EA,$95,$6C,$EA ; $4632
+        db      $C0,$00,$03,$AA,$5F,$5C,$EA,$B0,$00,$0E,$AA,$7F,$DC,$EA,$AC,$00 ; $4642
+        db      $0E,$AA,$7F,$DC,$EA,$AC,$00,$3A,$AA,$5F,$5C,$EA,$AB,$00,$3A,$AA ; $4652
+        db      $95,$6C,$EA,$AA,$00,$EA,$AA,$AA,$AC,$EA,$AA,$C0,$EA,$AB,$FF,$FC ; $4662
+        db      $EA,$AA,$C0,$EA,$AB,$00,$00,$EA,$AA,$C0,$EA,$AB,$3F,$FF,$EA,$AA ; $4672
+        db      $C0,$EA,$AB,$3A,$AA,$AA,$AA,$C0,$3A,$AB,$39,$56,$AA,$AB,$00,$3A ; $4682
+        db      $AB,$35,$F5,$AA,$AB,$00,$0E,$AB,$37,$FD,$AA,$AC,$00,$0E,$AB,$37 ; $4692
+        db      $FD,$AA,$AC,$00,$03,$AB,$35,$F5,$AA,$B0,$00,$00,$EB,$39,$56,$AA ; $46A2
+        db      $C0,$00,$00,$3B,$3A,$AA,$AB,$00,$00,$00,$0F,$3A,$AA,$BC,$00,$00 ; $46B2
+        db      $00,$00,$3A,$AB,$C0,$00,$00,$00,$00,$0F,$FC,$00,$00,$00         ; $46C2 preserved bytes
+; -----------------------------------------------------------------------------
+; COMPLETE_FIGURE_A native 2-bpp image
+; 6 bytes/row = 24 pixels, 15 rows; 90 packed pixel bytes
+; Pixels are MSB-first pairs: . = 0, 1 = 1, 2 = 2, 3 = 3.
+; X/Y reference bytes position the image relative to the current object.
+; -----------------------------------------------------------------------------
+COMPLETE_FIGURE_A_IMG_02:
+        db      $09,$0E,$06,$0F                                                 ; $46D0 X reference, Y reference, source-byte width, height
+        db      $00,$00,$3F,$F0,$00,$00                                         ; $46D4 row 00: .........33333..........
+        db      $00,$03,$EA,$AF,$00,$00                                         ; $46DA row 01: .......332222233........
+        db      $00,$3E,$AA,$AA,$F0,$00                                         ; $46E0 row 02: .....3322222222233......
+        db      $00,$EA,$AA,$AA,$AC,$00                                         ; $46E6 row 03: ....322222222222223.....
+        db      $03,$AA,$AA,$AA,$AB,$00                                         ; $46EC row 04: ...32222222222222223....
+        db      $0E,$AA,$AA,$AA,$AA,$C0                                         ; $46F2 row 05: ..3222222222222222223...
+        db      $3A,$AA,$AA,$AA,$AA,$B0                                         ; $46F8 row 06: .322222222222222222223..
+        db      $3A,$AA,$AA,$AA,$AA,$B0                                         ; $46FE row 07: .322222222222222222223..
+        db      $FF,$FF,$FA,$55,$AA,$AC                                         ; $4704 row 08: 33333333332211112222223.
+        db      $00,$00,$39,$7D,$6A,$AC                                         ; $470A row 09: .........32113311222223.
+        db      $00,$00,$39,$FF,$6A,$AB                                         ; $4710 row 10: .........321333312222223
+        db      $00,$00,$39,$FF,$6A,$AB                                         ; $4716 row 11: .........321333312222223
+        db      $00,$00,$39,$7D,$6A,$AB                                         ; $471C row 12: .........321133112222223
+        db      $00,$00,$3A,$55,$AA,$AB                                         ; $4722 row 13: .........322111122222223
+        db      $00,$00,$3F,$FF,$FF,$FF                                         ; $4728 row 14: .........333333333333333
+        db      $00,$09,$04,$18                                                 ; $472E preserved bytes
+        db      $00,$0C,$00,$00,$00,$0F,$C0,$00,$00,$0E,$B0,$00,$00,$0E,$AC,$00 ; $4732
+        db      $00,$0E,$AB,$00,$00,$0E,$AA,$C0,$00,$0E,$AA,$C0,$00,$0E,$AA,$B0 ; $4742
+        db      $00,$0E,$AA,$B0,$FF,$FE,$AA,$AC,$EA,$AA,$AA,$AC,$E5,$5A,$AA,$AC ; $4752
+        db      $D7,$D6,$AA,$AC,$DF,$F6,$AA,$AC,$DF,$F6,$AA,$B0,$D7,$D6,$AA,$B0 ; $4762
+        db      $E5,$5A,$AA,$C0,$EA,$AA,$AA,$C0,$EA,$AA,$AB,$00,$EA,$AA,$AC,$00 ; $4772
+        db      $EA,$AA,$B0,$00,$EA,$AB,$C0,$00,$EA,$BC,$00,$00,$FF,$C0,$00,$00 ; $4782
+        db      $0E,$06,$06,$0F,$FF,$FF,$FF,$FC,$00,$00,$EA,$AA,$55,$AC,$00,$00 ; $4792
+        db      $EA,$A9,$7D,$6C,$00,$00,$EA,$A9,$FF,$6C,$00,$00,$EA,$A9,$FF,$6C ; $47A2
+        db      $00,$00,$3A,$A9,$7D,$6C,$00,$00,$3A,$AA,$55,$AF,$FF,$FF,$0E,$AA ; $47B2
+        db      $AA,$AA,$AA,$AC,$0E,$AA,$AA,$AA,$AA,$AC,$03,$AA,$AA,$AA,$AA,$B0 ; $47C2
+        db      $00,$EA,$AA,$AA,$AA,$C0,$00,$3A,$AA,$AA,$AB,$00,$00,$0F,$AA,$AA ; $47D2
+        db      $BC,$00,$00,$00,$FA,$AB,$C0,$00,$00,$00,$0F,$FC,$00,$00,$08,$0E ; $47E2
+        db      $04,$18,$00,$00,$0F,$FC,$00,$00,$FA,$AC,$00,$0F,$AA,$AC,$00,$3A ; $47F2
+        db      $AA,$AC,$00,$EA,$AA,$AC,$03,$AA,$AA,$AC,$0E,$AA,$AA,$AC,$0E,$AA ; $4802
+        db      $95,$6C,$3A,$AA,$5F,$5C,$3A,$AA,$7F,$DC,$EA,$AA,$7F,$DC,$EA,$AA ; $4812
+        db      $5F,$5C,$EA,$AA,$95,$6C,$EA,$AA,$AA,$AC,$EA,$AA,$FF,$FC,$3A,$AA ; $4822
+        db      $C0,$00,$3A,$AA,$C0,$00,$0E,$AA,$C0,$00,$0E,$AA,$C0,$00,$03,$AA ; $4832
+        db      $C0,$00,$00,$EA,$C0,$00,$00,$3A,$C0,$00,$00,$0F,$C0,$00,$00,$00 ; $4842
+        db      $C0,$00,$08,$06,$06,$0F,$FF,$FF,$C0,$00,$00,$00,$EA,$AA,$C0,$00 ; $4852
+        db      $00,$00,$EA,$AA,$C0,$00,$00,$00,$EA,$AA,$C0,$00,$00,$00,$EA,$AA ; $4862
+        db      $C0,$00,$00,$00,$3A,$AA,$C0,$00,$00,$00,$3A,$AA,$FF,$FF,$FF,$FF ; $4872
+        db      $0E,$AA,$A9,$56,$AA,$AC,$0E,$AA,$A5,$F5,$AA,$AC,$03,$AA,$A7,$FD ; $4882
+        db      $AA,$B0,$00,$EA,$A7,$FD,$AA,$C0,$00,$3A,$A5,$F5,$AB,$00,$00,$0F ; $4892
+        db      $A9,$56,$BC,$00,$00,$00,$FA,$AA,$C0,$00,$00,$00,$0F,$FC,$00,$00 ; $48A2
+        db      $80,$40,$60,$30,$FF,$80,$40,$30,$40,$30,$40,$30,$40,$30,$40,$30 ; $48B2
+        db      $40,$30,$40,$30,$40,$30                                         ; $48C2 preserved bytes
+
+COMPLETE_FIGURE_A_CORRECT_THREAD_1:
+        rst     $08                                                             ; $48C8 colon entry
+        dw      XT_LIT                                                          ; $48C9 execution token
+        dw      $F2FC                                                           ; $48CB inline word
+        dw      XT_DUP                                                          ; $48CD execution token
+        dw      XT_1plusBbang                                                   ; $48CF execution token
+        dw      XT_Bat                                                          ; $48D1 execution token
+        dw      XT_RETURN                                                       ; $48D3 execution token
+
+COMPLETE_FIGURE_A_CORRECT_THREAD_2:
+        rst     $08                                                             ; $48D5 colon entry
+        dw      XT_LIT                                                          ; $48D6 execution token
+        dw      $F2FD                                                           ; $48D8 inline word
+        dw      XT_Bat                                                          ; $48DA execution token
+        dw      XT_BARRAY                                                       ; $48DC execution token
+        dw      $48B8                                                           ; $48DE inline word
+        dw      XT_Bat                                                          ; $48E0 execution token
+        dw      $2AF2                                                           ; $48E2 execution token
+        dw      XT_LIT                                                          ; $48E4 execution token
+        dw      $F2FD                                                           ; $48E6 inline word
+        dw      XT_DUP                                                          ; $48E8 execution token
+        dw      XT_1plusBbang                                                   ; $48EA execution token
+        dw      XT_Bat                                                          ; $48EC execution token
+        dw      XT_RETURN                                                       ; $48EE execution token
+
+COMPLETE_FIGURE_A_CORRECT_THREAD_3:
+        rst     $08                                                             ; $48F0 colon entry
+        dw      XT_LIT                                                          ; $48F1 execution token
+        dw      $F2FC                                                           ; $48F3 inline word
+        dw      XT_Bat                                                          ; $48F5 execution token
+        dw      XT_BARRAY                                                       ; $48F7 execution token
+        dw      $48B2                                                           ; $48F9 inline word
+        dw      XT_Bat                                                          ; $48FB execution token
+        dw      XT_LIT                                                          ; $48FD execution token
+        dw      $F2FC                                                           ; $48FF inline word
+        dw      XT_Bat                                                          ; $4901 execution token
+        dw      XT_BARRAY                                                       ; $4903 execution token
+        dw      $48B4                                                           ; $4905 inline word
+        dw      XT_Bat                                                          ; $4907 execution token
+        dw      XT_LIT                                                          ; $4909 execution token
+        dw      $F2FC                                                           ; $490B inline word
+        dw      XT_Bat                                                          ; $490D execution token
+        dw      XT_BARRAY                                                       ; $490F execution token
+        dw      $48B6                                                           ; $4911 inline word
+        dw      XT_Bat                                                          ; $4913 execution token
+        dw      $2B71                                                           ; $4915 execution token
+        dw      XT_RETURN                                                       ; $4917 execution token
+
+COMPLETE_FIGURE_A_CORRECT_LOOP_1:
+        rst     $08                                                             ; $4919 colon entry
+        dw      XT_0                                                            ; $491A execution token
+        dw      XT_LIT                                                          ; $491C execution token
+        dw      $FD6D                                                           ; $491E inline word
+        dw      $2BEF                                                           ; $4920 execution token
+        dw      XT_LITbyte                                                      ; $4922 execution token
+        db      $00                                                             ; $4924 inline byte
+        dw      XT_LITbyte                                                      ; $4925 execution token
+        db      $00                                                             ; $4927 inline byte
+        dw      $2B2E                                                           ; $4928 execution token
+        dw      XT_LITbyte                                                      ; $492A execution token
+        db      $03                                                             ; $492C inline byte
+        dw      $2BA8                                                           ; $492D execution token
+        dw      $3F38                                                           ; $492F execution token
+        dw      XT_LIT                                                          ; $4931 execution token
+        dw      $F2FD                                                           ; $4933 inline word
+        dw      XT_BZERO                                                        ; $4935 execution token
+COMPLETE_FIGURE_A_CORRECT_LOOP_1_R_1:
+        dw      XT_LIT                                                          ; $4937 execution token
+        dw      $F2FC                                                           ; $4939 inline word
+        dw      XT_BZERO                                                        ; $493B execution token
+COMPLETE_FIGURE_A_CORRECT_LOOP_1_R_2:
+        dw      $3FD4                                                           ; $493D execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_THREAD_3                              ; $493F execution token
+        dw      XT_LIT                                                          ; $4941 execution token
+        dw      $F2FD                                                           ; $4943 inline word
+        dw      XT_Bat                                                          ; $4945 execution token
+        dw      XT_1                                                            ; $4947 execution token
+        dw      XT_equal                                                        ; $4949 execution token
+        dw      XT_0BRANCH                                                      ; $494B execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_LOOP_1_C                              ; $494D branch target
+        dw      $3FB2                                                           ; $494F execution token
+COMPLETE_FIGURE_A_CORRECT_LOOP_1_C:
+        dw      XT_LITbyte                                                      ; $4951 execution token
+        db      $08                                                             ; $4953 inline byte
+        dw      $2BA8                                                           ; $4954 execution token
+        dw      $3FEA                                                           ; $4956 execution token
+        dw      XT_LITbyte                                                      ; $4958 execution token
+        db      $02                                                             ; $495A inline byte
+        dw      $2BA8                                                           ; $495B execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_THREAD_1                              ; $495D execution token
+        dw      XT_1                                                            ; $495F execution token
+        dw      XT_gt                                                           ; $4961 execution token
+        dw      XT_0BRANCH                                                      ; $4963 execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_LOOP_1_R_2                            ; $4965 branch target
+        dw      XT_LIT                                                          ; $4967 execution token
+        dw      $F2FC                                                           ; $4969 inline word
+        dw      XT_BZERO                                                        ; $496B execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_THREAD_2                              ; $496D execution token
+        dw      XT_LITbyte                                                      ; $496F execution token
+        db      $02                                                             ; $4971 inline byte
+        dw      XT_gt                                                           ; $4972 execution token
+        dw      XT_0BRANCH                                                      ; $4974 execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_LOOP_1_R_1                            ; $4976 branch target
+        dw      XT_LIT                                                          ; $4978 execution token
+        dw      $F2FD                                                           ; $497A inline word
+        dw      XT_BZERO                                                        ; $497C execution token
+        dw      $2B8C                                                           ; $497E execution token
+        dw      XT_RETURN                                                       ; $4980 execution token
+COMPLETE_FIGURE_A_CORRECT_THREAD_4:
+        rst     $08                                                             ; $4982 colon entry
+        dw      XT_LIT                                                          ; $4983 execution token
+        dw      $F2FA                                                           ; $4985 inline word
+        dw      XT_DUP                                                          ; $4987 execution token
+        dw      XT_1plusBbang                                                   ; $4989 execution token
+        dw      XT_Bat                                                          ; $498B execution token
+        dw      XT_RETURN                                                       ; $498D execution token
+
+COMPLETE_FIGURE_A_CORRECT_THREAD_5:
+        rst     $08                                                             ; $498F colon entry
+        dw      XT_LIT                                                          ; $4990 execution token
+        dw      $F2FB                                                           ; $4992 inline word
+        dw      XT_Bat                                                          ; $4994 execution token
+        dw      XT_BARRAY                                                       ; $4996 execution token
+        dw      $48B8                                                           ; $4998 inline word
+        dw      XT_Bat                                                          ; $499A execution token
+        dw      $2AF2                                                           ; $499C execution token
+        dw      XT_LIT                                                          ; $499E execution token
+        dw      $F2FB                                                           ; $49A0 inline word
+        dw      XT_DUP                                                          ; $49A2 execution token
+        dw      XT_1plusBbang                                                   ; $49A4 execution token
+        dw      XT_Bat                                                          ; $49A6 execution token
+        dw      XT_RETURN                                                       ; $49A8 execution token
+
+COMPLETE_FIGURE_A_CORRECT_THREAD_6:
+        rst     $08                                                             ; $49AA colon entry
+        dw      XT_LIT                                                          ; $49AB execution token
+        dw      $F2FA                                                           ; $49AD inline word
+        dw      XT_Bat                                                          ; $49AF execution token
+        dw      XT_BARRAY                                                       ; $49B1 execution token
+        dw      $48B2                                                           ; $49B3 inline word
+        dw      XT_Bat                                                          ; $49B5 execution token
+        dw      XT_LIT                                                          ; $49B7 execution token
+        dw      $F2FA                                                           ; $49B9 inline word
+        dw      XT_Bat                                                          ; $49BB execution token
+        dw      XT_BARRAY                                                       ; $49BD execution token
+        dw      $48B4                                                           ; $49BF inline word
+        dw      XT_Bat                                                          ; $49C1 execution token
+        dw      XT_LIT                                                          ; $49C3 execution token
+        dw      $F2FA                                                           ; $49C5 inline word
+        dw      XT_Bat                                                          ; $49C7 execution token
+        dw      XT_BARRAY                                                       ; $49C9 execution token
+        dw      $48B6                                                           ; $49CB inline word
+        dw      XT_Bat                                                          ; $49CD execution token
+        dw      $2B71                                                           ; $49CF execution token
+        dw      XT_RETURN                                                       ; $49D1 execution token
+
+COMPLETE_FIGURE_A_CORRECT_LOOP_2:
+        rst     $08                                                             ; $49D3 colon entry
+        dw      XT_0                                                            ; $49D4 execution token
+        dw      XT_LIT                                                          ; $49D6 execution token
+        dw      $FD3D                                                           ; $49D8 inline word
+        dw      $2BEF                                                           ; $49DA execution token
+        dw      $3F38                                                           ; $49DC execution token
+        dw      XT_LIT                                                          ; $49DE execution token
+        dw      $F2FB                                                           ; $49E0 inline word
+        dw      XT_BZERO                                                        ; $49E2 execution token
+COMPLETE_FIGURE_A_CORRECT_LOOP_2_R_1:
+        dw      XT_LIT                                                          ; $49E4 execution token
+        dw      $F2FA                                                           ; $49E6 inline word
+        dw      XT_BZERO                                                        ; $49E8 execution token
+COMPLETE_FIGURE_A_CORRECT_LOOP_2_R_2:
+        dw      $3FD4                                                           ; $49EA execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_THREAD_6                              ; $49EC execution token
+        dw      XT_LIT                                                          ; $49EE execution token
+        dw      $F2FB                                                           ; $49F0 inline word
+        dw      XT_Bat                                                          ; $49F2 execution token
+        dw      XT_1                                                            ; $49F4 execution token
+        dw      XT_equal                                                        ; $49F6 execution token
+        dw      XT_0BRANCH                                                      ; $49F8 execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_LOOP_2_C                              ; $49FA branch target
+        dw      $3FB2                                                           ; $49FC execution token
+COMPLETE_FIGURE_A_CORRECT_LOOP_2_C:
+        dw      XT_LITbyte                                                      ; $49FE execution token
+        db      $08                                                             ; $4A00 inline byte
+        dw      $2BA8                                                           ; $4A01 execution token
+        dw      $3FEA                                                           ; $4A03 execution token
+        dw      XT_LITbyte                                                      ; $4A05 execution token
+        db      $02                                                             ; $4A07 inline byte
+        dw      $2BA8                                                           ; $4A08 execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_THREAD_4                              ; $4A0A execution token
+        dw      XT_1                                                            ; $4A0C execution token
+        dw      XT_gt                                                           ; $4A0E execution token
+        dw      XT_0BRANCH                                                      ; $4A10 execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_LOOP_2_R_2                            ; $4A12 branch target
+        dw      XT_LIT                                                          ; $4A14 execution token
+        dw      $F2FA                                                           ; $4A16 inline word
+        dw      XT_BZERO                                                        ; $4A18 execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_THREAD_5                              ; $4A1A execution token
+        dw      XT_LITbyte                                                      ; $4A1C execution token
+        db      $02                                                             ; $4A1E inline byte
+        dw      XT_gt                                                           ; $4A1F execution token
+        dw      XT_0BRANCH                                                      ; $4A21 execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_LOOP_2_R_1                            ; $4A23 branch target
+        dw      XT_LIT                                                          ; $4A25 execution token
+        dw      $F2FB                                                           ; $4A27 inline word
+        dw      XT_BZERO                                                        ; $4A29 execution token
+        dw      $2B8C                                                           ; $4A2B execution token
+        dw      XT_RETURN                                                       ; $4A2D execution token
+
+COMPLETE_FIGURE_A_CORRECT_THREAD_7:
+        rst     $08                                                             ; $4A2F colon entry
+        dw      COMPLETE_FIGURE_A_CORRECT_LOOP_1                                ; $4A30 execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_LOOP_2                                ; $4A32 execution token
+        dw      XT_RETURN                                                       ; $4A34 execution token
+
+COMPLETE_FIGURE_A_DIST_THREAD_1:
+        rst     $08                                                             ; $4A36 colon entry
+        dw      XT_0                                                            ; $4A37 execution token
+        dw      XT_LIT                                                          ; $4A39 execution token
+        dw      $FD6D                                                           ; $4A3B inline word
+        dw      $2BEF                                                           ; $4A3D execution token
+        dw      $3EAD                                                           ; $4A3F execution token
+        dw      XT_LITbyte                                                      ; $4A41 execution token
+        db      $18                                                             ; $4A43 inline byte
+        dw      $2BA8                                                           ; $4A44 execution token
+        dw      $3E73                                                           ; $4A46 execution token
+        dw      $3FEA                                                           ; $4A48 execution token
+        dw      XT_LITbyte                                                      ; $4A4A execution token
+        db      $16                                                             ; $4A4C inline byte
+        dw      $2BA8                                                           ; $4A4D execution token
+        dw      $3F56                                                           ; $4A4F execution token
+        dw      XT_LITbyte                                                      ; $4A51 execution token
+        db      $08                                                             ; $4A53 inline byte
+        dw      $2BA8                                                           ; $4A54 execution token
+        dw      $3FEA                                                           ; $4A56 execution token
+        dw      XT_LITbyte                                                      ; $4A58 execution token
+        db      $03                                                             ; $4A5A inline byte
+        dw      $2BA8                                                           ; $4A5B execution token
+        dw      $3FC8                                                           ; $4A5D execution token
+        dw      XT_LITbyte                                                      ; $4A5F execution token
+        db      $08                                                             ; $4A61 inline byte
+        dw      $2BA8                                                           ; $4A62 execution token
+        dw      $3FEA                                                           ; $4A64 execution token
+        dw      XT_LITbyte                                                      ; $4A66 execution token
+        db      $03                                                             ; $4A68 inline byte
+        dw      $2BA8                                                           ; $4A69 execution token
+        dw      $3FB2                                                           ; $4A6B execution token
+        dw      XT_LITbyte                                                      ; $4A6D execution token
+        db      $08                                                             ; $4A6F inline byte
+        dw      $2BA8                                                           ; $4A70 execution token
+        dw      $3FEA                                                           ; $4A72 execution token
+        dw      XT_LITbyte                                                      ; $4A74 execution token
+        db      $03                                                             ; $4A76 inline byte
+        dw      $2BA8                                                           ; $4A77 execution token
+        dw      $3FC8                                                           ; $4A79 execution token
+        dw      XT_LITbyte                                                      ; $4A7B execution token
+        db      $08                                                             ; $4A7D inline byte
+        dw      $2BA8                                                           ; $4A7E execution token
+        dw      $3FEA                                                           ; $4A80 execution token
+        dw      XT_LITbyte                                                      ; $4A82 execution token
+        db      $03                                                             ; $4A84 inline byte
+        dw      $2BA8                                                           ; $4A85 execution token
+        dw      $3F78                                                           ; $4A87 execution token
+        dw      XT_LITbyte                                                      ; $4A89 execution token
+        db      $13                                                             ; $4A8B inline byte
+        dw      $2BA8                                                           ; $4A8C execution token
+        dw      $3FEA                                                           ; $4A8E execution token
+        dw      XT_LITbyte                                                      ; $4A90 execution token
+        db      $02                                                             ; $4A92 inline byte
+        dw      $2BA8                                                           ; $4A93 execution token
+        dw      $3EAD                                                           ; $4A95 execution token
+        dw      XT_LITbyte                                                      ; $4A97 execution token
+        db      $18                                                             ; $4A99 inline byte
+        dw      $2BA8                                                           ; $4A9A execution token
+        dw      $3E73                                                           ; $4A9C execution token
+        dw      $3FEA                                                           ; $4A9E execution token
+        dw      XT_LITbyte                                                      ; $4AA0 execution token
+        db      $03                                                             ; $4AA2 inline byte
+        dw      $2BA8                                                           ; $4AA3 execution token
+        dw      $3E8B                                                           ; $4AA5 execution token
+        dw      $3FA6                                                           ; $4AA7 execution token
+        dw      XT_LITbyte                                                      ; $4AA9 execution token
+        db      $10                                                             ; $4AAB inline byte
+        dw      $2BA8                                                           ; $4AAC execution token
+        dw      $3FEA                                                           ; $4AAE execution token
+        dw      XT_LITbyte                                                      ; $4AB0 execution token
+        db      $03                                                             ; $4AB2 inline byte
+        dw      $2BA8                                                           ; $4AB3 execution token
+        dw      $3FA6                                                           ; $4AB5 execution token
+        dw      XT_LITbyte                                                      ; $4AB7 execution token
+        db      $10                                                             ; $4AB9 inline byte
+        dw      $2BA8                                                           ; $4ABA execution token
+        dw      $2B8C                                                           ; $4ABC execution token
+        dw      XT_RETURN                                                       ; $4ABE execution token
+
+COMPLETE_FIGURE_A_DIST_THREAD_2:
+        rst     $08                                                             ; $4AC0 colon entry
+        dw      XT_0                                                            ; $4AC1 execution token
+        dw      XT_LIT                                                          ; $4AC3 execution token
+        dw      $FD3D                                                           ; $4AC5 inline word
+        dw      $2BEF                                                           ; $4AC7 execution token
+        dw      XT_LITbyte                                                      ; $4AC9 execution token
+        db      $00                                                             ; $4ACB inline byte
+        dw      XT_LITbyte                                                      ; $4ACC execution token
+        db      $00                                                             ; $4ACE inline byte
+        dw      $2B2E                                                           ; $4ACF execution token
+        dw      XT_LITbyte                                                      ; $4AD1 execution token
+        db      $03                                                             ; $4AD3 inline byte
+        dw      $2BA8                                                           ; $4AD4 execution token
+        dw      $3EAD                                                           ; $4AD6 execution token
+        dw      XT_LITbyte                                                      ; $4AD8 execution token
+        db      $18                                                             ; $4ADA inline byte
+        dw      $2BA8                                                           ; $4ADB execution token
+        dw      $3E73                                                           ; $4ADD execution token
+        dw      $3FEA                                                           ; $4ADF execution token
+        dw      XT_LITbyte                                                      ; $4AE1 execution token
+        db      $16                                                             ; $4AE3 inline byte
+        dw      $2BA8                                                           ; $4AE4 execution token
+        dw      $3F56                                                           ; $4AE6 execution token
+        dw      XT_LITbyte                                                      ; $4AE8 execution token
+        db      $08                                                             ; $4AEA inline byte
+        dw      $2BA8                                                           ; $4AEB execution token
+        dw      $3FEA                                                           ; $4AED execution token
+        dw      XT_LITbyte                                                      ; $4AEF execution token
+        db      $03                                                             ; $4AF1 inline byte
+        dw      $2BA8                                                           ; $4AF2 execution token
+        dw      $3FC8                                                           ; $4AF4 execution token
+        dw      XT_LITbyte                                                      ; $4AF6 execution token
+        db      $08                                                             ; $4AF8 inline byte
+        dw      $2BA8                                                           ; $4AF9 execution token
+        dw      $3FEA                                                           ; $4AFB execution token
+        dw      XT_LITbyte                                                      ; $4AFD execution token
+        db      $03                                                             ; $4AFF inline byte
+        dw      $2BA8                                                           ; $4B00 execution token
+        dw      $3FB2                                                           ; $4B02 execution token
+        dw      XT_LITbyte                                                      ; $4B04 execution token
+        db      $08                                                             ; $4B06 inline byte
+        dw      $2BA8                                                           ; $4B07 execution token
+        dw      $3FEA                                                           ; $4B09 execution token
+        dw      XT_LITbyte                                                      ; $4B0B execution token
+        db      $03                                                             ; $4B0D inline byte
+        dw      $2BA8                                                           ; $4B0E execution token
+        dw      $3FC8                                                           ; $4B10 execution token
+        dw      XT_LITbyte                                                      ; $4B12 execution token
+        db      $08                                                             ; $4B14 inline byte
+        dw      $2BA8                                                           ; $4B15 execution token
+        dw      $3FEA                                                           ; $4B17 execution token
+        dw      XT_LITbyte                                                      ; $4B19 execution token
+        db      $03                                                             ; $4B1B inline byte
+        dw      $2BA8                                                           ; $4B1C execution token
+        dw      $3F78                                                           ; $4B1E execution token
+        dw      XT_LITbyte                                                      ; $4B20 execution token
+        db      $13                                                             ; $4B22 inline byte
+        dw      $2BA8                                                           ; $4B23 execution token
+        dw      $3FEA                                                           ; $4B25 execution token
+        dw      XT_LITbyte                                                      ; $4B27 execution token
+        db      $02                                                             ; $4B29 inline byte
+        dw      $2BA8                                                           ; $4B2A execution token
+        dw      $3EAD                                                           ; $4B2C execution token
+        dw      XT_LITbyte                                                      ; $4B2E execution token
+        db      $18                                                             ; $4B30 inline byte
+        dw      $2BA8                                                           ; $4B31 execution token
+        dw      $3E73                                                           ; $4B33 execution token
+        dw      $3FEA                                                           ; $4B35 execution token
+        dw      XT_LITbyte                                                      ; $4B37 execution token
+        db      $03                                                             ; $4B39 inline byte
+        dw      $2BA8                                                           ; $4B3A execution token
+        dw      $3E8B                                                           ; $4B3C execution token
+        dw      $3FA6                                                           ; $4B3E execution token
+        dw      XT_LITbyte                                                      ; $4B40 execution token
+        db      $10                                                             ; $4B42 inline byte
+        dw      $2BA8                                                           ; $4B43 execution token
+        dw      $3FEA                                                           ; $4B45 execution token
+        dw      XT_LITbyte                                                      ; $4B47 execution token
+        db      $03                                                             ; $4B49 inline byte
+        dw      $2BA8                                                           ; $4B4A execution token
+        dw      $3FA6                                                           ; $4B4C execution token
+        dw      XT_LITbyte                                                      ; $4B4E execution token
+        db      $10                                                             ; $4B50 inline byte
+        dw      $2BA8                                                           ; $4B51 execution token
+        dw      $2B8C                                                           ; $4B53 execution token
+        dw      XT_RETURN                                                       ; $4B55 execution token
+
+COMPLETE_FIGURE_A_DIST_THREAD_3:
+        rst     $08                                                             ; $4B57 colon entry
+        dw      COMPLETE_FIGURE_A_DIST_THREAD_1                                 ; $4B58 execution token
+        dw      COMPLETE_FIGURE_A_DIST_THREAD_2                                 ; $4B5A execution token
+        dw      XT_RETURN                                                       ; $4B5C execution token
+
+        db      $04,$00,$89,$00                                                 ; $4B5E preserved bytes
+        db      $03,$D0,$46,$00,$03,$2E,$47,$C0,$03,$D0,$46,$C0,$03,$2E,$47,$00 ; $4B62
+        db      $00,$61,$4B,$04,$00,$89,$00,$04,$38,$41,$00,$04,$EB,$41,$C0,$04 ; $4B72
+        db      $38,$41,$C0,$04,$EB,$41,$00,$00,$78,$4B,$04,$00,$89,$00,$04,$04 ; $4B82
+        db      $44,$00,$04,$B7,$44,$C0,$04,$04,$44,$C0,$04,$B7,$44,$00,$00,$8F ; $4B92
+        db      $4B,$04,$00,$89,$40,$04,$38,$41,$40,$04,$EB,$41,$80,$04,$38,$41 ; $4BA2
+        db      $80,$04,$EB,$41,$00,$00,$A6,$4B,$00,$00,$90,$AA,$FF,$05,$00,$40 ; $4BB2
+        db      $03,$00,$00,$EC,$30,$00,$17,$00,$70,$03,$D8,$01,$00,$00,$3A,$11 ; $4BC2
+        db      $00,$8F,$FF,$90,$00,$28,$FC,$00,$00,$DF,$2D,$00,$30,$00,$90,$02 ; $4BD2
+        db      $B0,$02,$00,$00,$00,$90,$AA,$FF,$DD,$FF,$40,$03,$00,$00,$16,$23 ; $4BE2
+        db      $00,$EB,$FF,$58,$03,$00,$FE,$00,$00,$28,$11,$00,$E7,$FF,$28,$02 ; $4BF2
+        db      $C4,$FC,$00,$00,$E7,$3C,$00,$2B,$00,$2C,$03,$38,$02,$00,$00,$00 ; $4C02
+        db      $90,$AA,$FF,$B5,$FF,$40,$03,$00,$00,$0C,$29,$00,$F4,$FF,$B8,$03 ; $4C12
+        db      $E0,$FE,$00,$00,$D0,$31,$00,$76,$00,$78,$01,$98,$03,$00,$00,$34 ; $4C22
+        db      $15,$00,$BC,$FF,$20,$01,$48,$FC,$00,$BA,$4B,$E5,$4B,$10,$4C,$1E ; $4C32
+        db      $77,$68,$69,$63,$68,$20,$69,$73,$20,$74,$68,$65,$20,$63,$6F,$6D ; $4C42
+        db      $70,$6C,$65,$74,$65,$64,$20,$66,$69,$67,$75,$72,$65,$3F,$00,$00 ; $4C52
+        db      $90,$3D,$00,$E2,$FF,$40,$06,$00,$00,$95,$EC,$FF,$0B,$00,$90,$FC ; $4C62
+        db      $F0,$01,$00,$00,$9E,$F6,$FF,$09,$00,$10,$FD,$B0,$02,$00,$00,$A5 ; $4C72
+        db      $F8,$FF,$0A,$00,$90,$FD,$20,$03,$00,$00,$A7,$F9,$FF,$0A,$00,$C0 ; $4C82
+        db      $FD,$40,$03,$00,$00,$D9,$05,$00,$07,$00,$40,$02,$40,$03,$00,$00 ; $4C92
+        db      $40,$00,$00,$C8,$FF,$00,$00,$00,$FC,$00,$00,$00,$90,$1A,$00,$DA ; $4CA2
+        db      $FF,$37,$07,$00,$00,$40,$00,$00,$CE,$FF,$00,$00,$18,$FC,$00,$00 ; $4CB2
+        db      $E0,$14,$00,$14,$00,$C0,$02,$C0,$02,$00,$00,$28,$0D,$00,$ED,$FF ; $4CC2
+        db      $28,$02,$C0,$FC,$00,$00,$E8,$0C,$00,$08,$00,$40,$03,$28,$02,$00 ; $4CD2
+        db      $00,$1A,$0B,$00,$F8,$FF,$20,$03,$B0,$FD,$00,$00,$00,$3F,$00,$00 ; $4CE2
+        db      $00,$E8,$03,$00,$00,$00,$00,$80,$F9,$FF,$00,$00,$18,$FC,$00,$00 ; $4CF2
+        db      $00                                                             ; $4D02 preserved bytes
+
+COMPLETE_FIGURE_A_SETUP_ACTION:
+        rst     $08                                                             ; $4D03 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $4D04 execution token
+        dw      XT_LIT                                                          ; $4D06 execution token
+        dw      $FFA0                                                           ; $4D08 inline word
+        dw      XT_LITbyte                                                      ; $4D0A execution token
+        db      $16                                                             ; $4D0C inline byte
+        dw      XT_LIT                                                          ; $4D0D execution token
+        dw      $4C41                                                           ; $4D0F inline word
+        dw      XT_LIT                                                          ; $4D11 execution token
+        dw      $4C3B                                                           ; $4D13 inline word
+        dw      XT_LIT                                                          ; $4D15 execution token
+        dw      $2D8C                                                           ; $4D17 inline word
+        dw      CFG0_XT_CONFIGURE_QUESTION_SCENE                                ; $4D19 execution token
+        dw      XT_LITbyte                                                      ; $4D1B execution token
+        db      $15                                                             ; $4D1D inline byte
+        dw      XT_LIT                                                          ; $4D1E execution token
+        dw      $FFD7                                                           ; $4D20 inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $4D22 execution token
+        dw      XT_LIT                                                          ; $4D24 execution token
+        dw      $4854                                                           ; $4D26 inline word
+        dw      $2CEB                                                           ; $4D28 execution token
+        dw      XT_LIT                                                          ; $4D2A execution token
+        dw      $4C60                                                           ; $4D2C inline word
+        dw      XT_CONFIGURE_OBJECT_RENDER                                      ; $4D2E execution token
+        dw      XT_LIT                                                          ; $4D30 execution token
+        dw      $46D0                                                           ; $4D32 inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $4D34 execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $4D36 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $4D38 execution token
+        dw      $866C                                                           ; $4D3A execution token
+        dw      XT_RENDER_CURRENT_OBJECT                                        ; $4D3C execution token
+        dw      XT_LIT                                                          ; $4D3E execution token
+        dw      $4B5E                                                           ; $4D40 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $4D42 execution token
+        dw      XT_SWAP_TASK_THREAD_IP                                          ; $4D44 execution token
+        dw      $1DE0                                                           ; $4D46 execution token
+        dw      XT_LIT                                                          ; $4D48 execution token
+        dw      $46D0                                                           ; $4D4A inline word
+        dw      XT_SET_CURRENT_OBJECT_WORD_1D                                   ; $4D4C execution token
+        dw      $1EF6                                                           ; $4D4E execution token
+        dw      XT_LITbyte                                                      ; $4D50 execution token
+        db      $17                                                             ; $4D52 inline byte
+        dw      XT_LIT                                                          ; $4D53 execution token
+        dw      $FFD9                                                           ; $4D55 inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $4D57 execution token
+        dw      $1E34                                                           ; $4D59 execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $4D5B execution token
+        dw      XT_RETURN                                                       ; $4D5D execution token
+
+COMPLETE_FIGURE_A_CORRECT_ACTION:
+        rst     $08                                                             ; $4D5F colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $4D60 execution token
+        dw      CFG0_XT_PLACE_CORRECT_RANDOM_SLOT                               ; $4D62 execution token
+        dw      XT_LIT                                                          ; $4D64 execution token
+        dw      $FFD8                                                           ; $4D66 inline word
+        dw      XT_LITbyte                                                      ; $4D68 execution token
+        db      $05                                                             ; $4D6A inline byte
+        dw      CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS                               ; $4D6B execution token
+        dw      XT_LIT                                                          ; $4D6D execution token
+        dw      $4138                                                           ; $4D6F inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $4D71 execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $4D73 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $4D75 execution token
+        dw      XT_LIT                                                          ; $4D77 execution token
+        dw      $F6E7                                                           ; $4D79 inline word
+        dw      XT_BONE                                                         ; $4D7B execution token
+        dw      COMPLETE_FIGURE_A_CORRECT_THREAD_7                              ; $4D7D execution token
+        dw      $15E7                                                           ; $4D7F execution token
+        dw      XT_RENDER_CURRENT_OBJECT                                        ; $4D81 execution token
+        dw      XT_LIT                                                          ; $4D83 execution token
+        dw      $4B75                                                           ; $4D85 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $4D87 execution token
+        dw      XT_SWAP_TASK_THREAD_IP                                          ; $4D89 execution token
+        dw      XT_LIT                                                          ; $4D8B execution token
+        dw      $4138                                                           ; $4D8D inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $4D8F execution token
+        dw      $1EF6                                                           ; $4D91 execution token
+        dw      XT_LITbyte                                                      ; $4D93 execution token
+        db      $1A                                                             ; $4D95 inline byte
+        dw      XT_LIT                                                          ; $4D96 execution token
+        dw      $FFDA                                                           ; $4D98 inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $4D9A execution token
+        dw      $1E34                                                           ; $4D9C execution token
+        dw      $1EDC                                                           ; $4D9E execution token
+        dw      XT_LITbyte                                                      ; $4DA0 execution token
+        db      $40                                                             ; $4DA2 inline byte
+        dw      $1E5C                                                           ; $4DA3 execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $4DA5 execution token
+        dw      XT_LITbyte                                                      ; $4DA7 execution token
+        db      $14                                                             ; $4DA9 inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $4DAA execution token
+        dw      $1A2C                                                           ; $4DAC execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $4DAE execution token
+        dw      XT_RETURN                                                       ; $4DB0 execution token
+COMPLETE_FIGURE_A_SECOND_ACTION:
+        rst     $08                                                             ; $4DB2 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $4DB3 execution token
+        dw      CFG0_XT_PLACE_DISTRACTOR_SECOND_SLOT                            ; $4DB5 execution token
+        dw      XT_LIT                                                          ; $4DB7 execution token
+        dw      $FFD8                                                           ; $4DB9 inline word
+        dw      XT_LITbyte                                                      ; $4DBB execution token
+        db      $05                                                             ; $4DBD inline byte
+        dw      CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS                               ; $4DBE execution token
+        dw      XT_LIT                                                          ; $4DC0 execution token
+        dw      $4404                                                           ; $4DC2 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $4DC4 execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $4DC6 execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $4DC8 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $4DCA execution token
+        dw      XT_LIT                                                          ; $4DCC execution token
+        dw      $F6E7                                                           ; $4DCE inline word
+        dw      XT_BONE                                                         ; $4DD0 execution token
+        dw      XT_LIT                                                          ; $4DD2 execution token
+        dw      $4B8C                                                           ; $4DD4 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $4DD6 execution token
+        dw      COMPLETE_FIGURE_A_DIST_THREAD_3                                 ; $4DD8 execution token
+        dw      XT_SWAP_TASK_THREAD_IP                                          ; $4DDA execution token
+        dw      XT_LIT                                                          ; $4DDC execution token
+        dw      $4CAC                                                           ; $4DDE inline word
+        dw      XT_CONFIGURE_OBJECT_RENDER                                      ; $4DE0 execution token
+        dw      $1DE0                                                           ; $4DE2 execution token
+        dw      XT_LITbyte                                                      ; $4DE4 execution token
+        db      $44                                                             ; $4DE6 inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $4DE7 execution token
+        dw      $19E9                                                           ; $4DE9 execution token
+        dw      XT_SWAP_TASK_THREAD_IP                                          ; $4DEB execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $4DED execution token
+        dw      XT_RETURN                                                       ; $4DEF execution token
+
+COMPLETE_FIGURE_A_REMAINING_ACTION:
+        rst     $08                                                             ; $4DF1 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $4DF2 execution token
+        dw      CFG0_XT_PLACE_DISTRACTOR_REMAINING_SLOT                         ; $4DF4 execution token
+        dw      XT_LIT                                                          ; $4DF6 execution token
+        dw      $FFD8                                                           ; $4DF8 inline word
+        dw      XT_LITbyte                                                      ; $4DFA execution token
+        db      $05                                                             ; $4DFC inline byte
+        dw      CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS                               ; $4DFD execution token
+        dw      XT_LIT                                                          ; $4DFF execution token
+        dw      $4138                                                           ; $4E01 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $4E03 execution token
+        dw      XT_SET_OBJECT_MODE_1                                            ; $4E05 execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $4E07 execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $4E09 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $4E0B execution token
+        dw      XT_LIT                                                          ; $4E0D execution token
+        dw      $F6E7                                                           ; $4E0F inline word
+        dw      XT_BONE                                                         ; $4E11 execution token
+        dw      XT_RENDER_CURRENT_OBJECT                                        ; $4E13 execution token
+        dw      XT_LIT                                                          ; $4E15 execution token
+        dw      $4BA3                                                           ; $4E17 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $4E19 execution token
+        dw      COMPLETE_FIGURE_A_DIST_THREAD_3                                 ; $4E1B execution token
+        dw      XT_SWAP_TASK_THREAD_IP                                          ; $4E1D execution token
+        dw      XT_LIT                                                          ; $4E1F execution token
+        dw      $4CAC                                                           ; $4E21 inline word
+        dw      XT_CONFIGURE_OBJECT_RENDER                                      ; $4E23 execution token
+        dw      $1DE0                                                           ; $4E25 execution token
+        dw      XT_LITbyte                                                      ; $4E27 execution token
+        db      $44                                                             ; $4E29 inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $4E2A execution token
+        dw      $19E9                                                           ; $4E2C execution token
+        dw      XT_SWAP_TASK_THREAD_IP                                          ; $4E2E execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $4E30 execution token
+        dw      XT_RETURN                                                       ; $4E32 execution token
+
+COMPLETE_FIGURE_A_ACTIONS:
+        db      $04                                                             ; $4E34 action count
+        dw      COMPLETE_FIGURE_A_SETUP_ACTION                                  ; $4E35 setup action
+        dw      COMPLETE_FIGURE_A_CORRECT_ACTION                                ; $4E37 correct answer
+        dw      COMPLETE_FIGURE_A_SECOND_ACTION                                 ; $4E39 second answer
+        dw      COMPLETE_FIGURE_A_REMAINING_ACTION                              ; $4E3B remaining answer
+
+; Rooted by tier slots 0, 2, 4.
+COMPLETE_FIGURE_A_T0_2_4_INIT:
+        rst     $08                                                          ; $4E3D
+        dw      XT_LIT                                                          ; $4E3E
+        dw      PPQ4_COMPLETE_FIGURE_A_ACTIONS                                  ; $4E40
+        dw      XT_RETURN                                                       ; $4E42
+; -----------------------------------------------------------------------------
+; COMPLETE_FIGURE_B native 2-bpp image
+; 7 bytes/row = 28 pixels, 25 rows; 175 packed pixel bytes
+; Pixels are MSB-first pairs: . = 0, 1 = 1, 2 = 2, 3 = 3.
+; X/Y reference bytes position the image relative to the current object.
+; -----------------------------------------------------------------------------
+COMPLETE_FIGURE_B_IMG_01:
+        db      $0C,$0C,$07,$19                                                 ; $4E44 X reference, Y reference, source-byte width, height
+        db      $00,$02,$AA,$AA,$A0,$00,$00                                     ; $4E48 row 00: .......22222222222..........
+        db      $00,$09,$55,$55,$58,$00,$00                                     ; $4E4F row 01: ......2111111111112.........
+        db      $00,$25,$55,$55,$56,$00,$00                                     ; $4E56 row 02: .....211111111111112........
+        db      $00,$97,$FF,$FF,$F5,$80,$00                                     ; $4E5D row 03: ....21133333333333112.......
+        db      $02,$5F,$FF,$FF,$FD,$60,$00                                     ; $4E64 row 04: ...2113333333333333112......
+        db      $09,$7F,$FF,$7F,$FF,$58,$00                                     ; $4E6B row 05: ..211333333313333333112.....
+        db      $02,$5F,$FD,$5F,$FF,$D6,$00                                     ; $4E72 row 06: ...211333331113333333112....
+        db      $A0,$97,$F5,$97,$FF,$F5,$80                                     ; $4E79 row 07: 22..211333112113333333112...
+        db      $98,$25,$D6,$25,$FF,$F5,$80                                     ; $4E80 row 08: 212..2113112.211333333112...
+        db      $96,$09,$58,$09,$7F,$F5,$80                                     ; $4E87 row 09: 2112..21112...21133333112...
+        db      $95,$82,$60,$82,$5F,$F5,$80                                     ; $4E8E row 10: 21112..212..2..2113333112...
+        db      $95,$60,$82,$60,$97,$F5,$80                                     ; $4E95 row 11: 211112..2..212..211333112...
+        db      $97,$58,$09,$58,$25,$F5,$80                                     ; $4E9C row 12: 2113112...21112..21133112...
+        db      $97,$D6,$25,$D6,$09,$75,$80                                     ; $4EA3 row 13: 21133112.2113112..2113112...
+        db      $97,$F5,$97,$F5,$82,$55,$80                                     ; $4EAA row 14: 21133311211333112..211112...
+        db      $97,$FD,$5F,$FD,$60,$95,$80                                     ; $4EB1 row 15: 211333311133333112..21112...
+        db      $97,$FF,$7D,$5F,$58,$25,$80                                     ; $4EB8 row 16: 2113333313311133112..2112...
+        db      $97,$FF,$F5,$97,$D6,$0A,$80                                     ; $4EBF row 17: 21133333331121133112..222...
+        db      $25,$FF,$F6,$A7,$F5,$82,$00                                     ; $4EC6 row 18: .21133333312221333112..2....
+        db      $09,$7F,$F5,$97,$FD,$60,$00                                     ; $4ECD row 19: ..21133333112113333112......
+        db      $02,$5F,$FD,$5F,$FD,$60,$00                                     ; $4ED4 row 20: ...2113333311133333112......
+        db      $00,$97,$FF,$FF,$F5,$80,$00                                     ; $4EDB row 21: ....21133333333333112.......
+        db      $00,$25,$55,$55,$56,$00,$00                                     ; $4EE2 row 22: .....211111111111112........
+        db      $00,$09,$55,$55,$58,$00,$00                                     ; $4EE9 row 23: ......2111111111112.........
+        db      $00,$02,$AA,$AA,$A0,$00,$00                                     ; $4EF0 row 24: .......22222222222..........
+        db      $0C,$0F,$07,$1E,$00,$02                                         ; $4EF7 preserved bytes
+        db      $AA,$AA,$A0,$00,$00,$00,$09,$55,$55,$58,$00,$00,$00,$25,$55,$55 ; $4EFD
+        db      $56,$00,$00,$00,$97,$FF,$FF,$F5,$80,$00,$02,$5F,$FF,$FF,$FD,$60 ; $4F0D
+        db      $00,$09,$7F,$FF,$7F,$FF,$58,$00,$02,$5F,$FD,$5F,$FF,$D6,$00,$00 ; $4F1D
+        db      $97,$F5,$97,$FF,$F5,$80,$00,$25,$D6,$25,$FF,$F5,$80,$00,$09,$58 ; $4F2D
+        db      $09,$7F,$F5,$80,$00,$02,$60,$02,$5F,$F5,$80,$00,$00,$80,$00,$97 ; $4F3D
+        db      $F5,$80,$A0,$00,$00,$00,$25,$F5,$80,$98,$00,$00,$00,$09,$75,$80 ; $4F4D
+        db      $96,$00,$00,$00,$02,$55,$80,$95,$80,$00,$80,$00,$95,$80,$95,$60 ; $4F5D
+        db      $02,$60,$00,$25,$80,$97,$58,$09,$58,$00,$0A,$80,$97,$D6,$25,$D6 ; $4F6D
+        db      $00,$02,$00,$97,$F5,$97,$F5,$80,$00,$00,$97,$FD,$5F,$FD,$60,$00 ; $4F7D
+        db      $00,$97,$FF,$7D,$5F,$58,$00,$00,$97,$FF,$F5,$97,$D6,$00,$00,$25 ; $4F8D
+        db      $FF,$F6,$A7,$F5,$80,$00,$09,$7F,$F5,$97,$FD,$60,$00,$02,$5F,$FD ; $4F9D
+        db      $5F,$FD,$60,$00,$00,$97,$FF,$FF,$F5,$80,$00,$00,$25,$55,$55,$56 ; $4FAD
+        db      $00,$00,$00,$09,$55,$55,$58,$00,$00,$00,$02,$AA,$AA,$A0,$00,$00 ; $4FBD
+; -----------------------------------------------------------------------------
+; COMPLETE_FIGURE_B native 2-bpp image
+; 7 bytes/row = 28 pixels, 25 rows; 175 packed pixel bytes
+; Pixels are MSB-first pairs: . = 0, 1 = 1, 2 = 2, 3 = 3.
+; X/Y reference bytes position the image relative to the current object.
+; -----------------------------------------------------------------------------
+COMPLETE_FIGURE_B_IMG_02:
+        db      $0C,$0C,$07,$19                                                 ; $4FCD X reference, Y reference, source-byte width, height
+        db      $00,$02,$AA,$AA,$A0,$00,$00                                     ; $4FD1 row 00: .......22222222222..........
+        db      $00,$09,$55,$55,$58,$00,$00                                     ; $4FD8 row 01: ......2111111111112.........
+        db      $00,$25,$55,$55,$56,$00,$00                                     ; $4FDF row 02: .....211111111111112........
+        db      $00,$97,$FF,$FF,$F5,$80,$00                                     ; $4FE6 row 03: ....21133333333333112.......
+        db      $02,$5F,$FF,$DF,$FD,$60,$00                                     ; $4FED row 04: ...2113333333133333112......
+        db      $09,$7F,$FF,$57,$FF,$58,$00                                     ; $4FF4 row 05: ..211333333311133333112.....
+        db      $25,$FF,$FD,$65,$FF,$D6,$00                                     ; $4FFB row 06: .21133333331121133333112....
+        db      $97,$FF,$F5,$89,$7F,$F5,$80                                     ; $5002 row 07: 2113333333112.21133333112...
+        db      $25,$FF,$D6,$02,$5F,$F5,$80                                     ; $5009 row 08: .21133333112...2113333112...
+        db      $09,$7F,$58,$20,$97,$F5,$80                                     ; $5010 row 09: ..211333112..2..211333112...
+        db      $82,$5D,$60,$98,$25,$F5,$80                                     ; $5017 row 10: 2..2113112..212..21133112...
+        db      $A0,$95,$82,$56,$09,$75,$80                                     ; $501E row 11: 22..21112..21112..2113112...
+        db      $98,$26,$09,$75,$82,$55,$80                                     ; $5025 row 12: 212..212..2113112..211112...
+        db      $96,$08,$25,$FD,$60,$95,$80                                     ; $502C row 13: 2112..2..211333112..21112...
+        db      $95,$80,$97,$FF,$58,$25,$80                                     ; $5033 row 14: 21112...21133333112..2112...
+        db      $95,$62,$5F,$57,$D6,$09,$80                                     ; $503A row 15: 211112.2113311133112..212...
+        db      $97,$59,$7D,$65,$F5,$82,$80                                     ; $5041 row 16: 211311211331121133112..22...
+        db      $97,$D5,$FD,$A9,$FD,$60,$80                                     ; $5048 row 17: 2113311133312221333112..2...
+        db      $25,$F7,$FD,$A9,$FF,$58,$00                                     ; $504F row 18: .2113313333122213333112.....
+        db      $09,$7F,$FD,$65,$FF,$58,$00                                     ; $5056 row 19: ..211333333112113333112.....
+        db      $02,$5F,$FF,$57,$FD,$60,$00                                     ; $505D row 20: ...2113333331113333112......
+        db      $00,$97,$FF,$FF,$F5,$80,$00                                     ; $5064 row 21: ....21133333333333112.......
+        db      $00,$25,$55,$55,$56,$00,$00                                     ; $506B row 22: .....211111111111112........
+        db      $00,$09,$55,$55,$58,$00,$00                                     ; $5072 row 23: ......2111111111112.........
+        db      $00,$02,$AA,$AA,$A0,$00,$00                                     ; $5079 row 24: .......22222222222..........
+        db      $0C,$0E,$07,$1E,$00,$02,$AA,$AA,$A0,$00,$00,$00,$09             ; $5080 preserved bytes
+        db      $55,$55,$58,$00,$00,$00,$25,$55,$55,$56,$00,$00,$00,$97,$FF,$FF ; $508D
+        db      $F5,$80,$00,$02,$5F,$FF,$DF,$FD,$60,$00,$09,$7F,$FF,$57,$FF,$58 ; $509D
+        db      $00,$25,$FF,$FD,$65,$FF,$D6,$00,$97,$FF,$F5,$89,$7F,$F5,$80,$25 ; $50AD
+        db      $FF,$D6,$02,$5F,$F5,$80,$09,$7F,$58,$00,$97,$F5,$80,$02,$5D,$60 ; $50BD
+        db      $00,$25,$F5,$80,$00,$95,$80,$00,$09,$75,$80,$00,$26,$00,$00,$02 ; $50CD
+        db      $55,$80,$00,$08,$00,$00,$00,$95,$80,$00,$00,$00,$20,$00,$25,$80 ; $50DD
+        db      $80,$00,$00,$98,$00,$09,$80,$A0,$00,$02,$56,$00,$02,$80,$98,$00 ; $50ED
+        db      $09,$75,$80,$00,$80,$96,$00,$25,$FD,$60,$00,$00,$95,$80,$97,$FF ; $50FD
+        db      $58,$00,$00,$95,$62,$5F,$57,$D6,$00,$00,$97,$59,$7D,$65,$F5,$80 ; $510D
+        db      $00,$97,$D5,$FD,$A9,$FD,$60,$00,$25,$F7,$FD,$A9,$FF,$58,$00,$09 ; $511D
+        db      $7F,$FD,$65,$FF,$58,$00,$02,$5F,$FF,$57,$FD,$60,$00,$00,$97,$FF ; $512D
+        db      $FF,$F5,$80,$00,$00,$25,$55,$55,$56,$00,$00,$00,$09,$55,$55,$58 ; $513D
+        db      $00,$00,$00,$02,$AA,$AA,$A0,$00,$00                             ; $514D preserved bytes
+; -----------------------------------------------------------------------------
+; COMPLETE_FIGURE_B native 2-bpp image
+; 7 bytes/row = 28 pixels, 25 rows; 175 packed pixel bytes
+; Pixels are MSB-first pairs: . = 0, 1 = 1, 2 = 2, 3 = 3.
+; X/Y reference bytes position the image relative to the current object.
+; -----------------------------------------------------------------------------
+COMPLETE_FIGURE_B_IMG_03:
+        db      $0C,$0C,$07,$19                                                 ; $5156 X reference, Y reference, source-byte width, height
+        db      $00,$02,$AA,$AA,$A0,$00,$00                                     ; $515A row 00: .......22222222222..........
+        db      $00,$09,$55,$55,$58,$00,$00                                     ; $5161 row 01: ......2111111111112.........
+        db      $00,$25,$55,$55,$56,$00,$00                                     ; $5168 row 02: .....211111111111112........
+        db      $00,$97,$FF,$FF,$F5,$80,$00                                     ; $516F row 03: ....21133333333333112.......
+        db      $02,$5F,$FF,$FF,$FD,$60,$00                                     ; $5176 row 04: ...2113333333333333112......
+        db      $09,$75,$FF,$FF,$FF,$58,$00                                     ; $517D row 05: ..211311333333333333112.....
+        db      $25,$DA,$7F,$7F,$FF,$58,$00                                     ; $5184 row 06: .2113122133313333333112.....
+        db      $97,$DA,$7D,$5F,$FD,$60,$80                                     ; $518B row 07: 2113312213311133333112..2...
+        db      $97,$DA,$75,$97,$F5,$82,$80                                     ; $5192 row 08: 211331221311211333112..22...
+        db      $97,$F5,$D6,$25,$D6,$09,$80                                     ; $5199 row 09: 211333113112.2113112..212...
+        db      $97,$FF,$58,$09,$58,$25,$80                                     ; $51A0 row 10: 21133333112...21112..2112...
+        db      $97,$FD,$60,$82,$60,$95,$80                                     ; $51A7 row 11: 2113333112..2..212..21112...
+        db      $97,$F5,$82,$60,$82,$55,$80                                     ; $51AE row 12: 211333112..212..2..211112...
+        db      $97,$D6,$09,$58,$09,$75,$80                                     ; $51B5 row 13: 21133112..21112...2113112...
+        db      $97,$58,$25,$D6,$25,$F5,$80                                     ; $51BC row 14: 2113112..2113112.21133112...
+        db      $95,$60,$97,$F5,$97,$F5,$80                                     ; $51C3 row 15: 211112..21133311211333112...
+        db      $95,$82,$5F,$FD,$5F,$F5,$80                                     ; $51CA row 16: 21112..211333331113333112...
+        db      $96,$09,$7F,$FF,$7F,$F5,$80                                     ; $51D1 row 17: 2112..2113333333133333112...
+        db      $28,$25,$FF,$FF,$FF,$D6,$00                                     ; $51D8 row 18: .22..2113333333333333112....
+        db      $00,$97,$FF,$FF,$FF,$58,$00                                     ; $51DF row 19: ....2113333333333333112.....
+        db      $02,$5F,$FF,$FF,$FD,$60,$00                                     ; $51E6 row 20: ...2113333333333333112......
+        db      $00,$97,$FF,$FF,$F5,$80,$00                                     ; $51ED row 21: ....21133333333333112.......
+        db      $00,$25,$55,$55,$56,$00,$00                                     ; $51F4 row 22: .....211111111111112........
+        db      $00,$09,$55,$55,$58,$00,$00                                     ; $51FB row 23: ......2111111111112.........
+        db      $00,$02,$AA,$AA,$A0,$00,$00                                     ; $5202 row 24: .......22222222222..........
+        db      $0C,$0E,$07,$1E                                                 ; $5209 preserved bytes
+        db      $00,$02,$AA,$AA,$A0,$00,$00,$00,$09,$55,$55,$58,$00,$00,$00,$25 ; $520D
+        db      $55,$55,$56,$00,$00,$00,$97,$FF,$FF,$F5,$80,$00,$02,$5F,$FF,$FF ; $521D
+        db      $FD,$60,$00,$09,$75,$FF,$FF,$FF,$58,$00,$25,$DA,$7F,$7F,$FF,$58 ; $522D
+        db      $00,$97,$DA,$7D,$5F,$FD,$60,$00,$97,$DA,$75,$97,$F5,$80,$00,$97 ; $523D
+        db      $F5,$D6,$25,$D6,$00,$00,$97,$FF,$58,$09,$58,$00,$00,$97,$FD,$60 ; $524D
+        db      $02,$60,$00,$00,$97,$F5,$80,$00,$80,$00,$80,$97,$D6,$00,$00,$00 ; $525D
+        db      $02,$80,$97,$58,$00,$00,$00,$09,$80,$95,$60,$00,$00,$00,$25,$80 ; $526D
+        db      $95,$80,$00,$80,$00,$95,$80,$96,$00,$02,$60,$02,$55,$80,$28,$00 ; $527D
+        db      $09,$58,$09,$75,$80,$00,$00,$25,$D6,$25,$F5,$80,$00,$00,$97,$F5 ; $528D
+        db      $97,$F5,$80,$00,$02,$5F,$FD,$5F,$F5,$80,$00,$09,$7F,$FF,$7F,$F5 ; $529D
+        db      $80,$00,$25,$FF,$FF,$FF,$D6,$00,$00,$97,$FF,$FF,$FF,$58,$00,$02 ; $52AD
+        db      $5F,$FF,$FF,$FD,$60,$00,$00,$97,$FF,$FF,$F5,$80,$00,$00,$25,$55 ; $52BD
+        db      $55,$56,$00,$00,$00,$09,$55,$55,$58,$00,$00,$00,$02,$AA,$AA,$A0 ; $52CD
+        db      $00,$00                                                         ; $52DD preserved bytes
+; -----------------------------------------------------------------------------
+; COMPLETE_FIGURE_B native 2-bpp image
+; 6 bytes/row = 24 pixels, 19 rows; 114 packed pixel bytes
+; Pixels are MSB-first pairs: . = 0, 1 = 1, 2 = 2, 3 = 3.
+; X/Y reference bytes position the image relative to the current object.
+; -----------------------------------------------------------------------------
+COMPLETE_FIGURE_B_IMG_04:
+        db      $0A,$07,$06,$13                                                 ; $52DF X reference, Y reference, source-byte width, height
+        db      $00,$2A,$AA,$AA,$00,$00                                         ; $52E3 row 00: .....22222222222........
+        db      $00,$95,$55,$55,$80,$00                                         ; $52E9 row 01: ....2111111111112.......
+        db      $02,$55,$55,$55,$60,$00                                         ; $52EF row 02: ...211111111111112......
+        db      $09,$7F,$FF,$FF,$58,$00                                         ; $52F5 row 03: ..21133333333333112.....
+        db      $25,$FF,$FF,$FF,$D6,$00                                         ; $52FB row 04: .2113333333333333112....
+        db      $97,$FF,$F7,$FF,$F5,$80                                         ; $5301 row 05: 211333333313333333112...
+        db      $25,$FF,$D5,$FF,$FD,$60                                         ; $5307 row 06: .211333331113333333112..
+        db      $09,$7F,$59,$7F,$FF,$58                                         ; $530D row 07: ..211333112113333333112.
+        db      $02,$5D,$62,$5F,$FF,$58                                         ; $5313 row 08: ...2113112.211333333112.
+        db      $00,$95,$80,$97,$FF,$58                                         ; $5319 row 09: ....21112...21133333112.
+        db      $00,$26,$00,$25,$FF,$58                                         ; $531F row 10: .....212.....2113333112.
+        db      $00,$08,$00,$09,$7F,$58                                         ; $5325 row 11: ......2.......211333112.
+        db      $00,$00,$00,$02,$5F,$58                                         ; $532B row 12: ...............21133112.
+        db      $00,$00,$00,$00,$97,$58                                         ; $5331 row 13: ................2113112.
+        db      $00,$00,$00,$00,$25,$58                                         ; $5337 row 14: .................211112.
+        db      $00,$00,$00,$00,$09,$58                                         ; $533D row 15: ..................21112.
+        db      $00,$00,$00,$00,$02,$58                                         ; $5343 row 16: ...................2112.
+        db      $00,$00,$00,$00,$00,$A8                                         ; $5349 row 17: ....................222.
+        db      $00,$00,$00,$00,$00,$20                                         ; $534F row 18: .....................2..
+        db      $0B,$0A,$05,$17,$00,$00,$00,$20                                 ; $5355 preserved bytes
+        db      $00,$00,$00,$00,$98,$00,$00,$00,$02,$56,$00,$00,$00,$09,$75,$80 ; $535D
+        db      $00,$00,$25,$FD,$60,$00,$00,$97,$FF,$58,$00,$02,$5F,$FF,$58,$00 ; $536D
+        db      $00,$97,$FF,$58,$00,$00,$25,$FF,$58,$00,$00,$09,$7F,$58,$00,$00 ; $537D
+        db      $02,$5F,$58,$00,$00,$09,$7F,$58,$00,$00,$25,$FF,$58,$00,$00,$97 ; $538D
+        db      $FF,$58,$00,$02,$5F,$FF,$58,$00,$09,$7F,$FF,$58,$00,$25,$FF,$FD ; $539D
+        db      $60,$00,$97,$FF,$F5,$80,$02,$5F,$FF,$D6,$00,$09,$7F,$FF,$58,$00 ; $53AD
+        db      $25,$55,$55,$60,$00,$A5,$55,$55,$80,$00,$2A,$AA,$AA,$00,$00     ; $53BD preserved bytes
+; -----------------------------------------------------------------------------
+; COMPLETE_FIGURE_B native 2-bpp image
+; 6 bytes/row = 24 pixels, 18 rows; 108 packed pixel bytes
+; Pixels are MSB-first pairs: . = 0, 1 = 1, 2 = 2, 3 = 3.
+; X/Y reference bytes position the image relative to the current object.
+; -----------------------------------------------------------------------------
+COMPLETE_FIGURE_B_IMG_05:
+        db      $0C,$03,$06,$12                                                 ; $53CC X reference, Y reference, source-byte width, height
+        db      $A0,$00,$00,$00,$00,$00                                         ; $53D0 row 00: 22......................
+        db      $98,$00,$00,$00,$00,$00                                         ; $53D6 row 01: 212.....................
+        db      $96,$00,$00,$00,$00,$00                                         ; $53DC row 02: 2112....................
+        db      $95,$80,$00,$80,$00,$00                                         ; $53E2 row 03: 21112.......2...........
+        db      $95,$60,$02,$60,$00,$00                                         ; $53E8 row 04: 211112.....212..........
+        db      $97,$58,$09,$58,$00,$00                                         ; $53EE row 05: 2113112...21112.........
+        db      $97,$D6,$25,$D6,$00,$00                                         ; $53F4 row 06: 21133112.2113112........
+        db      $97,$F5,$97,$F5,$80,$00                                         ; $53FA row 07: 21133311211333112.......
+        db      $97,$FD,$5F,$FD,$60,$00                                         ; $5400 row 08: 211333311133333112......
+        db      $97,$FF,$7D,$5F,$58,$00                                         ; $5406 row 09: 2113333313311133112.....
+        db      $97,$FF,$F5,$97,$D6,$00                                         ; $540C row 10: 21133333331121133112....
+        db      $25,$FF,$F6,$A7,$F5,$80                                         ; $5412 row 11: .21133333312221333112...
+        db      $09,$7F,$F5,$97,$FD,$60                                         ; $5418 row 12: ..21133333112113333112..
+        db      $02,$5F,$FD,$5F,$FD,$60                                         ; $541E row 13: ...2113333311133333112..
+        db      $00,$97,$FF,$FF,$F5,$80                                         ; $5424 row 14: ....21133333333333112...
+        db      $00,$25,$55,$55,$56,$00                                         ; $542A row 15: .....211111111111112....
+        db      $00,$09,$55,$55,$58,$00                                         ; $5430 row 16: ......2111111111112.....
+        db      $00,$02,$AA,$AA,$A0,$00                                         ; $5436 row 17: .......22222222222......
+
+COMPLETE_FIGURE_B_CORRECT_THREAD_1:
+        rst     $08                                                             ; $543C colon entry
+        dw      XT_LIT                                                          ; $543D execution token
+        dw      $F2F8                                                           ; $543F inline word
+        dw      XT_Bat                                                          ; $5441 execution token
+        dw      XT_BARRAY                                                       ; $5443 execution token
+        dw      $8427                                                           ; $5445 inline word
+        dw      XT_Bat                                                          ; $5447 execution token
+        dw      $2B44                                                           ; $5449 execution token
+        dw      XT_LIT                                                          ; $544B execution token
+        dw      $F2F8                                                           ; $544D inline word
+        dw      XT_Bat                                                          ; $544F execution token
+        dw      XT_BARRAY                                                       ; $5451 execution token
+        dw      $8430                                                           ; $5453 inline word
+        dw      XT_Bat                                                          ; $5455 execution token
+        dw      $2B53                                                           ; $5457 execution token
+        dw      XT_RETURN                                                       ; $5459 execution token
+
+COMPLETE_FIGURE_B_CORRECT_LOOP_1:
+        rst     $08                                                             ; $545B colon entry
+        dw      XT_0                                                            ; $545C execution token
+        dw      XT_LIT                                                          ; $545E execution token
+        dw      $FD3D                                                           ; $5460 inline word
+        dw      $2BEF                                                           ; $5462 execution token
+        dw      XT_LITbyte                                                      ; $5464 execution token
+        db      $00                                                             ; $5466 inline byte
+        dw      XT_DUP                                                          ; $5467 execution token
+        dw      $2B2E                                                           ; $5469 execution token
+        dw      XT_LITbyte                                                      ; $546B execution token
+        db      $03                                                             ; $546D inline byte
+        dw      $2BA8                                                           ; $546E execution token
+        dw      XT_LITbyte                                                      ; $5470 execution token
+        db      $30                                                             ; $5472 inline byte
+        dw      $2AF2                                                           ; $5473 execution token
+        dw      XT_LITbyte                                                      ; $5475 execution token
+        db      $00                                                             ; $5477 inline byte
+        dw      XT_LIT                                                          ; $5478 execution token
+        dw      $00B8                                                           ; $547A inline word
+        dw      $2B2E                                                           ; $547C execution token
+COMPLETE_FIGURE_B_CORRECT_LOOP_1_R:
+        dw      XT_LITbyte                                                      ; $547E execution token
+        db      $00                                                             ; $5480 inline byte
+        dw      XT_LIT                                                          ; $5481 execution token
+        dw      $00B8                                                           ; $5483 inline word
+        dw      $2B2E                                                           ; $5485 execution token
+        dw      COMPLETE_FIGURE_B_CORRECT_THREAD_1                              ; $5487 execution token
+        dw      XT_LITbyte                                                      ; $5489 execution token
+        db      $02                                                             ; $548B inline byte
+        dw      $2BA8                                                           ; $548C execution token
+        dw      XT_LIT                                                          ; $548E execution token
+        dw      $F2F8                                                           ; $5490 inline word
+        dw      XT_DUP                                                          ; $5492 execution token
+        dw      XT_1plusBbang                                                   ; $5494 execution token
+        dw      XT_Bat                                                          ; $5496 execution token
+        dw      XT_LITbyte                                                      ; $5498 execution token
+        db      $08                                                             ; $549A inline byte
+        dw      XT_gt                                                           ; $549B execution token
+        dw      XT_0BRANCH                                                      ; $549D execution token
+        dw      COMPLETE_FIGURE_B_CORRECT_LOOP_1_R                              ; $549F branch target
+        dw      XT_LIT                                                          ; $54A1 execution token
+        dw      $F2F8                                                           ; $54A3 inline word
+        dw      XT_BZERO                                                        ; $54A5 execution token
+        dw      $3FEA                                                           ; $54A7 execution token
+        dw      XT_LITbyte                                                      ; $54A9 execution token
+        db      $04                                                             ; $54AB inline byte
+        dw      $2BA8                                                           ; $54AC execution token
+        dw      XT_LIT                                                          ; $54AE execution token
+        dw      $F2F9                                                           ; $54B0 inline word
+        dw      XT_DUP                                                          ; $54B2 execution token
+        dw      XT_1plusBbang                                                   ; $54B4 execution token
+        dw      XT_Bat                                                          ; $54B6 execution token
+        dw      XT_LITbyte                                                      ; $54B8 execution token
+        db      $04                                                             ; $54BA inline byte
+        dw      XT_gt                                                           ; $54BB execution token
+        dw      XT_0BRANCH                                                      ; $54BD execution token
+        dw      COMPLETE_FIGURE_B_CORRECT_LOOP_1_R                              ; $54BF branch target
+        dw      XT_LIT                                                          ; $54C1 execution token
+        dw      $F2F9                                                           ; $54C3 inline word
+        dw      XT_BZERO                                                        ; $54C5 execution token
+        dw      $2B8C                                                           ; $54C7 execution token
+        dw      XT_RETURN                                                       ; $54C9 execution token
+
+COMPLETE_FIGURE_B_CORRECT_THREAD_2:
+        rst     $08                                                             ; $54CB colon entry
+        dw      XT_LIT                                                          ; $54CC execution token
+        dw      $F2F6                                                           ; $54CE inline word
+        dw      XT_Bat                                                          ; $54D0 execution token
+        dw      XT_BARRAY                                                       ; $54D2 execution token
+        dw      $8427                                                           ; $54D4 inline word
+        dw      XT_Bat                                                          ; $54D6 execution token
+        dw      $2B44                                                           ; $54D8 execution token
+        dw      XT_LIT                                                          ; $54DA execution token
+        dw      $F2F6                                                           ; $54DC inline word
+        dw      XT_Bat                                                          ; $54DE execution token
+        dw      XT_BARRAY                                                       ; $54E0 execution token
+        dw      $8430                                                           ; $54E2 inline word
+        dw      XT_Bat                                                          ; $54E4 execution token
+        dw      $2B53                                                           ; $54E6 execution token
+        dw      XT_RETURN                                                       ; $54E8 execution token
+
+COMPLETE_FIGURE_B_CORRECT_LOOP_2:
+        rst     $08                                                             ; $54EA colon entry
+        dw      XT_0                                                            ; $54EB execution token
+        dw      XT_LIT                                                          ; $54ED execution token
+        dw      $FD6D                                                           ; $54EF inline word
+        dw      $2BEF                                                           ; $54F1 execution token
+        dw      XT_LITbyte                                                      ; $54F3 execution token
+        db      $30                                                             ; $54F5 inline byte
+        dw      $2AF2                                                           ; $54F6 execution token
+        dw      XT_LITbyte                                                      ; $54F8 execution token
+        db      $00                                                             ; $54FA inline byte
+        dw      XT_LIT                                                          ; $54FB execution token
+        dw      $00B8                                                           ; $54FD inline word
+        dw      $2B2E                                                           ; $54FF execution token
+COMPLETE_FIGURE_B_CORRECT_LOOP_2_R:
+        dw      XT_LITbyte                                                      ; $5501 execution token
+        db      $00                                                             ; $5503 inline byte
+        dw      XT_LIT                                                          ; $5504 execution token
+        dw      $00B8                                                           ; $5506 inline word
+        dw      $2B2E                                                           ; $5508 execution token
+        dw      COMPLETE_FIGURE_B_CORRECT_THREAD_2                              ; $550A execution token
+        dw      XT_LITbyte                                                      ; $550C execution token
+        db      $02                                                             ; $550E inline byte
+        dw      $2BA8                                                           ; $550F execution token
+        dw      XT_LIT                                                          ; $5511 execution token
+        dw      $F2F6                                                           ; $5513 inline word
+        dw      XT_DUP                                                          ; $5515 execution token
+        dw      XT_1plusBbang                                                   ; $5517 execution token
+        dw      XT_Bat                                                          ; $5519 execution token
+        dw      XT_LITbyte                                                      ; $551B execution token
+        db      $08                                                             ; $551D inline byte
+        dw      XT_gt                                                           ; $551E execution token
+        dw      XT_0BRANCH                                                      ; $5520 execution token
+        dw      COMPLETE_FIGURE_B_CORRECT_LOOP_2_R                              ; $5522 branch target
+        dw      XT_LIT                                                          ; $5524 execution token
+        dw      $F2F6                                                           ; $5526 inline word
+        dw      XT_BZERO                                                        ; $5528 execution token
+        dw      $3FEA                                                           ; $552A execution token
+        dw      XT_LITbyte                                                      ; $552C execution token
+        db      $04                                                             ; $552E inline byte
+        dw      $2BA8                                                           ; $552F execution token
+        dw      XT_LIT                                                          ; $5531 execution token
+        dw      $F2F7                                                           ; $5533 inline word
+        dw      XT_DUP                                                          ; $5535 execution token
+        dw      XT_1plusBbang                                                   ; $5537 execution token
+        dw      XT_Bat                                                          ; $5539 execution token
+        dw      XT_LITbyte                                                      ; $553B execution token
+        db      $04                                                             ; $553D inline byte
+        dw      XT_gt                                                           ; $553E execution token
+        dw      XT_0BRANCH                                                      ; $5540 execution token
+        dw      COMPLETE_FIGURE_B_CORRECT_LOOP_2_R                              ; $5542 branch target
+        dw      XT_LIT                                                          ; $5544 execution token
+        dw      $F2F7                                                           ; $5546 inline word
+        dw      XT_BZERO                                                        ; $5548 execution token
+        dw      $2B8C                                                           ; $554A execution token
+        dw      XT_RETURN                                                       ; $554C execution token
+
+COMPLETE_FIGURE_B_CORRECT_THREAD_3:
+        rst     $08                                                             ; $554E colon entry
+        dw      COMPLETE_FIGURE_B_CORRECT_LOOP_2                                ; $554F execution token
+        dw      COMPLETE_FIGURE_B_CORRECT_LOOP_1                                ; $5551 execution token
+        dw      XT_RETURN                                                       ; $5553 execution token
+
+COMPLETE_FIGURE_B_DIST_THREAD_1:
+        rst     $08                                                             ; $5555 colon entry
+        dw      XT_0                                                            ; $5556 execution token
+        dw      XT_LIT                                                          ; $5558 execution token
+        dw      $FD3D                                                           ; $555A inline word
+        dw      $2BEF                                                           ; $555C execution token
+        dw      $3EAD                                                           ; $555E execution token
+        dw      XT_LITbyte                                                      ; $5560 execution token
+        db      $17                                                             ; $5562 inline byte
+        dw      $2BA8                                                           ; $5563 execution token
+        dw      $3E73                                                           ; $5565 execution token
+        dw      $3FEA                                                           ; $5567 execution token
+        dw      XT_1                                                            ; $5569 execution token
+        dw      $2BA8                                                           ; $556B execution token
+        dw      $3EAD                                                           ; $556D execution token
+        dw      XT_LITbyte                                                      ; $556F execution token
+        db      $15                                                             ; $5571 inline byte
+        dw      $2BA8                                                           ; $5572 execution token
+        dw      $2B8C                                                           ; $5574 execution token
+        dw      XT_RETURN                                                       ; $5576 execution token
+
+COMPLETE_FIGURE_B_DIST_THREAD_2:
+        rst     $08                                                             ; $5578 colon entry
+        dw      XT_0                                                            ; $5579 execution token
+        dw      XT_LIT                                                          ; $557B execution token
+        dw      $FD6D                                                           ; $557D inline word
+        dw      $2BEF                                                           ; $557F execution token
+        dw      XT_LITbyte                                                      ; $5581 execution token
+        db      $00                                                             ; $5583 inline byte
+        dw      XT_DUP                                                          ; $5584 execution token
+        dw      $2B2E                                                           ; $5586 execution token
+        dw      XT_LITbyte                                                      ; $5588 execution token
+        db      $03                                                             ; $558A inline byte
+        dw      $2BA8                                                           ; $558B execution token
+        dw      $3EAD                                                           ; $558D execution token
+        dw      XT_LITbyte                                                      ; $558F execution token
+        db      $17                                                             ; $5591 inline byte
+        dw      $2BA8                                                           ; $5592 execution token
+        dw      $3E73                                                           ; $5594 execution token
+        dw      $3FEA                                                           ; $5596 execution token
+        dw      XT_1                                                            ; $5598 execution token
+        dw      $2BA8                                                           ; $559A execution token
+        dw      $3EAD                                                           ; $559C execution token
+        dw      XT_LITbyte                                                      ; $559E execution token
+        db      $15                                                             ; $55A0 inline byte
+        dw      $2BA8                                                           ; $55A1 execution token
+        dw      $2B8C                                                           ; $55A3 execution token
+        dw      XT_RETURN                                                       ; $55A5 execution token
+
+COMPLETE_FIGURE_B_DIST_THREAD_3:
+        rst     $08                                                             ; $55A7 colon entry
+        dw      COMPLETE_FIGURE_B_DIST_THREAD_2                                 ; $55A8 execution token
+        dw      COMPLETE_FIGURE_B_DIST_THREAD_1                                 ; $55AA execution token
+        dw      XT_RETURN                                                       ; $55AC execution token
+
+        db      $00,$00,$90,$EF,$FF,$D3,$FF,$00,$04,$00,$00,$B2,$F3,$FF,$25     ; $55AE preserved bytes
+        db      $00,$38,$FF,$34,$02,$00,$00,$D2,$08,$00,$11,$00,$FC,$00,$1C,$02 ; $55BD
+        db      $00,$00,$E8,$27,$00,$1A,$00,$F0,$01,$4C,$01,$00,$00,$3D,$04,$00 ; $55CD
+        db      $D0,$FF,$2C,$00,$B0,$FD,$00,$1E,$77,$68,$69,$63,$68,$20,$69,$73 ; $55DD
+        db      $20,$74,$68,$65,$20,$63,$6F,$6D,$70,$6C,$65,$74,$65,$64,$20,$66 ; $55ED
+        db      $69,$67,$75,$72,$65,$3F,$00,$00,$90,$AA,$FF,$E2,$FF,$80,$03,$00 ; $55FD
+        db      $00,$1B,$32,$00,$DA,$FF,$AC,$03,$28,$FD,$00,$00,$C4,$09,$00,$5B ; $560D
+        db      $00,$70,$00,$90,$04,$00,$00,$1C,$31,$00,$D8,$FF,$D4,$01,$80,$FE ; $561D
+        db      $00,$00,$00,$90,$AA,$FF,$BA,$FF,$40,$03,$00,$00,$FD,$7A,$00,$08 ; $562D
+        db      $00,$E0,$03,$48,$00,$00,$00,$90,$B5,$FF,$1E,$00,$70,$FC,$78,$01 ; $563D
+        db      $00,$00,$F6,$3D,$00,$0F,$00,$D8,$03,$F4,$00,$00,$00,$00,$90,$AA ; $564D
+        db      $FF,$0A,$00,$C0,$03,$00,$00,$F9,$4B,$00,$0C,$00,$98,$04,$C8,$00 ; $565D
+        db      $00,$00,$53,$D6,$FF,$AD,$FF,$F0,$FD,$E0,$FB,$00,$00,$EA,$4B,$00 ; $566D
+        db      $2C,$00,$F8,$03,$60,$02,$00,$59,$56,$03,$56,$2E,$56,$04,$00,$89 ; $567D
+        db      $00,$02,$DF,$52,$00,$02,$55,$53,$C0,$02,$DF,$52,$C0,$02,$55,$53 ; $568D
+        db      $00,$00,$8D,$56                                                 ; $569D preserved bytes
+
+COMPLETE_FIGURE_B_SETUP_ACTION:
+        rst     $08                                                             ; $56A1 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $56A2 execution token
+        dw      XT_LIT                                                          ; $56A4 execution token
+        dw      $FFA6                                                           ; $56A6 inline word
+        dw      XT_LITbyte                                                      ; $56A8 execution token
+        db      $18                                                             ; $56AA inline byte
+        dw      XT_LIT                                                          ; $56AB execution token
+        dw      $55E4                                                           ; $56AD inline word
+        dw      XT_LIT                                                          ; $56AF execution token
+        dw      $5684                                                           ; $56B1 inline word
+        dw      XT_LITbyte                                                      ; $56B3 execution token
+        db      $08                                                             ; $56B5 inline byte
+        dw      XT_RANDOM_BELOW                                                 ; $56B6 execution token
+        dw      XT_ARRAY                                                        ; $56B8 execution token
+        dw      $4080                                                           ; $56BA inline word
+        dw      XT_at                                                           ; $56BC execution token
+        dw      CFG0_XT_CONFIGURE_QUESTION_SCENE                                ; $56BE execution token
+        dw      XT_LITbyte                                                      ; $56C0 execution token
+        db      $16                                                             ; $56C2 inline byte
+        dw      XT_SET_CURRENT_OBJECT_VALUE_1                                   ; $56C3 execution token
+        dw      XT_LIT                                                          ; $56C5 execution token
+        dw      $FFF1                                                           ; $56C7 inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_2                                   ; $56C9 execution token
+        dw      XT_LIT                                                          ; $56CB execution token
+        dw      $53CC                                                           ; $56CD inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $56CF execution token
+        dw      XT_LIT                                                          ; $56D1 execution token
+        dw      $55AE                                                           ; $56D3 inline word
+        dw      XT_CONFIGURE_OBJECT_RENDER                                      ; $56D5 execution token
+        dw      XT_LIT                                                          ; $56D7 execution token
+        dw      $52DF                                                           ; $56D9 inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $56DB execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $56DD execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $56DF execution token
+        dw      $866C                                                           ; $56E1 execution token
+        dw      XT_LIT                                                          ; $56E3 execution token
+        dw      $F6E8                                                           ; $56E5 inline word
+        dw      XT_BONE                                                         ; $56E7 execution token
+        dw      XT_RENDER_CURRENT_OBJECT                                        ; $56E9 execution token
+        dw      XT_LIT                                                          ; $56EB execution token
+        dw      $568A                                                           ; $56ED inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $56EF execution token
+        dw      XT_SWAP_TASK_THREAD_IP                                          ; $56F1 execution token
+        dw      $1DE0                                                           ; $56F3 execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $56F5 execution token
+        dw      $1EF6                                                           ; $56F7 execution token
+        dw      XT_LIT                                                          ; $56F9 execution token
+        dw      $52DF                                                           ; $56FB inline word
+        dw      XT_SET_CURRENT_OBJECT_WORD_1D                                   ; $56FD execution token
+        dw      XT_LITbyte                                                      ; $56FF execution token
+        db      $16                                                             ; $5701 inline byte
+        dw      XT_LIT                                                          ; $5702 execution token
+        dw      $FFF4                                                           ; $5704 inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $5706 execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $5708 execution token
+        dw      XT_LITbyte                                                      ; $570A execution token
+        db      $0F                                                             ; $570C inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $570D execution token
+        dw      $1A2C                                                           ; $570F execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $5711 execution token
+        dw      XT_RETURN                                                       ; $5713 execution token
+
+        db      $02,$00,$81,$02,$44,$4E,$03,$F7                                 ; $5715 preserved bytes
+        db      $4E,$00,$18,$57                                                 ; $571D preserved bytes
+
+COMPLETE_FIGURE_B_CORRECT_ACTION:
+        rst     $08                                                             ; $5721 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $5722 execution token
+        dw      CFG0_XT_PLACE_CORRECT_RANDOM_SLOT                               ; $5724 execution token
+        dw      XT_LIT                                                          ; $5726 execution token
+        dw      $FFD3                                                           ; $5728 inline word
+        dw      XT_LITbyte                                                      ; $572A execution token
+        db      $0A                                                             ; $572C inline byte
+        dw      CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS                               ; $572D execution token
+        dw      XT_LIT                                                          ; $572F execution token
+        dw      $4E44                                                           ; $5731 inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $5733 execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $5735 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $5737 execution token
+        dw      XT_LIT                                                          ; $5739 execution token
+        dw      $F6E7                                                           ; $573B inline word
+        dw      XT_BONE                                                         ; $573D execution token
+        dw      XT_RENDER_CURRENT_OBJECT                                        ; $573F execution token
+        dw      XT_LIT                                                          ; $5741 execution token
+        dw      $5715                                                           ; $5743 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $5745 execution token
+        dw      COMPLETE_FIGURE_B_CORRECT_THREAD_3                              ; $5747 execution token
+        dw      XT_SWAP_TASK_THREAD_IP                                          ; $5749 execution token
+        dw      $1DE0                                                           ; $574B execution token
+        dw      XT_RENDER_CURRENT_OBJECT                                        ; $574D execution token
+        dw      XT_LIT                                                          ; $574F execution token
+        dw      $5715                                                           ; $5751 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $5753 execution token
+        dw      XT_LITbyte                                                      ; $5755 execution token
+        db      $16                                                             ; $5757 inline byte
+        dw      XT_LIT                                                          ; $5758 execution token
+        dw      $FFEF                                                           ; $575A inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $575C execution token
+        dw      XT_LITbyte                                                      ; $575E execution token
+        db      $32                                                             ; $5760 inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $5761 execution token
+        dw      $19E9                                                           ; $5763 execution token
+        dw      $1EDC                                                           ; $5765 execution token
+        dw      XT_LITbyte                                                      ; $5767 execution token
+        db      $40                                                             ; $5769 inline byte
+        dw      $1E5C                                                           ; $576A execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $576C execution token
+        dw      XT_LITbyte                                                      ; $576E execution token
+        db      $3C                                                             ; $5770 inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $5771 execution token
+        dw      $1A2C                                                           ; $5773 execution token
+        dw      XT_LIT                                                          ; $5775 execution token
+        dw      $4135                                                           ; $5777 inline word
+        dw      XT_START_COUNTED_ACTION_LIST                                    ; $5779 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $577B execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $577D execution token
+        dw      XT_RETURN                                                       ; $577F execution token
+
+COMPLETE_FIGURE_B_SECOND_ACTION:
+        rst     $08                                                             ; $5781 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $5782 execution token
+        dw      CFG0_XT_PLACE_DISTRACTOR_SECOND_SLOT                            ; $5784 execution token
+        dw      XT_LIT                                                          ; $5786 execution token
+        dw      $FFD3                                                           ; $5788 inline word
+        dw      XT_LITbyte                                                      ; $578A execution token
+        db      $0A                                                             ; $578C inline byte
+        dw      CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS                               ; $578D execution token
+        dw      XT_LIT                                                          ; $578F execution token
+        dw      $4FCD                                                           ; $5791 inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $5793 execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $5795 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $5797 execution token
+        dw      XT_LIT                                                          ; $5799 execution token
+        dw      $F6E7                                                           ; $579B inline word
+        dw      XT_BONE                                                         ; $579D execution token
+        dw      COMPLETE_FIGURE_B_DIST_THREAD_3                                 ; $579F execution token
+        dw      $1F21                                                           ; $57A1 execution token
+        dw      XT_RENDER_CURRENT_OBJECT                                        ; $57A3 execution token
+        dw      XT_LIT                                                          ; $57A5 execution token
+        dw      $FFF4                                                           ; $57A7 inline word
+        dw      XT_LIT                                                          ; $57A9 execution token
+        dw      $FFEF                                                           ; $57AB inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $57AD execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $57AF execution token
+        dw      $1EDC                                                           ; $57B1 execution token
+        dw      XT_LITbyte                                                      ; $57B3 execution token
+        db      $40                                                             ; $57B5 inline byte
+        dw      $1E5C                                                           ; $57B6 execution token
+        dw      XT_LIT                                                          ; $57B8 execution token
+        dw      $4FCD                                                           ; $57BA inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $57BC execution token
+        dw      XT_LITbyte                                                      ; $57BE execution token
+        db      $2E                                                             ; $57C0 inline byte
+        dw      XT_SET_CURRENT_OBJECT_VALUE_1                                   ; $57C1 execution token
+        dw      XT_LIT                                                          ; $57C3 execution token
+        dw      $4E44                                                           ; $57C5 inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $57C7 execution token
+        dw      XT_LITbyte                                                      ; $57C9 execution token
+        db      $0E                                                             ; $57CB inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $57CC execution token
+        dw      $1A2C                                                           ; $57CE execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $57D0 execution token
+        dw      XT_RETURN                                                       ; $57D2 execution token
+
+COMPLETE_FIGURE_B_REMAINING_ACTION:
+        rst     $08                                                             ; $57D4 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $57D5 execution token
+        dw      CFG0_XT_PLACE_DISTRACTOR_REMAINING_SLOT                         ; $57D7 execution token
+        dw      XT_LIT                                                          ; $57D9 execution token
+        dw      $FFD3                                                           ; $57DB inline word
+        dw      XT_LITbyte                                                      ; $57DD execution token
+        db      $0A                                                             ; $57DF inline byte
+        dw      CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS                               ; $57E0 execution token
+        dw      XT_LIT                                                          ; $57E2 execution token
+        dw      $5156                                                           ; $57E4 inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $57E6 execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $57E8 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $57EA execution token
+        dw      XT_LIT                                                          ; $57EC execution token
+        dw      $F6E7                                                           ; $57EE inline word
+        dw      XT_BONE                                                         ; $57F0 execution token
+        dw      COMPLETE_FIGURE_B_DIST_THREAD_3                                 ; $57F2 execution token
+        dw      $1F21                                                           ; $57F4 execution token
+        dw      XT_RENDER_CURRENT_OBJECT                                        ; $57F6 execution token
+        dw      XT_LIT                                                          ; $57F8 execution token
+        dw      $FFF4                                                           ; $57FA inline word
+        dw      XT_LIT                                                          ; $57FC execution token
+        dw      $FFEF                                                           ; $57FE inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $5800 execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $5802 execution token
+        dw      $1EDC                                                           ; $5804 execution token
+        dw      XT_LITbyte                                                      ; $5806 execution token
+        db      $40                                                             ; $5808 inline byte
+        dw      $1E5C                                                           ; $5809 execution token
+        dw      XT_LIT                                                          ; $580B execution token
+        dw      $5156                                                           ; $580D inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $580F execution token
+        dw      XT_LITbyte                                                      ; $5811 execution token
+        db      $2E                                                             ; $5813 inline byte
+        dw      XT_SET_CURRENT_OBJECT_VALUE_1                                   ; $5814 execution token
+        dw      XT_LIT                                                          ; $5816 execution token
+        dw      $4E44                                                           ; $5818 inline word
+        dw      XT_APPLY_AND_DRAW_OBJECT                                        ; $581A execution token
+        dw      XT_LITbyte                                                      ; $581C execution token
+        db      $0E                                                             ; $581E inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $581F execution token
+        dw      $1A2C                                                           ; $5821 execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $5823 execution token
+        dw      XT_RETURN                                                       ; $5825 execution token
+
+COMPLETE_FIGURE_B_ACTIONS:
+        db      $04                                                             ; $5827 action count
+        dw      COMPLETE_FIGURE_B_SETUP_ACTION                                  ; $5828 setup action
+        dw      COMPLETE_FIGURE_B_CORRECT_ACTION                                ; $582A correct answer
+        dw      COMPLETE_FIGURE_B_SECOND_ACTION                                 ; $582C second answer
+        dw      COMPLETE_FIGURE_B_REMAINING_ACTION                              ; $582E remaining answer
+
+; Rooted by tier slots 1, 3, 5.
+COMPLETE_FIGURE_B_T1_3_5_INIT:
+        rst     $08                                                          ; $5830
+        dw      XT_LIT                                                          ; $5831
+        dw      PPQ4_COMPLETE_FIGURE_B_ACTIONS                                  ; $5833
+        dw      XT_RETURN                                                       ; $5835
+        db      $0A,$02,$07,$1B,$1D,$2F,$3C,$00,$00                             ; $5837
+        db      $55,$50,$00,$00,$00,$00,$05,$55,$55,$00,$00,$00,$00,$55,$55,$55 ; $5840
+        db      $50,$00,$00,$00,$65,$55,$15,$10,$00,$00,$01,$95,$54,$04,$04,$00 ; $5850
+        db      $00,$01,$95,$55,$04,$14,$00,$00,$05,$55,$54,$04,$05,$00,$00,$05 ; $5860
+        db      $55,$54,$04,$05,$00,$00,$05,$55,$55,$15,$15,$44,$00,$05,$15,$55 ; $5870
+        db      $55,$55,$04,$00,$04,$55,$55,$55,$55,$04,$00,$01,$45,$51,$55,$55 ; $5880
+        db      $04,$00,$05,$15,$54,$55,$54,$04,$00,$14,$55,$55,$00,$00,$2A,$00 ; $5890
+        db      $50,$55,$55,$55,$52,$AA,$80,$15,$00,$01,$55,$50,$2A,$80,$01,$52 ; $58A0
+        db      $A1,$55,$02,$AA,$80,$00,$2A,$01,$10,$00,$AA,$00,$00,$2A,$A1,$01 ; $58B0
+        db      $00,$00,$00,$00,$2A,$A1,$41,$40,$00,$00,$00,$0A,$81,$04,$00,$00 ; $58C0
+        db      $00,$00,$00,$01,$10,$00,$00,$00,$00,$00,$31,$00,$00,$00,$00,$00 ; $58D0
+        db      $00,$01,$00,$00,$00,$00,$00,$00,$0C,$FF,$00,$00,$00,$00,$00,$3F ; $58E0
+        db      $FF,$C0,$00,$00,$00,$00,$3F,$FF,$C0,$00,$00,$09,$02,$05,$1A,$1D ; $58F0
+        db      $2F,$3C,$00,$05,$55,$00,$00,$00,$55,$55,$50,$00,$05,$95,$55,$55 ; $5900
+        db      $00,$06,$55,$55,$45,$40,$16,$55,$55,$01,$00,$15,$55,$55,$01,$00 ; $5910
+        db      $55,$55,$55,$41,$40,$55,$55,$55,$01,$00,$55,$45,$55,$45,$54,$55 ; $5920
+        db      $44,$55,$55,$50,$55,$44,$55,$15,$50,$15,$44,$55,$15,$40,$15,$44 ; $5930
+        db      $55,$45,$40,$45,$41,$15,$50,$00,$10,$54,$45,$54,$00,$04,$14,$10 ; $5940
+        db      $00,$00,$01,$05,$0A,$80,$00,$00,$80,$2A,$A0,$00,$00,$A8,$00,$A0 ; $5950
+        db      $00,$00,$80,$40,$A0,$00,$00,$01,$0A,$80,$00,$00,$04,$00,$00,$3C ; $5960
+        db      $03,$C0,$00,$04,$3F,$0F,$FF,$00,$04,$FF,$03,$FF,$C0,$3F,$FC,$00 ; $5970
+        db      $FF,$C0,$3F,$C0,$0C,$02,$07,$1A,$1D,$2F,$3C,$00,$00,$15,$54,$00 ; $5980
+        db      $00,$00,$00,$01,$55,$55,$40,$00,$00,$00,$16,$55,$55,$54,$00,$00 ; $5990
+        db      $00,$19,$55,$55,$44,$00,$00,$00,$59,$55,$55,$41,$00,$00,$00,$55 ; $59A0
+        db      $55,$55,$51,$00,$00,$01,$55,$55,$55,$40,$40,$00,$01,$55,$55,$55 ; $59B0
+        db      $50,$50,$00,$01,$55,$55,$55,$55,$40,$00,$01,$55,$54,$55,$55,$40 ; $59C0
+        db      $00,$01,$55,$54,$45,$45,$40,$00,$11,$55,$54,$11,$51,$40,$00,$40 ; $59D0
+        db      $55,$55,$04,$54,$00,$00,$10,$55,$51,$41,$15,$00,$00,$04,$15,$51 ; $59E0
+        db      $50,$40,$2A,$00,$00,$01,$51,$14,$14,$AA,$80,$0A,$80,$11,$15,$00 ; $59F0
+        db      $AA,$80,$00,$00,$01,$00,$0A,$A0,$80,$00,$00,$01,$10,$00,$00,$00 ; $5A00
+        db      $00,$F0,$14,$10,$00,$00,$00,$03,$F1,$40,$10,$00,$00,$00,$00,$F0 ; $5A10
+        db      $00,$10,$00,$00,$00,$00,$FF,$C0,$10,$00,$00,$00,$00,$3F,$C0,$DF ; $5A20
+        db      $FC,$00,$00,$00,$0F,$03,$FF,$FF,$00,$00,$00,$00,$00,$FF,$FC,$00 ; $5A30
+        db      $00,$0E,$02,$07,$1A,$1D,$2F,$3C,$00,$00,$01,$55,$40,$00,$00,$00 ; $5A40
+        db      $00,$15,$55,$54,$00,$00,$00,$01,$65,$55,$55,$40,$00,$00,$01,$95 ; $5A50
+        db      $55,$55,$40,$00,$00,$05,$95,$55,$55,$50,$00,$00,$05,$55,$55,$55 ; $5A60
+        db      $50,$00,$00,$15,$55,$55,$55,$54,$00,$00,$15,$55,$55,$55,$55,$00 ; $5A70
+        db      $55,$55,$55,$55,$40,$00,$00,$10,$15,$55,$51,$55,$55,$00,$04,$15 ; $5A80
+        db      $55,$54,$00,$01,$00,$01,$15,$55,$55,$55,$41,$00,$00,$05,$55,$04 ; $5A90
+        db      $15,$01,$00,$02,$85,$55,$41,$04,$21,$20,$00,$81,$55,$50,$40,$A8 ; $5AA0
+        db      $28,$00,$80,$15,$54,$10,$2A,$A8,$00,$08,$01,$55,$05,$02,$A0,$00 ; $5AB0
+        db      $A0,$00,$00,$04,$00,$00,$00,$00,$00,$10,$10,$00,$00,$00,$00,$00 ; $5AC0
+        db      $10,$40,$00,$00,$00,$00,$00,$01,$00,$00,$00,$00,$00,$00,$30,$00 ; $5AD0
+        db      $00,$00,$00,$00,$00,$FF,$F0,$00,$00,$00,$00,$00,$FF,$FC,$00,$00 ; $5AE0
+        db      $00,$00,$00,$0F,$F0,$C0,$00,$00,$00,$00,$C0,$03,$00,$00,$0C,$02 ; $5AF0
+        db      $06,$1A,$1D,$2F,$3C,$00,$00,$15,$54,$00,$00,$00,$01,$55,$55,$40 ; $5B00
+        db      $00,$00,$16,$55,$55,$54,$00,$00,$19,$55,$55,$50,$00,$00,$59,$55 ; $5B10
+        db      $55,$50,$00,$00,$55,$55,$55,$50,$00,$01,$55,$55,$55,$54,$00,$01 ; $5B20
+        db      $55,$55,$55,$55,$50,$01,$55,$55,$55,$55,$40,$01,$55,$54,$55,$55 ; $5B30
+        db      $40,$01,$55,$54,$11,$51,$40,$01,$55,$55,$04,$54,$40,$10,$55,$55 ; $5B40
+        db      $41,$15,$00,$40,$55,$51,$50,$40,$08,$10,$15,$50,$44,$15,$4A,$04 ; $5B50
+        db      $15,$54,$51,$00,$0A,$01,$01,$54,$14,$40,$AA,$00,$80,$15,$05,$00 ; $5B60
+        db      $A8,$00,$A0,$00,$01,$00,$00,$00,$00,$01,$00,$40,$00,$00,$00,$04 ; $5B70
+        db      $00,$40,$00,$00,$03,$10,$00,$10,$FC,$00,$0F,$C0,$00,$10,$FF,$00 ; $5B80
+        db      $03,$FC,$00,$03,$FC,$00,$00,$FF,$00,$3F,$F0,$00,$00,$FF,$00,$3F ; $5B90
+        db      $00,$09,$02,$05,$1A,$1D,$2F,$3C,$00,$05,$55,$00,$00,$00,$55,$55 ; $5BA0
+        db      $50,$00,$05,$95,$55,$55,$00,$06,$55,$54,$15,$00,$16,$55,$50,$04 ; $5BB0
+        db      $00,$15,$55,$54,$05,$00,$55,$55,$50,$05,$00,$55,$55,$54,$05,$54 ; $5BC0
+        db      $55,$55,$55,$55,$50,$55,$51,$55,$55,$50,$55,$44,$51,$55,$50,$55 ; $5BD0
+        db      $10,$54,$55,$50,$14,$41,$55,$15,$40,$11,$05,$55,$40,$00,$04,$41 ; $5BE0
+        db      $55,$55,$40,$05,$10,$05,$55,$00,$00,$4A,$81,$50,$A0,$00,$0A,$A1 ; $5BF0
+        db      $02,$80,$00,$00,$A0,$00,$00,$3C,$4A,$A1,$00,$00,$FC,$02,$84,$00 ; $5C00
+        db      $00,$3F,$00,$04,$00,$00,$0F,$C0,$04,$00,$00,$0F,$C0,$34,$FC,$00 ; $5C10
+        db      $00,$00,$FF,$FF,$00,$00,$00,$3F,$FC,$00,$06,$01,$06,$1A,$1D,$2F ; $5C20
+        db      $3C,$00,$05,$54,$00,$00,$00,$00,$55,$55,$40,$00,$00,$05,$95,$55 ; $5C30
+        db      $54,$00,$00,$06,$55,$55,$04,$00,$00,$16,$55,$55,$04,$00,$00,$15 ; $5C40
+        db      $55,$55,$01,$00,$00,$55,$55,$55,$01,$40,$00,$55,$55,$55,$45,$40 ; $5C50
+        db      $00,$55,$54,$41,$55,$02,$00,$55,$54,$51,$54,$88,$80,$55,$55,$11 ; $5C60
+        db      $52,$22,$00,$55,$55,$14,$52,$A8,$80,$15,$55,$44,$00,$2A,$00,$15 ; $5C70
+        db      $55,$45,$55,$28,$00,$05,$51,$50,$00,$00,$00,$05,$51,$15,$54,$00 ; $5C80
+        db      $00,$00,$51,$15,$40,$00,$00,$00,$11,$15,$00,$00,$00,$00,$01,$00 ; $5C90
+        db      $40,$00,$00,$00,$01,$05,$00,$00,$00,$00,$01,$10,$00,$00,$00,$00 ; $5CA0
+        db      $F1,$00,$00,$00,$00,$00,$C1,$00,$00,$00,$00,$00,$0C,$3F,$00,$00 ; $5CB0
+        db      $00,$00,$3F,$FF,$C0,$00,$00,$00,$3F,$3F,$00,$00,$00,$07,$00,$05 ; $5CC0
+        db      $19,$1D,$2F,$3C,$00,$05,$54,$00,$00,$00,$54,$05,$40,$00,$05,$80 ; $5CD0
+        db      $80,$54,$00,$06,$48,$88,$54,$00,$15,$48,$88,$55,$00,$14,$08,$88 ; $5CE0
+        db      $55,$00,$54,$8A,$A8,$55,$40,$54,$8A,$A8,$55,$40,$54,$28,$A8,$55 ; $5CF0
+        db      $40,$15,$21,$20,$55,$00,$15,$44,$01,$55,$00,$05,$11,$55,$54,$00 ; $5D00
+        db      $04,$45,$55,$54,$00,$01,$15,$55,$40,$00,$00,$04,$44,$00,$00,$00 ; $5D10
+        db      $00,$40,$00,$00,$00,$00,$40,$00,$00,$00,$00,$50,$00,$00,$00,$00 ; $5D20
+        db      $40,$00,$00,$00,$00,$40,$00,$00,$00,$00,$40,$00,$00,$00,$00,$40 ; $5D30
+        db      $00,$00,$00,$03,$3F,$C0,$00,$00,$0F,$FF,$F0,$00,$00,$0F,$CF,$C0 ; $5D40
+        db      $00,$01,$02,$05,$1B,$1D,$2F,$3C,$00,$01,$55,$00,$00,$00,$15,$55 ; $5D50
+        db      $50,$00,$01,$65,$55,$55,$00,$01,$95,$55,$55,$00,$05,$95,$04,$15 ; $5D60
+        db      $40,$05,$54,$82,$05,$40,$15,$52,$08,$81,$50,$00,$52,$A2,$21,$50 ; $5D70
+        db      $04,$52,$A8,$85,$50,$04,$50,$AA,$15,$40,$04,$51,$28,$55,$40,$04 ; $5D80
+        db      $44,$01,$55,$00,$04,$11,$55,$55,$00,$04,$45,$55,$50,$00,$05,$01 ; $5D90
+        db      $55,$00,$00,$00,$00,$00,$00,$00,$04,$00,$00,$00,$00,$04,$00,$00 ; $5DA0
+        db      $00,$00,$04,$00,$00,$00,$00,$05,$00,$00,$00,$00,$04,$00,$00,$00 ; $5DB0
+        db      $00,$04,$00,$00,$00,$00,$04,$00,$00,$00,$00,$04,$00,$00,$00,$00 ; $5DC0
+        db      $33,$FC,$00,$00,$00,$FF,$FF,$00,$00,$00,$FC,$FC,$00,$00,$00,$01 ; $5DD0
+        db      $FF,$07,$18,$1D,$2F,$3C,$00,$00,$00,$00,$01,$50,$00,$00,$00,$00 ; $5DE0
+        db      $00,$15,$55,$00,$00,$00,$00,$01,$50,$15,$50,$00,$00,$00,$01,$4A ; $5DF0
+        db      $15,$50,$00,$00,$00,$05,$20,$00,$14,$05,$00,$00,$04,$AA,$AA,$14 ; $5E00
+        db      $01,$50,$00,$14,$AA,$00,$15,$00,$15,$00,$00,$AA,$AA,$15,$00,$00 ; $5E10
+        db      $50,$15,$2A,$00,$15,$00,$00,$15,$40,$AA,$A8,$54,$00,$00,$00,$04 ; $5E20
+        db      $00,$00,$54,$04,$00,$00,$01,$55,$55,$50,$04,$00,$00,$01,$55,$55 ; $5E30
+        db      $50,$04,$00,$00,$00,$15,$55,$00,$04,$00,$00,$00,$01,$50,$00,$04 ; $5E40
+        db      $00,$00,$00,$00,$00,$00,$05,$00,$00,$00,$00,$00,$00,$04,$00,$00 ; $5E50
+        db      $00,$00,$00,$00,$04,$00,$00,$00,$00,$00,$00,$04,$00,$00,$00,$00 ; $5E60
+        db      $00,$00,$04,$00,$00,$00,$00,$00,$00,$33,$FC,$00,$00,$00,$00,$00 ; $5E70
+        db      $FF,$FF,$00,$00,$00,$00,$00,$FC,$FC,$00,$00,$00,$00,$00,$01,$FC ; $5E80
+        db      $06,$15,$1F,$2D,$3C,$00,$00,$00,$00,$05,$00,$00,$00,$00,$00,$10 ; $5E90
+        db      $00,$0A,$00,$00,$00,$55,$55,$02,$A0,$00,$00,$55,$00,$00,$2A,$00 ; $5EA0
+        db      $00,$55,$55,$00,$00,$A0,$2A,$15,$00,$00,$00,$2A,$80,$55,$54,$00 ; $5EB0
+        db      $00,$00,$00,$00,$00,$08,$00,$00,$00,$00,$00,$08,$00,$00,$00,$00 ; $5EC0
+        db      $00,$08,$00,$00,$00,$00,$00,$08,$00,$00,$00,$00,$00,$08,$00,$00 ; $5ED0
+        db      $00,$00,$00,$0A,$00,$00,$00,$00,$00,$08,$00,$00,$00,$00,$00,$08 ; $5EE0
+        db      $00,$00,$00,$00,$00,$08,$00,$00,$00,$00,$00,$08,$00,$00,$00,$00 ; $5EF0
+        db      $00,$33,$FC,$00,$00,$00,$00,$FF,$FF,$00,$00,$00,$00,$FC,$FC,$00 ; $5F00
+        db      $00,$00,$00,$F4,$FF,$04,$0F,$1D,$20,$30,$00,$05,$40,$00,$00,$55 ; $5F10
+        db      $54,$00,$05,$40,$55,$40,$05,$00,$55,$40,$14,$00,$00,$50,$10,$00 ; $5F20
+        db      $00,$50,$50,$00,$00,$54,$00,$00,$00,$54,$00,$00,$00,$54,$00,$00 ; $5F30
+        db      $01,$50,$10,$00,$01,$50,$05,$55,$55,$40,$05,$55,$55,$40,$00,$55 ; $5F40
+        db      $54,$00,$00,$05,$40,$00,$04,$FF,$08,$19,$1F,$2D,$3C,$00,$00,$00 ; $5F50
+        db      $00,$00,$00,$40,$00,$00,$00,$00,$00,$00,$00,$00,$00,$04,$00,$00 ; $5F60
+        db      $00,$00,$02,$00,$00,$08,$09,$00,$00,$00,$20,$00,$00,$80,$00,$00 ; $5F70
+        db      $00,$80,$00,$00,$40,$40,$80,$40,$10,$08,$08,$88,$00,$00,$00,$00 ; $5F80
+        db      $00,$00,$00,$00,$00,$06,$06,$00,$00,$00,$00,$80,$00,$00,$00,$20 ; $5F90
+        db      $02,$20,$00,$00,$00,$00,$00,$42,$20,$08,$88,$80,$00,$00,$00,$00 ; $5FA0
+        db      $10,$00,$00,$00,$00,$11,$80,$00,$00,$28,$0A,$01,$00,$00,$00,$00 ; $5FB0
+        db      $40,$00,$00,$00,$00,$00,$00,$00,$01,$00,$00,$00,$00,$24,$42,$40 ; $5FC0
+        db      $00,$00,$04,$00,$00,$00,$80,$00,$00,$00,$00,$00,$00,$00,$01,$00 ; $5FD0
+        db      $00,$00,$00,$00,$00,$00,$A0,$00,$00,$00,$00,$00,$00,$00,$41,$09 ; $5FE0
+        db      $00,$00,$00,$00,$00,$18,$00,$00,$00,$00,$00,$00,$00,$04,$00,$00 ; $5FF0
+        db      $00,$00,$00,$00,$00,$00,$08,$24,$00,$00,$00,$00,$00,$00,$00,$00 ; $6000
+        db      $00,$00,$00,$00,$00,$1C,$80,$03,$40,$00,$00,$00,$00,$00,$0C,$C0 ; $6010
+        db      $00,$00,$00,$00,$00,$F4,$FE,$04,$0D,$1D,$20,$30,$00,$15,$00,$00 ; $6020
+        db      $01,$55,$50,$00,$05,$55,$54,$00,$15,$55,$55,$00,$15,$55,$55,$00 ; $6030
+        db      $55,$55,$55,$40,$55,$55,$55,$40,$55,$55,$55,$40,$15,$55,$55,$00 ; $6040
+        db      $15,$55,$55,$00,$05,$55,$54,$00,$01,$55,$50,$00,$00,$15,$00,$00 ; $6050
+        db      $F7,$04,$02,$0C,$1F,$2D,$30,$04,$40,$04,$44,$04,$44,$45,$54,$55 ; $6060
+        db      $54,$15,$54,$05,$50,$00,$00,$00,$80,$00,$80,$00,$80,$2A,$80,$F6 ; $6070
+        db      $02,$04,$0A,$1F,$2D,$30,$00,$00,$04,$40,$00,$10,$11,$00,$00,$10 ; $6080
+        db      $44,$40,$00,$16,$51,$00,$00,$15,$94,$00,$00,$05,$50,$00,$00,$01 ; $6090
+        db      $40,$00,$00,$20,$00,$00,$00,$80,$00,$00,$AA,$00,$00,$00,$F6,$02 ; $60A0
+        db      $03,$0B,$1F,$2D,$30,$01,$55,$40,$04,$01,$10,$15,$10,$00,$10,$10 ; $60B0
+        db      $00,$05,$40,$00,$00,$00,$00,$02,$00,$00,$02,$00,$00,$02,$00,$00 ; $60C0
+        db      $AA,$00,$00,$00,$00,$00,$F6,$FA,$03,$07,$1D,$2F,$30,$00,$04,$00 ; $60D0
+        db      $00,$04,$00,$00,$09,$40,$40,$10,$50,$11,$11,$50,$04,$10,$50,$00 ; $60E0
+        db      $09,$40,$F6,$F9,$03,$07,$1F,$2D,$30,$00,$04,$00,$00,$00,$00,$80 ; $60F0
+        db      $05,$40,$20,$20,$50,$0A,$15,$50,$00,$20,$50,$00,$05,$60,$0C,$02 ; $6100
+        db      $06,$1A,$1D,$2F,$3C,$00,$00,$15,$54,$00,$00,$00,$01,$55,$55,$40 ; $6110
+        db      $00,$00,$16,$55,$55,$54,$00,$00,$19,$55,$15,$14,$00,$00,$59,$54 ; $6120
+        db      $04,$05,$00,$00,$55,$54,$04,$05,$00,$01,$55,$55,$04,$15,$40,$01 ; $6130
+        db      $55,$54,$04,$05,$40,$00,$15,$55,$15,$15,$40,$55,$55,$55,$55,$55 ; $6140
+        db      $40,$10,$05,$45,$55,$54,$40,$04,$55,$51,$55,$51,$00,$01,$00,$14 ; $6150
+        db      $55,$45,$00,$00,$AA,$85,$00,$14,$00,$00,$2A,$85,$55,$54,$00,$00 ; $6160
+        db      $00,$85,$55,$40,$00,$00,$2A,$01,$54,$00,$00,$00,$00,$10,$00,$00 ; $6170
+        db      $00,$00,$00,$10,$04,$00,$00,$00,$00,$10,$05,$00,$00,$00,$00,$10 ; $6180
+        db      $04,$00,$00,$00,$00,$10,$04,$00,$00,$00,$00,$10,$04,$00,$00,$00 ; $6190
+        db      $00,$CC,$33,$FC,$00,$00,$03,$FF,$3F,$FF,$00,$00,$03,$FF,$3F,$3F ; $61A0
+        db      $00,$10,$00,$81,$07,$60,$60,$07,$AE,$60,$07,$60,$60,$07,$AE,$60 ; $61B0
+        db      $07,$60,$60,$07,$AE,$60,$07,$60,$60,$07,$7F,$60,$07,$60,$60,$07 ; $61C0
+        db      $7F,$60,$07,$60,$60,$07,$7F,$60,$07,$AE,$60,$07,$60,$60,$07,$AE ; $61D0
+        db      $60,$0F,$60,$60,$00,$B4,$61,$0C,$00,$81,$04,$FE,$5A,$04,$A1,$5B ; $61E0
+        db      $04,$37,$58,$04,$FB,$58,$04,$84,$59,$04,$41,$5A,$04,$FE,$5A,$04 ; $61F0
+        db      $A1,$5B,$04,$37,$58,$04,$FB,$58,$04,$84,$59,$04,$41,$5A,$00,$EA ; $6200
+        db      $61,$05,$00,$81,$07,$37,$58,$0C,$2A,$5C,$0E,$CD,$5C,$0C,$51,$5D ; $6210
+        db      $46,$DF,$5D,$00,$14,$62,$02,$00,$81,$09,$D6,$60,$09,$F2,$60,$00 ; $6220
+        db      $29,$62,$00,$00,$90,$7C,$FF,$4E,$00,$40,$07,$00,$00,$40,$00,$00 ; $6230
+        db      $F3,$FF,$00,$00,$18,$FC,$00,$00,$C0,$00,$00,$07,$00,$00,$00,$E8 ; $6240
+        db      $03,$00,$00,$40,$00,$00,$F9,$FF,$00,$00,$18,$FC,$00,$00,$C0,$00 ; $6250
+        db      $00,$05,$00,$00,$00,$E8,$03,$00,$00,$40,$00,$00,$FB,$FF,$00,$00 ; $6260
+        db      $18,$FC,$00,$00,$C0,$00,$00,$02,$00,$00,$00,$E8,$03,$00,$00,$40 ; $6270
+        db      $00,$00,$FE,$FF,$00,$00,$18,$FC,$00,$CF,$99,$15,$A8,$1E,$09,$01 ; $6280
+        db      $89,$00,$12,$01,$4B,$54,$1D,$09,$01,$0E,$61,$B4,$1C,$0C,$1E,$14 ; $6290
+        db      $1F,$09,$01,$B1,$61,$B4,$1C,$09,$01,$7E,$00,$DF,$1B,$E9,$19,$09 ; $62A0
+        db      $01,$26,$62,$B4,$1C,$09,$01,$64,$00,$DF,$1B,$E9,$19,$F3,$1D,$A8 ; $62B0
+        db      $1E,$09,$01,$0E,$61,$B4,$1C,$0C,$1E,$0C,$1E,$09,$01,$89,$00,$12 ; $62C0
+        db      $01,$4C,$54,$1D,$09,$01,$E7,$61,$B4,$1C,$09,$01,$7C,$FF,$5F,$1C ; $62D0
+        db      $CF,$1E,$E0,$1D,$21,$1F,$09,$01,$D4,$FE,$5B,$1D,$12,$01,$09,$DF ; $62E0
+        db      $1B,$43,$1C,$E9,$19,$83,$1C,$E3,$01,$EA,$03,$0D,$63,$12,$01,$03 ; $62F0
+        db      $DF,$1B,$2C,$1A,$12,$01,$09,$DF,$1B,$43,$1C,$E9,$19,$83,$1C,$E3 ; $6300
+        db      $01,$EA,$03,$22,$63,$12,$01,$03,$DF,$1B,$2C,$1A,$2A,$01,$E2,$03 ; $6310
+        db      $24,$63,$30,$01,$EA,$03,$E4,$62,$E0,$1D,$09,$01,$11,$62,$B4,$1C ; $6320
+        db      $09,$01,$7C,$FF,$12,$01,$4C,$54,$1D,$12,$01,$5F,$DF,$1B,$E9,$19 ; $6330
+        db      $09,$01,$13,$5F,$B4,$1C,$0C,$1E,$14,$1F,$09,$01,$32,$62,$D4,$24 ; $6340
+        db      $09,$01,$25,$60,$B4,$1C,$37,$23,$12,$01,$1E,$DF,$1B,$2C,$1A,$09 ; $6350
+        db      $01,$7C,$FF,$12,$01,$4C,$54,$1D,$09,$01,$8E,$5E,$B4,$1C,$0C,$1E ; $6360
+        db      $09,$01,$56,$5F,$B4,$1C,$0C,$1E,$12,$01,$0A,$DF,$1B,$2C,$1A,$0C ; $6370
+        db      $1E,$FD,$00,$00,$00,$01,$01,$00,$00,$00,$01,$01,$C0,$06,$06,$03 ; $6380
+        db      $0D,$00,$00,$00,$00,$3F,$00,$03,$FF,$F0,$0F,$FF,$FC,$0F,$FF,$FC ; $6390
+        db      $3F,$FF,$FF,$3F,$FF,$FF,$3F,$FF,$FF,$0F,$FF,$FC,$0F,$FF,$FC,$03 ; $63A0
+        db      $FF,$F0,$00,$3F,$00,$00,$00,$00,$06,$06,$03,$0D,$00,$00,$00,$00 ; $63B0
+        db      $3F,$00,$03,$FF,$F0,$0F,$FF,$FC,$0F,$FF,$C0,$3F,$F0,$00,$3F,$C0 ; $63C0
+        db      $00,$3F,$F0,$00,$0F,$FF,$C0,$0F,$FF,$FC,$03,$FF,$F0,$00,$3F,$00 ; $63D0
+        db      $00,$00,$00,$06,$05,$03,$0D,$00,$3F,$00,$03,$FF,$F0,$0F,$FF,$FC ; $63E0
+        db      $0F,$FF,$FC,$3F,$FF,$FF,$3F,$FF,$FF,$3F,$FF,$FF,$0F,$FF,$FC,$0F ; $63F0
+        db      $FF,$FC,$03,$FF,$F0,$00,$3F,$00,$00,$00,$00,$00,$00,$00,$06,$05 ; $6400
+        db      $03,$0D,$00,$00,$00,$03,$00,$30,$0F,$00,$3C,$0F,$C0,$FC,$3F,$C0 ; $6410
+        db      $FF,$3F,$C0,$FF,$3F,$F3,$FF,$0F,$FF,$FC,$0F,$FF,$FC,$03,$FF,$F0 ; $6420
+        db      $00,$3F,$00,$00,$00,$00,$00,$00,$00,$05,$06,$03,$0C,$00,$00,$00 ; $6430
+        db      $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$C0,$00,$0C,$FC ; $6440
+        db      $00,$FC,$FF,$CF,$FC,$3F,$FF,$F0,$3F,$FF,$F0,$0F,$FF,$C0,$00,$FC ; $6450
+        db      $00,$00,$00,$00,$05,$05,$03,$0B,$00,$00,$00,$00,$00,$00,$00,$00 ; $6460
+        db      $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$C0,$00,$0F,$FC,$00 ; $6470
+        db      $FF,$FF,$C0,$3F,$FF,$00,$03,$F0,$00,$00,$00,$00,$05,$05,$03,$0C ; $6480
+        db      $00,$30,$00,$00,$30,$00,$0C,$00,$C0,$00,$00,$00,$00,$00,$00,$F0 ; $6490
+        db      $00,$3C,$00,$00,$00,$00,$00,$00,$0C,$00,$C0,$00,$30,$00,$00,$30 ; $64A0
+        db      $00,$00,$00,$00,$00,$00,$90,$C1,$FF,$ED,$FF,$C0,$04,$00,$00,$00 ; $64B0
+        db      $1A,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$40,$00,$00,$E5,$FF,$00 ; $64C0
+        db      $00,$04,$FF,$00,$00,$00,$14,$00,$00,$00,$FC,$00,$00,$00,$00,$00 ; $64D0
+        db      $C0,$00,$00,$11,$00,$00,$00,$FC,$00,$01,$00,$00,$00,$17,$00,$00 ; $64E0
+        db      $00,$FC,$00,$00,$00,$00,$00,$00,$90,$C1,$FF,$ED,$FF,$00,$06,$00 ; $64F0
+        db      $00,$00,$1A,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$40,$00,$00,$D5 ; $6500
+        db      $FF,$00,$00,$04,$FF,$00,$00,$00,$2F,$00,$00,$00,$FC,$00,$00,$00 ; $6510
+        db      $00,$00,$C0,$00,$00,$11,$00,$00,$00,$FC,$00,$00,$00,$00,$0B,$00 ; $6520
+        db      $00,$00,$FC,$00,$00,$00,$00,$00,$C0,$00,$00,$10,$00,$00,$00,$FC ; $6530
+        db      $00,$01,$00,$00,$80,$E9,$FF,$00,$00,$04,$FF,$00,$00,$00,$00,$00 ; $6540
+        db      $90,$C1,$FF,$ED,$FF,$00,$08,$00,$00,$00,$1A,$00,$00,$00,$FC,$00 ; $6550
+        db      $00,$00,$00,$00,$C0,$00,$00,$29,$00,$00,$00,$FC,$00,$00,$00,$00 ; $6560
+        db      $13,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$40,$00,$00,$EF,$FF,$00 ; $6570
+        db      $00,$04,$FF,$00,$00,$00,$08,$00,$00,$00,$FC,$00,$00,$00,$00,$00 ; $6580
+        db      $40,$00,$00,$EF,$FF,$00,$00,$04,$FF,$00,$00,$80,$FB,$FF,$00,$00 ; $6590
+        db      $04,$FF,$00,$00,$00,$00,$40,$00,$00,$EF,$FF,$00,$00,$04,$FF,$01 ; $65A0
+        db      $00,$00,$00,$17,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$00,$90,$C1 ; $65B0
+        db      $FF,$ED,$FF,$20,$08,$00,$00,$00,$2D,$00,$00,$00,$FC,$00,$00,$00 ; $65C0
+        db      $00,$00,$40,$00,$00,$E5,$FF,$00,$00,$04,$FF,$00,$00,$00,$08,$00 ; $65D0
+        db      $00,$00,$FC,$00,$00,$00,$00,$00,$40,$00,$00,$F0,$FF,$00,$00,$04 ; $65E0
+        db      $FF,$00,$00,$00,$15,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$C0,$00 ; $65F0
+        db      $00,$10,$00,$00,$00,$FC,$00,$00,$00,$00,$09,$00,$00,$00,$FC,$00 ; $6600
+        db      $00,$00,$00,$00,$C0,$00,$00,$11,$00,$00,$00,$FC,$00,$01,$00,$00 ; $6610
+        db      $80,$E9,$FF,$00,$00,$04,$FF,$00,$00,$00,$00,$00,$90,$C1,$FF,$ED ; $6620
+        db      $FF,$00,$08,$00,$00,$00,$1A,$00,$00,$00,$FC,$00,$00,$00,$00,$00 ; $6630
+        db      $C0,$00,$00,$29,$00,$00,$00,$FC,$00,$00,$00,$00,$37,$00,$00,$00 ; $6640
+        db      $FC,$00,$00,$00,$00,$00,$40,$00,$00,$EF,$FF,$00,$00,$04,$FF,$00 ; $6650
+        db      $00,$80,$FA,$FF,$00,$00,$04,$FF,$00,$00,$00,$00,$40,$00,$00,$EF ; $6660
+        db      $FF,$00,$00,$04,$FF,$00,$00,$00,$08,$00,$00,$00,$FC,$00,$00,$00 ; $6670
+        db      $00,$00,$40,$00,$00,$EF,$FF,$00,$00,$04,$FF,$01,$00,$00,$80,$E9 ; $6680
+        db      $FF,$00,$00,$04,$FF,$00,$00,$00,$00,$00,$90,$C1,$FF,$ED,$FF,$40 ; $6690
+        db      $0A,$00,$00,$00,$1B,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$C0,$00 ; $66A0
+        db      $00,$18,$00,$00,$00,$FC,$00,$00,$00,$80,$E8,$FF,$00,$00,$04,$FF ; $66B0
+        db      $00,$00,$00,$00,$C0,$00,$00,$11,$00,$00,$00,$FC,$00,$00,$00,$00 ; $66C0
+        db      $2A,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$40,$00,$00,$EF,$FF,$00 ; $66D0
+        db      $00,$04,$FF,$00,$00,$00,$08,$00,$00,$00,$FC,$00,$00,$00,$00,$00 ; $66E0
+        db      $40,$00,$00,$EF,$FF,$00,$00,$04,$FF,$00,$00,$80,$FA,$FF,$00,$00 ; $66F0
+        db      $04,$FF,$00,$00,$00,$00,$40,$00,$00,$EF,$FF,$00,$00,$04,$FF,$01 ; $6700
+        db      $00,$00,$00,$17,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$00,$90,$C1 ; $6710
+        db      $FF,$ED,$FF,$C0,$02,$00,$00,$00,$2E,$00,$00,$00,$FC,$00,$00,$00 ; $6720
+        db      $00,$00,$C0,$00,$00,$07,$00,$00,$00,$FC,$00,$00,$00,$00,$90,$C1 ; $6730
+        db      $FF,$ED,$FF,$00,$04,$00,$00,$00,$1A,$00,$00,$00,$FC,$00,$00,$00 ; $6740
+        db      $00,$00,$40,$00,$00,$E6,$FF,$00,$00,$04,$FF,$00,$00,$00,$14,$00 ; $6750
+        db      $00,$00,$FC,$00,$00,$00,$00,$00,$C0,$00,$00,$21,$00,$00,$00,$FC ; $6760
+        db      $00,$00,$00,$00,$90,$C1,$FF,$ED,$FF,$40,$0C,$00,$00,$00,$19,$00 ; $6770
+        db      $00,$00,$FC,$00,$00,$00,$00,$00,$40,$00,$00,$E6,$FF,$00,$00,$04 ; $6780
+        db      $FF,$00,$00,$80,$EA,$FF,$00,$00,$04,$FF,$00,$00,$00,$00,$40,$00 ; $6790
+        db      $00,$EE,$FF,$00,$00,$04,$FF,$00,$00,$00,$05,$00,$00,$00,$04,$01 ; $67A0
+        db      $00,$00,$00,$00,$40,$00,$00,$F1,$FF,$00,$00,$04,$FF,$00,$00,$00 ; $67B0
+        db      $12,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$C0,$00,$00,$10,$00,$00 ; $67C0
+        db      $00,$FC,$00,$00,$00,$00,$1D,$00,$00,$00,$FC,$00,$00,$00,$00,$00 ; $67D0
+        db      $C0,$00,$00,$10,$00,$00,$00,$FC,$00,$00,$00,$80,$F7,$FF,$00,$00 ; $67E0
+        db      $04,$FF,$00,$00,$00,$00,$C0,$00,$00,$22,$00,$00,$00,$FC,$00,$00 ; $67F0
+        db      $00,$00,$90,$C1,$FF,$ED,$FF,$40,$02,$00,$00,$00,$23,$00,$00,$00 ; $6800
+        db      $FC,$00,$00,$00,$00,$00,$40,$00,$00,$EF,$FF,$00,$00,$04,$FF,$01 ; $6810
+        db      $00,$00,$80,$EA,$FF,$00,$00,$04,$FF,$00,$00,$00,$00,$00,$90,$C1 ; $6820
+        db      $FF,$ED,$FF,$40,$0A,$00,$00,$00,$09,$00,$00,$00,$FC,$00,$00,$00 ; $6830
+        db      $00,$00,$C0,$00,$00,$11,$00,$00,$00,$FC,$00,$00,$00,$80,$F8,$FF ; $6840
+        db      $00,$00,$04,$FF,$00,$00,$00,$00,$C0,$00,$00,$11,$00,$00,$00,$FC ; $6850
+        db      $00,$00,$00,$00,$24,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$40,$00 ; $6860
+        db      $00,$EF,$FF,$00,$00,$04,$FF,$00,$00,$80,$F8,$FF,$00,$00,$04,$FF ; $6870
+        db      $00,$00,$00,$00,$40,$00,$00,$EF,$FF,$00,$00,$04,$FF,$00,$00,$00 ; $6880
+        db      $08,$00,$00,$00,$FC,$00,$00,$00,$00,$00,$40,$00,$00,$EF,$FF,$00 ; $6890
+        db      $00,$04,$FF,$01,$00,$00,$80,$E6,$FF,$00,$00,$04,$FF,$00,$00,$00 ; $68A0
+        db      $00,$00,$90,$C1,$FF,$ED,$FF,$C0,$08,$00,$00,$00,$25,$00,$00,$00 ; $68B0
+        db      $FC,$00,$00,$00,$00,$00,$40,$00,$00,$DE,$FF,$00,$00,$04,$FF,$00 ; $68C0
+        db      $00,$80,$F8,$FF,$00,$00,$04,$FF,$00,$00,$00,$00,$40,$00,$00,$F0 ; $68D0
+        db      $FF,$00,$00,$04,$FF,$00,$00,$80,$EC,$FF,$00,$00,$04,$FF,$00,$00 ; $68E0
+        db      $00,$00,$C0,$00,$00,$10,$00,$00,$00,$F8,$00,$00,$00,$80,$F7,$FF ; $68F0
+        db      $00,$00,$0C,$FF,$00,$00,$00,$00,$C0,$00,$00,$12,$00,$00,$00,$F8 ; $6900
+        db      $00,$01,$00,$00,$00,$1B,$00,$00,$00,$F8,$00,$00,$00,$00,$00,$00 ; $6910
+        db      $90,$C1,$FF,$ED,$FF,$00,$0C,$00,$00,$00,$23,$00,$00,$00,$FC,$00 ; $6920
+        db      $00,$00,$00,$00,$40,$00,$00,$DE,$FF,$00,$00,$04,$FF,$00,$00,$80 ; $6930
+        db      $FA,$FF,$00,$00,$08,$FF,$00,$00,$00,$00,$40,$00,$00,$F0,$FF,$00 ; $6940
+        db      $00,$08,$FF,$00,$00,$80,$D0,$FF,$00,$00,$04,$FF,$00,$00,$00,$00 ; $6950
+        db      $40,$00,$00,$F0,$FF,$00,$00,$08,$FF,$00,$00,$80,$EC,$FF,$00,$00 ; $6960
+        db      $04,$FF,$00,$00,$00,$00,$C0,$00,$00,$0F,$00,$00,$00,$F8,$00,$00 ; $6970
+        db      $00,$80,$FC,$FF,$00,$00,$08,$FF,$00,$00,$00,$00,$C0,$00,$00,$11 ; $6980
+        db      $00,$00,$00,$F8,$00,$00,$00,$00,$2C,$00,$00,$00,$FC,$00,$00,$00 ; $6990
+        db      $00,$00,$C0,$00,$00,$11,$00,$00,$00,$F0,$00,$01,$00,$00,$00,$1A ; $69A0
+        db      $00,$00,$00,$F4,$00,$00,$00,$00,$B4,$64,$F6,$64,$4E,$65,$BC,$65 ; $69B0
+        db      $2A,$66,$98,$66,$1C,$67,$3C,$67,$72,$67,$00,$68,$2C,$68,$B0,$68 ; $69C0
+        db      $1E,$69,$1E,$00,$25,$00,$25,$00,$1E,$00,$1E,$00,$36,$00,$41,$00 ; $69D0
+        db      $41,$00,$36,$00,$36,$00,$65,$00,$70,$00,$70,$00,$65,$00,$65,$00 ; $69E0
+        db      $81,$00,$88,$00,$88,$00,$81,$00,$81,$00,$1E,$00,$25,$00,$25,$00 ; $69F0
+        db      $1E,$00,$1E,$00,$36,$00,$38,$00,$38,$00,$40,$00,$40,$00,$38,$00 ; $6A00
+        db      $38,$00,$36,$00,$36,$00,$4B,$00,$5B,$00,$5B,$00,$54,$00,$54,$00 ; $6A10
+        db      $52,$00,$52,$00,$4B,$00,$4B,$00,$6E,$00,$70,$00,$70,$00,$6E,$00 ; $6A20
+        db      $6E,$00,$66,$00,$66,$00,$6E,$00,$6E,$00,$81,$00,$88,$00,$88,$00 ; $6A30
+        db      $81,$00,$81,$00,$4B,$00,$5B,$00,$5B,$00,$4B,$00,$4B,$00,$36,$00 ; $6A40
+        db      $38,$00,$38,$00,$36,$00,$36,$00,$4B,$00,$5B,$00,$5B,$00,$54,$00 ; $6A50
+        db      $54,$00,$52,$00,$52,$00,$4B,$00,$4B,$00,$6E,$00,$70,$00,$70,$00 ; $6A60
+        db      $6E,$00,$6E,$00,$1E,$00,$25,$00,$25,$00,$23,$00,$23,$00,$1E,$00 ; $6A70
+        db      $1E,$00,$36,$00,$40,$00,$40,$00,$36,$00,$36,$00,$66,$00,$70,$00 ; $6A80
+        db      $70,$00,$66,$00,$66,$00,$81,$00,$88,$00,$88,$00,$83,$00,$83,$00 ; $6A90
+        db      $81,$00,$81,$00,$1E,$00,$36,$00,$36,$00,$38,$00,$38,$00,$41,$00 ; $6AA0
+        db      $41,$00,$1E,$00,$1E,$00,$4B,$00,$5B,$00,$5B,$00,$54,$00,$54,$00 ; $6AB0
+        db      $52,$00,$52,$00,$4B,$00,$4B,$00,$66,$00,$6E,$00,$6E,$00,$70,$00 ; $6AC0
+        db      $70,$00,$88,$00,$88,$00,$66,$00,$66,$00,$0D,$00,$25,$00,$25,$00 ; $6AD0
+        db      $0D,$00,$0D,$00,$52,$00,$52,$00,$54,$00,$54,$00,$99,$00,$99,$00 ; $6AE0
+        db      $81,$00,$81,$00,$99,$00,$99,$00,$81,$00,$81,$00,$99,$00,$99,$00 ; $6AF0
+        db      $95,$00,$95,$00,$99,$00,$99,$00,$0D,$00,$0D,$00,$11,$00,$11,$00 ; $6B00
+        db      $0D,$00,$0D,$00,$25,$00,$25,$00,$0D,$00,$1F,$00,$1F,$00,$1D,$00 ; $6B10
+        db      $1D,$00,$1F,$00,$1F,$00,$1F,$00,$1D,$00,$1D,$00,$1F,$00,$1F,$00 ; $6B20
+        db      $1F,$00,$1D,$00,$1D,$00,$1F,$00,$1F,$00,$1F,$00,$1D,$00,$1D,$00 ; $6B30
+        db      $1F,$00,$0E,$00,$0E,$00,$0C,$00,$0C,$00,$0E,$00,$0E,$00,$0E,$00 ; $6B40
+        db      $FD,$FF,$FD,$FF,$FB,$FF,$FB,$FF,$F3,$FF,$F3,$FF,$0E,$00,$0E,$00 ; $6B50
+        db      $0E,$00,$0C,$00,$0C,$00,$FB,$FF,$FB,$FF,$0C,$00,$0C,$00,$0E,$00 ; $6B60
+        db      $0E,$00,$0E,$00,$F3,$FF,$F3,$FF,$FB,$FF,$FB,$FF,$FD,$FF,$FD,$FF ; $6B70
+        db      $0E,$00,$0E,$00,$0E,$00,$0C,$00,$0C,$00,$0E,$00,$EC,$FF,$EC,$FF ; $6B80
+        db      $EA,$FF,$EA,$FF,$EC,$FF,$E5,$FF,$E5,$FF,$D9,$FF,$D9,$FF,$E5,$FF ; $6B90
+        db      $DB,$FF,$DB,$FF,$D9,$FF,$D9,$FF,$C8,$FF,$C8,$FF,$D9,$FF,$D9,$FF ; $6BA0
+        db      $DB,$FF,$E5,$FF,$E5,$FF,$D9,$FF,$D9,$FF,$E5,$FF,$CA,$FF,$CA,$FF ; $6BB0
+        db      $B8,$FF,$B8,$FF,$C8,$FF,$C8,$FF,$CA,$FF,$CA,$FF,$CA,$FF,$C8,$FF ; $6BC0
+        db      $C8,$FF,$CA,$FF,$CA,$FF,$CA,$FF,$C8,$FF,$C8,$FF,$CA,$FF,$CA,$FF ; $6BD0
+        db      $CA,$FF,$C8,$FF,$C8,$FF,$B8,$FF,$B8,$FF,$CA,$FF,$AA,$FF,$AA,$FF ; $6BE0
+        db      $BA,$FF,$BA,$FF,$AA,$FF,$AA,$FF,$A8,$FF,$A8,$FF,$AA,$FF,$BA,$FF ; $6BF0
+        db      $BA,$FF,$B8,$FF,$B8,$FF,$A8,$FF,$A8,$FF,$B8,$FF,$B8,$FF,$BA,$FF ; $6C00
+        db      $AA,$FF,$AA,$FF,$BA,$FF,$BA,$FF,$AA,$FF,$AA,$FF,$A8,$FF,$A8,$FF ; $6C10
+        db      $AA,$FF,$F3,$FF,$F3,$FF,$FD,$FF,$FD,$FF,$2A,$00,$2A,$00,$1D,$00 ; $6C20
+        db      $1D,$00,$2A,$00,$2A,$00,$FD,$FF,$FD,$FF,$F3,$FF,$F3,$FF,$E5,$FF ; $6C30
+        db      $E5,$FF,$DB,$FF,$DB,$FF,$BA,$FF,$BA,$FF,$B8,$FF,$B8,$FF,$9D,$FF ; $6C40
+        db      $9D,$FF,$B8,$FF,$B8,$FF,$BA,$FF,$BA,$FF,$DB,$FF,$DB,$FF,$E5,$FF ; $6C50
+        db      $E5,$FF,$00,$09,$09,$09,$09,$00,$09,$09,$09,$09,$00,$09,$09,$09 ; $6C60
+        db      $09,$00,$09,$09,$09,$09,$00,$09,$09,$09,$09,$00,$09,$09,$09,$09 ; $6C70
+        db      $09,$09,$09,$09,$00,$09,$09,$09,$09,$09,$09,$09,$09,$00,$09,$09 ; $6C80
+        db      $09,$09,$09,$09,$09,$09,$00,$09,$09,$09,$09,$00,$09,$09,$09,$09 ; $6C90
+        db      $00,$09,$09,$09,$09,$00,$09,$09,$09,$09,$09,$09,$09,$09,$00,$09 ; $6CA0
+        db      $09,$09,$09,$00,$09,$09,$09,$09,$09,$09,$00,$09,$09,$09,$09,$00 ; $6CB0
+        db      $09,$09,$09,$09,$00,$09,$09,$09,$09,$09,$09,$00,$09,$09,$09,$09 ; $6CC0
+        db      $09,$09,$09,$09,$00,$09,$09,$09,$09,$09,$09,$09,$09,$00,$09,$09 ; $6CD0
+        db      $09,$09,$09,$09,$09,$09,$00,$09,$09,$09,$09,$09,$09,$09,$09,$09 ; $6CE0
+        db      $09,$09,$09,$09,$00,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09,$09 ; $6CF0
+        db      $09,$09,$09,$09,$09,$09,$CF,$12,$01,$20,$F2,$2A,$12,$01,$2E,$12 ; $6D00
+        db      $01,$5E,$12,$01,$2E,$71,$2B,$12,$01,$0F,$09,$01,$F8,$00,$2E,$2B ; $6D10
+        db      $FD,$00,$CF,$12,$01,$30,$F2,$2A,$12,$01,$2E,$12,$01,$5E,$12,$01 ; $6D20
+        db      $2E,$71,$2B,$12,$01,$0F,$09,$01,$F8,$00,$2E,$2B,$FD,$00,$CF,$12 ; $6D30
+        db      $01,$0A,$09,$01,$A5,$00,$2E,$2B,$FD,$00,$CF,$2A,$01,$09,$01,$6D ; $6D40
+        db      $FD,$EF,$2B,$09,$01,$F5,$F2,$3F,$05,$06,$6D,$3E,$6D,$12,$01,$03 ; $6D50
+        db      $A8,$2B,$EA,$3F,$12,$01,$02,$A8,$2B,$22,$6D,$3E,$6D,$12,$01,$03 ; $6D60
+        db      $A8,$2B,$EA,$3F,$12,$01,$02,$A8,$2B,$09,$01,$F5,$F2,$53,$01,$2A ; $6D70
+        db      $01,$1C,$02,$EA,$03,$59,$6D,$8C,$2B,$FD,$00,$CF,$2A,$01,$09,$01 ; $6D80
+        db      $3D,$FD,$EF,$2B,$09,$01,$F5,$F2,$3F,$05,$06,$6D,$3E,$6D,$12,$01 ; $6D90
+        db      $03,$A8,$2B,$EA,$3F,$12,$01,$02,$A8,$2B,$22,$6D,$3E,$6D,$12,$01 ; $6DA0
+        db      $03,$A8,$2B,$EA,$3F,$12,$01,$02,$A8,$2B,$09,$01,$F5,$F2,$53,$01 ; $6DB0
+        db      $2A,$01,$1C,$02,$EA,$03,$9A,$6D,$8C,$2B,$FD,$00,$CF,$4A,$6D,$8B ; $6DC0
+        db      $6D,$FD,$00,$2E,$3E,$1F,$5E,$7E,$3E,$CF,$2A,$01,$09,$01,$6D,$FD ; $6DD0
+        db      $EF,$2B,$09,$01,$F4,$F2,$3F,$05,$12,$01,$0F,$F2,$2A,$12,$01,$00 ; $6DE0
+        db      $36,$01,$2E,$2B,$12,$01,$28,$A8,$2B,$12,$01,$0F,$09,$01,$F8,$00 ; $6DF0
+        db      $2E,$2B,$09,$01,$F4,$F2,$53,$01,$1A,$01,$D3,$6D,$53,$01,$09,$01 ; $6E00
+        db      $F4,$F2,$53,$01,$1A,$01,$D6,$6D,$53,$01,$09,$01,$F4,$F2,$53,$01 ; $6E10
+        db      $1A,$01,$D3,$6D,$53,$01,$71,$2B,$12,$01,$03,$A8,$2B,$09,$01,$F4 ; $6E20
+        db      $F2,$36,$01,$49,$05,$53,$01,$12,$01,$02,$1C,$02,$EA,$03,$F9,$6D ; $6E30
+        db      $8C,$2B,$FD,$00,$CF,$2A,$01,$09,$01,$3D,$FD,$EF,$2B,$09,$01,$F3 ; $6E40
+        db      $F2,$3F,$05,$12,$01,$0F,$F2,$2A,$12,$01,$00,$36,$01,$2E,$2B,$12 ; $6E50
+        db      $01,$2C,$A8,$2B,$12,$01,$0F,$09,$01,$F8,$00,$2E,$2B,$09,$01,$F3 ; $6E60
+        db      $F2,$53,$01,$1A,$01,$D3,$6D,$53,$01,$09,$01,$F3,$F2,$53,$01,$1A ; $6E70
+        db      $01,$D6,$6D,$53,$01,$09,$01,$F3,$F2,$53,$01,$1A,$01,$D3,$6D,$53 ; $6E80
+        db      $01,$71,$2B,$12,$01,$03,$A8,$2B,$09,$01,$F3,$F2,$36,$01,$49,$05 ; $6E90
+        db      $53,$01,$12,$01,$02,$1C,$02,$EA,$03,$64,$6E,$8C,$2B,$FD,$00,$CF ; $6EA0
+        db      $D9,$6D,$44,$6E,$FD,$00,$01,$20,$00,$00,$90,$74,$00,$0A,$00,$00 ; $6EB0
+        db      $00,$00,$00,$00,$90,$74,$00,$DD,$FF,$00,$00,$00,$00,$00,$90,$74 ; $6EC0
+        db      $00,$B0,$FF,$00,$00,$00,$B8,$6E,$C2,$6E,$CC,$6E,$B6,$81,$B6,$81 ; $6ED0
+        db      $B6,$81,$50,$80,$70,$80,$F6,$81,$F6,$81,$C0,$80,$80,$80,$C0,$80 ; $6EE0
+        db      $40,$81,$40,$81,$40,$81,$20,$81,$40,$81,$05,$0F,$FF,$DC,$6E,$E6 ; $6EF0
+        db      $6E,$F0,$6E,$30,$02,$00,$81,$05,$8D,$63,$05,$B8,$63,$00,$07,$6F ; $6F00
+        db      $02,$00,$81,$05,$E3,$63,$05,$0E,$64,$00,$13,$6F,$06,$00,$83,$00 ; $6F10
+        db      $07,$6F,$80,$13,$6F,$40,$07,$6F,$00,$13,$6F,$04,$00,$81,$03,$8D ; $6F20
+        db      $63,$19,$39,$64,$19,$64,$64,$19,$8C,$64,$00,$2E,$6F,$00,$00,$00 ; $6F30
+        db      $0D,$06,$06,$0F,$03,$07,$00,$0F,$00,$04,$04,$04,$08,$08,$08,$00 ; $6F40
+        db      $00,$00,$00,$0E,$07,$08,$00,$06,$00,$0A,$0F,$0D,$00,$00,$00,$0A ; $6F50
+        db      $00,$00,$00,$0B,$0F,$0D,$00,$0F,$07,$00,$0F,$0F,$0F,$02,$00,$81 ; $6F60
+        db      $01,$88,$63,$03,$83,$63,$00,$70,$6F,$23,$68,$6F,$77,$20,$6D,$61 ; $6F70
+        db      $6E,$79,$20,$6C,$65,$66,$74,$20,$74,$75,$72,$6E,$73,$20,$74,$6F ; $6F80
+        db      $20,$74,$68,$65,$20,$66,$72,$75,$69,$74,$20,$3F,$20,$24,$68,$6F ; $6F90
+        db      $77,$20,$6D,$61,$6E,$79,$20,$72,$69,$67,$68,$74,$20,$74,$75,$72 ; $6FA0
+        db      $6E,$73,$20,$74,$6F,$20,$74,$68,$65,$20,$66,$72,$75,$69,$74,$20 ; $6FB0
+        db      $3F,$20,$01,$31,$01,$32,$01,$33,$01,$34,$01,$35,$01,$36,$01,$37 ; $6FC0
+        db      $02,$38,$20,$01,$39,$03,$31,$20,$31,$03,$31,$20,$32,$C6,$6F,$CE ; $6FD0
+        db      $6F,$CE,$6F,$D3,$6F,$C2,$6F,$CA,$6F,$C6,$6F,$CA,$6F,$C8,$6F,$D0 ; $6FE0
+        db      $6F,$C4,$6F,$CE,$6F,$D0,$6F,$D9,$6F,$CC,$6F,$D5,$6F,$C4,$6F,$C4 ; $6FF0
+        db      $6F,$C8,$6F,$C6,$6F,$CA,$6F,$CA,$6F,$DD,$6F,$ED,$6F,$F5,$6F,$C4 ; $7000
+        db      $6F,$C8,$6F,$C8,$6F,$CA,$6F,$C6,$6F,$CA,$6F,$E5,$6F,$F1,$6F,$F9 ; $7010
+        db      $6F,$C6,$6F,$C6,$6F,$C6,$6F,$C2,$6F,$C8,$6F,$C8,$6F,$C4,$6F,$C6 ; $7020
+        db      $6F,$CE,$6F,$C2,$6F,$CA,$6F,$CA,$6F,$C8,$6F,$CC,$6F,$CC,$6F,$CC ; $7030
+        db      $6F,$CA,$6F,$D3,$6F,$CF,$9B,$1E,$2A,$01,$2A,$01,$54,$1D,$2A,$01 ; $7040
+        db      $7D,$1E,$09,$01,$A4,$00,$2A,$01,$6F,$02,$B8,$02,$25,$01,$D2,$69 ; $7050
+        db      $4C,$01,$12,$01,$52,$60,$01,$5F,$1C,$B8,$02,$25,$01,$1A,$6B,$4C ; $7060
+        db      $01,$30,$01,$5A,$01,$71,$1C,$B8,$02,$1A,$01,$62,$6C,$4C,$01,$5C ; $7070
+        db      $1E,$30,$26,$8A,$02,$93,$2C,$FD,$00,$CF,$5F,$1C,$09,$01,$78,$FF ; $7080
+        db      $09,$01,$F4,$FF,$54,$1D,$09,$01,$E7,$61,$B4,$1C,$E0,$1D,$A8,$1E ; $7090
+        db      $21,$1F,$09,$01,$2C,$01,$5B,$1D,$12,$01,$07,$DF,$1B,$43,$1C,$E9 ; $70A0
+        db      $19,$83,$1C,$E3,$01,$EA,$03,$C9,$70,$12,$01,$02,$DF,$1B,$2C,$1A ; $70B0
+        db      $12,$01,$07,$DF,$1B,$43,$1C,$E9,$19,$83,$1C,$E3,$01,$EA,$03,$DE ; $70C0
+        db      $70,$12,$01,$02,$DF,$1B,$2C,$1A,$2A,$01,$E2,$03,$E0,$70,$30,$01 ; $70D0
+        db      $EA,$03,$A0,$70,$E0,$1D,$37,$23,$FD,$00,$CF,$99,$15,$09,$01,$87 ; $70E0
+        db      $00,$09,$01,$89,$70,$DD,$2C,$37,$23,$EE,$8B,$2A,$01,$2A,$01,$09 ; $70F0
+        db      $01,$B6,$6E,$C4,$8B,$09,$01,$AD,$FF,$09,$01,$89,$70,$DD,$2C,$37 ; $7100
+        db      $23,$09,$01,$DD,$F6,$1D,$1C,$2C,$1A,$0C,$1E,$02,$23,$54,$22,$FD ; $7110
+        db      $00,$01,$EA,$70,$CF,$09,$01,$EF,$F2,$53,$01,$FD,$00,$CF,$99,$15 ; $7120
+        db      $24,$71,$EA,$03,$40,$71,$DC,$1E,$09,$01,$1C,$6F,$E2,$03,$46,$71 ; $7130
+        db      $9B,$1E,$09,$01,$6D,$6F,$B4,$1C,$21,$1F,$30,$01,$40,$1F,$30,$01 ; $7140
+        db      $2F,$1F,$24,$71,$EA,$03,$5E,$71,$1A,$85,$E2,$03,$60,$71,$CC,$6D ; $7150
+        db      $F7,$2C,$36,$01,$25,$01,$B8,$69,$4C,$01,$D4,$24,$12,$01,$05,$1C ; $7160
+        db      $02,$EA,$03,$85,$71,$37,$23,$09,$01,$F0,$F2,$53,$01,$25,$01,$CA ; $7170
+        db      $69,$4C,$01,$C2,$24,$37,$23,$09,$01,$FF,$F5,$3A,$05,$09,$01,$F5 ; $7180
+        db      $F2,$3A,$05,$24,$71,$EA,$03,$9F,$71,$C8,$36,$E2,$03,$A1,$71,$AF ; $7190
+        db      $6E,$37,$23,$02,$23,$54,$22,$FD,$00,$01,$2D,$71,$CF,$99,$15,$A8 ; $71A0
+        db      $1E,$09,$01,$11,$62,$B4,$1C,$09,$01,$AD,$FF,$09,$01,$F4,$FF,$54 ; $71B0
+        db      $1D,$12,$01,$34,$DF,$1B,$E9,$19,$09,$01,$13,$5F,$F2,$2C,$09,$01 ; $71C0
+        db      $8E,$5E,$F2,$2C,$A8,$1E,$09,$01,$56,$5F,$F2,$2C,$12,$01,$0F,$DF ; $71D0
+        db      $1B,$2C,$1A,$F3,$1D,$E0,$1D,$09,$01,$C1,$FF,$09,$01,$ED,$FF,$54 ; $71E0
+        db      $1D,$14,$1F,$09,$01,$B8,$63,$F2,$2C,$9B,$1E,$45,$70,$09,$01,$EF ; $71F0
+        db      $F2,$3F,$05,$09,$01,$A9,$71,$BB,$22,$F7,$15,$F7,$2C,$25,$01,$88 ; $7200
+        db      $31,$4C,$01,$B4,$1C,$DC,$1E,$09,$01,$FC,$FF,$09,$01,$E9,$FF,$54 ; $7210
+        db      $1D,$0C,$1E,$02,$23,$54,$22,$FD,$00,$01,$AC,$71                 ; $7220 preserved bytes
+
+LEFT_RIGHT_TURNS_ANSWER_THREAD:
+        rst     $08                                                             ; $722C colon entry
+        dw      XT_LITbyte                                                      ; $722D execution token
+        db      $40                                                             ; $722F inline byte
+        dw      XT_LITbyte                                                      ; $7230 execution token
+        db      $04                                                             ; $7232 inline byte
+        dw      XT_OR                                                           ; $7233 execution token
+        dw      $1E9B                                                           ; $7235 execution token
+        dw      XT_LITbyte                                                      ; $7237 execution token
+        db      $02                                                             ; $7239 inline byte
+        dw      XT_0                                                            ; $723A execution token
+        dw      XT_DO                                                           ; $723C execution token
+        dw      XT_DUP                                                          ; $723E execution token
+        dw      XT_SET_CURRENT_OBJECT_BYTE_18                                   ; $7240 execution token
+        dw      $2083                                                           ; $7242 execution token
+        dw      XT_LITbyte                                                      ; $7244 execution token
+        db      $08                                                             ; $7246 inline byte
+        dw      XT_plus                                                         ; $7247 execution token
+        dw      XT_GET_CURRENT_TASK                                             ; $7249 execution token
+        dw      XT_LITbyte                                                      ; $724B execution token
+        db      $02                                                             ; $724D inline byte
+        dw      XT_OVER                                                         ; $724E execution token
+        dw      XT_GET_CURRENT_OBJECT_VALUE_1                                   ; $7250 execution token
+        dw      XT_OVER                                                         ; $7252 execution token
+        dw      XT_plus                                                         ; $7254 execution token
+        dw      XT_ROT                                                          ; $7256 execution token
+        dw      XT_GET_CURRENT_OBJECT_VALUE_2                                   ; $7258 execution token
+        dw      XT_ROT                                                          ; $725A execution token
+        dw      XT_minussign                                                    ; $725C execution token
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $725E execution token
+        dw      XT_LOOP                                                         ; $7260 execution token
+        dw      XT_DROP                                                         ; $7262 execution token
+        dw      XT_RESET_OBJECT_DRAW_STATE                                      ; $7264 execution token
+        dw      XT_RETURN                                                       ; $7266 execution token
+
+LEFT_RIGHT_TURNS_SETUP_ACTION:
+        rst     $08                                                             ; $7268 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $7269 execution token
+        dw      XT_LIT                                                          ; $726B execution token
+        dw      $F2EF                                                           ; $726D inline word
+        dw      XT_BZERO                                                        ; $726F execution token
+        dw      XT_LIT                                                          ; $7271 execution token
+        dw      $6F3D                                                           ; $7273 inline word
+        dw      $2D7C                                                           ; $7275 execution token
+        dw      XT_LIT                                                          ; $7277 execution token
+        dw      $FF92                                                           ; $7279 inline word
+        dw      XT_LIT                                                          ; $727B execution token
+        dw      $FFCE                                                           ; $727D inline word
+        dw      XT_LITbyte                                                      ; $727F execution token
+        db      $02                                                             ; $7281 inline byte
+        dw      XT_RANDOM_BELOW                                                 ; $7282 execution token
+        dw      XT_DUP                                                          ; $7284 execution token
+        dw      XT_LIT                                                          ; $7286 execution token
+        dw      $F2EE                                                           ; $7288 inline word
+        dw      XT_SBbang                                                       ; $728A execution token
+        dw      XT_0BRANCH                                                      ; $728C execution token
+        dw      LEFT_RIGHT_TURNS_SETUP_ACTION_C_1                               ; $728E branch target
+        dw      XT_LIT                                                          ; $7290 execution token
+        dw      $6F79                                                           ; $7292 inline word
+        dw      XT_BRANCH                                                       ; $7294 execution token
+        dw      LEFT_RIGHT_TURNS_SETUP_ACTION_C_2                               ; $7296 branch target
+LEFT_RIGHT_TURNS_SETUP_ACTION_C_1:
+        dw      XT_LIT                                                          ; $7298 execution token
+        dw      $6F9D                                                           ; $729A inline word
+LEFT_RIGHT_TURNS_SETUP_ACTION_C_2:
+        dw      XT_LIT                                                          ; $729C execution token
+        dw      $6ED6                                                           ; $729E inline word
+        dw      XT_LIT                                                          ; $72A0 execution token
+        dw      $2D8C                                                           ; $72A2 inline word
+        dw      CFG0_XT_CONFIGURE_QUESTION_SCENE                                ; $72A4 execution token
+        dw      XT_LIT                                                          ; $72A6 execution token
+        dw      $6EFA                                                           ; $72A8 inline word
+        dw      XT_DUP                                                          ; $72AA execution token
+        dw      $3D67                                                           ; $72AC execution token
+        dw      $3DE7                                                           ; $72AE execution token
+        dw      XT_GET_QUESTION_VARIANT_BYTE                                    ; $72B0 execution token
+        dw      XT_LITbyte                                                      ; $72B2 execution token
+        db      $06                                                             ; $72B4 inline byte
+        dw      XT_equal                                                        ; $72B5 execution token
+        dw      XT_0BRANCH                                                      ; $72B7 execution token
+        dw      LEFT_RIGHT_TURNS_SETUP_ACTION_C_3                               ; $72B9 branch target
+        dw      XT_LITbyte                                                      ; $72BB execution token
+        db      $04                                                             ; $72BD inline byte
+        dw      XT_BRANCH                                                       ; $72BE execution token
+        dw      LEFT_RIGHT_TURNS_SETUP_ACTION_C_4                               ; $72C0 branch target
+LEFT_RIGHT_TURNS_SETUP_ACTION_C_3:
+        dw      XT_LITbyte                                                      ; $72C2 execution token
+        db      $02                                                             ; $72C4 inline byte
+LEFT_RIGHT_TURNS_SETUP_ACTION_C_4:
+        dw      XT_RANDOM_BELOW                                                 ; $72C5 execution token
+        dw      XT_LIT                                                          ; $72C7 execution token
+        dw      $F2F0                                                           ; $72C9 inline word
+        dw      XT_SBbang                                                       ; $72CB execution token
+        dw      XT_LIT                                                          ; $72CD execution token
+        dw      $7121                                                           ; $72CF inline word
+        dw      XT_START_COUNTED_ACTION_LIST                                    ; $72D1 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $72D3 execution token
+        dw      XT_LIT                                                          ; $72D5 execution token
+        dw      $7229                                                           ; $72D7 inline word
+        dw      XT_START_COUNTED_ACTION_LIST                                    ; $72D9 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $72DB execution token
+        dw      XT_LITbyte                                                      ; $72DD execution token
+        db      $03                                                             ; $72DF inline byte
+        dw      XT_0                                                            ; $72E0 execution token
+        dw      XT_DO                                                           ; $72E2 execution token
+        dw      XT_I                                                            ; $72E4 execution token
+        dw      XT_ARRAY                                                        ; $72E6 execution token
+        dw      QUESTION_SLOT_TASK_TABLE_ADDR                                   ; $72E8 inline word
+        dw      XT_at                                                           ; $72EA execution token
+        dw      $1608                                                           ; $72EC execution token
+        dw      XT_LOOP                                                         ; $72EE execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $72F0 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $72F2 execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $72F4 execution token
+        dw      XT_RETURN                                                       ; $72F6 execution token
+
+LEFT_RIGHT_TURNS_CORRECT_ACTION:
+        rst     $08                                                             ; $72F8 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $72F9 execution token
+        dw      CFG0_XT_PLACE_CORRECT_RANDOM_SLOT                               ; $72FB execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $72FD execution token
+        dw      XT_LIT                                                          ; $72FF execution token
+        dw      $FFE2                                                           ; $7301 inline word
+        dw      XT_LITbyte                                                      ; $7303 execution token
+        db      $13                                                             ; $7305 inline byte
+        dw      CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS                               ; $7306 execution token
+        dw      XT_GET_QUESTION_VARIANT_BYTE                                    ; $7308 execution token
+        dw      XT_DUP                                                          ; $730A execution token
+        dw      XT_LIT                                                          ; $730C execution token
+        dw      $F2EE                                                           ; $730E inline word
+        dw      XT_Bat                                                          ; $7310 execution token
+        dw      XT_0BRANCH                                                      ; $7312 execution token
+        dw      LEFT_RIGHT_TURNS_CORRECT_ACTION_C_1                             ; $7314 branch target
+        dw      XT_ARRAY                                                        ; $7316 execution token
+        dw      $700F                                                           ; $7318 inline word
+        dw      XT_BRANCH                                                       ; $731A execution token
+        dw      LEFT_RIGHT_TURNS_CORRECT_ACTION_C_2                             ; $731C branch target
+LEFT_RIGHT_TURNS_CORRECT_ACTION_C_1:
+        dw      XT_ARRAY                                                        ; $731E execution token
+        dw      $6FFD                                                           ; $7320 inline word
+LEFT_RIGHT_TURNS_CORRECT_ACTION_C_2:
+        dw      XT_at                                                           ; $7322 execution token
+        dw      XT_SWAP                                                         ; $7324 execution token
+        dw      XT_LITbyte                                                      ; $7326 execution token
+        db      $05                                                             ; $7328 inline byte
+        dw      XT_gt                                                           ; $7329 execution token
+        dw      XT_0BRANCH                                                      ; $732B execution token
+        dw      LEFT_RIGHT_TURNS_CORRECT_ACTION_C_3                             ; $732D branch target
+        dw      XT_LIT                                                          ; $732F execution token
+        dw      $F2F0                                                           ; $7331 inline word
+        dw      XT_Bat                                                          ; $7333 execution token
+        dw      XT_2splat                                                       ; $7335 execution token
+        dw      XT_plus                                                         ; $7337 execution token
+        dw      XT_at                                                           ; $7339 execution token
+LEFT_RIGHT_TURNS_CORRECT_ACTION_C_3:
+        dw      XT_SET_CURRENT_OBJECT_WORD_1D                                   ; $733B execution token
+        dw      LEFT_RIGHT_TURNS_ANSWER_THREAD                                  ; $733D execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $733F execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $7341 execution token
+        dw      XT_LITbyte                                                      ; $7343 execution token
+        db      $3C                                                             ; $7345 inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $7346 execution token
+        dw      $1A2C                                                           ; $7348 execution token
+        dw      XT_LIT                                                          ; $734A execution token
+        dw      $4135                                                           ; $734C inline word
+        dw      XT_START_COUNTED_ACTION_LIST                                    ; $734E execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $7350 execution token
+        dw      XT_LIT                                                          ; $7352 execution token
+        dw      $F6E8                                                           ; $7354 inline word
+        dw      XT_BONE                                                         ; $7356 execution token
+        dw      XT_LIT                                                          ; $7358 execution token
+        dw      $F6E7                                                           ; $735A inline word
+        dw      XT_BONE                                                         ; $735C execution token
+        dw      XT_LIT                                                          ; $735E execution token
+        dw      $F2EF                                                           ; $7360 inline word
+        dw      XT_BONE                                                         ; $7362 execution token
+        dw      $2C1A                                                           ; $7364 execution token
+        dw      XT_LIT                                                          ; $7366 execution token
+        dw      $71A9                                                           ; $7368 inline word
+        dw      XT_START_COUNTED_ACTION_LIST                                    ; $736A execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $736C execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $736E execution token
+        dw      XT_RETURN                                                       ; $7370 execution token
+
+LEFT_RIGHT_TURNS_SECOND_ACTION:
+        rst     $08                                                             ; $7372 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $7373 execution token
+        dw      CFG0_XT_PLACE_DISTRACTOR_SECOND_SLOT                            ; $7375 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $7377 execution token
+        dw      XT_LIT                                                          ; $7379 execution token
+        dw      $FFE2                                                           ; $737B inline word
+        dw      XT_LITbyte                                                      ; $737D execution token
+        db      $13                                                             ; $737F inline byte
+        dw      CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS                               ; $7380 execution token
+        dw      XT_GET_QUESTION_VARIANT_BYTE                                    ; $7382 execution token
+        dw      XT_ARRAY                                                        ; $7384 execution token
+        dw      $7021                                                           ; $7386 inline word
+        dw      XT_at                                                           ; $7388 execution token
+        dw      XT_SET_CURRENT_OBJECT_WORD_1D                                   ; $738A execution token
+        dw      LEFT_RIGHT_TURNS_ANSWER_THREAD                                  ; $738C execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $738E execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $7390 execution token
+        dw      $1EDC                                                           ; $7392 execution token
+        dw      XT_RESET_OBJECT_DRAW_STATE                                      ; $7394 execution token
+        dw      XT_LIT                                                          ; $7396 execution token
+        dw      $FFC0                                                           ; $7398 inline word
+        dw      XT_LIT                                                          ; $739A execution token
+        dw      $FFED                                                           ; $739C inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $739E execution token
+        dw      $866C                                                           ; $73A0 execution token
+        dw      XT_LIT                                                          ; $73A2 execution token
+        dw      $6F2B                                                           ; $73A4 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $73A6 execution token
+        dw      XT_LITbyte                                                      ; $73A8 execution token
+        db      $3C                                                             ; $73AA inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $73AB execution token
+        dw      $19E9                                                           ; $73AD execution token
+        dw      XT_SET_OBJECT_MODE_2                                            ; $73AF execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $73B1 execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $73B3 execution token
+        dw      XT_RETURN                                                       ; $73B5 execution token
+
+LEFT_RIGHT_TURNS_REMAINING_ACTION:
+        rst     $08                                                             ; $73B7 colon entry
+        dw      XT_ENTER_ACTION_TASK                                            ; $73B8 execution token
+        dw      CFG0_XT_PLACE_DISTRACTOR_REMAINING_SLOT                         ; $73BA execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $73BC execution token
+        dw      XT_LIT                                                          ; $73BE execution token
+        dw      $FFE2                                                           ; $73C0 inline word
+        dw      XT_LITbyte                                                      ; $73C2 execution token
+        db      $13                                                             ; $73C4 inline byte
+        dw      CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS                               ; $73C5 execution token
+        dw      XT_GET_QUESTION_VARIANT_BYTE                                    ; $73C7 execution token
+        dw      XT_ARRAY                                                        ; $73C9 execution token
+        dw      $7033                                                           ; $73CB inline word
+        dw      XT_at                                                           ; $73CD execution token
+        dw      XT_SET_CURRENT_OBJECT_WORD_1D                                   ; $73CF execution token
+        dw      LEFT_RIGHT_TURNS_ANSWER_THREAD                                  ; $73D1 execution token
+        dw      XT_WAIT_FOR_CHILD_ACTIONS                                       ; $73D3 execution token
+        dw      XT_YIELD_ACTION_TASK                                            ; $73D5 execution token
+        dw      $1EDC                                                           ; $73D7 execution token
+        dw      XT_RESET_OBJECT_DRAW_STATE                                      ; $73D9 execution token
+        dw      XT_LIT                                                          ; $73DB execution token
+        dw      $FFC0                                                           ; $73DD inline word
+        dw      XT_LIT                                                          ; $73DF execution token
+        dw      $FFED                                                           ; $73E1 inline word
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR                                ; $73E3 execution token
+        dw      $866C                                                           ; $73E5 execution token
+        dw      XT_LIT                                                          ; $73E7 execution token
+        dw      $6F2B                                                           ; $73E9 inline word
+        dw      XT_APPLY_OBJECT_DESCRIPTOR                                      ; $73EB execution token
+        dw      XT_LITbyte                                                      ; $73ED execution token
+        db      $3C                                                             ; $73EF inline byte
+        dw      XT_SET_TASK_VECTOR_0D                                           ; $73F0 execution token
+        dw      $19E9                                                           ; $73F2 execution token
+        dw      XT_SET_OBJECT_MODE_2                                            ; $73F4 execution token
+        dw      XT_DRAW_CURRENT_OBJECT                                          ; $73F6 execution token
+        dw      CFG0_XT_COMPLETE_QUESTION_ACTION                                ; $73F8 execution token
+        dw      XT_RETURN                                                       ; $73FA execution token
+
+LEFT_RIGHT_TURNS_ACTIONS:
+        db      $04                                                             ; $73FC action count
+        dw      LEFT_RIGHT_TURNS_SETUP_ACTION                                   ; $73FD setup action
+        dw      LEFT_RIGHT_TURNS_CORRECT_ACTION                                 ; $73FF correct answer
+        dw      LEFT_RIGHT_TURNS_SECOND_ACTION                                  ; $7401 second answer
+        dw      LEFT_RIGHT_TURNS_REMAINING_ACTION                               ; $7403 remaining answer
+
+; Rooted by tier slot 0.
+LEFT_RIGHT_TURNS_V0_T0_INIT:
+        rst     $08                                                          ; $7405
+        dw      XT_0                                                            ; $7406
+        dw      CFG0_XT_SET_QUESTION_VARIANT_BYTE                               ; $7408
+        dw      XT_LIT                                                          ; $740A
+        dw      PPQ4_LEFT_RIGHT_TURNS_ACTIONS                                   ; $740C
+        dw      XT_RETURN                                                       ; $740E
+
+; Rooted by tier slot 1.
+LEFT_RIGHT_TURNS_V1_T1_INIT:
+        rst     $08                                                          ; $7410
+        dw      XT_1                                                            ; $7411
+        dw      CFG0_XT_SET_QUESTION_VARIANT_BYTE                               ; $7413
+        dw      XT_LIT                                                          ; $7415
+        dw      PPQ4_LEFT_RIGHT_TURNS_ACTIONS                                   ; $7417
+        dw      XT_RETURN                                                       ; $7419
+
+; Rooted by tier slot 2.
+LEFT_RIGHT_TURNS_V2_T2_INIT:
+        rst     $08                                                          ; $741B
+        dw      XT_LITbyte                                                      ; $741C
+        db      $02                                                              ; $741E
+        dw      CFG0_XT_SET_QUESTION_VARIANT_BYTE                               ; $741F
+        dw      XT_LIT                                                          ; $7421
+        dw      PPQ4_LEFT_RIGHT_TURNS_ACTIONS                                   ; $7423
+        dw      XT_RETURN                                                       ; $7425
+
+; Rooted by tier slot 3.
+LEFT_RIGHT_TURNS_V3_T3_INIT:
+        rst     $08                                                          ; $7427
+        dw      XT_LITbyte                                                      ; $7428
+        db      $03                                                              ; $742A
+        dw      CFG0_XT_SET_QUESTION_VARIANT_BYTE                               ; $742B
+        dw      XT_LIT                                                          ; $742D
+        dw      PPQ4_LEFT_RIGHT_TURNS_ACTIONS                                   ; $742F
+        dw      XT_RETURN                                                       ; $7431
+
+; Rooted by tier slot 4.
+LEFT_RIGHT_TURNS_V4_T4_INIT:
+        rst     $08                                                          ; $7433
+        dw      XT_LITbyte                                                      ; $7434
+        db      $04                                                              ; $7436
+        dw      CFG0_XT_SET_QUESTION_VARIANT_BYTE                               ; $7437
+        dw      XT_LIT                                                          ; $7439
+        dw      PPQ4_LEFT_RIGHT_TURNS_ACTIONS                                   ; $743B
+        dw      XT_RETURN                                                       ; $743D
+
+; Rooted by tier slot 5.
+LEFT_RIGHT_TURNS_V5_T5_INIT:
+        rst     $08                                                          ; $743F
+        dw      XT_LITbyte                                                      ; $7440
+        db      $05                                                              ; $7442
+        dw      CFG0_XT_SET_QUESTION_VARIANT_BYTE                               ; $7443
+        dw      XT_LIT                                                          ; $7445
+        dw      PPQ4_LEFT_RIGHT_TURNS_ACTIONS                                   ; $7447
+        dw      XT_RETURN                                                       ; $7449
+
+; Rooted by tier slot 6.
+LEFT_RIGHT_TURNS_V6_T6_INIT:
+        rst     $08                                                          ; $744B
+        dw      XT_LITbyte                                                      ; $744C
+        db      $06                                                              ; $744E
+        dw      CFG0_XT_SET_QUESTION_VARIANT_BYTE                               ; $744F
+        dw      XT_LIT                                                          ; $7451
+        dw      PPQ4_LEFT_RIGHT_TURNS_ACTIONS                                   ; $7453
+        dw      XT_RETURN                                                       ; $7455
+
+; Rooted by tier slot 7.
+LEFT_RIGHT_TURNS_V7_T7_INIT:
+        rst     $08                                                          ; $7457
+        dw      XT_LITbyte                                                      ; $7458
+        db      $07                                                              ; $745A
+        dw      CFG0_XT_SET_QUESTION_VARIANT_BYTE                               ; $745B
+        dw      XT_LIT                                                          ; $745D
+        dw      PPQ4_LEFT_RIGHT_TURNS_ACTIONS                                   ; $745F
+        dw      XT_RETURN                                                       ; $7461
+
+; Root tier slot 0.
+QUESTION_TIER_0_BUCKET:
+        db      $02                                                             ; $7463 initializer count
+        dw      LEFT_RIGHT_TURNS_V0_T0_INIT                                     ; $7464 entry 0
+        dw      COMPLETE_FIGURE_A_T0_2_4_INIT                                   ; $7466 entry 1
+
+; Root tier slot 1.
+QUESTION_TIER_1_BUCKET:
+        db      $02                                                             ; $7468 initializer count
+        dw      LEFT_RIGHT_TURNS_V1_T1_INIT                                     ; $7469 entry 0
+        dw      COMPLETE_FIGURE_B_T1_3_5_INIT                                   ; $746B entry 1
+
+; Root tier slot 2.
+QUESTION_TIER_2_BUCKET:
+        db      $02                                                             ; $746D initializer count
+        dw      LEFT_RIGHT_TURNS_V2_T2_INIT                                     ; $746E entry 0
+        dw      COMPLETE_FIGURE_A_T0_2_4_INIT                                   ; $7470 entry 1
+
+; Root tier slot 3.
+QUESTION_TIER_3_BUCKET:
+        db      $02                                                             ; $7472 initializer count
+        dw      LEFT_RIGHT_TURNS_V3_T3_INIT                                     ; $7473 entry 0
+        dw      COMPLETE_FIGURE_B_T1_3_5_INIT                                   ; $7475 entry 1
+
+; Root tier slot 4.
+QUESTION_TIER_4_BUCKET:
+        db      $02                                                             ; $7477 initializer count
+        dw      LEFT_RIGHT_TURNS_V4_T4_INIT                                     ; $7478 entry 0
+        dw      COMPLETE_FIGURE_A_T0_2_4_INIT                                   ; $747A entry 1
+
+; Root tier slot 5.
+QUESTION_TIER_5_BUCKET:
+        db      $02                                                             ; $747C initializer count
+        dw      LEFT_RIGHT_TURNS_V5_T5_INIT                                     ; $747D entry 0
+        dw      COMPLETE_FIGURE_B_T1_3_5_INIT                                   ; $747F entry 1
+
+; Root tier slot 6.
+QUESTION_TIER_6_BUCKET:
+        db      $01                                                             ; $7481 initializer count
+        dw      LEFT_RIGHT_TURNS_V6_T6_INIT                                     ; $7482 entry 0
+
+; Root tier slot 7.
+QUESTION_TIER_7_BUCKET:
+        db      $01                                                             ; $7484 initializer count
+        dw      LEFT_RIGHT_TURNS_V7_T7_INIT                                     ; $7485 entry 0
+
+; Eight little-endian bucket pointers indexed by the fixed selector.
+QUESTION_ROOT_DIRECTORY:
+        dw      QUESTION_TIER_0_BUCKET                                          ; $7487 tier 0
+        dw      QUESTION_TIER_1_BUCKET                                          ; $7489 tier 1
+        dw      QUESTION_TIER_2_BUCKET                                          ; $748B tier 2
+        dw      QUESTION_TIER_3_BUCKET                                          ; $748D tier 3
+        dw      QUESTION_TIER_4_BUCKET                                          ; $748F tier 4
+        dw      QUESTION_TIER_5_BUCKET                                          ; $7491 tier 5
+        dw      QUESTION_TIER_6_BUCKET                                          ; $7493 tier 6
+        dw      QUESTION_TIER_7_BUCKET                                          ; $7495 tier 7
+        db      $00,$78,$00,$B0,$FF,$00,$00,$50,$00,$06,$B5,$FF,$2D,$00,$BA,$FF ; $7497
+        db      $32,$00,$7E,$FF,$6E,$00,$05,$7B,$FF,$B5,$FF,$BA,$FF,$36,$00,$69 ; $74A7
+        db      $00,$06,$6E,$00,$7E,$FF,$F6,$FF,$F1,$FF,$2D,$00,$B5,$FF,$08,$B5 ; $74B7
+        db      $FF,$2D,$00,$F1,$FF,$F6,$FF,$32,$00,$BA,$FF,$7E,$FF,$6E,$00,$07 ; $74C7
+        db      $00,$07,$00,$07,$00,$07,$00,$07,$00,$BA,$FF,$BA,$FF,$BA,$FF,$BA ; $74D7
+        db      $FF,$BA,$FF,$07,$00,$07,$00,$07,$00,$07,$00,$BA,$FF,$BA,$FF,$BA ; $74E7
+        db      $FF,$07,$00,$07,$00,$BA,$FF,$BA,$FF,$E2,$FF,$E2,$FF,$EE,$FF,$BA ; $74F7
+        db      $FF,$07,$00,$BA,$FF,$EE,$FF,$E2,$FF,$E2,$FF,$BA,$FF,$07,$00,$07 ; $7507
+        db      $00,$07,$00,$07,$00,$07,$00,$07,$00,$BA,$FF,$BA,$FF,$BA,$FF,$E2 ; $7517
+        db      $FF,$E2,$FF,$09,$88,$FF,$D3,$FF,$2B,$00,$78,$00,$7E,$FF,$BA,$FF ; $7527
+        db      $F6,$FF,$32,$00,$6E,$00,$07,$00,$07,$00,$07,$00,$07,$00,$BA,$FF ; $7537
+        db      $BA,$FF,$BA,$FF,$BA,$FF,$BA,$FF,$38,$67,$38,$67,$FF,$69,$FF,$69 ; $7547
+        db      $38,$67,$FF,$69,$38,$67,$FF,$69,$38,$67,$FF,$69,$FF,$69,$38,$67 ; $7557
+        db      $FF,$69,$38,$67,$FF,$69,$FF,$69,$38,$67,$FF,$69,$FF,$69,$38,$67 ; $7567
+        db      $F2,$6B,$F2,$6B,$49,$6C,$EA,$6C,$F2,$6B,$EA,$6C,$F2,$6B,$EA,$6C ; $7577
+        db      $49,$6C,$49,$6C,$02,$33,$30,$02,$31,$38,$02,$32,$31,$02,$32,$37 ; $7587
+        db      $02,$31,$35,$02,$31,$32,$02,$32,$34,$01,$33,$01,$34,$01,$35,$02 ; $7597
+        db      $31,$30,$01,$36,$01,$37,$01,$38,$01,$39,$23,$77,$68,$61,$74,$20 ; $75A7
+        db      $77,$61,$73,$20,$74,$68,$65,$20,$74,$6F,$74,$61,$6C,$20,$6E,$75 ; $75B7
+        db      $6D,$62,$65,$72,$20,$6F,$66,$20,$62,$61,$6C,$6C,$73,$3F,$21,$68 ; $75C7
+        db      $6F,$77,$20,$6D,$61,$6E,$79,$20,$72,$65,$64,$20,$62,$61,$6C,$6C ; $75D7
+        db      $73,$20,$64,$69,$64,$20,$79,$6F,$75,$20,$63,$6F,$75,$6E,$74,$3F ; $75E7
+        db      $27,$68,$6F,$77,$20,$6D,$61,$6E,$79,$20,$6A,$75,$67,$67,$6C,$65 ; $75F7
+        db      $72,$73,$20,$68,$61,$64,$20,$74,$68,$65,$69,$72,$20,$66,$6F,$6F ; $7607
+        db      $74,$20,$6F,$75,$74,$20,$3F,$20,$12,$73,$74,$75,$64,$79,$20,$74 ; $7617
+        db      $68,$69,$73,$20,$70,$69,$63,$74,$75,$72,$65,$8B,$75,$91,$75,$9D ; $7627
+        db      $75,$94,$75,$8E,$75,$97,$75,$8E,$75,$A4,$75,$A9,$75,$A9,$75,$A0 ; $7637
+        db      $75,$A2,$75,$AD,$75,$A9,$75,$A6,$75,$AF,$75,$8E,$75,$8E,$75,$8B ; $7647
+        db      $75,$8B,$75,$9A,$75,$8E,$75,$97,$75,$A2,$75,$AB,$75,$A4,$75,$A4 ; $7657
+        db      $75,$A4,$75,$A9,$75,$A4,$75,$AD,$75,$A6,$75,$91,$75,$8B,$75,$8E ; $7667
+        db      $75,$9D,$75,$97,$75,$9A,$75,$91,$75,$A9,$75,$A4,$75,$A2,$75,$A9 ; $7677
+        db      $75,$AB,$75,$AB,$75,$AF,$75,$AF,$75,$9A,$75,$7C,$74,$91,$74,$C5 ; $7687
+        db      $74,$2A,$75,$A0,$74,$AD,$74,$B8,$74,$7C,$74,$2A,$75,$7C,$74,$91 ; $7697
+        db      $74,$B8,$74,$C5,$74,$A0,$74,$7C,$74,$2A,$75,$D6,$74,$EA,$74,$1A ; $76A7
+        db      $75,$3D,$75,$F8,$74,$04,$75,$0E,$75,$D6,$74,$3D,$75,$D6,$74,$EA ; $76B7
+        db      $74,$0E,$75,$1A,$75,$F8,$74,$D6,$74,$3D,$75,$4F,$75,$4F,$75,$4F ; $76C7
+        db      $75,$4F,$75,$4F,$75,$4F,$75,$4F,$75,$4F,$75,$63,$75,$63,$75,$4F ; $76D7
+        db      $75,$63,$75,$4F,$75,$4F,$75,$4F,$75,$4F,$75,$77,$75,$77,$75,$77 ; $76E7
+        db      $75,$77,$75,$77,$75,$77,$75,$77,$75,$77,$75,$77,$75,$77,$75,$77 ; $76F7
+        db      $75,$77,$75,$77,$75,$77,$75,$77,$75,$77,$75,$B1,$75,$B1,$75,$B1 ; $7707
+        db      $75,$B1,$75,$B1,$75,$B1,$75,$B1,$75,$F7,$75,$F7,$75,$F7,$75,$F7 ; $7717
+        db      $75,$F7,$75,$D5,$75,$D5,$75,$D5,$75,$D5,$75,$CF,$99,$15,$A8,$1E ; $7727
+        db      $34,$8B,$09,$01,$4C,$74,$B4,$1C,$12,$01,$3C,$DF,$1B,$E9,$19,$F3 ; $7737
+        db      $1D,$02,$23,$54,$22,$FD,$00,$CF,$99,$15,$A8,$1E,$34,$8B,$09,$01 ; $7747
+        db      $5B,$74,$B4,$1C,$12,$01,$3C,$DF,$1B,$E9,$19,$F3,$1D,$02,$23,$54 ; $7757
+        db      $22,$FD,$00,$02,$32,$77,$4E,$77,$CF,$4C,$01,$09,$01,$F1,$F2,$53 ; $7767
+        db      $01,$A6,$01,$5A,$01,$4C,$01,$FD,$00,$CF,$A8,$1E,$F7,$2C,$25,$01 ; $7777
+        db      $92,$76,$4C,$01,$53,$01,$09,$01,$F1,$F2,$32,$05,$09,$01,$F1,$F2 ; $7787
+        db      $44,$05,$F7,$2C,$25,$01,$92,$76,$4C,$01,$95,$01,$09,$01,$F1,$F2 ; $7797
+        db      $53,$01,$A6,$01,$5A,$01,$4C,$01,$24,$1D,$F7,$2C,$25,$01,$B2,$76 ; $77A7
+        db      $6F,$77,$3C,$1D,$09,$01,$6A,$77,$BB,$22,$F7,$15,$F7,$2C,$25,$01 ; $77B7
+        db      $D2,$76,$6F,$77,$F2,$2C,$F7,$2C,$25,$01,$F2,$76,$6F,$77,$F2,$2C ; $77C7
+        db      $09,$01,$F1,$F2,$53,$01,$DE,$01,$EA,$03,$93,$77,$37,$23,$FD,$00 ; $77D7
+        db      $CF,$99,$15,$09,$01,$C4,$FF,$09,$01,$DF,$FF,$09,$01,$1F,$76,$09 ; $77E7
+        db      $01,$25,$74,$09,$01,$2B,$74,$37,$8C,$09,$01,$34,$74,$F2,$8C,$09 ; $77F7
+        db      $01,$F2,$83,$36,$01,$67,$3D,$E7,$3D,$E7,$15,$09,$01,$80,$77,$DD ; $7807
+        db      $2C,$37,$23,$12,$01,$5A,$DF,$1B,$2C,$1A,$40,$2D,$09,$01,$9C,$FF ; $7817
+        db      $12,$01,$0F,$F7,$2C,$25,$01,$12,$77,$4C,$01,$C4,$8B,$09,$01,$DD ; $7827
+        db      $F6,$1D,$1C,$2C,$1A,$12,$01,$0A,$DF,$1B,$2C,$1A,$12,$01,$03,$2A ; $7837
+        db      $01,$6F,$02,$B8,$02,$25,$01,$F4,$F6,$4C,$01,$08,$16,$8A,$02,$02 ; $7847
+        db      $23,$F7,$15,$50,$8C,$FD,$00,$CF,$99,$15,$4F,$8B,$F7,$15,$09,$01 ; $7857
+        db      $E2,$FF,$12,$01,$04,$61,$8C,$12,$01,$4E,$7D,$1E,$F7,$2C,$25,$01 ; $7867
+        db      $32,$76,$4C,$01,$B4,$1C,$83,$20,$02,$23,$F7,$15,$09,$01,$E8,$F6 ; $7877
+        db      $3A,$05,$09,$01,$E7,$F6,$3A,$05,$83,$20,$0E,$1F,$AA,$1D,$12,$01 ; $7887
+        db      $1C,$5A,$01,$3C,$1D,$00,$74,$E7,$15,$09,$01,$6A,$77,$BB,$22,$F7 ; $7897
+        db      $15,$09,$01,$6A,$77,$BB,$22,$F7,$15,$50,$8C,$FD,$00,$CF,$99,$15 ; $78A7
+        db      $7B,$8B,$F7,$15,$09,$01,$E2,$FF,$12,$01,$04,$61,$8C,$12,$01,$4E ; $78B7
+        db      $7D,$1E,$F7,$2C,$25,$01,$52,$76,$4C,$01,$B4,$1C,$83,$20,$02,$23 ; $78C7
+        db      $F7,$15,$83,$20,$93,$2C,$0E,$1F,$AA,$1D,$12,$01,$07,$5A,$01,$3C ; $78D7
+        db      $1D,$09,$01,$2E,$48,$BB,$22,$F7,$15,$50,$8C,$FD,$00,$CF,$99,$15 ; $78E7
+        db      $12,$8C,$F7,$15,$09,$01,$E2,$FF,$12,$01,$04,$61,$8C,$12,$01,$4E ; $78F7
+        db      $7D,$1E,$F7,$2C,$25,$01,$72,$76,$4C,$01,$B4,$1C,$83,$20,$02,$23 ; $7907
+        db      $F7,$15,$83,$20,$93,$2C,$0E,$1F,$AA,$1D,$12,$01,$07,$5A,$01,$3C ; $7917
+        db      $1D,$09,$01,$2E,$48,$BB,$22,$F7,$15,$50,$8C,$FD,$00,$04,$E7,$77 ; $7927
+        db      $5E,$78,$B4,$78,$F4,$78,$CF,$12,$01,$03,$32,$1B,$12,$01,$04,$5A ; $7937
+        db      $01,$2B,$8B,$09,$01,$34,$79,$FD,$00,$CF,$12,$01,$04,$32,$1B,$2B ; $7947
+        db      $8B,$09,$01,$34,$79,$FD,$00,$CF,$12,$01,$04,$32,$1B,$12,$01,$0C ; $7957
+        db      $5A,$01,$2B,$8B,$09,$01,$34,$79,$FD,$00,$CF,$12,$01,$05,$32,$1B ; $7967
+        db      $12,$01,$07,$5A,$01,$2B,$8B,$09,$01,$34,$79,$FD,$00,$01,$EB,$51 ; $7977
+        db      $02,$3D,$79,$2D,$67,$02,$63,$5D,$20,$67,$01,$50,$79,$02,$EB,$51 ; $7987
+        db      $2D,$67,$01,$5E,$79,$01,$63,$5D,$01,$71,$79,$84,$79,$87,$79,$8C ; $7997
+        db      $79,$91,$79,$94,$79,$99,$79,$9C,$79,$9F,$79,$F2,$2C,$02,$23,$F7 ; $79A7
+        db      $15,$F3,$1D,$56,$79,$09,$01,$B2,$6C,$F2,$2C,$91,$73,$12,$01,$32 ; $79B7
+        db      $DF,$1B,$2C,$1A,$F3,$1D,$C2,$1E,$37,$23,$12,$01,$14,$DF,$1B,$2C ; $79C7
+        db      $1A,$50,$8C,$FD,$00,$CF,$99,$15,$12,$8C,$F7,$15,$09,$01,$D6,$FF ; $79D7
+        db      $12,$01,$09,$61,$8C,$F7,$2C,$25,$01,$23,$78,$4C,$01,$F2,$2C,$02 ; $79E7
+        db      $23,$F7,$15,$F3,$1D,$56,$79,$09,$01,$B2,$6C,$F2,$2C,$91,$73,$12 ; $79F7
+        db      $01,$32,$DF,$1B,$2C,$1A,$F3,$1D,$C2,$1E,$37,$23,$12,$01,$14,$DF ; $7A07
+        db      $1B,$2C,$1A,$50,$8C,$FD,$00,$04,$F2,$78,$64,$79,$9A,$79,$DC,$79 ; $7A17
+        db      $CF,$12,$01,$08,$32,$1B,$09,$01,$E9,$F6,$32,$05,$09,$01,$1E,$7A ; $7A27
+        db      $FD,$00,$CF,$12,$01,$08,$32,$1B,$12,$01,$08,$5A,$01,$09,$01,$E9 ; $7A37
+        db      $F6,$32,$05,$09,$01,$1E,$7A,$FD,$00,$CF,$12,$01,$08,$32,$1B,$12 ; $7A47
+        db      $01,$10,$5A,$01,$09,$01,$E9,$F6,$32,$05,$09,$01,$1E,$7A,$FD,$00 ; $7A57
+        db      $CF,$12,$01,$08,$32,$1B,$12,$01,$18,$5A,$01,$09,$01,$E9,$F6,$32 ; $7A67
+        db      $05,$09,$01,$1E,$7A,$FD,$00,$00,$00,$90,$2D,$00,$14,$00,$00,$02 ; $7A77
+        db      $00,$00,$80,$9C,$FF,$00,$00,$18,$FC,$00,$00,$00,$00,$40,$00,$00 ; $7A87
+        db      $DB,$FF,$00,$00,$18,$FC,$00,$00,$00,$90,$5F,$00,$EE,$FF,$00,$01 ; $7A97
+        db      $00,$00,$80,$6A,$FF,$00,$00,$18,$FC,$00,$00,$00,$00,$00,$90,$2D ; $7AA7
+        db      $00,$CC,$FF,$00,$02,$00,$00,$80,$9C,$FF,$00,$00,$18,$FC,$00,$00 ; $7AB7
+        db      $00,$00,$C0,$00,$00,$23,$00,$E8,$03,$00,$00,$00,$00,$00,$90,$D3 ; $7AC7
+        db      $FF,$EC,$FF,$40,$03,$00,$00,$00,$00,$00,$AE,$FF,$00,$00,$18,$FC ; $7AD7
+        db      $00,$00,$00,$00,$00,$12,$00,$00,$00,$E8,$03,$00,$00,$00,$00,$00 ; $7AE7
+        db      $EF,$FF,$00,$00,$18,$FC,$00,$7E,$7A,$9E,$7A,$B3,$7A,$1B,$77,$68 ; $7AF7
+        db      $69,$63,$68,$20,$69,$73,$20,$74,$68,$65,$20,$6D,$69,$72,$72,$6F ; $7B07
+        db      $72,$20,$69,$6D,$61,$67,$65,$20,$3F,$18,$77,$68,$69,$63,$68,$20 ; $7B17
+        db      $74,$77,$6F,$20,$61,$72,$65,$20,$74,$68,$65,$20,$73,$61,$6D,$65 ; $7B27
+        db      $20,$3F,$0A,$02,$02,$00,$06,$09,$0D,$08,$05,$02,$00,$81,$03,$B2 ; $7B37
+        db      $6C,$03,$C0,$67,$00,$45,$7B,$0C,$00,$89,$00,$0A,$71,$69,$00,$0A ; $7B47
+        db      $C0,$67,$00,$0A,$01,$6B,$00,$0A,$B2,$6C,$00,$0A,$71,$69,$00,$0A ; $7B57
+        db      $C0,$67,$00,$0A,$01,$6B,$00,$0A,$B2,$6C,$00,$0A,$01,$6B,$00,$0A ; $7B67
+        db      $6E,$6E,$00,$0A,$B2,$6C,$40,$0A,$6E,$6E,$00,$00,$51,$7B,$04,$7B ; $7B77
+        db      $20,$7B,$04,$7B,$20,$7B,$00,$40,$40,$00,$CF,$99,$15,$09,$01,$7E ; $7B87
+        db      $FF,$12,$01,$16,$F7,$2C,$25,$01,$85,$7B,$4C,$01,$09,$01,$FE,$7A ; $7B97
+        db      $09,$01,$39,$7B,$37,$8C,$F7,$2C,$1A,$01,$8D,$7B,$53,$01,$03,$1F ; $7BA7
+        db      $09,$01,$97,$FF,$09,$01,$EE,$FF,$54,$1D,$09,$01,$B2,$6C,$F2,$2C ; $7BB7
+        db      $F6,$1E,$02,$23,$F7,$15,$50,$8C,$FD,$00,$CF,$99,$15,$4F,$8B,$12 ; $7BC7
+        db      $01,$28,$09,$01,$F6,$FF,$61,$8C,$F7,$2C,$12,$01,$02,$08,$02,$EA ; $7BD7
+        db      $03,$EC,$7B,$CF,$1E,$09,$01,$B2,$6C,$F2,$2C,$02,$23,$F7,$15,$F3 ; $7BE7
+        db      $1D,$09,$01,$42,$7B,$B4,$1C,$37,$23,$D3,$74,$E7,$15,$34,$1E,$F6 ; $7BF7
+        db      $1E,$E0,$1D,$09,$01,$4E,$7B,$B4,$1C,$09,$01,$73,$00,$DF,$1B,$E9 ; $7C07
+        db      $19,$50,$8C,$FD,$00,$CF,$99,$15,$7B,$8B,$12,$01,$28,$09,$01,$F6 ; $7C17
+        db      $FF,$61,$8C,$F7,$2C,$30,$01,$1C,$02,$EA,$03,$36,$7C,$CF,$1E,$09 ; $7C27
+        db      $01,$B2,$6C,$F2,$2C,$02,$23,$F7,$15,$F3,$1D,$37,$23,$5F,$74,$CF ; $7C37
+        db      $1E,$34,$1E,$12,$01,$1E,$DF,$1B,$2C,$1A,$09,$01,$D3,$7A,$D4,$24 ; $7C47
+        db      $E9,$1E,$34,$1E,$37,$23,$50,$8C,$FD,$00,$CF,$99,$15,$12,$8C,$12 ; $7C57
+        db      $01,$28,$09,$01,$F6,$FF,$61,$8C,$F7,$2C,$30,$01,$1C,$02,$EA,$03 ; $7C67
+        db      $7B,$7C,$CF,$1E,$09,$01,$2A,$70,$F2,$2C,$02,$23,$F7,$15,$F3,$1D ; $7C77
+        db      $37,$23,$5F,$74,$CF,$1E,$34,$1E,$12,$01,$1E,$DF,$1B,$2C,$1A,$09 ; $7C87
+        db      $01,$D3,$7A,$D4,$24,$E9,$1E,$34,$1E,$37,$23,$50,$8C,$FD,$00,$04 ; $7C97
+        db      $91,$7B,$D1,$7B,$1C,$7C,$61,$7C,$CF,$12,$01,$04,$32,$1B,$09,$01 ; $7CA7
+        db      $E9,$F6,$32,$05,$09,$01,$A6,$7C,$FD,$00,$03,$3A,$5C,$AE,$67,$7E ; $7CB7
+        db      $58,$03,$4E,$5C,$90,$58,$AF,$7C,$02,$67,$5C,$27,$7A,$04,$B2,$5C ; $7CC7
+        db      $AE,$67,$A7,$58,$39,$7A,$02,$80,$5C,$AF,$7C,$03,$99,$5C,$BE,$58 ; $7CD7
+        db      $50,$7A,$03,$B2,$5C,$AF,$7C,$67,$7A,$03,$B2,$5C,$BE,$58,$67,$7A ; $7CE7
+        db      $C1,$7C,$C8,$7C,$CF,$7C,$D4,$7C,$DD,$7C,$E2,$7C,$E9,$7C,$F0,$7C ; $7CF7
+        db      $06,$A4,$79,$04,$6F,$7B,$00,$07,$7D,$0F,$07,$00,$08,$08,$08,$00 ; $7D07
+        db      $00,$00,$1A,$77,$68,$69,$63,$68,$20,$69,$73,$20,$74,$68,$65,$20 ; $7D17
+        db      $6D,$69,$72,$72,$6F,$72,$20,$69,$6D,$61,$67,$65,$3F,$15,$77,$68 ; $7D27
+        db      $69,$63,$68,$20,$69,$73,$20,$74,$68,$65,$20,$73,$61,$6D,$65,$20 ; $7D37
+        db      $61,$73,$3F,$19,$7D,$34,$7D,$19,$7D,$34,$7D,$00,$40,$40,$00,$CF ; $7D47
+        db      $99,$15,$09,$01,$B0,$FF,$12,$01,$17,$F7,$2C,$25,$01,$4A,$7D,$4C ; $7D57
+        db      $01,$09,$01,$FE,$7C,$09,$01,$10,$7D,$17,$8C,$F7,$2C,$1A,$01,$52 ; $7D67
+        db      $7D,$53,$01,$03,$1F,$A8,$1E,$12,$01,$5C,$09,$01,$F3,$FF,$54,$1D ; $7D77
+        db      $09,$01,$04,$7D,$B4,$1C,$12,$01,$02,$2F,$1F,$12,$01,$28,$DF,$1B ; $7D87
+        db      $E9,$19,$02,$23,$F7,$15,$30,$8C,$FD,$00,$CF,$99,$15,$2F,$8B,$09 ; $7D97
+        db      $01,$C9,$FF,$12,$01,$05,$41,$8C,$F7,$2C,$12,$01,$02,$08,$02,$EA ; $7DA7
+        db      $03,$BC,$7D,$CF,$1E,$09,$01,$A4,$79,$F2,$2C,$02,$23,$F7,$15,$F3 ; $7DB7
+        db      $1D,$37,$23,$E0,$1D,$12,$01,$14,$DF,$1B,$2C,$1A,$09,$01,$04,$7D ; $7DC7
+        db      $B4,$1C,$12,$01,$28,$DF,$1B,$E9,$19,$12,$01,$0F,$DF,$1B,$2C,$1A ; $7DD7
+        db      $30,$8C,$FD,$00,$CF,$99,$15,$5B,$8B,$09,$01,$C9,$FF,$12,$01,$05 ; $7DE7
+        db      $41,$8C,$F7,$2C,$30,$01,$1C,$02,$EA,$03,$09,$7E,$E9,$1E,$E2,$03 ; $7DF7
+        db      $0B,$7E,$C2,$1E,$09,$01,$A4,$79,$F2,$2C,$02,$23,$F7,$15,$F3,$1D ; $7E07
+        db      $12,$01,$3C,$09,$01,$D8,$FF,$54,$1D,$0C,$1E,$30,$8C,$FD,$00,$CF ; $7E17
+        db      $99,$15,$F2,$8B,$09,$01,$C9,$FF,$12,$01,$05,$41,$8C,$F7,$2C,$12 ; $7E27
+        db      $01,$02,$08,$02,$EA,$03,$45,$7E,$E9,$1E,$E2,$03,$47,$7E,$C2,$1E ; $7E37
+        db      $09,$01,$A4,$79,$F2,$2C,$02,$23,$F7,$15,$F3,$1D,$12,$01,$3C,$09 ; $7E47
+        db      $01,$D8,$FF,$54,$1D,$0C,$1E,$12,$01,$0F,$DF,$1B,$2C,$1A,$30,$8C ; $7E57
+        db      $FD,$00,$04,$56,$7D,$A1,$7D,$EB,$7D,$26,$7E,$CF,$12,$01,$04,$32 ; $7E67
+        db      $1B,$0B,$8B,$09,$01,$69,$7E,$FD,$00,$02,$9E,$6E,$72,$7E,$02,$B7 ; $7E77
+        db      $6E,$9D,$79,$03,$D5,$6E,$6A,$54,$72,$7E,$03,$F3,$6E,$7C,$54,$29 ; $7E87
+        db      $68,$03,$11,$6F,$93,$54,$9D,$79,$02,$2F,$6F,$29,$68,$02,$4D,$6F ; $7E97
+        db      $29,$68,$02,$6B,$6F,$29,$68,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7EA7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7EB7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7EC7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7ED7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7EE7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7EF7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F07
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F17
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F27
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F37
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F47
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F57
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F67
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F77
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F87
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7F97
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7FA7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7FB7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7FC7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7FD7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF ; $7FE7
+        db      $FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF                             ; $7FF7
