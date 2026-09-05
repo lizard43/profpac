@@ -157,10 +157,13 @@ the same four-stage contract:
 4. Fill the remaining slot and synchronize child actions.
 
 The promoted family closure contains 401 bank-local TERSE definitions and
-10,532 cells. Family code selects prompts and variants, constructs objects,
-starts animation tasks, yields cooperatively, and signals completion. The fixed
-question-round controller owns answer timing, correctness, score awards,
-player state, bonus scheduling, and the return to the main application.
+10,532 cells. The sources name every family, lifecycle action, internal thread,
+initializer variant range, and tier bucket by function; address-derived PPQ
+execution labels are rejected by the build. Family code selects prompts and
+variants, constructs objects, starts animation tasks, yields cooperatively, and
+signals completion. The fixed question-round controller owns answer timing,
+correctness, score awards, player state, bonus scheduling, and the return to the
+main application.
 
 - [question_roms.md](docs/question_roms.md) specifies the bank directory, tier
   calculation, initializers, action lists, and repeat filter.
