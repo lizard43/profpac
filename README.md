@@ -171,6 +171,8 @@ main application.
   tier coverage, variants, prompts, and execution features.
 - [question_presentation.md](docs/question_presentation.md) defines the shared scene,
   slot-allocation, object-state, and scheduler vocabulary.
+- [graphics_animation.md](docs/graphics_animation.md) defines the native PPQ image
+  records, pixel packing, rendering path, animation relationship, and decoded inventory.
 - [question_family_ppq1.md](docs/question_family_ppq1.md) follows one family from
   initializer through rendering, answer placement, and completion.
 - [question_round.md](docs/question_round.md) documents the complete fixed-ROM round
@@ -194,6 +196,7 @@ devices and distinguish empty question sockets. See
 | `src/profpac_question_common.include` | Shared question-bank mapping and format symbols |
 | `tools/analyze_question_banks.py` | PPQ directory and tier validation |
 | `tools/analyze_question_families.py` | Family identity, action-graph, and source validation |
+| `tools/analyze_ppq_graphics.py` | Native 2-bpp PPQ image discovery and inline-pixel validation |
 | `tools/analyze_question_round.py` | Fixed question-round closure validation |
 | `tools/analyze_game_progression.py` | Configuration-1 application closure validation |
 | `tools/decode_pls153a.py` | PLS153A fuse-map validation and Boolean-equation recovery |
@@ -237,7 +240,8 @@ The build performs the following checks:
    `fc2c27f04a1a173ae79b5fb91c69ff85cc479c9c`.
 7. Decode and validate all ten PLS153A fuse maps and their canonical SHA-1
    values.
-8. Validate the promoted question-family, question-round, and main-progression
+8. Validate 193 reachable PPQ image records and their inline 2-bpp source rows.
+9. Validate the promoted question-family, question-round, and main-progression
    TERSE structures.
 
 The structural analyzers protect the readable disassembly as well as the ROM

@@ -5,6 +5,7 @@ ZMAC=${ZMAC:-tools/zmac}
 PROGRAM_COMMON=src/profpac_common.include
 QUESTION_COMMON=src/profpac_question_common.include
 QUESTION_FAMILY_ANALYZER=tools/analyze_question_families.py
+QUESTION_GRAPHICS_ANALYZER=tools/analyze_ppq_graphics.py
 QUESTION_ROUND_ANALYZER=tools/analyze_question_round.py
 GAME_PROGRESSION_ANALYZER=tools/analyze_game_progression.py
 PLD_ANALYZER=tools/decode_pls153a.py
@@ -43,6 +44,7 @@ echo "Questions:  src/ppq1.asm through src/ppq14.asm"
 echo "Common:     $PROGRAM_COMMON"
 echo "            $QUESTION_COMMON"
 echo "Analysis:   $QUESTION_FAMILY_ANALYZER"
+echo "            $QUESTION_GRAPHICS_ANALYZER"
 echo "            $QUESTION_ROUND_ANALYZER"
 echo "            $GAME_PROGRESSION_ANALYZER"
 echo "            $PLD_ANALYZER"
@@ -235,6 +237,8 @@ echo "Verified package SHA-1"
 
 python3 "$QUESTION_FAMILY_ANALYZER" --check-sources --quiet "$OUTPUT"
 echo "Verified 130 rooted initializers, 45 action-list families, and 401 reachable action definitions"
+python3 "$QUESTION_GRAPHICS_ANALYZER" "$OUTPUT" --check-sources --quiet
+echo "Verified 193 reachable native 2-bpp PPQ images and inline pixel annotations"
 python3 "$QUESTION_ROUND_ANALYZER" --check-sources --quiet "$OUTPUT"
 echo "Verified 130 question-round definitions, 3,989 TERSE cells, and 17 action lists"
 python3 "$GAME_PROGRESSION_ANALYZER" --check-sources --quiet "$OUTPUT"
