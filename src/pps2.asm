@@ -732,7 +732,18 @@ WRITE_INDEXED_IO_REGISTER:
         ld a,l                          ; $2AEE
         out (c),a                       ; $2AEF
         ret                             ; $2AF1
-        db      $D9,$E1,$06,$08,$CD,$E1,$2A,$21,$0E,$00,$19,$77,$D9,$FD,$E9     ; $2AF2
+; Sound writer formerly embedded in a raw DB span. Same 15 instruction bytes.
+; (value -- ) Output register offset 8, then update state offset +$0E.
+SOUND_WRITE_REGISTER_08:
+        exx                             ; $2AF2
+        pop hl                          ; $2AF3
+        ld b,$08                        ; $2AF4
+        call WRITE_INDEXED_IO_REGISTER  ; $2AF6
+        ld hl,$000e                     ; $2AF9
+        add hl,de                       ; $2AFC
+        ld (hl),a                       ; $2AFD
+        exx                             ; $2AFE
+        jp (iy)                         ; $2AFF
 SOUND_WRITE_REGISTER_01:
         exx                             ; $2B01
         pop hl                          ; $2B02
@@ -827,8 +838,26 @@ NATIVE_2B7A:
         add hl,de                       ; $2B88
         ld (hl),$00                     ; $2B89
         ret                             ; $2B8B
-        db      $CD,$7A,$2B,$CD,$0A,$29,$11,$04,$00,$2A,$81,$FD,$19,$4E,$23,$46 ; $2B8C
-        db      $78,$B1,$28,$05,$CD,$7A,$2B,$36,$01,$C1,$FD,$E9                 ; $2B9C
+; State update helper formerly encoded as two raw DB rows.
+; Refresh the channel state, inspect the saved word at +$04, and flag it
+; when the saved word is nonzero; return through the TERSE dispatcher.
+SOUND_REFRESH_CHANNEL_STATE:
+        call NATIVE_2B7A                ; $2B8C
+        call $290a                      ; $2B8F
+        ld de,$0004                     ; $2B92
+        ld hl,($fd81)                   ; $2B95
+        add hl,de                       ; $2B98
+        ld c,(hl)                       ; $2B99
+        inc hl                          ; $2B9A
+        ld b,(hl)                       ; $2B9B
+        ld a,b                          ; $2B9C
+        or c                            ; $2B9D
+        jr z,SOUND_REFRESH_CHANNEL_DONE ; $2B9E
+        call NATIVE_2B7A                ; $2BA0
+        ld (hl),$01                     ; $2BA3
+SOUND_REFRESH_CHANNEL_DONE:
+        pop bc                          ; $2BA5
+        jp (iy)                         ; $2BA6
 ; Sound-channel state setup: save BC at offset +$10,
 ; call common state initialization and resume TERSE.
 NATIVE_2BA8:
