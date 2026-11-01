@@ -173,3 +173,8 @@ CFG1_XT_BFILL          equ     $41F6
 CFG1_COLD_RESTART_XT   equ     $45FA
 CFG1_SELFTEST_HARDWARE_RESET_XT equ $4610
 CFG1_SERVICE_APPLICATION_XT equ $BE66
+
+; Sound-control TERSE words in fixed ROM PPS2. These address constants permit
+; symbolic threaded references from configuration-0/1 physical ROM units.
+XT_SOUND_UPDATE_STATE_F6E2 equ $3D67
+XT_SOUND_UPDATE_STATE_F6E0 equ $3DE7
