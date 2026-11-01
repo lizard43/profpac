@@ -262,7 +262,11 @@
         db      $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00 ; $AFC0
         db      $00,$00,$1E,$66,$72,$65,$65,$20,$70,$6C,$61,$79,$2C,$20,$73,$6F ; $AFD0
         db      $20,$68,$69,$74,$20,$74,$68,$65,$20,$62,$75,$74,$74,$6F,$6E,$21 ; $AFE0
-        db      $21,$CF,$99,$15,$2B,$2D,$D5,$36,$9B,$1E,$93,$2C,$12,$01,$60,$12 ; $AFF0
+        db      $21 ; $AFF0 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+ATTRACT_SCREEN_ACTION_ENTRY:
+        rst     $08                            ; $AFF1 colon entry
+        db      $99,$15,$2B,$2D,$D5,$36,$9B,$1E,$93,$2C,$12,$01,$60,$12 ; $AFF2 retained byte data
         db      $01,$63,$54,$1D,$DE,$3C,$09,$01,$A7,$37,$09,$01,$AE,$38,$8E,$1E ; $B000
         db      $0C,$1E,$09,$01,$A0,$FF,$24,$1D,$DE,$3C,$09,$01,$37,$39,$8E,$1E ; $B010
         db      $0C,$1E,$2A,$01,$12,$01,$63,$54,$1D,$09,$01,$7C,$3C,$8E,$1E,$0C ; $B020
@@ -328,18 +332,34 @@
         db      $00,$00,$00,$00,$00,$00,$00,$00,$15,$55,$50,$00,$00,$00,$00,$00 ; $B3E0
         db      $00,$00,$00,$00,$00,$1A,$77,$68,$69,$63,$68,$20,$69,$73,$20,$74 ; $B3F0
         db      $68,$65,$20,$6D,$69,$72,$72,$6F,$72,$20,$69,$6D,$61,$67,$65,$3F ; $B400
-        db      $02,$00,$81,$06,$16,$B1,$04,$E4,$B2,$00,$13,$B4,$CF,$99,$15,$A8 ; $B410
+        db      $02,$00,$81,$06,$16,$B1,$04,$E4,$B2,$00,$13,$B4 ; $B410 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+ATTRACT_DEMO_STAGE_ENTRY:
+        rst     $08                            ; $B41C colon entry
+        db      $99,$15,$A8 ; $B41D retained byte data
         db      $1E,$09,$01,$B0,$FF,$09,$01,$D8,$FF,$54,$1D,$09,$01,$16,$B1,$B4 ; $B420
         db      $1C,$0C,$1E,$09,$01,$74,$FF,$24,$1D,$09,$01,$2F,$32,$B4,$1C,$0C ; $B430
         db      $1E,$09,$01,$96,$00,$DF,$1B,$2C,$1A,$F3,$1D,$12,$01,$32,$DF,$1B ; $B440
         db      $2C,$1A,$09,$01,$B0,$FF,$24,$1D,$09,$01,$16,$B1,$F2,$2C,$12,$01 ; $B450
-        db      $3C,$24,$1D,$14,$1F,$CF,$1E,$09,$01,$10,$B4,$B4,$1C,$02,$23,$09 ; $B460
+        db      $3C,$24,$1D,$14,$1F ; $B460 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_B465:
+        rst     $08                            ; $B465 colon entry
+        db      $1E,$09,$01,$10,$B4,$B4,$1C,$02,$23,$09 ; $B466 retained byte data
         db      $01,$64,$00,$DF,$1B,$09,$01,$56,$F7,$1D,$1C,$E9,$19,$30,$1C,$EA ; $B470
         db      $03,$8D,$B4,$09,$01,$DB,$F6,$3A,$05,$E2,$03,$95,$B4,$09,$01,$16 ; $B480
-        db      $B1,$B4,$1C,$34,$1E,$54,$22,$FD,$00,$CF,$99,$15,$A8,$1E,$09,$01 ; $B490
+        db      $B1,$B4,$1C,$34,$1E,$54,$22,$FD,$00 ; $B490 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_B499:
+        rst     $08                            ; $B499 colon entry
+        db      $99,$15,$A8,$1E,$09,$01 ; $B49A retained byte data
         db      $74,$FF,$12,$01,$05,$54,$1D,$09,$01,$AA,$31,$B4,$1C,$0C,$1E,$09 ; $B4A0
         db      $01,$B0,$FF,$24,$1D,$09,$01,$16,$B1,$B4,$1C,$C2,$1E,$0C,$1E,$02 ; $B4B0
-        db      $23,$54,$22,$FD,$00,$CF,$99,$15,$A8,$1E,$09,$01,$74,$FF,$09,$01 ; $B4C0
+        db      $23,$54,$22,$FD,$00 ; $B4C0 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_B4C5:
+        rst     $08                            ; $B4C5 colon entry
+        db      $99,$15,$A8,$1E,$09,$01,$74,$FF,$09,$01 ; $B4C6 retained byte data
         db      $B5,$FF,$54,$1D,$09,$01,$9A,$32,$B4,$1C,$0C,$1E,$09,$01,$BA,$FF ; $B4D0
         db      $24,$1D,$09,$01,$16,$B1,$B4,$1C,$E9,$1E,$0C,$1E,$02,$23,$54,$22 ; $B4E0
         db     $FD,$00,$01,$F1,$AF,$03,$1C,$B4,$99,$B4,$C5,$B4 ; $B4F0 original bytes
@@ -456,7 +476,10 @@ ROUND_TERSE_B5D7:
         dw     $19E9                        ; $B60D execution token
         dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $B60F execution token
         dw     XT_RETURN                    ; $B611 execution token
-        db     $CF,$99,$15,$A8              ; $B613 original bytes
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+ATTRACT_PROMPT_STAGE_ENTRY:
+        rst     $08                            ; $B613 colon entry
+        db      $99,$15,$A8 ; $B614 retained byte data
         db      $1E,$09,$01,$64,$00,$12,$01,$02,$09,$01,$6D,$9D,$D0,$B5,$02,$23 ; $B617
         db      $12,$01,$02,$2F,$1F,$12,$01,$03,$1A,$01,$2C,$F7,$1D,$1C,$E9,$19 ; $B627
         db      $54,$22,$FD,$00                                                 ; $B637
@@ -465,10 +488,17 @@ TERSE_COLON_B63B:
         dw      $1C5F                ; $B63C execution token $1C5F
         dw      $1C43                ; $B63E execution token $1C43
         dw      XT_RETURN               ; $B640 _RETURN
-        db      $CF,$99,$15,$A8,$1E,$12,$01,$02,$2F,$1F,$09,$01,$88,$FF,$12,$01 ; $B642
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_B642:
+        rst     $08                            ; $B642 colon entry
+        db      $99,$15,$A8,$1E,$12,$01,$02,$2F,$1F,$09,$01,$88,$FF,$12,$01 ; $B643 retained byte data
         db      $19,$09,$01,$45,$86,$D0,$B5,$0C,$1E,$09,$01,$B1,$92,$B4,$1C,$09 ; $B652
         db      $01,$36,$01,$5B,$1D,$2A,$01,$1A,$01,$2C,$F7,$1D,$1C,$09,$01,$96 ; $B662
-        db      $00,$3B,$B6,$E9,$19,$F3,$1D,$02,$23,$54,$22,$FD,$00,$CF,$99,$15 ; $B672
+        db      $00,$3B,$B6,$E9,$19,$F3,$1D,$02,$23,$54,$22,$FD,$00 ; $B672 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_B67F:
+        rst     $08                            ; $B67F colon entry
+        db      $99,$15 ; $B680 retained byte data
         db      $A8,$1E,$09,$01,$6E,$00,$DF,$1B,$2C,$1A,$12,$01,$02,$2F,$1F,$09 ; $B682
         db      $01,$86,$FF,$12,$01,$14,$09,$01,$00,$80,$D0,$B5,$09,$01,$C9,$92 ; $B692
         db      $B4,$1C,$09,$01,$54,$01,$5B,$1D,$30,$01,$1A,$01,$2C,$F7,$1D,$1C ; $B6A2
@@ -619,7 +649,10 @@ TERSE_COLON_B83B:
         dw      $1D3C                ; $B840 execution token $1D3C
         dw      $2CA4                ; $B842 execution token $2CA4
         dw      XT_RETURN               ; $B844 _RETURN
-        db      $CF,$99,$15,$9B,$1E,$2A,$01,$7D,$1E,$9B,$1E,$09,$01,$7E,$FF,$24 ; $B846
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+CREDIT_PROMPT_STAGE_ENTRY:
+        rst     $08                            ; $B846 colon entry
+        db      $99,$15,$9B,$1E,$2A,$01,$7D,$1E,$9B,$1E,$09,$01,$7E,$FF,$24 ; $B847 retained byte data
         db      $1D,$09,$01,$E2,$FF,$12,$01,$02,$09,$01,$EC,$E1,$53,$01,$9F,$34 ; $B856
         db      $EA,$03,$A0,$B8,$12,$01,$03,$08,$02,$EA,$03,$75,$B8,$40,$2D,$09 ; $B866
         db      $01,$EC,$E1,$53,$01,$30,$01,$1C,$02,$EA,$03,$8B,$B8,$09,$01,$0F ; $B876
@@ -762,7 +795,10 @@ TERSE_COLON_B9FF:
         dw      $1E5C                ; $BA2B execution token $1E5C
         dw      $2083                ; $BA2D execution token $2083
         dw      XT_RETURN               ; $BA2F _RETURN
-        db      $CF,$99,$15,$09,$01,$FF,$FF,$09,$01,$1A,$F7,$61,$05,$30,$01,$09 ; $BA31
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_BA31:
+        rst     $08                            ; $BA31 colon entry
+        db      $99,$15,$09,$01,$FF,$FF,$09,$01,$1A,$F7,$61,$05,$30,$01,$09 ; $BA32 retained byte data
         db      $01,$1C,$F7,$61,$05,$A8,$1E,$09,$01,$96,$00,$12,$01,$5A,$54,$1D ; $BA41
         db      $09,$01,$EB,$F6,$3F,$05,$09,$01,$96,$00,$09,$01,$18,$F7,$61,$05 ; $BA51
         db      $2A,$01,$09,$01,$16,$F7,$61,$05,$93,$2C,$12,$01,$06,$5C,$1E,$2A ; $BA61
@@ -771,17 +807,37 @@ TERSE_COLON_B9FF:
         db      $09,$01,$1A,$F7,$4C,$01,$12,$01,$02,$FF,$02,$5A,$01,$71,$1C,$E2 ; $BA91
         db      $03,$B9,$BA,$43,$01,$0E,$1F,$96,$1C,$09,$01,$1C,$F7,$4C,$01,$12 ; $BAA1
         db      $01,$02,$FF,$02,$5A,$01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01 ; $BAB1
-        db      $18,$F7,$4C,$01,$09,$01,$1C,$F7,$4C,$01,$FF,$02,$CF,$01,$46,$01 ; $BAC1
-        db      $A5,$1C,$09,$01,$16,$F7,$4C,$01,$CF,$01,$79,$01,$EA,$03,$79,$BA ; $BAD1
-        db      $09,$01,$EB,$F6,$36,$01,$49,$05,$53,$01,$30,$01,$CF,$01,$EA,$03 ; $BAE1
+        db      $18,$F7,$4C,$01,$09,$01,$1C,$F7,$4C,$01,$FF,$02 ; $BAC1 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_BACD:
+        rst     $08                            ; $BACD colon entry
+        db      $01,$46,$01 ; $BACE retained byte data
+        db      $A5,$1C,$09,$01,$16,$F7,$4C,$01 ; $BAD1 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_BAD9:
+        rst     $08                            ; $BAD9 colon entry
+        db      $01,$79,$01,$EA,$03,$79,$BA ; $BADA retained byte data
+        db      $09,$01,$EB,$F6,$36,$01,$49,$05,$53,$01,$30,$01 ; $BAE1 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_BAED:
+        rst     $08                            ; $BAED colon entry
+        db      $01,$EA,$03 ; $BAEE retained byte data
         db      $1E,$BB,$0E,$1F,$9B,$1D,$68,$01,$24,$1D,$09,$01,$FF,$FF,$09,$01 ; $BAF1
         db      $1C,$F7,$61,$05,$12,$01,$5A,$71,$1C,$09,$01,$FF,$FF,$5F,$1C,$09 ; $BB01
         db      $01,$97,$00,$09,$01,$18,$F7,$61,$05,$E2,$03,$92,$BB,$09,$01,$EB ; $BB11
-        db      $F6,$53,$01,$12,$01,$02,$CF,$01,$EA,$03,$5F,$BB,$0E,$1F,$AA,$1D ; $BB21
+        db      $F6,$53,$01,$12,$01,$02 ; $BB21 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_BB27:
+        rst     $08                            ; $BB27 colon entry
+        db      $01,$EA,$03,$5F,$BB,$0E,$1F,$AA,$1D ; $BB28 retained byte data
         db      $68,$01,$3C,$1D,$30,$01,$09,$01,$1A,$F7,$61,$05,$09,$01,$A5,$FF ; $BB31
         db      $71,$1C,$2A,$01,$5F,$1C,$09,$01,$96,$00,$09,$01,$18,$F7,$61,$05 ; $BB41
         db      $09,$01,$FF,$FF,$09,$01,$16,$F7,$61,$05,$E2,$03,$92,$BB,$09,$01 ; $BB51
-        db      $EB,$F6,$53,$01,$12,$01,$03,$CF,$01,$EA,$03,$92,$BB,$0E,$1F,$9B ; $BB61
+        db      $EB,$F6,$53,$01,$12,$01,$03 ; $BB61 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_BB68:
+        rst     $08                            ; $BB68 colon entry
+        db      $01,$EA,$03,$92,$BB,$0E,$1F,$9B ; $BB69 retained byte data
         db      $1D,$68,$01,$24,$1D,$30,$01,$09,$01,$1C,$F7,$61,$05,$09,$01,$A5 ; $BB71
         db      $FF,$71,$1C,$30,$01,$5F,$1C,$09,$01,$97,$00,$09,$01,$18,$F7,$61 ; $BB81
         db      $05,$09,$01,$EB,$F6,$53,$01,$12,$01,$04,$2A,$02,$EA,$03,$79,$BA ; $BB91
@@ -814,7 +870,11 @@ TERSE_COLON_BBB8:
         dw      $2784                ; $BBD0 execution token $2784
         dw      XT_RETURN               ; $BBD2 _RETURN
         db      $13,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$63,$6F,$72 ; $BBD4
-        db      $72,$65,$63,$74,$CF,$99,$15,$12,$01,$2A,$09,$01,$BF,$00,$D8,$02 ; $BBE4
+        db      $72,$65,$63,$74 ; $BBE4 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_BBE8:
+        rst     $08                            ; $BBE8 colon entry
+        db      $99,$15,$12,$01,$2A,$09,$01,$BF,$00,$D8,$02 ; $BBE9 retained byte data
         db      $2B,$2D,$09,$01,$FF,$FF,$09,$01,$1C,$F7,$61,$05,$A8,$1E,$2A,$01 ; $BBF4
         db      $09,$01,$EA,$FF,$54,$1D,$09,$01,$64,$FF,$09,$01,$18,$F7,$61,$05 ; $BC04
         db      $09,$01,$9D,$FF,$09,$01,$16,$F7,$61,$05,$93,$2C,$12,$01,$0D,$5C ; $BC14
@@ -823,8 +883,15 @@ TERSE_COLON_BBB8:
         db      $01,$16,$F7,$4C,$01,$E5,$01,$EA,$03,$62,$BC,$09,$01,$1C,$F7,$4C ; $BC44
         db      $01,$12,$01,$02,$FF,$02,$5A,$01,$71,$1C,$E2,$03,$77,$BC,$43,$01 ; $BC54
         db      $0E,$1F,$96,$1C,$09,$01,$1C,$F7,$4C,$01,$12,$01,$02,$FF,$02,$5A ; $BC64
-        db      $01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01,$18,$F7,$4C,$01,$CF ; $BC74
-        db      $01,$46,$01,$A5,$1C,$09,$01,$16,$F7,$4C,$01,$CF,$01,$79,$01,$EA ; $BC84
+        db      $01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01,$18,$F7,$4C,$01 ; $BC74 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_BC83:
+        rst     $08                            ; $BC83 colon entry
+        db      $01,$46,$01,$A5,$1C,$09,$01,$16,$F7,$4C,$01 ; $BC84 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_BC8F:
+        rst     $08                            ; $BC8F colon entry
+        db      $01,$79,$01,$EA ; $BC90 retained byte data
         db      $03,$37,$BC,$09,$01,$9A,$00,$09,$01,$18,$F7,$61,$05,$12,$01,$2D ; $BC94
         db      $09,$01,$16,$F7,$61,$05,$30,$01,$09,$01,$1C,$F7,$61,$05,$8A,$02 ; $BCA4
         db      $9B,$1E,$09,$01,$D4,$BB,$8E,$1E,$12,$01,$4A,$7D,$1E,$09,$01,$74 ; $BCB4
