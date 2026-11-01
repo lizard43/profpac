@@ -120,41 +120,43 @@ A particularly compelling distinction is the use of separate program and questio
 
 The two systems express related DNA architectural ideas at very different scales.
 
-## 6. Problems discovered in the repository
+## 6. Updated repository audit — 2026-11-01
 
-There is one immediate problem that changes the next steps.
+The original audit identified several files missing from the locations expected by `build.sh`. The repository owner has since pushed additional files. This section supersedes the initial missing-file table and reflects a fresh check of the `main` repository tree against the current `build.sh`.
 
-**The current `main` branch is missing files required by its own build script.**
+**Restored since the original audit**
 
-I checked the complete GitHub repository tree against `build.sh`.
-
-| Required by build | Current state |
+| File | Current state |
 |---|---|
-| `tools/zmac` | Present |
-| `src/profpac_common.include` | Present |
-| `src/profpac_question_common.include` | Missing |
-| `tools/analyze_question_families.py` | Missing |
-| `tools/analyze_ppq_graphics.py` | Missing |
-| `tools/analyze_question_round.py` | Missing |
-| `tools/analyze_game_progression.py` | Missing |
-| `tools/decode_pls153a.py` | Missing from `tools/` |
-| `roms/orig/profpac.zip` | Present |
+| `src/profpac_question_common.include` | **Present** at the exact path required by the build |
 
-Some analysis scripts exist at the repository root under different names, and historical question includes exist in `temp/`.
+**Still absent at the paths required by `build.sh`**
 
-However, the active build requires the missing files at their specified locations. It will fail its prerequisite checks before assembling anything.
+| Required build path | Available related material | Action to verify |
+|---|---|---|
+| `tools/analyze_question_families.py` | `analyze_question_families.py` at repository root; older copies in `temp/` | Confirm which revision matches the build and move or restore to `tools/` |
+| `tools/analyze_ppq_graphics.py` | `analyze_ppq_graphics.py` at repository root | Confirm correct revision and restore expected path |
+| `tools/analyze_question_round.py` | `temp/analyze_question_round-20260905-114118.py` and an earlier copy | Compare offline source, then restore expected path |
+| `tools/analyze_game_progression.py` | `temp/analyze_game_progression-20260905-114118.py` | Compare offline source, then restore expected path |
+| `tools/decode_pls153a.py` | `decode_pls153a.py` at repository root | Confirm correct revision and restore expected path |
 
-The repository also currently depends on Python for archive construction and validation. That differs from the simpler zmac-centered build pattern we've established for our other projects.
+**Documentation reference that remains unresolved**
 
-There are also source-quality issues worth addressing:
+- `docs/self_test.md` is referenced by the README but is missing at that path. A historical candidate is available as `temp/self_test-20260905-114118.md`.
 
-- The native source still contains generic labels such as `L001B` and `L0053`.
-- Some threaded definitions retain address-derived names such as `TERSE_COLON_82E0`.
-- Large sections of graphics and tables remain plain `DB` data.
-- The README references a `self_test.md` document that is absent.
-- Each question ROM has a duplicate timestamped assembly copy, which adds noise without providing an independently different source.
+**Verified present**
 
-These findings do not negate the recovered architecture. They show that the documented RE is more mature than the current repository's organization and build completeness.
+- `tools/zmac`, `src/profpac_common.include`, `src/profpac_question_common.include`, and `roms/orig/profpac.zip`.
+- All nine `src/pps1.asm`–`src/pps9.asm` program files and fourteen `src/ppq1.asm`–`src/ppq14.asm` question files.
+- Some historical analyzer scripts and source versions under `temp/`.
+
+**Build status and scope**
+
+The active `build.sh` still references five absent `tools/` analyzer paths. A full build and SHA-1 verification have **not** been executed in this audit. This is a path/inventory check, not a functional validation of the candidate scripts or ROM build. Root-level scripts or historical copies should not be silently treated as interchangeable without comparing their revisions and expected command-line contracts.
+
+Other source-quality observations from the original assessment remain relevant: generic native labels such as `L001B` and `L0053`, address-derived TERSE labels such as `TERSE_COLON_82E0`, and large byte-defined graphics/table regions. The earlier observation about timestamped duplicate `src/ppq*-20260905-180122.asm` files has also changed: the current `src/` tree contains the primary `ppq1.asm`–`ppq14.asm` files without those timestamped copies. Historical versions remain in `temp/`.
+
+**Recommended immediate action:** Check the original offline RE working directory for the five analyzer scripts, and establish their intended revision before moving or committing anything. Restore the self-test document only after verifying the historical copy. Preserve the current ROM and source baselines.
 
 ## 7. Recommended next RE stages
 
