@@ -37,33 +37,37 @@ if ! command -v python3 >/dev/null 2>&1; then
     exit 1
 fi
 
-echo "Professor Pac-Man ROM build"
-echo "Tool:       $ZMAC (zmac v1.3)"
-echo "Program:    src/pps1.asm through src/pps9.asm"
-echo "Questions:  src/ppq1.asm through src/ppq14.asm"
-echo "Common:     $PROGRAM_COMMON"
-echo "            $QUESTION_COMMON"
-echo "Analysis:   $QUESTION_FAMILY_ANALYZER"
-echo "            $QUESTION_GRAPHICS_ANALYZER"
-echo "            $QUESTION_ROUND_ANALYZER"
-echo "            $GAME_PROGRESSION_ANALYZER"
-echo "            $PLD_ANALYZER"
-echo "Baseline:   $BASELINE"
-echo "ROM output: $ROM_OUTPUT_DIR/pps1 through $ROM_OUTPUT_DIR/pps9"
-echo "            $ROM_OUTPUT_DIR/ppq1 through $ROM_OUTPUT_DIR/ppq14"
-echo "Listings:   $LISTING_OUTPUT_DIR/ (no outputs in src/)"
-echo "Package:    $OUTPUT"
-echo
+# Compact progress by default. -v/--verbose emits per-ROM hashes and listings.
+VERBOSE=0
+CLEAN=0
+for option in "$@"; do
+    case "$option" in
+        -v|--verbose) VERBOSE=1 ;;
+        --clean) CLEAN=1 ;;
+        -h|--help)
+            echo "Usage: ./build.sh [--verbose] [--clean]"
+            echo "  --verbose  Show each ROM SHA-1 and file inventory"
+            echo "  --clean    Remove old generated src/*.bin, src/*.lst, and tools/__pycache__"
+            exit 0 ;;
+        *) echo "Unknown option: $option" >&2; exit 2 ;;
+    esac
+done
+
+if [ "$CLEAN" -eq 1 ]; then
+    rm -f src/pps*.bin src/pps*.lst src/ppq*.bin src/ppq*.lst
+    rm -rf tools/__pycache__
+    printf '%s\\n' "Cleaned old assembler files and Python cache"
+fi
 
 baseline_sha1_line=$(sha1sum "$BASELINE")
 baseline_sha1=${baseline_sha1_line%% *}
-echo "Baseline SHA-1 expected: $EXPECTED_ZIP_SHA1"
-echo "Baseline SHA-1 actual:   $baseline_sha1"
 if [ "$baseline_sha1" != "$EXPECTED_ZIP_SHA1" ]; then
-    echo "SHA-1 mismatch for $BASELINE" >&2
+    printf 'FAIL: baseline ROM ZIP SHA-1\\n expected: %s\\n actual:   %s\\n' "$EXPECTED_ZIP_SHA1" "$baseline_sha1" >&2
     exit 1
 fi
-echo
+printf '%s\\n' "Professor Pac-Man — reproducible ROM build"
+printf '%s\\n' "Baseline: OK ($EXPECTED_ZIP_SHA1)"
+printf '%s\\n' "Assembler: $ZMAC  |  outputs: $ROM_OUTPUT_DIR/ and $LISTING_OUTPUT_DIR/"
 
 mkdir -p "$ROM_OUTPUT_DIR" "$LISTING_OUTPUT_DIR"
 rm -f "$OUTPUT"
@@ -77,7 +81,7 @@ build_rom()
     rom_file="$ROM_OUTPUT_DIR/$rom_name"
     listing_file="$LISTING_OUTPUT_DIR/professor_pacman_$rom_name.lst"
 
-    echo "Assembling $rom_kind ROM $rom_name from $source_file"
+    [ "$VERBOSE" -eq 0 ] || echo "  Assembling $rom_name from $source_file"
     # zmac v1.3 supports -o (binary) and -x (listing). Write generated
     # files directly to their destinations; never create outputs in src/.
     rm -f "$rom_file" "$listing_file"
@@ -90,17 +94,19 @@ build_rom()
 
     actual_sha1_line=$(sha1sum "$ROM_OUTPUT_DIR/$rom_name")
     actual_sha1=${actual_sha1_line%% *}
-    echo "SHA-1 expected: $expected_sha1"
-    echo "SHA-1 actual:   $actual_sha1"
+    if [ "$VERBOSE" -eq 1 ]; then
+        printf "  %-6s SHA-1 %s\\n" "$rom_name" "$actual_sha1"
+    fi
     if [ "$actual_sha1" != "$expected_sha1" ]; then
-        echo "SHA-1 mismatch for $ROM_OUTPUT_DIR/$rom_name" >&2
+        printf "FAIL %s SHA-1\\n expected: %s\\n actual:   %s\\n" "$rom_name" "$expected_sha1" "$actual_sha1" >&2
         exit 1
     fi
 
     unzip -p "$BASELINE" "$rom_name" | cmp - "$ROM_OUTPUT_DIR/$rom_name"
-    echo "Verified SHA-1 and $BASELINE:$rom_name"
+    [ "$VERBOSE" -eq 0 ] || echo "  Verified $rom_name against original ROM"
 }
 
+printf 'Program ROMs (9): '
 build_rom pps1 src/pps1.asm program f7a9606ce6d66c3e6d210cc25572904aeab2b6c8
 build_rom pps2 src/pps2.asm program b730b24088dcfddbe954670ff9212b7383c923f6
 build_rom pps3 src/pps3.asm program ffbb156f417d20478117b39de28a15680993b528
@@ -110,6 +116,8 @@ build_rom pps6 src/pps6.asm program f706cef6518b7d839377aa8a7c75fdeed4985c57
 build_rom pps7 src/pps7.asm program 201b930cca9669114ffc97978cade69587e34a0f
 build_rom pps8 src/pps8.asm program 786b30cd7a7db55bdde05909d7a1a7f122b6e546
 build_rom pps9 src/pps9.asm program 8b7ed84090dbc5181deef6f55ec755c05d4c0d5e
+echo "9/9 byte-exact"
+printf 'Question ROMs (14): '
 
 build_rom ppq1 src/ppq1.asm question d81caaa639f63d971a0d3199b9da6359211edf3d
 build_rom ppq2 src/ppq2.asm question f9455868c70f479ede0e0621f21f69da165d9b7a
@@ -126,22 +134,15 @@ build_rom ppq12 src/ppq12.asm question c7052bf9ce9d2006dda5ddc07ad164d0119b86ea
 build_rom ppq13 src/ppq13.asm question d47655300c8747698a46f30deb65fe762073e869
 build_rom ppq14 src/ppq14.asm question 73d28a79b76795d3016dd608f9ab3d255f40e477
 
-echo
-echo "Program ROM outputs"
-sha1sum roms/pps1 roms/pps2 roms/pps3 roms/pps4 roms/pps5 \
-    roms/pps6 roms/pps7 roms/pps8 roms/pps9
+echo "14/14 byte-exact"
 
-echo
-echo "Question ROM outputs"
-sha1sum roms/ppq1 roms/ppq2 roms/ppq3 roms/ppq4 roms/ppq5 \
-    roms/ppq6 roms/ppq7 roms/ppq8 roms/ppq9 roms/ppq10 \
-    roms/ppq11 roms/ppq12 roms/ppq13 roms/ppq14
-
-echo
-echo "Listing outputs"
-ls -l "$LISTING_OUTPUT_DIR"/professor_pacman_pps*.lst \
-    "$LISTING_OUTPUT_DIR"/professor_pacman_ppq*.lst
-
+if [ "$VERBOSE" -eq 1 ]; then
+    echo "Detailed ROM hashes:"
+    sha1sum "$ROM_OUTPUT_DIR"/pps[1-9] "$ROM_OUTPUT_DIR"/ppq[1-9] "$ROM_OUTPUT_DIR"/ppq1[0-4]
+    echo "Listing files:"
+    ls -l "$LISTING_OUTPUT_DIR"/professor_pacman_*.lst
+fi
+printf '%s\\n' "Packaging original MAME set..."
 # Build the complete MAME set from the twenty-three assembled program and
 # question ROMs plus the unchanged PLD members carried from the baseline.  The
 # archive is emitted in TorrentZip form so the complete container is
@@ -220,28 +221,24 @@ PY
 
 unzip -t "$OUTPUT" >/dev/null
 cmp "$OUTPUT" "$BASELINE"
-echo "Verified $OUTPUT against $BASELINE: complete MAME archive"
+echo "MAME ZIP: byte-exact"
 
-echo
-echo "Package output"
-ls -l "$OUTPUT"
 package_sha1_line=$(sha1sum "$OUTPUT")
 package_sha1=${package_sha1_line%% *}
-echo "Package SHA-1 expected: $EXPECTED_ZIP_SHA1"
-echo "Package SHA-1 actual:   $package_sha1"
 if [ "$package_sha1" != "$EXPECTED_ZIP_SHA1" ]; then
-    echo "SHA-1 mismatch for $OUTPUT" >&2
+    printf "FAIL: packaged ZIP SHA-1\\n expected: %s\\n actual:   %s\\n" "$EXPECTED_ZIP_SHA1" "$package_sha1" >&2
     exit 1
 fi
-echo "Verified package SHA-1"
-
+[ "$VERBOSE" -eq 0 ] || printf 'Package SHA-1: %s\\n' "$package_sha1"
+printf '%s\\n' "Analysis checks:"
 python3 "$QUESTION_FAMILY_ANALYZER" --check-sources --quiet "$OUTPUT"
-echo "Verified 130 rooted initializers, 45 action-list families, and 401 reachable action definitions"
+echo "  Question families:   130 initializers / 45 families / 401 definitions OK"
 python3 "$QUESTION_GRAPHICS_ANALYZER" "$OUTPUT" --check-sources --quiet
-echo "Verified 193 reachable native 2-bpp PPQ images and inline pixel annotations"
+echo "  PPQ graphics:        193 annotated images OK"
 python3 "$QUESTION_ROUND_ANALYZER" --check-sources --quiet "$OUTPUT"
-echo "Verified 130 question-round definitions, 3,989 TERSE cells, and 17 action lists"
+echo "  Question round:      130 definitions / 3989 cells / 17 lists OK"
 python3 "$GAME_PROGRESSION_ANALYZER" --check-sources --quiet "$OUTPUT"
-echo "Verified 60 main-game definitions, 1,960 TERSE cells, and 11 action lists"
+echo "  Game progression:    60 definitions / 1960 cells / 11 lists OK"
 python3 "$PLD_ANALYZER" --check "$OUTPUT"
-echo "Build complete"
+echo "  PLD:                 OK"
+echo "SUCCESS: 23 ROMs and MAME ZIP match original (SHA-1 $package_sha1)"
