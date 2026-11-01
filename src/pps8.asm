@@ -618,12 +618,15 @@ UPDATE_RANDOM_SEED:
         sub (hl)                        ; $BE41
         ld (hl),a                       ; $BE42
         jp (iy)                         ; $BE43
+; TERSE native checksum: initialize 16-bit accumulator DE and BC count
+; in alternate registers; sum bytes from HL until BC wraps to zero;
+; push sum and return through TERSE NEXT. Read input port each iteration.
 CHECKSUM_ADDRESS_SPACE:
         exx                             ; $BE45
         ld bc,$0000                     ; $BE46
         ld de,$0000                     ; $BE49
         ld hl,$0000                     ; $BE4C
-LBE4F:
+ADDRESS_SUM_CHECKSUM_LOOP:
         in a,(PORT_INPUT_PRIMARY)       ; $BE4F
         ld a,e                          ; $BE51
         add a,(hl)                      ; $BE52
@@ -632,11 +635,13 @@ LBE4F:
         adc a,d                         ; $BE56
         ld d,a                          ; $BE57
         cpi                             ; $BE58
-        jp pe,LBE4F                     ; $BE5A
+        jp pe,ADDRESS_SUM_CHECKSUM_LOOP                     ; $BE5A
         push de                         ; $BE5D
         exx                             ; $BE5E
         jp (iy)                         ; $BE5F
-NATIVE_BE61:
+; TERSE native wrapper: CALL protected NVRAM bookkeeping reset at $0673
+; and resume through JP (IY). Invoked by service application.
+REINITIALIZE_BOOKKEEPING_STATE:
         call $0673                      ; $BE61
         jp (iy)                         ; $BE64
 SERVICE_APPLICATION_WORD:
@@ -653,7 +658,7 @@ SERVICE_APPLICATION_WORD:
         dw      XT_0BRANCH              ; $BE77 _0BRANCH
         dw      LBE85                ; $BE79 branch target
         dw      TERSE_COLON_BDE3     ; $BE7B TERSE_COLON_BDE3
-        dw      NATIVE_BE61          ; $BE7D NATIVE_BE61
+        dw      REINITIALIZE_BOOKKEEPING_STATE          ; $BE7D REINITIALIZE_BOOKKEEPING_STATE
         dw      XT_LIT                  ; $BE7F _LIT
         dw      $E1FC                ; $BE81 inline word
         dw      XT_BZERO                ; $BE83 _BZERO
