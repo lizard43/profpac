@@ -1126,7 +1126,7 @@ ADDRESS_SUM_CHECKSUM_LOOP:
 REINITIALIZE_BOOKKEEPING_STATE:
         call $0673                      ; $BE61
         jp (iy)                         ; $BE64
-SERVICE_APPLICATION_WORD:
+MAIN_APPLICATION:
         rst     $08                             ; $BE66 colon entry
         dw      XT_LITbyte              ; $BE67 _LITbyte
         db      $2C                  ; $BE69 inline byte
