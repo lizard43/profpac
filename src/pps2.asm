@@ -716,6 +716,10 @@ TERSE_COLON_2789:
         db      $FE,$AF,$21,$F8,$FE,$77,$C9,$F5,$C5,$D5,$E5,$D9,$08,$F5,$C5,$D5 ; $2AB2
         db      $E5,$FD,$E5,$DD,$E5,$3A,$83,$FD,$B7,$28,$0E,$FD,$21,$6D,$FD,$CD ; $2AC2
         db      $31,$28,$FD,$21,$3D,$FD,$CD,$31,$28,$CD,$B9,$29,$C3,$C5,$12     ; $2AD2
+; Indexed Astrocade sound-port write. $FD81 points at per-channel state;
+; B selects a register-offset slot, HL supplies the output byte.
+; The helper fetches the effective output port from channel state,
+; writes the byte with OUT (C),A and returns to its native caller.
 WRITE_INDEXED_IO_REGISTER:
         ld de,($fd81)                   ; $2AE1
         ld c,l                          ; $2AE5
@@ -729,7 +733,7 @@ WRITE_INDEXED_IO_REGISTER:
         out (c),a                       ; $2AEF
         ret                             ; $2AF1
         db      $D9,$E1,$06,$08,$CD,$E1,$2A,$21,$0E,$00,$19,$77,$D9,$FD,$E9     ; $2AF2
-NATIVE_2B01:
+SOUND_WRITE_REGISTER_01:
         exx                             ; $2B01
         pop hl                          ; $2B02
         ld b,$01                        ; $2B03
@@ -739,7 +743,7 @@ NATIVE_2B01:
         ld (hl),a                       ; $2B0C
         exx                             ; $2B0D
         jp (iy)                         ; $2B0E
-NATIVE_2B10:
+SOUND_WRITE_REGISTER_02:
         exx                             ; $2B10
         pop hl                          ; $2B11
         ld b,$02                        ; $2B12
@@ -749,7 +753,7 @@ NATIVE_2B10:
         ld (hl),a                       ; $2B1B
         exx                             ; $2B1C
         jp (iy)                         ; $2B1D
-NATIVE_2B1F:
+SOUND_WRITE_REGISTER_03:
         exx                             ; $2B1F
         pop hl                          ; $2B20
         ld b,$03                        ; $2B21
@@ -759,12 +763,12 @@ NATIVE_2B1F:
         ld (hl),a                       ; $2B2A
         exx                             ; $2B2B
         jp (iy)                         ; $2B2C
-TERSE_COLON_2B2E:
+SOUND_WRITE_REGISTER_PAIR_02_03:
         rst     $08                             ; $2B2E colon entry
-        dw      NATIVE_2B10          ; $2B2F NATIVE_2B10
-        dw      NATIVE_2B1F          ; $2B31 NATIVE_2B1F
+        dw      SOUND_WRITE_REGISTER_02          ; $2B2F SOUND_WRITE_REGISTER_02
+        dw      SOUND_WRITE_REGISTER_03          ; $2B31 SOUND_WRITE_REGISTER_03
         dw      XT_RETURN               ; $2B33 _RETURN
-NATIVE_2B35:
+SOUND_WRITE_REGISTER_04:
         exx                             ; $2B35
         pop hl                          ; $2B36
         ld b,$04                        ; $2B37
@@ -774,7 +778,7 @@ NATIVE_2B35:
         ld (hl),a                       ; $2B40
         exx                             ; $2B41
         jp (iy)                         ; $2B42
-NATIVE_2B44:
+SOUND_WRITE_REGISTER_07:
         exx                             ; $2B44
         pop hl                          ; $2B45
         ld b,$07                        ; $2B46
@@ -784,7 +788,7 @@ NATIVE_2B44:
         ld (hl),a                       ; $2B4F
         exx                             ; $2B50
         jp (iy)                         ; $2B51
-NATIVE_2B53:
+SOUND_WRITE_REGISTER_06:
         exx                             ; $2B53
         pop hl                          ; $2B54
         ld b,$06                        ; $2B55
@@ -794,7 +798,7 @@ NATIVE_2B53:
         ld (hl),a                       ; $2B5E
         exx                             ; $2B5F
         jp (iy)                         ; $2B60
-NATIVE_2B62:
+SOUND_WRITE_REGISTER_05:
         exx                             ; $2B62
         pop hl                          ; $2B63
         ld b,$05                        ; $2B64
@@ -804,12 +808,14 @@ NATIVE_2B62:
         ld (hl),a                       ; $2B6D
         exx                             ; $2B6E
         jp (iy)                         ; $2B6F
-TERSE_COLON_2B71:
+SOUND_WRITE_REGISTER_TRIO_05_07:
         rst     $08                             ; $2B71 colon entry
-        dw      NATIVE_2B62          ; $2B72 NATIVE_2B62
-        dw      NATIVE_2B53          ; $2B74 NATIVE_2B53
-        dw      NATIVE_2B44          ; $2B76 NATIVE_2B44
+        dw      SOUND_WRITE_REGISTER_05          ; $2B72 SOUND_WRITE_REGISTER_05
+        dw      SOUND_WRITE_REGISTER_06          ; $2B74 SOUND_WRITE_REGISTER_06
+        dw      SOUND_WRITE_REGISTER_07          ; $2B76 SOUND_WRITE_REGISTER_07
         dw      XT_RETURN               ; $2B78 _RETURN
+; Sound-channel state helper: store BC to state offsets +2/+3
+; and clear the update flag at +$13.
 NATIVE_2B7A:
         ld hl,$0002                     ; $2B7A
         ld de,($fd81)                   ; $2B7D
@@ -823,6 +829,8 @@ NATIVE_2B7A:
         ret                             ; $2B8B
         db      $CD,$7A,$2B,$CD,$0A,$29,$11,$04,$00,$2A,$81,$FD,$19,$4E,$23,$46 ; $2B8C
         db      $78,$B1,$28,$05,$CD,$7A,$2B,$36,$01,$C1,$FD,$E9                 ; $2B9C
+; Sound-channel state setup: save BC at offset +$10,
+; call common state initialization and resume TERSE.
 NATIVE_2BA8:
         exx                             ; $2BA8
         pop bc                          ; $2BA9
@@ -836,6 +844,8 @@ NATIVE_2BA8:
         call NATIVE_2B7A                ; $2BB5
         pop bc                          ; $2BB8
         jp (iy)                         ; $2BB9
+; Load six consecutive stack-provided bytes into the sound-channel
+; state buffer (backwards from state offset +5).
 NATIVE_2BBB:
         pop de                          ; $2BBB
         ld hl,($fd81)                   ; $2BBC
@@ -1482,7 +1492,7 @@ TERSE_COLON_3D1C:
         dw      XT_LITbyte              ; $3D27 _LITbyte
         db      $07                  ; $3D29 inline byte
         dw      TERSE_COLON_3CF9     ; $3D2A TERSE_COLON_3CF9
-        dw      TERSE_COLON_2B71     ; $3D2C TERSE_COLON_2B71
+        dw      SOUND_WRITE_REGISTER_TRIO_05_07     ; $3D2C SOUND_WRITE_REGISTER_TRIO_05_07
         dw      XT_RETURN               ; $3D2E _RETURN
 TERSE_COLON_3D30:
         rst     $08                             ; $3D30 colon entry
@@ -1514,7 +1524,7 @@ TERSE_COLON_3D53:
         dw      XT_LITbyte              ; $3D5E _LITbyte
         db      $07                  ; $3D60 inline byte
         dw      TERSE_COLON_3D30     ; $3D61 TERSE_COLON_3D30
-        dw      TERSE_COLON_2B71     ; $3D63 TERSE_COLON_2B71
+        dw      SOUND_WRITE_REGISTER_TRIO_05_07     ; $3D63 SOUND_WRITE_REGISTER_TRIO_05_07
         dw      XT_RETURN               ; $3D65 _RETURN
         db      $CF,$09,$01,$E2,$F6,$61,$05,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$09 ; $3D67
         db      $01,$DD,$F6,$3F,$05,$09,$01,$E2,$F6,$4C,$01,$12,$01,$09,$5A,$01 ; $3D77
@@ -1579,12 +1589,12 @@ TERSE_COLON_3F78:
         rst     $08                             ; $3F78 colon entry
         dw      XT_LIT                  ; $3F79 _LIT
         dw      $00A0                ; $3F7B inline word
-        dw      NATIVE_2B35          ; $3F7D NATIVE_2B35
+        dw      SOUND_WRITE_REGISTER_04          ; $3F7D SOUND_WRITE_REGISTER_04
         dw      XT_LITbyte              ; $3F7F _LITbyte
         db      $0F                  ; $3F81 inline byte
         dw      XT_LITbyte              ; $3F82 _LITbyte
         db      $0F                  ; $3F84 inline byte
-        dw      TERSE_COLON_2B2E     ; $3F85 TERSE_COLON_2B2E
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03     ; $3F85 SOUND_WRITE_REGISTER_PAIR_02_03
         dw      XT_RETURN               ; $3F87 _RETURN
         db      $CF,$12,$01,$30,$F2,$2A,$09,$01,$80,$00,$12,$01,$60,$12,$01,$40 ; $3F89
         db      $71,$2B,$12,$01,$0F,$09,$01,$FF,$00,$2E,$2B,$FD,$00             ; $3F99
@@ -1594,14 +1604,14 @@ TERSE_COLON_3FA6:
         db      $17                  ; $3FA9 inline byte
         dw      XT_LIT                  ; $3FAA _LIT
         dw      $00DD                ; $3FAC inline word
-        dw      TERSE_COLON_2B2E     ; $3FAE TERSE_COLON_2B2E
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03     ; $3FAE SOUND_WRITE_REGISTER_PAIR_02_03
         dw      XT_RETURN               ; $3FB0 _RETURN
 TERSE_COLON_3FB2:
         rst     $08                             ; $3FB2 colon entry
         dw      XT_LITbyte              ; $3FB3 _LITbyte
         db      $0F                  ; $3FB5 inline byte
         dw      XT_DUP                  ; $3FB6 _DUP
-        dw      TERSE_COLON_2B2E     ; $3FB8 TERSE_COLON_2B2E
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03     ; $3FB8 SOUND_WRITE_REGISTER_PAIR_02_03
         dw      XT_RETURN               ; $3FBA _RETURN
 TERSE_COLON_3FBC:
         rst     $08                             ; $3FBC colon entry
@@ -1609,7 +1619,7 @@ TERSE_COLON_3FBC:
         db      $00                  ; $3FBF inline byte
         dw      XT_LIT                  ; $3FC0 _LIT
         dw      $00F0                ; $3FC2 inline word
-        dw      TERSE_COLON_2B2E     ; $3FC4 TERSE_COLON_2B2E
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03     ; $3FC4 SOUND_WRITE_REGISTER_PAIR_02_03
         dw      XT_RETURN               ; $3FC6 _RETURN
 TERSE_COLON_3FC8:
         rst     $08                             ; $3FC8 colon entry
@@ -1617,7 +1627,7 @@ TERSE_COLON_3FC8:
         db      $0F                  ; $3FCB inline byte
         dw      XT_LIT                  ; $3FCC _LIT
         dw      $00F0                ; $3FCE inline word
-        dw      TERSE_COLON_2B2E     ; $3FD0 TERSE_COLON_2B2E
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03     ; $3FD0 SOUND_WRITE_REGISTER_PAIR_02_03
         dw      XT_RETURN               ; $3FD2 _RETURN
 TERSE_COLON_3FD4:
         rst     $08                             ; $3FD4 colon entry
@@ -1625,7 +1635,7 @@ TERSE_COLON_3FD4:
         db      $00                  ; $3FD7 inline byte
         dw      XT_LITbyte              ; $3FD8 _LITbyte
         db      $0F                  ; $3FDA inline byte
-        dw      TERSE_COLON_2B2E     ; $3FDB TERSE_COLON_2B2E
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03     ; $3FDB SOUND_WRITE_REGISTER_PAIR_02_03
         dw      XT_RETURN               ; $3FDD _RETURN
 TERSE_COLON_3FDF:
         rst     $08                             ; $3FDF colon entry
@@ -1633,14 +1643,14 @@ TERSE_COLON_3FDF:
         db      $0F                  ; $3FE2 inline byte
         dw      XT_LITbyte              ; $3FE3 _LITbyte
         db      $00                  ; $3FE5 inline byte
-        dw      TERSE_COLON_2B2E     ; $3FE6 TERSE_COLON_2B2E
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03     ; $3FE6 SOUND_WRITE_REGISTER_PAIR_02_03
         dw      XT_RETURN               ; $3FE8 _RETURN
 TERSE_COLON_3FEA:
         rst     $08                             ; $3FEA colon entry
         dw      XT_LITbyte              ; $3FEB _LITbyte
         db      $00                  ; $3FED inline byte
         dw      XT_DUP                  ; $3FEE _DUP
-        dw      TERSE_COLON_2B2E     ; $3FF0 TERSE_COLON_2B2E
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03     ; $3FF0 SOUND_WRITE_REGISTER_PAIR_02_03
         dw      XT_RETURN               ; $3FF2 _RETURN
 TERSE_COLON_3FF4:
         rst     $08                             ; $3FF4 colon entry
@@ -1648,5 +1658,5 @@ TERSE_COLON_3FF4:
         db      $0F                  ; $3FF7 inline byte
         dw      XT_LIT                  ; $3FF8 _LIT
         dw      $00FF                ; $3FFA inline word
-        dw      TERSE_COLON_2B2E     ; $3FFC TERSE_COLON_2B2E
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03     ; $3FFC SOUND_WRITE_REGISTER_PAIR_02_03
         dw      XT_RETURN               ; $3FFE _RETURN
