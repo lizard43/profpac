@@ -99,3 +99,19 @@ colors that the record does not own.
 Run `python3 tools/analyze_ppq_graphics.py roms/profpac.zip --check-sources`
 to validate the record geometry, range separation, and inline source
 annotations.
+
+
+## Inline source audit (2026-11-01)
+
+The `ppq1`–`ppq14` images already have named bitmap records with
+4-byte geometry headers and row-by-row `.123` 2-bpp comments. This
+representation is retained so the existing graphics analyzer can continue
+to check every stored row against the ROM.
+
+The configuration-0 program also contains a separate byte-encoded
+sound/pattern region beginning at `pps3:$8000`, including the pointers
+`$818C`, `$82D6`, `$82F8` and `$8414` passed to the paired sound state
+updater at `$82E0`. Those bytes should not be misclassified as graphical
+pixels simply because they are stored in long `DB` ranges. Their callers
+now have named TERSE labels. See
+[RE-PASS-20261101.md](RE-PASS-20261101.md).
