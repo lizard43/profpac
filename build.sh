@@ -56,18 +56,18 @@ done
 if [ "$CLEAN" -eq 1 ]; then
     rm -f src/pps*.bin src/pps*.lst src/ppq*.bin src/ppq*.lst
     rm -rf tools/__pycache__
-    printf '%s\\n' "Cleaned old assembler files and Python cache"
+    printf '%s\n' "Cleaned old assembler files and Python cache"
 fi
 
 baseline_sha1_line=$(sha1sum "$BASELINE")
 baseline_sha1=${baseline_sha1_line%% *}
 if [ "$baseline_sha1" != "$EXPECTED_ZIP_SHA1" ]; then
-    printf 'FAIL: baseline ROM ZIP SHA-1\\n expected: %s\\n actual:   %s\\n' "$EXPECTED_ZIP_SHA1" "$baseline_sha1" >&2
+    printf 'FAIL: baseline ROM ZIP SHA-1\n expected: %s\n actual:   %s\n' "$EXPECTED_ZIP_SHA1" "$baseline_sha1" >&2
     exit 1
 fi
-printf '%s\\n' "Professor Pac-Man — reproducible ROM build"
-printf '%s\\n' "Baseline: OK ($EXPECTED_ZIP_SHA1)"
-printf '%s\\n' "Assembler: $ZMAC  |  outputs: $ROM_OUTPUT_DIR/ and $LISTING_OUTPUT_DIR/"
+printf '%s\n' "Professor Pac-Man — reproducible ROM build"
+printf '%s\n' "Baseline: OK ($EXPECTED_ZIP_SHA1)"
+printf '%s\n' "Assembler: $ZMAC  |  outputs: $ROM_OUTPUT_DIR/ and $LISTING_OUTPUT_DIR/"
 
 mkdir -p "$ROM_OUTPUT_DIR" "$LISTING_OUTPUT_DIR"
 rm -f "$OUTPUT"
@@ -95,10 +95,10 @@ build_rom()
     actual_sha1_line=$(sha1sum "$ROM_OUTPUT_DIR/$rom_name")
     actual_sha1=${actual_sha1_line%% *}
     if [ "$VERBOSE" -eq 1 ]; then
-        printf "  %-6s SHA-1 %s\\n" "$rom_name" "$actual_sha1"
+        printf "  %-6s SHA-1 %s\n" "$rom_name" "$actual_sha1"
     fi
     if [ "$actual_sha1" != "$expected_sha1" ]; then
-        printf "FAIL %s SHA-1\\n expected: %s\\n actual:   %s\\n" "$rom_name" "$expected_sha1" "$actual_sha1" >&2
+        printf "FAIL %s SHA-1\n expected: %s\n actual:   %s\n" "$rom_name" "$expected_sha1" "$actual_sha1" >&2
         exit 1
     fi
 
@@ -142,7 +142,7 @@ if [ "$VERBOSE" -eq 1 ]; then
     echo "Listing files:"
     ls -l "$LISTING_OUTPUT_DIR"/professor_pacman_*.lst
 fi
-printf '%s\\n' "Packaging original MAME set..."
+printf '%s\n' "Packaging original MAME set..."
 # Build the complete MAME set from the twenty-three assembled program and
 # question ROMs plus the unchanged PLD members carried from the baseline.  The
 # archive is emitted in TorrentZip form so the complete container is
@@ -226,11 +226,11 @@ echo "MAME ZIP: byte-exact"
 package_sha1_line=$(sha1sum "$OUTPUT")
 package_sha1=${package_sha1_line%% *}
 if [ "$package_sha1" != "$EXPECTED_ZIP_SHA1" ]; then
-    printf "FAIL: packaged ZIP SHA-1\\n expected: %s\\n actual:   %s\\n" "$EXPECTED_ZIP_SHA1" "$package_sha1" >&2
+    printf "FAIL: packaged ZIP SHA-1\n expected: %s\n actual:   %s\n" "$EXPECTED_ZIP_SHA1" "$package_sha1" >&2
     exit 1
 fi
-[ "$VERBOSE" -eq 0 ] || printf 'Package SHA-1: %s\\n' "$package_sha1"
-printf '%s\\n' "Analysis checks:"
+[ "$VERBOSE" -eq 0 ] || printf 'Package SHA-1: %s\n' "$package_sha1"
+printf '%s\n' "Analysis checks:"
 python3 "$QUESTION_FAMILY_ANALYZER" --check-sources --quiet "$OUTPUT"
 echo "  Question families:   130 initializers / 45 families / 401 definitions OK"
 python3 "$QUESTION_GRAPHICS_ANALYZER" "$OUTPUT" --check-sources --quiet
