@@ -2459,7 +2459,11 @@ QUESTION_SCENE_OPEN_TASK_BR3:
         dw     XT_RETURN                    ; $D3FF execution token
         db     $03,$6F,$D3,$87,$C4,$9F,$90,$01 ; $D401 original data
         db      $87,$C4,$02,$1A,$CB,$87,$C4,$01,$5C,$C0,$03,$B2,$C8,$D6,$C9,$93 ; $D409
-        db      $C6,$02,$E6,$93,$AF,$91,$01,$01,$CD,$91,$01,$01,$CD,$CF,$99,$15 ; $D419
+        db      $C6,$02,$E6,$93,$AF,$91,$01,$01,$CD,$91,$01,$01,$CD ; $D419 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+GAME_TERSE_D426:
+        rst     $08                            ; $D426 colon entry
+        db      $99,$15 ; $D427 retained byte data
         db     $E7,$15,$09,$01,$EC,$E1,$53  ; $D429 original data
 ; Recovered reachable question-round TERSE word.
 COIN_CREDIT_CONTROL_TASK:
