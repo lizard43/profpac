@@ -266,3 +266,24 @@ verifies all original per-ROM checksums and the complete ROM archive.
 
 The shared include files are under `src/`. There is no Windows
 `build.bat` in this repository.
+
+
+### Build console and cleanup
+
+The default `./build.sh` output is grouped by PPS assembly, PPQ assembly,
+the complete MAME ZIP, and five analysis checks. Passing per-ROM hashes and
+listing-file sizes are hidden by default, but **all 23 SHA-1 comparisons,
+ROM content comparisons, and the complete ZIP byte comparison still run**.
+Run `./build.sh --verbose` for each hash and file listing.
+
+Use `./build.sh --clean` to remove stale `src/pps*.bin`,
+`src/ppq*.bin`, corresponding `.lst` files and `tools/__pycache__`
+before building. Python bytecode and generated PPQ ROMs are ignored by Git.
+
+Windows: run `build.bat` (also accepts `--verbose` or `--clean`).
+It uses Git for Windows/Git Bash, Python 3, and `tools/zmac.exe` to
+execute the **same** script and checks, rather than duplicating logic.
+
+Analyzer details are saved in `build/analysis_*.log` on failure;
+the console shows the failing check and a short diagnostic. See
+[build and TERSE source recovery](docs/BUILD-ROUND-RE-20261101.md).
