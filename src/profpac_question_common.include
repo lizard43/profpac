@@ -24,3 +24,9 @@ CFG0_XT_CONFIGURE_QUESTION_SCENE equ $8C37
 CFG0_XT_COMPLETE_QUESTION_ACTION equ $8C50
 CFG0_XT_UPDATE_OTHER_SLOT_OBJECTS equ $8C61
 CFG0_XT_OPTIONAL_OBJECT_DRAW equ      $8CC5
+
+; Configuration-0 presentation helpers referenced by multiple PPQ banks.
+; Addresses and stack behavior are documented in docs/question_presentation.md.
+CFG0_XT_CACHE_AND_APPLY_OBJECT_SETUP equ $8BC4
+CFG0_XT_REAPPLY_CACHED_OBJECT_SETUP equ $8BEE
+CFG0_XT_LOAD_PRESENTATION_TABLE equ $8CF2
