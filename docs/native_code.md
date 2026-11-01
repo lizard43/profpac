@@ -150,3 +150,18 @@ through IY.
 Three following TERSE definitions, formerly raw bytes at
 `$2C00-$2C22`, initialize the two sound channel state blocks at
 `$FD6D` and `$FD3D`, and provide a common paired entry.
+
+
+## Stage 2 native naming and hardware tracing (2026-11-01)
+
+The second native RE pass identified and symbolically named the persistent
+bookkeeping and histogram routines in PPS1 (`$0673`, `$0791-$0828`),
+the pattern mover, text raster transfer and service input readers in PPS5
+(`$40FD`, `$422A-$4377`, `$4658-$467B`), and the checksum and
+bookkeeping-entry routines in PPS8 (`$BE45-$BE64`).
+
+The sources now include function headers describing register and stack
+behavior, hardware side effects, memory structures, and named internal
+branches. The changes are label/comment-only and designed to leave ROM bytes
+unchanged. See [Stage 2 native RE notes](STAGE2-NATIVE-Z80-RE-20261101.md)
+for the address map and next work items.
