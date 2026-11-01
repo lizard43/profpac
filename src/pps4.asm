@@ -480,42 +480,262 @@
         db      $94,$9C,$0A,$13,$9B,$0A,$15,$9E,$1E,$13,$9B,$1E,$94,$9C,$14,$13 ; $BD60
         db      $9B,$00,$50,$BD,$02,$00,$81,$0A,$EC,$94,$0A,$53,$3A,$00,$77,$BD ; $BD70
         db      $06,$00,$81,$06,$14,$99,$06,$15,$97,$06,$14,$99,$06,$15,$97,$2D ; $BD80
-        db      $14,$99,$19,$15,$97,$00,$83,$BD,$CF,$09,$01,$50,$42,$12,$01,$10 ; $BD90
-        db      $12,$01,$15,$2A,$01,$08,$2D,$FD,$00,$CF,$99,$15,$09,$01,$E7,$F6 ; $BDA0
-        db      $3F,$05,$2A,$01,$12,$01,$48,$54,$1D,$A8,$1E,$09,$01,$55,$F7,$53 ; $BDB0
-        db      $01,$E3,$01,$EA,$03,$D5,$BD,$09,$01,$4D,$BD,$B4,$1C,$09,$01,$E7 ; $BDC0
-        db      $F6,$1D,$1C,$E9,$19,$09,$01,$05,$F7,$53,$01,$E3,$01,$EA,$03,$E5 ; $BDD0
-        db      $BD,$98,$BD,$14,$1F,$09,$01,$E6,$F6,$53,$01,$9F,$34,$EA,$03,$25 ; $BDE0
-        db      $BE,$30,$01,$CF,$01,$EA,$03,$FB,$BD,$CF,$1E,$09,$01,$05,$F7,$53 ; $BDF0
-        db      $01,$E3,$01,$EA,$03,$09,$BE,$98,$BD,$C3,$2C,$EA,$03,$17,$BE,$09 ; $BE00
-        db      $01,$74,$BD,$E2,$03,$1B,$BE,$09,$01,$80,$BD,$B4,$1C,$09,$01,$E7 ; $BE10
-        db      $F6,$1D,$1C,$E9,$19,$54,$22,$FD,$00,$09,$67,$65,$74,$20,$72,$65 ; $BE20
+        db     $14,$99,$19,$15,$97,$00,$83,$BD ; $BD90 original bytes
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+ROUND_TERSE_BD98:
+        rst    $08                          ; $BD98 colon entry
+        dw     XT_LIT                       ; $BD99 execution token
+        dw     $4250                        ; $BD9B inline word
+        dw     XT_LITbyte                   ; $BD9D execution token
+        db     $10                          ; $BD9F inline byte
+        dw     XT_LITbyte                   ; $BDA0 execution token
+        db     $15                          ; $BDA2 inline byte
+        dw     XT_0                         ; $BDA3 execution token
+        dw     $2D08                        ; $BDA5 execution token
+        dw     XT_RETURN                    ; $BDA7 execution token
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+ROUND_TERSE_BDA9:
+        rst    $08                          ; $BDA9 colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $BDAA execution token
+        dw     XT_LIT                       ; $BDAC execution token
+        dw     $F6E7                        ; $BDAE inline word
+        dw     XT_BZERO                     ; $BDB0 execution token
+        dw     XT_0                         ; $BDB2 execution token
+        dw     XT_LITbyte                   ; $BDB4 execution token
+        db     $48                          ; $BDB6 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BDB7 execution token
+        dw     XT_SET_OBJECT_MODE_2         ; $BDB9 execution token
+        dw     XT_LIT                       ; $BDBB execution token
+        dw     $F755                        ; $BDBD inline word
+        dw     XT_Bat                       ; $BDBF execution token
+        dw     XT_NOT                       ; $BDC1 execution token
+        dw     XT_0BRANCH                   ; $BDC3 execution token
+        dw     ROUND_TERSE_BDA9_BR1         ; $BDC5 branch target
+        dw     XT_LIT                       ; $BDC7 execution token
+        dw     $BD4D                        ; $BDC9 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $BDCB execution token
+        dw     XT_LIT                       ; $BDCD execution token
+        dw     $F6E7                        ; $BDCF inline word
+        dw     $1C1D                        ; $BDD1 execution token
+        dw     $19E9                        ; $BDD3 execution token
+ROUND_TERSE_BDA9_BR1:
+        dw     XT_LIT                       ; $BDD5 execution token
+        dw     $F705                        ; $BDD7 inline word
+        dw     XT_Bat                       ; $BDD9 execution token
+        dw     XT_NOT                       ; $BDDB execution token
+        dw     XT_0BRANCH                   ; $BDDD execution token
+        dw     ROUND_TERSE_BDA9_BR2         ; $BDDF branch target
+        dw     ROUND_TERSE_BD98             ; $BDE1 execution token
+        dw     XT_MARK_CURRENT_OBJECT_FOR_UPDATE ; $BDE3 execution token
+ROUND_TERSE_BDA9_BR2:
+        dw     XT_LIT                       ; $BDE5 execution token
+        dw     $F6E6                        ; $BDE7 inline word
+        dw     XT_Bat                       ; $BDE9 execution token
+        dw     XT_QUESTION_MINUS_DUP        ; $BDEB execution token
+        dw     XT_0BRANCH                   ; $BDED execution token
+        dw     ROUND_TERSE_BDA9_BR7         ; $BDEF branch target
+        dw     XT_1                         ; $BDF1 execution token
+        dw     XT_equal                     ; $BDF3 execution token
+        dw     XT_0BRANCH                   ; $BDF5 execution token
+        dw     ROUND_TERSE_BDA9_BR3         ; $BDF7 branch target
+        dw     XT_SET_OBJECT_MODE_1         ; $BDF9 execution token
+ROUND_TERSE_BDA9_BR3:
+        dw     XT_LIT                       ; $BDFB execution token
+        dw     $F705                        ; $BDFD inline word
+        dw     XT_Bat                       ; $BDFF execution token
+        dw     XT_NOT                       ; $BE01 execution token
+        dw     XT_0BRANCH                   ; $BE03 execution token
+        dw     ROUND_TERSE_BDA9_BR4         ; $BE05 branch target
+        dw     ROUND_TERSE_BD98             ; $BE07 execution token
+ROUND_TERSE_BDA9_BR4:
+        dw     XT_IS_SELECTED_ANSWER_CORRECT ; $BE09 execution token
+        dw     XT_0BRANCH                   ; $BE0B execution token
+        dw     ROUND_TERSE_BDA9_BR5         ; $BE0D branch target
+        dw     XT_LIT                       ; $BE0F execution token
+        dw     $BD74                        ; $BE11 inline word
+        dw     XT_BRANCH                    ; $BE13 execution token
+        dw     ROUND_TERSE_BDA9_BR6         ; $BE15 branch target
+ROUND_TERSE_BDA9_BR5:
+        dw     XT_LIT                       ; $BE17 execution token
+        dw     $BD80                        ; $BE19 inline word
+ROUND_TERSE_BDA9_BR6:
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $BE1B execution token
+        dw     XT_LIT                       ; $BE1D execution token
+        dw     $F6E7                        ; $BE1F inline word
+        dw     $1C1D                        ; $BE21 execution token
+        dw     $19E9                        ; $BE23 execution token
+ROUND_TERSE_BDA9_BR7:
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $BE25 execution token
+        dw     XT_RETURN                    ; $BE27 execution token
+        db     $09,$67,$65,$74,$20,$72,$65  ; $BE29 original bytes
         db      $61,$64,$79,$02,$74,$6F,$10,$61,$6E,$73,$77,$65,$72,$20,$71,$75 ; $BE30
-        db      $65,$73,$74,$69,$6F,$6E,$73,$CF,$99,$15,$40,$2D,$12,$01,$0E,$12 ; $BE40
-        db      $01,$40,$88,$01,$7D,$1E,$24,$8B,$09,$01,$C8,$FF,$12,$01,$05,$54 ; $BE50
-        db      $1D,$09,$01,$29,$BE,$00,$2D,$12,$01,$09,$12,$01,$40,$88,$01,$5C ; $BE60
-        db      $1E,$09,$01,$F3,$FF,$09,$01,$EC,$FF,$54,$1D,$09,$01,$33,$BE,$00 ; $BE70
-        db      $2D,$12,$01,$0D,$12,$01,$40,$88,$01,$5C,$1E,$09,$01,$9E,$FF,$09 ; $BE80
-        db      $01,$CE,$FF,$54,$1D,$09,$01,$36,$BE,$00,$2D,$09,$01,$F0,$F5,$1D ; $BE90
-        db      $1C,$2C,$1A,$40,$2D,$02,$23,$54,$22,$FD,$00,$01,$47,$BE,$00,$00 ; $BEA0
+        db     $65,$73,$74,$69,$6F,$6E,$73  ; $BE40 original bytes
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+ROUND_TERSE_BE47:
+        rst    $08                          ; $BE47 colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $BE48 execution token
+        dw     $2D40                        ; $BE4A execution token
+        dw     XT_LITbyte                   ; $BE4C execution token
+        db     $0E                          ; $BE4E inline byte
+        dw     XT_LITbyte                   ; $BE4F execution token
+        db     $40                          ; $BE51 inline byte
+        dw     XT_OR                        ; $BE52 execution token
+        dw     XT_SET_CURRENT_OBJECT_BYTE_18 ; $BE54 execution token
+        dw     $8B24                        ; $BE56 execution token
+        dw     XT_LIT                       ; $BE58 execution token
+        dw     $FFC8                        ; $BE5A inline word
+        dw     XT_LITbyte                   ; $BE5C execution token
+        db     $05                          ; $BE5E inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BE5F execution token
+        dw     XT_LIT                       ; $BE61 execution token
+        dw     $BE29                        ; $BE63 inline word
+        dw     $2D00                        ; $BE65 execution token
+        dw     XT_LITbyte                   ; $BE67 execution token
+        db     $09                          ; $BE69 inline byte
+        dw     XT_LITbyte                   ; $BE6A execution token
+        db     $40                          ; $BE6C inline byte
+        dw     XT_OR                        ; $BE6D execution token
+        dw     $1E5C                        ; $BE6F execution token
+        dw     XT_LIT                       ; $BE71 execution token
+        dw     $FFF3                        ; $BE73 inline word
+        dw     XT_LIT                       ; $BE75 execution token
+        dw     $FFEC                        ; $BE77 inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BE79 execution token
+        dw     XT_LIT                       ; $BE7B execution token
+        dw     $BE33                        ; $BE7D inline word
+        dw     $2D00                        ; $BE7F execution token
+        dw     XT_LITbyte                   ; $BE81 execution token
+        db     $0D                          ; $BE83 inline byte
+        dw     XT_LITbyte                   ; $BE84 execution token
+        db     $40                          ; $BE86 inline byte
+        dw     XT_OR                        ; $BE87 execution token
+        dw     $1E5C                        ; $BE89 execution token
+        dw     XT_LIT                       ; $BE8B execution token
+        dw     $FF9E                        ; $BE8D inline word
+        dw     XT_LIT                       ; $BE8F execution token
+        dw     $FFCE                        ; $BE91 inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BE93 execution token
+        dw     XT_LIT                       ; $BE95 execution token
+        dw     $BE36                        ; $BE97 inline word
+        dw     $2D00                        ; $BE99 execution token
+        dw     XT_LIT                       ; $BE9B execution token
+        dw     $F5F0                        ; $BE9D inline word
+        dw     $1C1D                        ; $BE9F execution token
+        dw     $1A2C                        ; $BEA1 execution token
+        dw     $2D40                        ; $BEA3 execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $BEA5 execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $BEA7 execution token
+        dw     XT_RETURN                    ; $BEA9 execution token
+        db     $01,$47,$BE,$00,$00          ; $BEAB original bytes
         db      $00,$00,$00,$00,$00,$00,$0F,$00,$00,$0F,$0D,$0F,$00,$00,$00,$00 ; $BEB0
         db      $0D,$0F,$00,$00,$00,$00,$03,$03,$03,$00,$0A,$0F,$0D,$00,$00,$00 ; $BEC0
-        db      $0A,$00,$00,$00,$0B,$0F,$0D,$00,$0F,$07,$00,$0F,$0F,$0F,$CF,$99 ; $BED0
-        db      $15,$09,$01,$E1,$00,$DF,$1B,$2C,$1A,$21,$1F,$12,$01,$0F,$09,$01 ; $BEE0
-        db      $EA,$F6,$32,$05,$09,$01,$EA,$F6,$53,$01,$12,$01,$20,$88,$01,$09 ; $BEF0
-        db      $01,$B8,$FD,$32,$05,$09,$01,$AF,$FD,$3A,$05,$12,$01,$10,$DF,$1B ; $BF00
-        db      $2C,$1A,$09,$01,$EA,$F6,$36,$01,$44,$05,$53,$01,$09,$01,$FF,$00 ; $BF10
-        db      $CF,$01,$EA,$03,$F4,$BE,$02,$23,$54,$22,$FD,$00,$01,$DE,$BE,$03 ; $BF20
+        db     $0A,$00,$00,$00,$0B,$0F,$0D,$00,$0F,$07,$00,$0F,$0F,$0F ; $BED0 original bytes
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+ROUND_TERSE_BEDE:
+        rst    $08                          ; $BEDE colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $BEDF execution token
+        dw     XT_LIT                       ; $BEE1 execution token
+        dw     $00E1                        ; $BEE3 inline word
+        dw     XT_SET_TASK_VECTOR_0D        ; $BEE5 execution token
+        dw     $1A2C                        ; $BEE7 execution token
+        dw     $1F21                        ; $BEE9 execution token
+        dw     XT_LITbyte                   ; $BEEB execution token
+        db     $0F                          ; $BEED inline byte
+        dw     XT_LIT                       ; $BEEE execution token
+        dw     $F6EA                        ; $BEF0 inline word
+        dw     XT_SBbang                    ; $BEF2 execution token
+ROUND_TERSE_BEDE_BR1:
+        dw     XT_LIT                       ; $BEF4 execution token
+        dw     $F6EA                        ; $BEF6 inline word
+        dw     XT_Bat                       ; $BEF8 execution token
+        dw     XT_LITbyte                   ; $BEFA execution token
+        db     $20                          ; $BEFC inline byte
+        dw     XT_OR                        ; $BEFD execution token
+        dw     XT_LIT                       ; $BEFF execution token
+        dw     $FDB8                        ; $BF01 inline word
+        dw     XT_SBbang                    ; $BF03 execution token
+        dw     XT_LIT                       ; $BF05 execution token
+        dw     $FDAF                        ; $BF07 inline word
+        dw     XT_BONE                      ; $BF09 execution token
+        dw     XT_LITbyte                   ; $BF0B execution token
+        db     $10                          ; $BF0D inline byte
+        dw     XT_SET_TASK_VECTOR_0D        ; $BF0E execution token
+        dw     $1A2C                        ; $BF10 execution token
+        dw     XT_LIT                       ; $BF12 execution token
+        dw     $F6EA                        ; $BF14 inline word
+        dw     XT_DUP                       ; $BF16 execution token
+        dw     XT_1minusBbang               ; $BF18 execution token
+        dw     XT_Bat                       ; $BF1A execution token
+        dw     XT_LIT                       ; $BF1C execution token
+        dw     $00FF                        ; $BF1E inline word
+        dw     XT_equal                     ; $BF20 execution token
+        dw     XT_0BRANCH                   ; $BF22 execution token
+        dw     ROUND_TERSE_BEDE_BR1         ; $BF24 branch target
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $BF26 execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $BF28 execution token
+        dw     XT_RETURN                    ; $BF2A execution token
+        db     $01,$DE,$BE,$03              ; $BF2C original bytes
         db      $00,$81,$28,$A4,$A1,$0F,$E7,$A1,$14,$1B,$A2,$00,$32,$BF,$02,$00 ; $BF30
         db      $81,$0C,$68,$A2,$0C,$BF,$A2,$00,$41,$BF,$04,$00,$81,$06,$56,$B1 ; $BF40
-        db      $06,$23,$B2,$06,$E5,$B2,$06,$23,$B2,$00,$4D,$BF,$CF,$99,$15,$A8 ; $BF50
-        db      $1E,$09,$01,$F5,$FF,$12,$01,$4B,$54,$1D,$09,$01,$17,$A0,$B4,$1C ; $BF60
-        db      $14,$1F,$0C,$1E,$09,$01,$C4,$FF,$6B,$1D,$09,$01,$BC,$FF,$5B,$1D ; $BF70
-        db      $09,$01,$E2,$FF,$71,$1C,$2A,$01,$51,$1C,$E9,$19,$E0,$1D,$02,$23 ; $BF80
-        db      $54,$22,$FD,$00,$CF,$99,$15,$A8,$1E,$09,$01,$A0,$FF,$12,$01,$4F ; $BF90
-        db      $54,$1D,$09,$01,$4A,$BF,$B4,$1C,$09,$01,$BE,$00,$5B,$1D,$09,$01 ; $BFA0
-        db      $90,$00,$5F,$1C,$2A,$01,$43,$1C,$E9,$19,$F3,$1D,$02,$23,$54,$22 ; $BFB0
-        db      $FD,$00,$03,$5C,$BF,$94,$BF,$DE,$BE                             ; $BFC0
+        db     $06,$23,$B2,$06,$E5,$B2,$06,$23,$B2,$00,$4D,$BF ; $BF50 original bytes
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+ROUND_TERSE_BF5C:
+        rst    $08                          ; $BF5C colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $BF5D execution token
+        dw     XT_SET_OBJECT_MODE_2         ; $BF5F execution token
+        dw     XT_LIT                       ; $BF61 execution token
+        dw     $FFF5                        ; $BF63 inline word
+        dw     XT_LITbyte                   ; $BF65 execution token
+        db     $4B                          ; $BF67 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BF68 execution token
+        dw     XT_LIT                       ; $BF6A execution token
+        dw     $A017                        ; $BF6C inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $BF6E execution token
+        dw     XT_MARK_CURRENT_OBJECT_FOR_UPDATE ; $BF70 execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $BF72 execution token
+        dw     XT_LIT                       ; $BF74 execution token
+        dw     $FFC4                        ; $BF76 inline word
+        dw     $1D6B                        ; $BF78 execution token
+        dw     XT_LIT                       ; $BF7A execution token
+        dw     $FFBC                        ; $BF7C inline word
+        dw     $1D5B                        ; $BF7E execution token
+        dw     XT_LIT                       ; $BF80 execution token
+        dw     $FFE2                        ; $BF82 inline word
+        dw     $1C71                        ; $BF84 execution token
+        dw     XT_0                         ; $BF86 execution token
+        dw     $1C51                        ; $BF88 execution token
+        dw     $19E9                        ; $BF8A execution token
+        dw     $1DE0                        ; $BF8C execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $BF8E execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $BF90 execution token
+        dw     XT_RETURN                    ; $BF92 execution token
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+ROUND_TERSE_BF94:
+        rst    $08                          ; $BF94 colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $BF95 execution token
+        dw     XT_SET_OBJECT_MODE_2         ; $BF97 execution token
+        dw     XT_LIT                       ; $BF99 execution token
+        dw     $FFA0                        ; $BF9B inline word
+        dw     XT_LITbyte                   ; $BF9D execution token
+        db     $4F                          ; $BF9F inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BFA0 execution token
+        dw     XT_LIT                       ; $BFA2 execution token
+        dw     $BF4A                        ; $BFA4 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $BFA6 execution token
+        dw     XT_LIT                       ; $BFA8 execution token
+        dw     $00BE                        ; $BFAA inline word
+        dw     $1D5B                        ; $BFAC execution token
+        dw     XT_LIT                       ; $BFAE execution token
+        dw     $0090                        ; $BFB0 inline word
+        dw     $1C5F                        ; $BFB2 execution token
+        dw     XT_0                         ; $BFB4 execution token
+        dw     $1C43                        ; $BFB6 execution token
+        dw     $19E9                        ; $BFB8 execution token
+        dw     XT_RENDER_CURRENT_OBJECT     ; $BFBA execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $BFBC execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $BFBE execution token
+        dw     XT_RETURN                    ; $BFC0 execution token
+        db     $03,$5C,$BF,$94,$BF,$DE,$BE  ; $BFC2 original bytes
 TERSE_COLON_BFC9:
         rst     $08                             ; $BFC9 colon entry
         dw      XT_LIT                  ; $BFCA _LIT
