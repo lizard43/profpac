@@ -54,7 +54,10 @@ ALIAS_Sbang:
         db      $01,$0A,$F8,$CC,$CC,$CC,$CC,$CC,$CC,$CC,$CC,$F8,$06,$00,$00,$01 ; $40D3
         db      $0A,$FC,$C0,$C0,$C0,$FC,$C0,$C0,$C0,$C0,$FC,$06,$00,$00,$01,$0A ; $40E3
         db      $FC,$C0,$C0,$C0,$FC,$C0,$C0,$C0,$C0,$C0                         ; $40F3
-NATIVE_40FD:
+; Native pattern-mover setup and transfer. B/C select mode, IX supplies
+; source, HL destination, D/E size/stride. Drives $19, $C3, $C5,
+; $0C, and pattern ports $7A-$7E. Returns through RET.
+PROGRAM_PATTERN_MOVER_TRANSFER:
         ld a,b                          ; $40FD
         and $0f                         ; $40FE
         jr z,L4108                      ; $4100
@@ -247,7 +250,9 @@ TERSE_COLON_4203:
         dw      $4000                ; $4224 inline word
         dw      _BFILL               ; $4226 _BFILL
         dw      XT_RETURN               ; $4228 _RETURN
-NATIVE_422A:
+; TERSE primitive: rotate low byte of top stack word by 4 bits;
+; high byte preserved. Returns to TERSE NEXT through IY.
+ROTATE_NIBBLES_IN_WORD_LOW_BYTE:
         pop hl                          ; $422A
         ld a,l                          ; $422B
         rrca                            ; $422C
@@ -257,7 +262,9 @@ NATIVE_422A:
         ld l,a                          ; $4230
         push hl                         ; $4231
         jp (iy)                         ; $4232
-NATIVE_4234:
+; Native TERSE drawing entry: set video intercept, pop draw operands,
+; preserve interpreter BC/IX, and call pattern mover at $40FD.
+DRAW_PATTERN_WORD_SET_MODE:
         ld d,l                          ; $4234
 DRAW_PATTERN_WORD:
         pop hl                          ; $4235
@@ -275,7 +282,7 @@ DRAW_PATTERN_WORD:
         ld bc,$0006                     ; $4247
         ld a,$0f                        ; $424A
         out (PORT_SCREEN_WRITE_MASK),a  ; $424C
-        call NATIVE_40FD                ; $424E
+        call PROGRAM_PATTERN_MOVER_TRANSFER                ; $424E
         pop ix                          ; $4251
         pop bc                          ; $4253
         jp (iy)                         ; $4254
@@ -317,7 +324,9 @@ TERSE_COLON_4266:
         dw      $4000                ; $4290 inline word
         dw      _BFILL               ; $4292 _BFILL
         dw      XT_RETURN               ; $4294 _RETURN
-NATIVE_4296:
+; Native helper converting coordinate inputs into packed raster
+; destination address for text drawing. Returns result in HL.
+COMPUTE_TEXT_RASTER_ADDRESS:
         add hl,hl                       ; $4296
         add hl,hl                       ; $4297
         ld l,h                          ; $4298
@@ -342,7 +351,9 @@ NATIVE_4296:
         ld h,$00                        ; $42AD
         add hl,de                       ; $42AF
         ret                             ; $42B0
-NATIVE_42B1:
+; Native text raster copy: duplicate each source byte horizontally,
+; advance output rows by $50, using E column and D row counts.
+COPY_EXPANDED_TEXT_RASTER:
         ld a,b                          ; $42B1
         and $0f                         ; $42B2
         add a,$10                       ; $42B4
@@ -356,10 +367,10 @@ NATIVE_42B1:
         out (PORT_VIDEO_CONFIG),a       ; $42C4
         push ix                         ; $42C6
         pop bc                          ; $42C8
-L42C9:
+TEXT_RASTER_ROW_LOOP:
         push de                         ; $42C9
         push hl                         ; $42CA
-L42CB:
+TEXT_RASTER_PIXEL_PAIR_LOOP:
         ld a,(bc)                       ; $42CB
         ld (hl),a                       ; $42CC
         inc hl                          ; $42CD
@@ -367,7 +378,7 @@ L42CB:
         inc hl                          ; $42CF
         inc bc                          ; $42D0
         dec e                           ; $42D1
-        jr nz,L42CB                     ; $42D2
+        jr nz,TEXT_RASTER_PIXEL_PAIR_LOOP                     ; $42D2
         ld (hl),e                       ; $42D4
         inc hl                          ; $42D5
         ld (hl),e                       ; $42D6
@@ -376,7 +387,7 @@ L42CB:
         add hl,de                       ; $42DB
         pop de                          ; $42DC
         dec d                           ; $42DD
-        jr nz,L42C9                     ; $42DE
+        jr nz,TEXT_RASTER_ROW_LOOP                     ; $42DE
         ld e,$01                        ; $42E0
         ret                             ; $42E2
 DRAW_TEXT_WORD:
@@ -419,66 +430,71 @@ DRAW_TEXT_WORD:
         ld hl,($fea1)                   ; $4316
         add hl,bc                       ; $4319
         ex de,hl                        ; $431A
-        call NATIVE_4296                ; $431B
+        call COMPUTE_TEXT_RASTER_ADDRESS                ; $431B
         pop de                          ; $431E
         or $08                          ; $431F
         ld c,a                          ; $4321
         ld a,($fea8)                    ; $4322
         ld b,a                          ; $4325
-        call NATIVE_42B1                ; $4326
+        call COPY_EXPANDED_TEXT_RASTER                ; $4326
         pop ix                          ; $4329
         pop bc                          ; $432B
         jp (iy)                         ; $432C
-NATIVE_432E:
+; TERSE primitive: poll active-low primary and button ports ($10/$11),
+; fold controls into bit mask 08/04/02/01/10, push HL result.
+READ_SERVICE_INPUT_BITS:
         ld de,$0000                     ; $432E
         ld hl,$0000                     ; $4331
         in a,(PORT_INPUT_PRIMARY)       ; $4334
         in a,(PORT_INPUT_PRIMARY)       ; $4336
         bit 4,a                         ; $4338
-        jr nz,L4340                     ; $433A
+        jr nz,SERVICE_CHECK_SECOND_PRIMARY_BIT                     ; $433A
         ld d,$08                        ; $433C
-        jr L4346                        ; $433E
-L4340:
+        jr SERVICE_READ_BUTTON_PORT                        ; $433E
+SERVICE_CHECK_SECOND_PRIMARY_BIT:
         bit 5,a                         ; $4340
-        jr nz,L4346                     ; $4342
+        jr nz,SERVICE_READ_BUTTON_PORT                     ; $4342
         ld d,$04                        ; $4344
-L4346:
+SERVICE_READ_BUTTON_PORT:
         in a,(PORT_INPUT_BUTTONS)       ; $4346
         bit 6,a                         ; $4348
-        jr nz,L4350                     ; $434A
+        jr nz,SERVICE_CHECK_SECOND_BUTTON_BIT                     ; $434A
         ld e,$02                        ; $434C
-        jr L4356                        ; $434E
-L4350:
+        jr SERVICE_CHECK_LOCKOUT_STATE                        ; $434E
+SERVICE_CHECK_SECOND_BUTTON_BIT:
         bit 4,a                         ; $4350
-        jr nz,L4356                     ; $4352
+        jr nz,SERVICE_CHECK_LOCKOUT_STATE                     ; $4352
         ld e,$01                        ; $4354
-L4356:
+SERVICE_CHECK_LOCKOUT_STATE:
         bit 5,a                         ; $4356
-        jr nz,L435C                     ; $4358
+        jr nz,SERVICE_READ_CONTROL_OVERRIDE                     ; $4358
         ld l,$10                        ; $435A
-L435C:
+SERVICE_READ_CONTROL_OVERRIDE:
         ld a,($e1d9)                    ; $435C
         or a                            ; $435F
-        jr z,L4364                      ; $4360
+        jr z,SERVICE_COMBINE_INPUT_BITS                      ; $4360
         ld l,$10                        ; $4362
-L4364:
+SERVICE_COMBINE_INPUT_BITS:
         ld a,d                          ; $4364
         or e                            ; $4365
         or l                            ; $4366
         ld l,a                          ; $4367
         push hl                         ; $4368
         jp (iy)                         ; $4369
-NATIVE_436B:
+; TERSE primitive (mask -- ): output low byte to screen mask port $C5.
+SET_SCREEN_WRITE_MASK_WORD:
         pop hl                          ; $436B
         ld a,l                          ; $436C
         out (PORT_SCREEN_WRITE_MASK),a  ; $436D
         jp (iy)                         ; $436F
-NATIVE_4371:
+; TERSE primitive (value -- ): output low byte to intercept port $C3.
+SET_SCREEN_INTERCEPT_WORD:
         pop hl                          ; $4371
         ld a,l                          ; $4372
         out (PORT_SCREEN_INTERCEPT),a   ; $4373
         jp (iy)                         ; $4375
-NATIVE_4377:
+; TERSE primitive (page -- ): output low byte to page select port $BF.
+SET_SCREEN_PAGE_WORD:
         pop hl                          ; $4377
         ld a,l                          ; $4378
         out (PORT_SCREEN_PAGE),a        ; $4379
@@ -503,7 +519,7 @@ TERSE_COLON_438B:
         dw      $FE9E                ; $4394 inline word
         dw      XT_SBbang               ; $4396 _SBbang
         dw      XT_DUP                  ; $4398 _DUP
-        dw      NATIVE_436B          ; $439A NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $439A SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LIT                  ; $439C _LIT
         dw      $FEA3                ; $439E inline word
         dw      XT_SBbang               ; $43A0 _SBbang
@@ -514,7 +530,7 @@ TERSE_COLON_43A4:
         dw      $FE9E                ; $43A7 inline word
         dw      XT_Bat                  ; $43A9 _Bat
         dw      XT_DUP                  ; $43AB _DUP
-        dw      NATIVE_436B          ; $43AD NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $43AD SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LIT                  ; $43AF _LIT
         dw      $FEA3                ; $43B1 inline word
         dw      XT_SBbang               ; $43B3 _SBbang
@@ -543,10 +559,10 @@ TERSE_COLON_43D0:
         dw      XT_LITbyte              ; $43D3 _LITbyte
         db      $0F                  ; $43D5 inline byte
         dw      XT_AND                  ; $43D6 _AND
-        dw      NATIVE_4371          ; $43D8 NATIVE_4371
+        dw      SET_SCREEN_INTERCEPT_WORD          ; $43D8 SET_SCREEN_INTERCEPT_WORD
         dw      XT_LITbyte              ; $43DA _LITbyte
         db      $0F                  ; $43DC inline byte
-        dw      NATIVE_436B          ; $43DD NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $43DD SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LITbyte              ; $43DF _LITbyte
         db      $0F                  ; $43E1 inline byte
         dw      XT_LIT                  ; $43E2 _LIT
@@ -562,7 +578,7 @@ TERSE_COLON_43D0:
         dw      XT_LIT                  ; $43F5 _LIT
         dw      $FEA3                ; $43F7 inline word
         dw      XT_Bat                  ; $43F9 _Bat
-        dw      NATIVE_436B          ; $43FB NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $43FB SET_SCREEN_WRITE_MASK_WORD
         dw      XT_RETURN               ; $43FD _RETURN
 TERSE_COLON_43FF:
         rst     $08                             ; $43FF colon entry
@@ -806,7 +822,7 @@ L4574:
 TERSE_COLON_4576:
         rst     $08                             ; $4576 colon entry
         dw      XT_DUP                  ; $4577 _DUP
-        dw      NATIVE_422A          ; $4579 NATIVE_422A
+        dw      ROTATE_NIBBLES_IN_WORD_LOW_BYTE          ; $4579 ROTATE_NIBBLES_IN_WORD_LOW_BYTE
         dw      TERSE_COLON_4553     ; $457B TERSE_COLON_4553
         dw      TERSE_COLON_4553     ; $457D TERSE_COLON_4553
         dw      XT_RETURN               ; $457F _RETURN
@@ -889,7 +905,7 @@ COLD_RESTART_WORD:
         rst $00                         ; $45FA
 TERSE_COLON_45FB:
         rst     $08                             ; $45FB colon entry
-        dw      NATIVE_432E          ; $45FC NATIVE_432E
+        dw      READ_SERVICE_INPUT_BITS          ; $45FC READ_SERVICE_INPUT_BITS
         dw      XT_LITbyte              ; $45FE _LITbyte
         db      $10                  ; $4600 inline byte
         dw      XT_AND                  ; $4601 _AND
@@ -942,7 +958,8 @@ L463E:
         ld ($fea3),a                    ; $4652
         exx                             ; $4655
         jp (iy)                         ; $4656
-NATIVE_4658:
+; TERSE primitive: push inverse of low bit of option byte E1D4.
+READ_INVERTED_GAME_OPTION_BIT:
         ld a,($e1d4)                    ; $4658
         and $01                         ; $465B
         xor $01                         ; $465D
@@ -950,7 +967,9 @@ NATIVE_4658:
         ld h,$00                        ; $4660
         push hl                         ; $4662
         jp (iy)                         ; $4663
-NATIVE_4665:
+; TERSE primitive: pop 4 stack words; rotate low byte of first by
+; four bits and OR into other three, output to ports $C2/$C1/$C0.
+WRITE_THREE_SCREEN_CONTROL_REGS:
         pop hl                          ; $4665
         ld a,l                          ; $4666
         rlca                            ; $4667
@@ -1300,7 +1319,7 @@ TERSE_COLON_48B1:
         dw      L48E4                ; $48CF branch target
 L48D1:
         dw      NATIVE_43B7          ; $48D1 NATIVE_43B7
-        dw      NATIVE_432E          ; $48D3 NATIVE_432E
+        dw      READ_SERVICE_INPUT_BITS          ; $48D3 READ_SERVICE_INPUT_BITS
         dw      XT_LITbyte              ; $48D5 _LITbyte
         db      $0F                  ; $48D7 inline byte
         dw      XT_AND                  ; $48D8 _AND
@@ -1326,7 +1345,7 @@ L48EE:
         dw      XT_LIT                  ; $48FA _LIT
         dw      $FEAC                ; $48FC inline word
         dw      XT_1plusBbang           ; $48FE _1plusBbang
-        dw      NATIVE_432E          ; $4900 NATIVE_432E
+        dw      READ_SERVICE_INPUT_BITS          ; $4900 READ_SERVICE_INPUT_BITS
         dw      XT_LITbyte              ; $4902 _LITbyte
         db      $08                  ; $4904 inline byte
         dw      XT_AND                  ; $4905 _AND
@@ -1373,7 +1392,7 @@ NATIVE_4945:
         exx                             ; $4945
         ld hl,($fe9f)                   ; $4946
         ld de,($fea1)                   ; $4949
-        call NATIVE_4296                ; $494D
+        call COMPUTE_TEXT_RASTER_ADDRESS                ; $494D
         ld a,$cf                        ; $4950
         out (PORT_VIDEO_CONFIG),a       ; $4952
         xor a                           ; $4954
@@ -1578,7 +1597,7 @@ L4A83:
         dw      TERSE_COLON_46E7     ; $4A87 TERSE_COLON_46E7
         dw      XT_1PARAMat             ; $4A89 _1PARAMat
         dw      TERSE_COLON_4413     ; $4A8B TERSE_COLON_4413
-        dw      NATIVE_432E          ; $4A8D NATIVE_432E
+        dw      READ_SERVICE_INPUT_BITS          ; $4A8D READ_SERVICE_INPUT_BITS
         dw      XT_DUP                  ; $4A8F _DUP
         dw      XT_DUP                  ; $4A91 _DUP
         dw      XT_LITbyte              ; $4A93 _LITbyte
@@ -1911,7 +1930,7 @@ TERSE_COLON_4CBC:
         dw      XT_0                    ; $4CC4 _0
         dw      XT_0                    ; $4CC6 _0
         dw      XT_0                    ; $4CC8 _0
-        dw      NATIVE_4665          ; $4CCA NATIVE_4665
+        dw      WRITE_THREE_SCREEN_CONTROL_REGS          ; $4CCA WRITE_THREE_SCREEN_CONTROL_REGS
         dw      TERSE_COLON_4203     ; $4CCC TERSE_COLON_4203
         dw      TERSE_COLON_492C     ; $4CCE TERSE_COLON_492C
         dw      SELFTEST_HARDWARE_RESET ; $4CD0 SELFTEST_HARDWARE_RESET
@@ -2019,13 +2038,13 @@ L4D7D:
         jp (iy)                         ; $4D7D
 TERSE_COLON_4D7F:
         rst     $08                             ; $4D7F colon entry
-        dw      NATIVE_4371          ; $4D80 NATIVE_4371
+        dw      SET_SCREEN_INTERCEPT_WORD          ; $4D80 SET_SCREEN_INTERCEPT_WORD
         dw      TERSE_COLON_4581     ; $4D82 TERSE_COLON_4581
         dw      XT_LIT                  ; $4D84 _LIT
         dw      $02C0                ; $4D86 inline word
         dw      TERSE_COLON_4408     ; $4D88 TERSE_COLON_4408
         dw      XT_0                    ; $4D8A _0
-        dw      NATIVE_4371          ; $4D8C NATIVE_4371
+        dw      SET_SCREEN_INTERCEPT_WORD          ; $4D8C SET_SCREEN_INTERCEPT_WORD
         dw      TERSE_COLON_4502     ; $4D8E TERSE_COLON_4502
         dw      XT_RETURN               ; $4D90 _RETURN
 TERSE_COLON_4D92:
@@ -2803,7 +2822,7 @@ TERSE_COLON_5311:
         db      $0C,$2D,$20,$63,$20,$74,$6F,$20,$65,$78,$69,$74,$20             ; $5333 counted string
         dw      TERSE_COLON_44EA     ; $5340 TERSE_COLON_44EA
 L5342:
-        dw      NATIVE_432E          ; $5342 NATIVE_432E
+        dw      READ_SERVICE_INPUT_BITS          ; $5342 READ_SERVICE_INPUT_BITS
         dw      XT_DUP                  ; $5344 _DUP
         dw      XT_LITbyte              ; $5346 _LITbyte
         db      $02                  ; $5348 inline byte
@@ -3533,7 +3552,7 @@ TERSE_COLON_58ED:
         dw      _BFILL               ; $58F7 _BFILL
         dw      TERSE_COLON_446A     ; $58F9 TERSE_COLON_446A
         dw      XT_0                    ; $58FB _0
-        dw      NATIVE_4371          ; $58FD NATIVE_4371
+        dw      SET_SCREEN_INTERCEPT_WORD          ; $58FD SET_SCREEN_INTERCEPT_WORD
         dw      XT_LITbyte              ; $58FF _LITbyte
         db      $28                  ; $5901 inline byte
         dw      XT_0                    ; $5902 _0
@@ -3557,7 +3576,7 @@ L5913:
         dw      $4F4F                ; $5922 inline word
         dw      XT_Bat                  ; $5924 _Bat
         dw      SET_BIT_4            ; $5926 SET_BIT_4
-        dw      NATIVE_4371          ; $5928 NATIVE_4371
+        dw      SET_SCREEN_INTERCEPT_WORD          ; $5928 SET_SCREEN_INTERCEPT_WORD
         dw      XT_J                    ; $592A _J
         dw      XT_BARRAY               ; $592C _BARRAY
         dw      $580D                ; $592E inline word
@@ -3966,7 +3985,7 @@ TERSE_COLON_5C19:
         dw      NATIVE_4F08          ; $5C2B NATIVE_4F08
         dw      XT_LITbyte              ; $5C2D _LITbyte
         db      $2F                  ; $5C2F inline byte
-        dw      NATIVE_436B          ; $5C30 NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $5C30 SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LITbyte              ; $5C32 _LITbyte
         db      $54                  ; $5C34 inline byte
         dw      TERSE_COLON_5AA1     ; $5C35 TERSE_COLON_5AA1
@@ -3979,7 +3998,7 @@ TERSE_COLON_5C19:
         dw      NATIVE_4F08          ; $5C40 NATIVE_4F08
         dw      XT_LITbyte              ; $5C42 _LITbyte
         db      $2F                  ; $5C44 inline byte
-        dw      NATIVE_436B          ; $5C45 NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $5C45 SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LITbyte              ; $5C47 _LITbyte
         db      $51                  ; $5C49 inline byte
         dw      TERSE_COLON_5AA1     ; $5C4A TERSE_COLON_5AA1
@@ -3992,7 +4011,7 @@ TERSE_COLON_5C19:
         dw      NATIVE_4F08          ; $5C55 NATIVE_4F08
         dw      XT_LITbyte              ; $5C57 _LITbyte
         db      $2F                  ; $5C59 inline byte
-        dw      NATIVE_436B          ; $5C5A NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $5C5A SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LITbyte              ; $5C5C _LITbyte
         db      $45                  ; $5C5E inline byte
         dw      TERSE_COLON_5AA1     ; $5C5F TERSE_COLON_5AA1
@@ -4005,7 +4024,7 @@ TERSE_COLON_5C19:
         dw      NATIVE_4F08          ; $5C6A NATIVE_4F08
         dw      XT_LITbyte              ; $5C6C _LITbyte
         db      $2F                  ; $5C6E inline byte
-        dw      NATIVE_436B          ; $5C6F NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $5C6F SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LITbyte              ; $5C71 _LITbyte
         db      $15                  ; $5C73 inline byte
         dw      TERSE_COLON_5AA1     ; $5C74 TERSE_COLON_5AA1
@@ -4027,7 +4046,7 @@ TERSE_COLON_5C7A:
         dw      NATIVE_4F08          ; $5C8D NATIVE_4F08
         dw      XT_LITbyte              ; $5C8F _LITbyte
         db      $3F                  ; $5C91 inline byte
-        dw      NATIVE_436B          ; $5C92 NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $5C92 SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LITbyte              ; $5C94 _LITbyte
         db      $54                  ; $5C96 inline byte
         dw      TERSE_COLON_5AA1     ; $5C97 TERSE_COLON_5AA1
@@ -4040,7 +4059,7 @@ TERSE_COLON_5C7A:
         dw      NATIVE_4F08          ; $5CA2 NATIVE_4F08
         dw      XT_LITbyte              ; $5CA4 _LITbyte
         db      $3F                  ; $5CA6 inline byte
-        dw      NATIVE_436B          ; $5CA7 NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $5CA7 SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LITbyte              ; $5CA9 _LITbyte
         db      $51                  ; $5CAB inline byte
         dw      TERSE_COLON_5AA1     ; $5CAC TERSE_COLON_5AA1
@@ -4053,7 +4072,7 @@ TERSE_COLON_5C7A:
         dw      NATIVE_4F08          ; $5CB7 NATIVE_4F08
         dw      XT_LITbyte              ; $5CB9 _LITbyte
         db      $3F                  ; $5CBB inline byte
-        dw      NATIVE_436B          ; $5CBC NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $5CBC SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LITbyte              ; $5CBE _LITbyte
         db      $45                  ; $5CC0 inline byte
         dw      TERSE_COLON_5AA1     ; $5CC1 TERSE_COLON_5AA1
@@ -4066,7 +4085,7 @@ TERSE_COLON_5C7A:
         dw      NATIVE_4F08          ; $5CCC NATIVE_4F08
         dw      XT_LITbyte              ; $5CCE _LITbyte
         db      $3F                  ; $5CD0 inline byte
-        dw      NATIVE_436B          ; $5CD1 NATIVE_436B
+        dw      SET_SCREEN_WRITE_MASK_WORD          ; $5CD1 SET_SCREEN_WRITE_MASK_WORD
         dw      XT_LITbyte              ; $5CD3 _LITbyte
         db      $15                  ; $5CD5 inline byte
         dw      TERSE_COLON_5AA1     ; $5CD6 TERSE_COLON_5AA1

@@ -254,3 +254,15 @@ as programmer, Mark Steven Pierce and Sue Forner for graphics, and Marc Canter
 for sound and music. Johnny Lott and *RePlay* publisher Ed Adlum originated the
 earlier Pac-Man-plus-quiz proposal; the released game is DNA's animated
 multiple-choice implementation.
+
+
+### Build-output locations
+
+`./build.sh` assembles using zmac v1.3 with explicit output paths:
+ROM images are written to `roms/pps*` and `roms/ppq*`; zmac listings
+are written directly to `build/professor_pacman_*.lst`. Generated
+`.bin` and `.lst` files are not placed in `src/`. The script still
+verifies all original per-ROM checksums and the complete ROM archive.
+
+The shared include files are under `src/`. There is no Windows
+`build.bat` in this repository.

@@ -5,3 +5,10 @@ roms/*.zip
 
 !.gitignore
 !roms/orig/profpac.zip
+
+# zmac v1.3 default output names; generated files never belong in src/
+src/*.bin
+src/*.lst
+src/*.hex
+src/*.cmd
+zout/

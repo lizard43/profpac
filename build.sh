@@ -51,7 +51,7 @@ echo "            $PLD_ANALYZER"
 echo "Baseline:   $BASELINE"
 echo "ROM output: $ROM_OUTPUT_DIR/pps1 through $ROM_OUTPUT_DIR/pps9"
 echo "            $ROM_OUTPUT_DIR/ppq1 through $ROM_OUTPUT_DIR/ppq14"
-echo "Listings:   $LISTING_OUTPUT_DIR/"
+echo "Listings:   $LISTING_OUTPUT_DIR/ (no outputs in src/)"
 echo "Package:    $OUTPUT"
 echo
 
@@ -74,19 +74,19 @@ build_rom()
     source_file=$2
     rom_kind=$3
     expected_sha1=$4
-    output_base=${source_file%.*}
+    rom_file="$ROM_OUTPUT_DIR/$rom_name"
+    listing_file="$LISTING_OUTPUT_DIR/professor_pacman_$rom_name.lst"
 
     echo "Assembling $rom_kind ROM $rom_name from $source_file"
-    rm -f "$output_base.bin" "$output_base.lst"
-    "$ZMAC" "$source_file"
+    # zmac v1.3 supports -o (binary) and -x (listing). Write generated
+    # files directly to their destinations; never create outputs in src/.
+    rm -f "$rom_file" "$listing_file"
+    "$ZMAC" -o "$rom_file" -x "$listing_file" "$source_file"
 
-    if [ ! -f "$output_base.bin" ] || [ ! -f "$output_base.lst" ]; then
-        echo "zmac did not produce $output_base.bin and $output_base.lst" >&2
+    if [ ! -f "$rom_file" ] || [ ! -f "$listing_file" ]; then
+        echo "zmac did not produce $rom_file and $listing_file" >&2
         exit 1
     fi
-
-    mv "$output_base.bin" "$ROM_OUTPUT_DIR/$rom_name"
-    mv "$output_base.lst" "$LISTING_OUTPUT_DIR/professor_pacman_$rom_name.lst"
 
     actual_sha1_line=$(sha1sum "$ROM_OUTPUT_DIR/$rom_name")
     actual_sha1=${actual_sha1_line%% *}

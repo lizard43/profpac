@@ -1181,7 +1181,9 @@ READ_DIP_CONFIGURATION:
         ld hl,$e1ee                     ; $066B
         ld e,$03                        ; $066E
         jp nvram_store_byte             ; $0670
-NATIVE_0673:
+; Battery-backed bookkeeping setup: protected writes E1FF=1, E1EB=0,
+; E1FD=0. Caller: READ_AND_VALIDATE_CONFIGURATION ($068B).
+RESET_BOOKKEEPING_CONTROL_BYTES:
         ld hl,$e1ff                     ; $0673
         ld e,$01                        ; $0676
         call nvram_store_byte           ; $0678
@@ -1193,7 +1195,7 @@ NATIVE_0673:
         jp nvram_store_byte             ; $0688
 READ_AND_VALIDATE_CONFIGURATION:
         call READ_DIP_CONFIGURATION     ; $068B
-        call NATIVE_0673                ; $068E
+        call RESET_BOOKKEEPING_CONTROL_BYTES                ; $068E
         jp (iy)                         ; $0691
 VALIDATE_BATTERY_RAM:
         di                              ; $0693
@@ -1307,7 +1309,7 @@ L0745:
         ld hl,$e1fc                     ; $074E
         ld e,$01                        ; $0751
         call nvram_store_byte           ; $0753
-        call NATIVE_0673                ; $0756
+        call RESET_BOOKKEEPING_CONTROL_BYTES                ; $0756
         call READ_DIP_CONFIGURATION     ; $0759
         jp L069C                        ; $075C
 L075F:
@@ -1321,7 +1323,7 @@ L075F:
         ld e,a                          ; $076D
         cp $03                          ; $076E
         jp nz,L0779                     ; $0770
-        call NATIVE_0673                ; $0773
+        call RESET_BOOKKEEPING_CONTROL_BYTES                ; $0773
         jp L077C                        ; $0776
 L0779:
         call nvram_store_byte           ; $0779
@@ -1336,17 +1338,20 @@ L077C:
 L078E:
         pop bc                          ; $078E
         jp (iy)                         ; $078F
-NATIVE_0791:
+; Bucket accumulation helper: classify HL against threshold DE using the
+; stride at FEF6; locate the persistent 16-bit counter through FEF4 and
+; increment it using the NVRAM word writer. Modifies A/B/C/HL/DE.
+ACCUMULATE_NV_SCORE_BUCKET:
         ld b,$0a                        ; $0791
         ld a,b                          ; $0793
         ld de,($fef6)                   ; $0794
-L0798:
+SCORE_BUCKET_THRESHOLD_LOOP:
         or a                            ; $0798
         sbc hl,de                       ; $0799
-        jr c,L07A0                      ; $079B
-        djnz L0798                      ; $079D
+        jr c,SCORE_BUCKET_UPDATE_ENTRY                      ; $079B
+        djnz SCORE_BUCKET_THRESHOLD_LOOP                      ; $079D
         inc b                           ; $079F
-L07A0:
+SCORE_BUCKET_UPDATE_ENTRY:
         sub b                           ; $07A0
         rlca                            ; $07A1
         ld c,a                          ; $07A2
@@ -1373,61 +1378,73 @@ L07B5:
         ld b,(hl)                       ; $07BC
         inc hl                          ; $07BD
         ret                             ; $07BE
-NATIVE_07BF:
+; DE holds candidate score; if greater than word at E196, store it
+; using protected NVRAM word writer. Returns via RET.
+UPDATE_PERSISTENT_MAX_SCORE:
         xor a                           ; $07BF
         ld hl,($e196)                   ; $07C0
         sbc hl,de                       ; $07C3
-        jp nc,L07CE                     ; $07C5
+        jp nc,PERSISTENT_MAX_SCORE_DONE                     ; $07C5
         ld hl,$e196                     ; $07C8
         call nvram_store_word           ; $07CB
-L07CE:
+PERSISTENT_MAX_SCORE_DONE:
         ret                             ; $07CE
-NATIVE_07CF:
+; Process a score for persistent maximum and histogram E198 using
+; 0x1388 (5000) as the bucket width. Calls common bucket accumulator.
+ACCUMULATE_SCORE_IN_BUCKETS:
         push bc                         ; $07CF
         ex de,hl                        ; $07D0
-        call NATIVE_07BF                ; $07D1
+        call UPDATE_PERSISTENT_MAX_SCORE                ; $07D1
         ld hl,$1388                     ; $07D4
         ld ($fef6),hl                   ; $07D7
         ld hl,$e198                     ; $07DA
         ld ($fef4),hl                   ; $07DD
         ex de,hl                        ; $07E0
-        call NATIVE_0791                ; $07E1
+        call ACCUMULATE_NV_SCORE_BUCKET                ; $07E1
         exx                             ; $07E4
         pop bc                          ; $07E5
         ret                             ; $07E6
-NATIVE_07E7:
+; Process player-one score E1E2 and, in two-player mode, E1DE.
+; Caller stores game statistics through protected NVRAM routines.
+ACCOUNT_ONE_OR_TWO_PLAYER_SCORES:
         push bc                         ; $07E7
         ld hl,($e1e2)                   ; $07E8
-        call NATIVE_07CF                ; $07EB
+        call ACCUMULATE_SCORE_IN_BUCKETS                ; $07EB
         ld a,($e1dd)                    ; $07EE
         cp $02                          ; $07F1
-        jp nz,L07FC                     ; $07F3
+        jp nz,PLAYER_SCORE_ACCOUNTING_DONE                     ; $07F3
         ld hl,($e1de)                   ; $07F6
-        call NATIVE_07CF                ; $07F9
-L07FC:
+        call ACCUMULATE_SCORE_IN_BUCKETS                ; $07F9
+PLAYER_SCORE_ACCOUNTING_DONE:
         pop bc                          ; $07FC
         ret                             ; $07FD
-NATIVE_07FE:
+; Select persistent histogram E1C0 with stride $005A (90),
+; using current value in FEF9 and common bucket accumulator.
+ACCOUNT_TIME_IN_90_UNIT_BUCKETS:
         exx                             ; $07FE
         ld hl,$005a                     ; $07FF
         ld ($fef6),hl                   ; $0802
         ld hl,$e1c0                     ; $0805
         ld ($fef4),hl                   ; $0808
         ld hl,($fef9)                   ; $080B
-        call NATIVE_0791                ; $080E
+        call ACCUMULATE_NV_SCORE_BUCKET                ; $080E
         exx                             ; $0811
         ret                             ; $0812
-NATIVE_0813:
+; Select persistent histogram E1AC with stride $00B4 (180),
+; using current value in FEF9 and common bucket accumulator.
+ACCOUNT_TIME_IN_180_UNIT_BUCKETS:
         exx                             ; $0813
         ld hl,$00b4                     ; $0814
         ld ($fef6),hl                   ; $0817
         ld hl,$e1ac                     ; $081A
         ld ($fef4),hl                   ; $081D
         ld hl,($fef9)                   ; $0820
-        call NATIVE_0791                ; $0823
+        call ACCUMULATE_NV_SCORE_BUCKET                ; $0823
         exx                             ; $0826
         ret                             ; $0827
-NATIVE_0828:
+; Expand two bitfields from incoming A into a 16-bit table offset in DE.
+; Caller can use this for indexed lookup.
+CONVERT_PACKED_INDEX_TO_OFFSET:
         ld e,a                          ; $0828
         and $03                         ; $0829
         ld l,a                          ; $082B
@@ -1483,7 +1500,7 @@ COMPARE_SCREEN_AND_BANK:
         exx                             ; $0865
         pop de                          ; $0866
         ld a,e                          ; $0867
-        call NATIVE_0828                ; $0868
+        call CONVERT_PACKED_INDEX_TO_OFFSET                ; $0868
         ld hl,$4000                     ; $086B
         ld bc,$4000                     ; $086E
         ld a,$10                        ; $0871
