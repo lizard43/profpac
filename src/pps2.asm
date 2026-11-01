@@ -889,10 +889,39 @@ L2BC6:
         dec a                           ; $2BC9
         jr nz,L2BC6                     ; $2BCA
         jp (iy)                         ; $2BCC
-        db      $FD,$E5,$D5,$FD,$E1,$7D,$FD,$BE,$06,$38,$13,$D5,$D9,$D1,$CD,$0A ; $2BCE
-        db      $29,$FD,$36,$13,$01,$FD,$75,$06,$FD,$71,$02,$FD,$70,$03,$FD,$E1 ; $2BDE
-        db      $C9,$D1,$E1,$CD,$CE,$2B,$DD,$4E,$00,$DD,$23,$DD,$46,$00,$DD,$23 ; $2BEE
-        db      $FD,$E9,$CF,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$8C,$2B,$FD,$00,$CF ; $2BFE
+; Native sound-state helper, byte-decoded from the $2BCE raw DB area.
+; Compare the new state value in L to cached (IY+6); when the threshold
+; permits, refresh channel state offsets +$13/+6/+2/+3 through $290A.
+SOUND_UPDATE_CHANNEL_BOUNDS:
+        push iy                         ; $2BCE
+        push de                         ; $2BD0
+        pop iy                          ; $2BD1
+        ld a,l                          ; $2BD3
+        cp (iy+6)                       ; $2BD4
+        jr c,SOUND_CHANNEL_RESTORE_IY   ; $2BD7
+        push de                         ; $2BD9
+        exx                             ; $2BDA
+        pop de                          ; $2BDB
+        call $290a                      ; $2BDC
+        ld (iy+19),$01                  ; $2BDF
+        ld (iy+6),l                     ; $2BE3
+        ld (iy+2),c                     ; $2BE6
+        ld (iy+3),b                     ; $2BE9
+SOUND_CHANNEL_RESTORE_IY:
+        pop iy                          ; $2BEC
+        ret                             ; $2BEE
+; Native TERSE entry: consume two stack operands, update channel state,
+; restore BC threaded IP from IX control stack and dispatch via IY.
+SOUND_RECORD_CHANNEL_STATE:
+        pop de                          ; $2BEF
+        pop hl                          ; $2BF0
+        call SOUND_UPDATE_CHANNEL_BOUNDS ; $2BF1
+        ld c,(ix+0)                     ; $2BF4
+        inc ix                          ; $2BF7
+        ld b,(ix+0)                     ; $2BF9
+        inc ix                          ; $2BFC
+        jp (iy)                         ; $2BFE
+        db      $CF,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$8C,$2B,$FD,$00,$CF         ; $2C00
         db      $2A,$01,$09,$01,$3D,$FD,$EF,$2B,$8C,$2B,$FD,$00,$CF,$54,$29,$00 ; $2C0E
         db      $2C,$0D,$2C,$FD,$00                                             ; $2C1E
 NATIVE_2C23:
@@ -1567,7 +1596,7 @@ SOUND_UPDATE_STATE_F6E2:
         dw      XT_0                          ; $3D6E execution token
         dw      XT_LIT                        ; $3D70 execution token
         dw      $FD6D                         ; $3D72 inline word / branch target
-        dw      $2BEF                         ; $3D74 execution token
+        dw      SOUND_RECORD_CHANNEL_STATE ; $3D74 native audio state entry
         dw      XT_LIT                        ; $3D76 execution token
         dw      $F6DD                         ; $3D78 inline word / branch target
         dw      XT_BZERO                      ; $3D7A execution token
@@ -1640,7 +1669,7 @@ SOUND_UPDATE_STATE_F6E0:
         dw      XT_0                          ; $3DEE execution token
         dw      XT_LIT                        ; $3DF0 execution token
         dw      $FD3D                         ; $3DF2 inline word / branch target
-        dw      $2BEF                         ; $3DF4 execution token
+        dw      SOUND_RECORD_CHANNEL_STATE ; $3DF4 native audio state entry
         dw      XT_LIT                        ; $3DF6 execution token
         dw      $F6DC                         ; $3DF8 inline word / branch target
         dw      XT_BZERO                      ; $3DFA execution token
