@@ -7,6 +7,10 @@
 
         org     $8000
 
+; Configuration-0 audio note/pattern byte region. This data is addressed by
+; the LIT operands in SOUND_APPLY_PATTERN_* and the paired sound-state update
+; words at $3D67/$3DE7; retained as bytes until its subrecord grammar is traced.
+SOUND_PATTERN_DATA_8000:
         db      $5E,$5E,$5E,$00,$5E,$00,$5E,$00,$7E,$7E,$7E,$00,$7E,$00,$7E,$00 ; $8000
         db      $5E,$5E,$5E,$00,$5E,$5E,$5E,$00,$7E,$7E,$7E,$7E,$7E,$7E,$7E,$00 ; $8010
         db      $7E,$7E,$7E,$00,$7E,$00,$7E,$00,$A8,$A8,$A8,$00,$96,$00,$8D,$00 ; $8020
@@ -53,30 +57,35 @@
         db      $50,$80,$60,$80,$70,$80,$80,$80,$80,$80,$90,$80,$A0,$80,$80,$80 ; $82B0
         db      $80,$80,$B0,$80,$C0,$80,$D0,$80,$E0,$80,$F0,$80,$00,$81,$10,$81 ; $82C0
         db      $20,$81,$30,$81,$40,$81,$08,$0A,$EF,$A6,$82,$B6,$82,$C6,$82,$22 ; $82D0
-TERSE_COLON_82E0:
+; (pattern -- ) Duplicate source state and invoke both fixed-ROM audio
+; update words ($3D67/$3DE7), one for each cached sound state.
+SOUND_UPDATE_BOTH_CHANNEL_STATES:
         rst     $08                             ; $82E0 colon entry
         dw      XT_DUP                  ; $82E1 _DUP
-        dw      $3D67                ; $82E3 execution token $3D67
-        dw      $3DE7                ; $82E5 execution token $3DE7
+        dw      XT_SOUND_UPDATE_STATE_F6E2 ; $82E3 audio state $F6E2
+        dw      XT_SOUND_UPDATE_STATE_F6E0 ; $82E5 audio state $F6E0
         dw      XT_RETURN               ; $82E7 _RETURN
-TERSE_COLON_82E9:
+; Install sound-control pattern pointer $818C and update both channels.
+SOUND_APPLY_PATTERN_818C:
         rst     $08                             ; $82E9 colon entry
         dw      XT_LIT                  ; $82EA _LIT
         dw      $818C                ; $82EC inline word
-        dw      TERSE_COLON_82E0     ; $82EE TERSE_COLON_82E0
+        dw      SOUND_UPDATE_BOTH_CHANNEL_STATES     ; $82EE SOUND_UPDATE_BOTH_CHANNEL_STATES
         dw      XT_RETURN               ; $82F0 _RETURN
         db      $76,$82,$86,$82,$96,$82,$01,$0F,$FF,$F2,$82,$F4,$82,$F6,$82,$30 ; $82F2
-TERSE_COLON_8302:
+; Install sound-control pattern pointer $82D6 and update both channels.
+SOUND_APPLY_PATTERN_82D6:
         rst     $08                             ; $8302 colon entry
         dw      XT_LIT                  ; $8303 _LIT
         dw      $82D6                ; $8305 inline word
-        dw      TERSE_COLON_82E0     ; $8307 TERSE_COLON_82E0
+        dw      SOUND_UPDATE_BOTH_CHANNEL_STATES     ; $8307 SOUND_UPDATE_BOTH_CHANNEL_STATES
         dw      XT_RETURN               ; $8309 _RETURN
-TERSE_COLON_830B:
+; Install sound-control pattern pointer $82F8 and update both channels.
+SOUND_APPLY_PATTERN_82F8:
         rst     $08                             ; $830B colon entry
         dw      XT_LIT                  ; $830C _LIT
         dw      $82F8                ; $830E inline word
-        dw      TERSE_COLON_82E0     ; $8310 TERSE_COLON_82E0
+        dw      SOUND_UPDATE_BOTH_CHANNEL_STATES     ; $8310 SOUND_UPDATE_BOTH_CHANNEL_STATES
         dw      XT_RETURN               ; $8312 _RETURN
         db      $F6,$81,$50,$80,$B6,$81,$50,$80,$B6,$81,$B6,$81,$80,$80,$70,$80 ; $8314
         db      $F6,$81,$80,$80,$F6,$81,$80,$80,$F6,$81,$C0,$80,$80,$80,$C0,$80 ; $8324
@@ -95,11 +104,12 @@ TERSE_COLON_830B:
         db      $FA,$C2,$83,$D2,$83,$E2,$83,$22,$96,$81,$A6,$81,$B6,$81,$C6,$81 ; $83F4
         db      $D6,$81,$E6,$81,$F6,$81,$06,$82,$16,$82,$26,$82,$36,$82,$46,$82 ; $8404
         db      $04,$08,$F8,$FC,$83,$04,$84,$0C,$84,$30                         ; $8414
-TERSE_COLON_841E:
+; Install sound-control pattern pointer $8414 and update both channels.
+SOUND_APPLY_PATTERN_8414:
         rst     $08                             ; $841E colon entry
         dw      XT_LIT                  ; $841F _LIT
         dw      $8414                ; $8421 inline word
-        dw      TERSE_COLON_82E0     ; $8423 TERSE_COLON_82E0
+        dw      SOUND_UPDATE_BOTH_CHANNEL_STATES     ; $8423 SOUND_UPDATE_BOTH_CHANNEL_STATES
         dw      XT_RETURN               ; $8425 _RETURN
         db      $7E,$4B,$35,$29,$22,$1C,$18,$1C,$22,$FC,$97,$6C,$53,$44,$39,$32 ; $8427
         db      $39,$44,$CF,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$09,$01,$FE,$F5,$3F ; $8437
