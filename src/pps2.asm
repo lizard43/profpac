@@ -921,9 +921,31 @@ SOUND_RECORD_CHANNEL_STATE:
         ld b,(ix+0)                     ; $2BF9
         inc ix                          ; $2BFC
         jp (iy)                         ; $2BFE
-        db      $CF,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$8C,$2B,$FD,$00,$CF         ; $2C00
-        db      $2A,$01,$09,$01,$3D,$FD,$EF,$2B,$8C,$2B,$FD,$00,$CF,$54,$29,$00 ; $2C0E
-        db      $2C,$0D,$2C,$FD,$00                                             ; $2C1E
+; Fixed-ROM TERSE sound-state setup. Both branches share the native
+; channel recorder ($2BEF) and state refresh ($2B8C), using different
+; RAM control blocks ($FD6D and $FD3D).
+SOUND_SETUP_CHANNEL_FD6D:
+        rst     $08                             ; $2C00
+        dw      XT_0                            ; $2C01
+        dw      XT_LIT                          ; $2C03
+        dw      $FD6D                           ; $2C05 inline state pointer
+        dw      SOUND_RECORD_CHANNEL_STATE      ; $2C07
+        dw      SOUND_REFRESH_CHANNEL_STATE     ; $2C09
+        dw      XT_RETURN                       ; $2C0B
+SOUND_SETUP_CHANNEL_FD3D:
+        rst     $08                             ; $2C0D
+        dw      XT_0                            ; $2C0E
+        dw      XT_LIT                          ; $2C10
+        dw      $FD3D                           ; $2C12 inline state pointer
+        dw      SOUND_RECORD_CHANNEL_STATE      ; $2C14
+        dw      SOUND_REFRESH_CHANNEL_STATE     ; $2C16
+        dw      XT_RETURN                       ; $2C18
+SOUND_SETUP_BOTH_CHANNELS:
+        rst     $08                             ; $2C1A
+        dw      $2954                           ; $2C1B native execution token
+        dw      SOUND_SETUP_CHANNEL_FD6D        ; $2C1D
+        dw      SOUND_SETUP_CHANNEL_FD3D        ; $2C1F
+        dw      XT_RETURN                       ; $2C21
 NATIVE_2C23:
         ld a,($fd80)                    ; $2C23
         or a                            ; $2C26
