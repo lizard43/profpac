@@ -195,3 +195,14 @@ through the hardware writer, target state, and source data.
 Further analysis should associate particular pattern records and audio
 register bitfields with game cues; the present word names encode proven
 data-flow roles without inventing sound-effect names.
+
+
+### Sound setup and native state words
+
+| Word / CPU address | Stack / role | Implementation |
+| --- | --- | --- |
+| `SOUND_SETUP_CHANNEL_FD6D` `$2C00` | Initialize/refresh cached state with pointer `$FD6D` | Fixed-ROM colon word |
+| `SOUND_SETUP_CHANNEL_FD3D` `$2C0D` | Initialize/refresh cached state with pointer `$FD3D` | Fixed-ROM colon word |
+| `SOUND_SETUP_BOTH_CHANNELS` `$2C1A` | Execute common initialization and both channel setup words | Fixed-ROM colon word |
+| `SOUND_RECORD_CHANNEL_STATE` `$2BEF` | Consume channel state operands, call bounds helper, restore threaded IP | Native TERSE word |
+| `SOUND_UPDATE_CHANNEL_BOUNDS` `$2BCE` | Compare value against cached threshold and update channel-state fields | Native helper |
