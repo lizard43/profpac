@@ -1555,23 +1555,159 @@ TERSE_COLON_3D53:
         dw      TERSE_COLON_3D30     ; $3D61 TERSE_COLON_3D30
         dw      SOUND_WRITE_REGISTER_TRIO_05_07     ; $3D63 SOUND_WRITE_REGISTER_TRIO_05_07
         dw      XT_RETURN               ; $3D65 _RETURN
-        db      $CF,$09,$01,$E2,$F6,$61,$05,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$09 ; $3D67
-        db      $01,$DD,$F6,$3F,$05,$09,$01,$E2,$F6,$4C,$01,$12,$01,$09,$5A,$01 ; $3D77
-        db      $53,$01,$F2,$2A,$09,$01,$E2,$F6,$4C,$01,$95,$01,$36,$01,$53,$01 ; $3D87
-        db      $46,$01,$95,$01,$53,$01,$2E,$2B,$09,$01,$DF,$F6,$3F,$05,$09,$01 ; $3D97
-        db      $E5,$F6,$3F,$05,$1C,$3D,$12,$01,$04,$A8,$2B,$09,$01,$E5,$F6,$36 ; $3DA7
-        db      $01,$49,$05,$53,$01,$12,$01,$0F,$1C,$02,$EA,$03,$AB,$3D,$09,$01 ; $3DB7
-        db      $DF,$F6,$36,$01,$49,$05,$53,$01,$09,$01,$E2,$F6,$4C,$01,$53,$01 ; $3DC7
-        db      $CF,$01,$EA,$03,$A5,$3D,$09,$01,$DD,$F6,$3A,$05,$8C,$2B,$FD,$00 ; $3DD7
-        db      $CF,$09,$01,$E0,$F6,$61,$05,$2A,$01,$09,$01,$3D,$FD,$EF,$2B,$09 ; $3DE7
-        db      $01,$DC,$F6,$3F,$05,$12,$01,$00,$12,$01,$00,$2E,$2B,$30,$01,$A8 ; $3DF7
-        db      $2B,$09,$01,$E0,$F6,$4C,$01,$12,$01,$09,$5A,$01,$53,$01,$F2,$2A ; $3E07
-        db      $09,$01,$E0,$F6,$4C,$01,$95,$01,$36,$01,$53,$01,$46,$01,$95,$01 ; $3E17
-        db      $53,$01,$2E,$2B,$09,$01,$DE,$F6,$3F,$05,$09,$01,$E4,$F6,$3F,$05 ; $3E27
-        db      $53,$3D,$12,$01,$04,$A8,$2B,$09,$01,$E4,$F6,$36,$01,$49,$05,$53 ; $3E37
-        db      $01,$12,$01,$0F,$1C,$02,$EA,$03,$37,$3E,$09,$01,$DE,$F6,$36,$01 ; $3E47
-        db      $49,$05,$53,$01,$09,$01,$E0,$F6,$4C,$01,$53,$01,$CF,$01,$EA,$03 ; $3E57
-        db      $31,$3E,$09,$01,$DC,$F6,$3A,$05,$8C,$2B,$FD,$00                 ; $3E67
+; Decoded TERSE colon word, formerly 16-byte DB rows ($3d67-$3de6).
+; Moves state via F6xx RAM words, updates indexed Astrocade audio
+; registers and refreshes the per-channel state structure.
+; Cross references and inline operands retained at their original CPU addresses.
+SOUND_UPDATE_STATE_F6E2:
+        rst     $08                             ; $3D67 colon entry
+        dw      XT_LIT                        ; $3D68 execution token
+        dw      $F6E2                         ; $3D6A inline word / branch target
+        dw      XT_bang                       ; $3D6C execution token
+        dw      XT_0                          ; $3D6E execution token
+        dw      XT_LIT                        ; $3D70 execution token
+        dw      $FD6D                         ; $3D72 inline word / branch target
+        dw      $2BEF                         ; $3D74 execution token
+        dw      XT_LIT                        ; $3D76 execution token
+        dw      $F6DD                         ; $3D78 inline word / branch target
+        dw      XT_BZERO                      ; $3D7A execution token
+        dw      XT_LIT                        ; $3D7C execution token
+        dw      $F6E2                         ; $3D7E inline word / branch target
+        dw      XT_at                         ; $3D80 execution token
+        dw      XT_LITbyte                    ; $3D82 execution token
+        db      $09                           ; $3D84 inline byte
+        dw      XT_plus                       ; $3D85 execution token
+        dw      XT_Bat                        ; $3D87 execution token
+        dw      SOUND_WRITE_REGISTER_08       ; $3D89 execution token
+        dw      XT_LIT                        ; $3D8B execution token
+        dw      $F6E2                         ; $3D8D inline word / branch target
+        dw      XT_at                         ; $3D8F execution token
+        dw      XT_1plus                      ; $3D91 execution token
+        dw      XT_DUP                        ; $3D93 execution token
+        dw      XT_Bat                        ; $3D95 execution token
+        dw      XT_SWAP                       ; $3D97 execution token
+        dw      XT_1plus                      ; $3D99 execution token
+        dw      XT_Bat                        ; $3D9B execution token
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03 ; $3D9D execution token
+        dw      XT_LIT                        ; $3D9F execution token
+        dw      $F6DF                         ; $3DA1 inline word / branch target
+        dw      XT_BZERO                      ; $3DA3 execution token
+SOUND_UPDATE_STATE_F6E2_BRANCH_1:
+        dw      XT_LIT                        ; $3DA5 execution token
+        dw      $F6E5                         ; $3DA7 inline word / branch target
+        dw      XT_BZERO                      ; $3DA9 execution token
+SOUND_UPDATE_STATE_F6E2_BRANCH_2:
+        dw      $3D1C                         ; $3DAB execution token
+        dw      XT_LITbyte                    ; $3DAD execution token
+        db      $04                           ; $3DAF inline byte
+        dw      NATIVE_2BA8                   ; $3DB0 execution token
+        dw      XT_LIT                        ; $3DB2 execution token
+        dw      $F6E5                         ; $3DB4 inline word / branch target
+        dw      XT_DUP                        ; $3DB6 execution token
+        dw      XT_1plusBbang                 ; $3DB8 execution token
+        dw      XT_Bat                        ; $3DBA execution token
+        dw      XT_LITbyte                    ; $3DBC execution token
+        db      $0F                           ; $3DBE inline byte
+        dw      XT_gt                         ; $3DBF execution token
+        dw      XT_0BRANCH                    ; $3DC1 execution token
+        dw      SOUND_UPDATE_STATE_F6E2_BRANCH_2 ; $3DC3 inline word / branch target
+        dw      XT_LIT                        ; $3DC5 execution token
+        dw      $F6DF                         ; $3DC7 inline word / branch target
+        dw      XT_DUP                        ; $3DC9 execution token
+        dw      XT_1plusBbang                 ; $3DCB execution token
+        dw      XT_Bat                        ; $3DCD execution token
+        dw      XT_LIT                        ; $3DCF execution token
+        dw      $F6E2                         ; $3DD1 inline word / branch target
+        dw      XT_at                         ; $3DD3 execution token
+        dw      XT_Bat                        ; $3DD5 execution token
+        dw      XT_equal                      ; $3DD7 execution token
+        dw      XT_0BRANCH                    ; $3DD9 execution token
+        dw      SOUND_UPDATE_STATE_F6E2_BRANCH_1 ; $3DDB inline word / branch target
+        dw      XT_LIT                        ; $3DDD execution token
+        dw      $F6DD                         ; $3DDF inline word / branch target
+        dw      XT_BONE                       ; $3DE1 execution token
+        dw      SOUND_REFRESH_CHANNEL_STATE   ; $3DE3 execution token
+        dw      XT_RETURN                     ; $3DE5 RETURN
+; Decoded TERSE colon word, formerly 16-byte DB rows ($3de7-$3e72).
+; Moves state via F6xx RAM words, updates indexed Astrocade audio
+; registers and refreshes the per-channel state structure.
+; Cross references and inline operands retained at their original CPU addresses.
+SOUND_UPDATE_STATE_F6E0:
+        rst     $08                             ; $3DE7 colon entry
+        dw      XT_LIT                        ; $3DE8 execution token
+        dw      $F6E0                         ; $3DEA inline word / branch target
+        dw      XT_bang                       ; $3DEC execution token
+        dw      XT_0                          ; $3DEE execution token
+        dw      XT_LIT                        ; $3DF0 execution token
+        dw      $FD3D                         ; $3DF2 inline word / branch target
+        dw      $2BEF                         ; $3DF4 execution token
+        dw      XT_LIT                        ; $3DF6 execution token
+        dw      $F6DC                         ; $3DF8 inline word / branch target
+        dw      XT_BZERO                      ; $3DFA execution token
+        dw      XT_LITbyte                    ; $3DFC execution token
+        db      $00                           ; $3DFE inline byte
+        dw      XT_LITbyte                    ; $3DFF execution token
+        db      $00                           ; $3E01 inline byte
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03 ; $3E02 execution token
+        dw      XT_1                          ; $3E04 execution token
+        dw      NATIVE_2BA8                   ; $3E06 execution token
+        dw      XT_LIT                        ; $3E08 execution token
+        dw      $F6E0                         ; $3E0A inline word / branch target
+        dw      XT_at                         ; $3E0C execution token
+        dw      XT_LITbyte                    ; $3E0E execution token
+        db      $09                           ; $3E10 inline byte
+        dw      XT_plus                       ; $3E11 execution token
+        dw      XT_Bat                        ; $3E13 execution token
+        dw      SOUND_WRITE_REGISTER_08       ; $3E15 execution token
+        dw      XT_LIT                        ; $3E17 execution token
+        dw      $F6E0                         ; $3E19 inline word / branch target
+        dw      XT_at                         ; $3E1B execution token
+        dw      XT_1plus                      ; $3E1D execution token
+        dw      XT_DUP                        ; $3E1F execution token
+        dw      XT_Bat                        ; $3E21 execution token
+        dw      XT_SWAP                       ; $3E23 execution token
+        dw      XT_1plus                      ; $3E25 execution token
+        dw      XT_Bat                        ; $3E27 execution token
+        dw      SOUND_WRITE_REGISTER_PAIR_02_03 ; $3E29 execution token
+        dw      XT_LIT                        ; $3E2B execution token
+        dw      $F6DE                         ; $3E2D inline word / branch target
+        dw      XT_BZERO                      ; $3E2F execution token
+SOUND_UPDATE_STATE_F6E0_BRANCH_1:
+        dw      XT_LIT                        ; $3E31 execution token
+        dw      $F6E4                         ; $3E33 inline word / branch target
+        dw      XT_BZERO                      ; $3E35 execution token
+SOUND_UPDATE_STATE_F6E0_BRANCH_2:
+        dw      $3D53                         ; $3E37 execution token
+        dw      XT_LITbyte                    ; $3E39 execution token
+        db      $04                           ; $3E3B inline byte
+        dw      NATIVE_2BA8                   ; $3E3C execution token
+        dw      XT_LIT                        ; $3E3E execution token
+        dw      $F6E4                         ; $3E40 inline word / branch target
+        dw      XT_DUP                        ; $3E42 execution token
+        dw      XT_1plusBbang                 ; $3E44 execution token
+        dw      XT_Bat                        ; $3E46 execution token
+        dw      XT_LITbyte                    ; $3E48 execution token
+        db      $0F                           ; $3E4A inline byte
+        dw      XT_gt                         ; $3E4B execution token
+        dw      XT_0BRANCH                    ; $3E4D execution token
+        dw      SOUND_UPDATE_STATE_F6E0_BRANCH_2 ; $3E4F inline word / branch target
+        dw      XT_LIT                        ; $3E51 execution token
+        dw      $F6DE                         ; $3E53 inline word / branch target
+        dw      XT_DUP                        ; $3E55 execution token
+        dw      XT_1plusBbang                 ; $3E57 execution token
+        dw      XT_Bat                        ; $3E59 execution token
+        dw      XT_LIT                        ; $3E5B execution token
+        dw      $F6E0                         ; $3E5D inline word / branch target
+        dw      XT_at                         ; $3E5F execution token
+        dw      XT_Bat                        ; $3E61 execution token
+        dw      XT_equal                      ; $3E63 execution token
+        dw      XT_0BRANCH                    ; $3E65 execution token
+        dw      SOUND_UPDATE_STATE_F6E0_BRANCH_1 ; $3E67 inline word / branch target
+        dw      XT_LIT                        ; $3E69 execution token
+        dw      $F6DC                         ; $3E6B inline word / branch target
+        dw      XT_BONE                       ; $3E6D execution token
+        dw      SOUND_REFRESH_CHANNEL_STATE   ; $3E6F execution token
+        dw      XT_RETURN                     ; $3E71 RETURN
 TERSE_COLON_3E73:
         rst     $08                             ; $3E73 colon entry
         dw      XT_0                    ; $3E74 _0
