@@ -7,6 +7,7 @@
 
         org     $0000
 
+; Reset vector $0000: disable interrupts and enter COLD_START.
 RESET_ENTRY:
         nop                             ; $0000
         nop                             ; $0001
@@ -23,16 +24,18 @@ TERSE_COLON_ENTRY:
         ld (ix+0),c                     ; $000F
         pop bc                          ; $0012
         jp (iy)                         ; $0013
+; Cold-start hardware initialization: clear I/O, set video registers, install
+; TERSE stacks, probe screen RAM and select diagnostic/normal context.
 COLD_START:
         di                              ; $0015
         im 0                            ; $0016
         ld bc,$00f4                     ; $0018
-L001B:
+COLD_CLEAR_IO_PORT_LOOP:
         out (c),b                       ; $001B
         ld a,c                          ; $001D
         sub $01                         ; $001E
         ld c,a                          ; $0020
-        jp nc,L001B                     ; $0021
+        jp nc,COLD_CLEAR_IO_PORT_LOOP                     ; $0021
         ld a,$01                        ; $0024
         out (PORT_VIDEO_MODE),a         ; $0026
         ld bc,$0015                     ; $0028
@@ -54,7 +57,7 @@ L001B:
         ld a,$a5                        ; $004C
         ld c,$10                        ; $004E
         ld hl,$e280                     ; $0050
-L0053:
+COLD_RAM_PROBE_RESTART:
         ld de,$0000                     ; $0053
 COLD_RAM_PROBE:
         in b,(c)                        ; $0056
@@ -69,7 +72,8 @@ COLD_RAM_PROBE:
 COLD_RAM_COMPLEMENT:
         cpl                             ; $0067
         cp $a5                          ; $0068
-        jp nz,L0053                     ; $006A
+        jp nz,COLD_RAM_PROBE_RESTART                     ; $006A
+; Select self-test when the active-low cabinet service switch is asserted.
 CHECK_SERVICE_SWITCH:
         in a,(PORT_INPUT_PRIMARY)       ; $006D
         bit 2,a                         ; $006F
@@ -85,10 +89,10 @@ SCREEN_CONTROL_LOCK:
         out ($04),a                     ; $0081
         ld a,$28                        ; $0083
         out (PORT_VIDEO_COLOR),a        ; $0085
-L0087:
+SCREEN_FAILURE_STROBE_LOOP:
         out (c),e                       ; $0087
         out (c),d                       ; $0089
-        jr L0087                        ; $008B
+        jr SCREEN_FAILURE_STROBE_LOOP                        ; $008B
 SCREEN_CONTROL_2_FAILURE:
         ld c,$c2                        ; $008D
         jr SCREEN_CONTROL_LOCK          ; $008F
@@ -103,6 +107,8 @@ CHECK_FIXED_ROM:
         ld de,$0000                     ; $009E
         xor a                           ; $00A1
         ld bc,$2000                     ; $00A2
+; Sum the selected ROM window and compare against the stored checksum;
+; caller supplies bank selection and extent. Output: status through flags.
 CHECKSUM_SELECTED_ROM:
         out (PORT_BANK_SELECT),a        ; $00A5
         ld a,d                          ; $00A7
@@ -127,15 +133,15 @@ CHECKSUM_BYTE_LOOP:
         out (PORT_BANK_SELECT),a        ; $00C0
         ld a,d                          ; $00C2
         cp $20                          ; $00C3
-        jp z,L00CD                      ; $00C5
+        jp z,CHECKSUM_FINAL_SEGMENT                      ; $00C5
         pop af                          ; $00C8
-L00C9:
+CHECKSUM_RETURN_TO_TERSE:
         pop bc                          ; $00C9
         push hl                         ; $00CA
         jp (iy)                         ; $00CB
-L00CD:
+CHECKSUM_FINAL_SEGMENT:
         pop af                          ; $00CD
-        jr nz,L00C9                     ; $00CE
+        jr nz,CHECKSUM_RETURN_TO_TERSE                     ; $00CE
         ld a,l                          ; $00D0
         or a                            ; $00D1
         jp nz,SCREEN_CONTROL_FAILURE    ; $00D2
@@ -158,6 +164,8 @@ SERVICE_THREAD_ENTRY:
         ld bc,SERVICE_THREAD_IP         ; $00EF
 TERSE_INIT:
         ld iy,TERSE_NEXT                ; $00F2
+; Interpreter inner loop: BC -> 16-bit execution token, jump through HL;
+; IY caches this entry for native words and control words.
 TERSE_NEXT:
         ; Direct-threaded NEXT: fetch the little-endian execution token at BC,
         ; advance BC past it, and jump directly to the native implementation.
@@ -191,9 +199,10 @@ _LITbyte:
         ld h,$00                        ; $0115
         push hl                         ; $0117
         jp (iy)                         ; $0118
+; (index -- byte-address) Uses 16-bit inline base following the token.
 _BARRAY:
         pop hl                          ; $011A
-L011B:
+ARRAY_INLINE_BASE_FETCH:
         ld a,(bc)                       ; $011B
         inc bc                          ; $011C
         ld e,a                          ; $011D
@@ -203,10 +212,11 @@ L011B:
         add hl,de                       ; $0121
         push hl                         ; $0122
         jp (iy)                         ; $0123
+; (index -- word-address) Doubles index then uses BARRAY base fetch.
 _ARRAY:
         pop hl                          ; $0125
         add hl,hl                       ; $0126
-        jp L011B                        ; $0127
+        jp ARRAY_INLINE_BASE_FETCH                        ; $0127
 _0:
         ld hl,$0000                     ; $012A
         push hl                         ; $012D

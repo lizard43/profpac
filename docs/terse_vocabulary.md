@@ -163,3 +163,46 @@ primitives unambiguously produce TERSE Boolean `$0001`.
 This establishes common TERSE architecture across all three games while
 distinguishing the compact 1978 Sea Wolf II kernel from the larger Gorf and
 Professor Pac-Man dictionaries.
+
+
+## Newly reconstructed sound-control words (2026-11-01)
+
+The source RE pass decoded two previously byte-defined fixed-ROM TERSE
+definitions and followed their configuration-0 callers. The execution tokens
+below are **addresses in the production ROM**, not new commands added to the
+historical TERSE language.
+
+| Word / CPU address | Stack / operation | Implementation |
+| --- | --- | --- |
+| `SOUND_UPDATE_STATE_F6E2` `$3D67` | Uses a supplied pattern/state value; writes cached audio state through `$F6E2` | Fixed-ROM TERSE colon definition (128 bytes) |
+| `SOUND_UPDATE_STATE_F6E0` `$3DE7` | Uses a supplied pattern/state value; writes cached audio state through `$F6E0` | Fixed-ROM TERSE colon definition (140 bytes) |
+| `SOUND_UPDATE_BOTH_CHANNEL_STATES` `$82E0` | `( pattern -- )` duplicates the argument and invokes both fixed-ROM words | Configuration-0 TERSE colon definition |
+| `SOUND_APPLY_PATTERN_818C` `$82E9` | `( -- )` provides a pointer to `$818C` and invokes the paired updater | Configuration-0 TERSE colon definition |
+| `SOUND_APPLY_PATTERN_82D6` `$8302` | `( -- )` provides `$82D6` and invokes the paired updater | Configuration-0 TERSE colon definition |
+| `SOUND_APPLY_PATTERN_82F8` `$830B` | `( -- )` provides `$82F8` and invokes the paired updater | Configuration-0 TERSE colon definition |
+| `SOUND_APPLY_PATTERN_8414` `$841E` | `( -- )` provides `$8414` and invokes the paired updater | Configuration-0 TERSE colon definition |
+
+The fixed-ROM words use the indexed sound-port writer at `$2AE1` and the
+sound-state helper at `$2B8C`. Their decoding includes in-line literals,
+conditional branches, native execution tokens, and terminating `RETURN`.
+Branch targets have verified cell boundaries.
+
+The sound-register native layer at `$2AF2`–`$2B71` now has named writers
+for offsets 1–8 and a paired/triple writer sequence. This makes the
+formerly incomplete `$3D67` and `$3DE7` references in `pps3` traceable
+through the hardware writer, target state, and source data.
+
+Further analysis should associate particular pattern records and audio
+register bitfields with game cues; the present word names encode proven
+data-flow roles without inventing sound-effect names.
+
+
+### Sound setup and native state words
+
+| Word / CPU address | Stack / role | Implementation |
+| --- | --- | --- |
+| `SOUND_SETUP_CHANNEL_FD6D` `$2C00` | Initialize/refresh cached state with pointer `$FD6D` | Fixed-ROM colon word |
+| `SOUND_SETUP_CHANNEL_FD3D` `$2C0D` | Initialize/refresh cached state with pointer `$FD3D` | Fixed-ROM colon word |
+| `SOUND_SETUP_BOTH_CHANNELS` `$2C1A` | Execute common initialization and both channel setup words | Fixed-ROM colon word |
+| `SOUND_RECORD_CHANNEL_STATE` `$2BEF` | Consume channel state operands, call bounds helper, restore threaded IP | Native TERSE word |
+| `SOUND_UPDATE_CHANNEL_BOUNDS` `$2BCE` | Compare value against cached threshold and update channel-state fields | Native helper |

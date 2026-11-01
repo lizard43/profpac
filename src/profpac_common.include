@@ -322,3 +322,10 @@ PLAYER_ONE_SCORE_ADDR   equ     $E1E2
 PLAYER_TWO_SCORE_ADDR   equ     $E1DE
 HIGH_SCORE_TABLE_ADDR   equ     $E150
 HIGH_SCORE_INITIALS_ADDR equ    $E178
+
+; Retained compatibility and recovered sound execution aliases from PR #1.
+INITIAL_THREAD_IP                    equ $6DD2
+SERVICE_THREAD_IP                    equ $DEBE
+CFG1_SERVICE_APPLICATION_XT          equ $BE66
+XT_SOUND_UPDATE_STATE_F6E2           equ $3D67
+XT_SOUND_UPDATE_STATE_F6E0           equ $3DE7
