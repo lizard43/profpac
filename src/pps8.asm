@@ -362,7 +362,15 @@ GAME_TERSE_B4C5:
         db      $99,$15,$A8,$1E,$09,$01,$74,$FF,$09,$01 ; $B4C6 retained byte data
         db      $B5,$FF,$54,$1D,$09,$01,$9A,$32,$B4,$1C,$0C,$1E,$09,$01,$BA,$FF ; $B4D0
         db      $24,$1D,$09,$01,$16,$B1,$B4,$1C,$E9,$1E,$0C,$1E,$02,$23,$54,$22 ; $B4E0
-        db     $FD,$00,$01,$F1,$AF,$03,$1C,$B4,$99,$B4,$C5,$B4 ; $B4F0 original bytes
+        db      $FD,$00 ; $B4F0 original bytes
+ATTRACT_SCREEN_ACTIONS:
+        db      $01 ; $B4F2 action count
+        dw      ATTRACT_SCREEN_ACTION_ENTRY ; $B4F3 action word
+ATTRACT_DEMO_QUESTION_ACTIONS:
+        db      $03 ; $B4F5 action count
+        dw      ATTRACT_DEMO_STAGE_ENTRY ; $B4F6 action word
+        dw      GAME_TERSE_B499 ; $B4F8 action word
+        dw      GAME_TERSE_B4C5 ; $B4FA action word
 ; Reachable question-round TERSE word; decoded from original ROM bytes.
 ATTRACT_DEMO_QUESTION_TASK:
         rst    $08                          ; $B4FC colon entry
@@ -503,7 +511,11 @@ GAME_TERSE_B67F:
         db      $01,$86,$FF,$12,$01,$14,$09,$01,$00,$80,$D0,$B5,$09,$01,$C9,$92 ; $B692
         db      $B4,$1C,$09,$01,$54,$01,$5B,$1D,$30,$01,$1A,$01,$2C,$F7,$1D,$1C ; $B6A2
         db      $09,$01,$96,$00,$3B,$B6,$E9,$19,$F3,$1D,$02,$23,$54,$22,$FD,$00 ; $B6B2
-        db     $03,$13,$B6,$42,$B6,$7F,$B6  ; $B6C2 original bytes
+ATTRACT_CHALLENGE_PROMPT_ACTIONS:
+        db      $03 ; $B6C2 action count
+        dw      ATTRACT_PROMPT_STAGE_ENTRY ; $B6C3 action word
+        dw      GAME_TERSE_B642 ; $B6C5 action word
+        dw      GAME_TERSE_B67F ; $B6C7 action word
 ; Reachable question-round TERSE word; decoded from original ROM bytes.
 ATTRACT_CHALLENGE_PROMPT_TASK:
         rst    $08                          ; $B6C9 colon entry
@@ -658,7 +670,10 @@ CREDIT_PROMPT_STAGE_ENTRY:
         db      $01,$EC,$E1,$53,$01,$30,$01,$1C,$02,$EA,$03,$8B,$B8,$09,$01,$0F ; $B876
         db      $B8,$E2,$03,$9C,$B8,$09,$01,$F6,$FF,$12,$01,$02,$09,$01,$BD,$B7 ; $B886
         db      $3B,$B8,$09,$01,$E3,$B7,$E2,$03,$A9,$B8,$12,$01,$02,$60,$01,$09 ; $B896
-        db     $01,$B6,$B5,$3B,$B8,$02,$23,$54,$22,$FD,$00,$01,$46,$B8 ; $B8A6 original bytes
+        db      $01,$B6,$B5,$3B,$B8,$02,$23,$54,$22,$FD,$00 ; $B8A6 original bytes
+CREDIT_START_PROMPT_ACTIONS:
+        db      $01 ; $B8B1 action count
+        dw      CREDIT_PROMPT_STAGE_ENTRY ; $B8B2 action word
 ; Reachable question-round TERSE word; decoded from original ROM bytes.
 CREDIT_START_PROMPT_TASK:
         rst    $08                          ; $B8B4 colon entry
