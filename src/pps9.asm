@@ -342,13 +342,17 @@ LCEB9:
         dw      XT_BONE                 ; $CEBB _BONE
 LCEBD:
         dw      XT_RETURN               ; $CEBD _RETURN
-TERSE_COLON_CEBF:
+READ_SELECTED_QUESTION_BANK_STATE:
         rst     $08                             ; $CEBF colon entry
         dw      XT_LIT                  ; $CEC0 _LIT
         dw      $F753                ; $CEC2 inline word
         dw      XT_Bat                  ; $CEC4 _Bat
         dw      XT_RETURN               ; $CEC6 _RETURN
-TERSE_COLON_CEC8:
+; Select a populated PPQ EPROM: random index below the bound at $DF1D,
+; OR with selector base $80, store selector and OUT to $F3.
+; Reject banks whose root-directory word is $FFFF; retry without
+; consuming a question-initializer candidate.
+SELECT_RANDOM_POPULATED_QUESTION_BANK:
         rst     $08                             ; $CEC8 colon entry
 LCEC9:
         dw      XT_LIT                  ; $CEC9 _LIT
@@ -361,7 +365,7 @@ LCEC9:
         dw      XT_LIT                  ; $CED7 _LIT
         dw      $F753                ; $CED9 inline word
         dw      XT_SBbang               ; $CEDB _SBbang
-        dw      TERSE_COLON_CEBF     ; $CEDD TERSE_COLON_CEBF
+        dw      READ_SELECTED_QUESTION_BANK_STATE     ; $CEDD READ_SELECTED_QUESTION_BANK_STATE
         dw      XT_LIT                  ; $CEDF _LIT
         dw      $00F3                ; $CEE1 inline word
         dw      XT_OUTP                 ; $CEE3 _OUTP
@@ -612,14 +616,16 @@ LD0C3:
 LD0C5:
         dw      NATIVE_D0AB          ; $D0C5 NATIVE_D0AB
         dw      XT_RETURN               ; $D0C7 _RETURN
-TERSE_COLON_D0C9:
+; Map configuration 0 ($F3 = $00): question presentation vocabulary.
+SELECT_SUPER_GAME_CONFIGURATION_0:
         rst     $08                             ; $D0C9 colon entry
         dw      XT_0                    ; $D0CA _0
         dw      XT_LIT                  ; $D0CC _LIT
         dw      $00F3                ; $D0CE inline word
         dw      XT_OUTP                 ; $D0D0 _OUTP
         dw      XT_RETURN               ; $D0D2 _RETURN
-TERSE_COLON_D0D4:
+; Map configuration 1 ($F3 = $20): game executive and service code.
+SELECT_SUPER_GAME_CONFIGURATION_1:
         rst     $08                             ; $D0D4 colon entry
         dw      XT_LITbyte              ; $D0D5 _LITbyte
         db      $20                  ; $D0D7 inline byte
