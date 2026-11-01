@@ -493,7 +493,10 @@ RESPONSE_FEEDBACK_TASK_BR8:
         dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $C427 execution token
         dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $C429 execution token
         dw     XT_RETURN                    ; $C42B execution token
-        db     $01,$B0,$C2,$00,$0A,$04,$14,$1A,$2C,$30,$99,$99,$99,$96,$55 ; $C42D original data
+RESPONSE_FEEDBACK_ACTIONS:
+        db      $01 ; $C42D action count
+        dw      $C2B0 ; $C42E action task
+        db      $00,$0A,$04,$14,$1A,$2C,$30,$99,$99,$99,$96,$55 ; $C430 remaining data
         db      $66,$66,$65,$66,$55,$59,$99,$59,$99,$95,$66,$95,$56,$66,$59,$56 ; $C43C
         db      $65,$59,$95,$65,$59,$95,$66,$59,$95,$66,$55,$95,$56,$55,$99,$55 ; $C44C
         db      $65,$59,$56,$56,$55,$95,$65,$65,$59,$56,$59,$55,$95,$65,$55,$55 ; $C45C
@@ -2457,9 +2460,34 @@ QUESTION_SCENE_OPEN_TASK_BR3:
         dw     XT_OUTP                      ; $D3FB execution token
         dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $D3FD execution token
         dw     XT_RETURN                    ; $D3FF execution token
-        db     $03,$6F,$D3,$87,$C4,$9F,$90,$01 ; $D401 original data
-        db      $87,$C4,$02,$1A,$CB,$87,$C4,$01,$5C,$C0,$03,$B2,$C8,$D6,$C9,$93 ; $D409
-        db      $C6,$02,$E6,$93,$AF,$91,$01,$01,$CD,$91,$01,$01,$CD ; $D419 retained byte data
+BONUS_QUESTION_OPEN_ACTIONS:
+        db      $03 ; $D401 action count
+        dw      $D36F ; $D402 action task
+        dw      $C487 ; $D404 action task
+        dw      $909F ; $D406 action task
+STANDARD_QUESTION_OPEN_ACTIONS:
+        db      $01 ; $D408 action count
+        dw      $C487 ; $D409 action task
+BANKED_QUESTION_OPEN_ACTIONS:
+        db      $02 ; $D40B action count
+        dw      $CB1A ; $D40C action task
+        dw      $C487 ; $D40E action task
+ROUND_STATUS_ACTIONS:
+        db      $01 ; $D410 action count
+        dw      $C05C ; $D411 action task
+RESPONSE_INPUT_ACTIONS:
+        db      $03 ; $D413 action count
+        dw      $C8B2 ; $D414 action task
+        dw      $C9D6 ; $D416 action task
+        dw      $C693 ; $D418 action task
+ANSWER_SELECTION_ACTIONS:
+        db      $02 ; $D41A action count
+        dw      $93E6 ; $D41B action task
+        dw      $91AF ; $D41D action task
+ANSWER_CURSOR_ACTIONS:
+        db      $01 ; $D41F action count
+        dw      $CD01 ; $D420 action task
+        db      $91,$01,$01,$CD ; $D422 remaining data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
 GAME_TERSE_D426:
         rst     $08                            ; $D426 colon entry
@@ -2871,7 +2899,10 @@ ROUND_TERSE_D703:
         dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $D71F execution token
         dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $D721 execution token
         dw     XT_RETURN                    ; $D723 execution token
-        db     $02,$CA,$D6,$03,$D7          ; $D725 original data
+ROUND_RESULT_ANIMATION_ACTIONS:
+        db      $02 ; $D725 action count
+        dw      $D6CA ; $D726 action task
+        dw      $D703 ; $D728 action task
 TERSE_COLON_D72A:
         rst     $08                             ; $D72A colon entry
         dw      XT_DUP                  ; $D72B _DUP
@@ -4007,8 +4038,27 @@ SERVICE_THREAD:
         dw      XT_OUTP                 ; $DEC5 _OUTP
         dw      CFG1_SERVICE_APPLICATION_XT ; $DEC7 SERVICE_APPLICATION_WORD
         dw      XT_RETURN               ; $DEC9 _RETURN
-        db      $01,$DB,$BC,$03,$DF,$D4,$89,$D4,$30,$D4,$01,$C9,$B6,$01,$FC,$B4 ; $DECB
-        db      $01,$1B,$DB,$01,$B4,$B8,$01,$CB,$F6,$53,$01,$12,$01,$03,$08,$02 ; $DEDB
+MAIN_PROGRESSION_ACTIONS:
+        db      $01 ; $DECB action count
+        dw      $BCDB ; $DECC action task
+MAIN_CONTROL_ACTIONS:
+        db      $03 ; $DECE action count
+        dw      $D4DF ; $DECF action task
+        dw      $D489 ; $DED1 action task
+        dw      $D430 ; $DED3 action task
+ATTRACT_CHALLENGE_PROMPT_ACTIONS:
+        db      $01 ; $DED5 action count
+        dw      $B6C9 ; $DED6 action task
+ATTRACT_DEMO_QUESTION_ACTIONS:
+        db      $01 ; $DED8 action count
+        dw      $B4FC ; $DED9 action task
+GAME_OVER_ACTIONS:
+        db      $01 ; $DEDB action count
+        dw      $DB1B ; $DEDC action task
+CREDIT_START_PROMPT_ACTIONS:
+        db      $01 ; $DEDE action count
+        dw      $B8B4 ; $DEDF action task
+        db      $01,$CB,$F6,$53,$01,$12,$01,$03,$08,$02 ; $DEE1 remaining data
         db      $EA,$03,$0D,$DF,$93,$D8,$12,$01,$61,$36,$01,$09,$01,$DA,$F6,$61 ; $DEEB
         db      $05,$E2,$D6,$80,$09,$00,$00,$6E,$00,$92,$5A,$00,$E7,$CC,$00,$07 ; $DEFB
         db      $19,$20,$36,$BB,$20,$9A,$99,$20,$9E,$E8,$20,$13,$B4,$00,$2A,$D1 ; $DF0B
