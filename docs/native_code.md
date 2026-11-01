@@ -117,3 +117,21 @@ every line. Native entry points use stable labels; internal control-flow targets
 use address labels. TERSE colon definitions, execution tokens, inline literals,
 branches, strings, and `CASES` tables use structured assembler directives.
 Graphics and unclassified tables retain addressed `DB` definitions.
+
+
+## Sound hardware RE additions (2026-11-01)
+
+`src/pps2.asm` now disassembles the previously raw instruction bytes at
+`$2AF2-$2B00` as `SOUND_WRITE_REGISTER_08`, completing the native
+register-offset 1–8 dispatch family. It also disassembles `$2B8C-$2BA7`
+as `SOUND_REFRESH_CHANNEL_STATE`, which invokes the common state setup,
+tests the cached channel word and records the update condition before
+returning to TERSE.
+
+The indexed I/O helper `WRITE_INDEXED_IO_REGISTER` at `$2AE1` loads
+channel state through `$FD81`; the passed register offset determines the
+effective output port. `$3D67` and `$3DE7` are threaded audio state update
+words in fixed ROM, consumed by the configuration-0 program at `$82E0`.
+
+For exact source-level call relationships and retained data addresses, see
+[RE-PASS-20261101.md](RE-PASS-20261101.md).
