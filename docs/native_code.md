@@ -135,3 +135,18 @@ words in fixed ROM, consumed by the configuration-0 program at `$82E0`.
 
 For exact source-level call relationships and retained data addresses, see
 [RE-PASS-20261101.md](RE-PASS-20261101.md).
+
+
+### Sound state native helper closure
+
+The previously raw `$2BCE-$2BFF` Z80 region is now structured code.
+At `$2BCE`, `SOUND_UPDATE_CHANNEL_BOUNDS` compares the new state
+value against the cached byte at `IY+6`, and updates fields at
+`IY+$13`, `IY+6`, `IY+2` and `IY+3` where applicable. At
+`$2BEF`, `SOUND_RECORD_CHANNEL_STATE` consumes operands, invokes
+this helper, reloads the TERSE instruction pointer from IX, then jumps
+through IY.
+
+Three following TERSE definitions, formerly raw bytes at
+`$2C00-$2C22`, initialize the two sound channel state blocks at
+`$FD6D` and `$FD3D`, and provide a common paired entry.
