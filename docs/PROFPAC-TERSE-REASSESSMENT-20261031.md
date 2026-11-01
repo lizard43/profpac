@@ -120,43 +120,49 @@ A particularly compelling distinction is the use of separate program and questio
 
 The two systems express related DNA architectural ideas at very different scales.
 
-## 6. Updated repository audit — 2026-11-01
+## 6. Repository file and build dependency audit — 2026-11-01
 
-The original audit identified several files missing from the locations expected by `build.sh`. The repository owner has since pushed additional files. This section supersedes the initial missing-file table and reflects a fresh check of the `main` repository tree against the current `build.sh`.
+This section supersedes the earlier missing-file inventory. The owner restored some files from the offline RE work, and the follow-on PR moved three root-level analyzers to `tools/`, restored two historical analyzers from the September 5 snapshots, restored the question shared include, and promoted the self-test reference.
 
-**Restored since the original audit**
+### Required build paths now present on the PR branch
 
-| File | Current state |
+| Path | Provenance / action |
 |---|---|
-| `src/profpac_question_common.include` | **Present** at the exact path required by the build |
+| `tools/analyze_question_families.py` | Moved unchanged from repository root |
+| `tools/analyze_ppq_graphics.py` | Moved unchanged from repository root |
+| `tools/decode_pls153a.py` | Moved unchanged from repository root |
+| `tools/analyze_question_round.py` | Restored from `temp/analyze_question_round-20260905-114118.py` |
+| `tools/analyze_game_progression.py` | Restored from `temp/analyze_game_progression-20260905-114118.py` |
+| `src/profpac_question_common.include` | Copied unchanged from the recently updated `main` branch |
+| `docs/self_test.md` | Restored from `temp/self_test-20260905-114118.md` |
 
-**Still absent at the paths required by `build.sh`**
+The existing `tools/zmac`, `src/profpac_common.include`, `roms/orig/profpac.zip`, all nine `src/pps*.asm` files, and all fourteen `src/ppq*.asm` files remain present.
 
-| Required build path | Available related material | Action to verify |
-|---|---|---|
-| `tools/analyze_question_families.py` | `analyze_question_families.py` at repository root; older copies in `temp/` | Confirm which revision matches the build and move or restore to `tools/` |
-| `tools/analyze_ppq_graphics.py` | `analyze_ppq_graphics.py` at repository root | Confirm correct revision and restore expected path |
-| `tools/analyze_question_round.py` | `temp/analyze_question_round-20260905-114118.py` and an earlier copy | Compare offline source, then restore expected path |
-| `tools/analyze_game_progression.py` | `temp/analyze_game_progression-20260905-114118.py` | Compare offline source, then restore expected path |
-| `tools/decode_pls153a.py` | `decode_pls153a.py` at repository root | Confirm correct revision and restore expected path |
+### Actual outstanding build dependency
 
-**Documentation reference that remains unresolved**
+**`tools/analyze_question_banks.py` is missing.** `tools/analyze_question_families.py` imports:
 
-- `docs/self_test.md` is referenced by the README but is missing at that path. A historical candidate is available as `temp/self_test-20260905-114118.md`.
+```python
+from analyze_question_banks import BANK_BASE, PPQ_COUNT, decode_bank
+```
 
-**Verified present**
+The repository inventory contains no copy under `tools/`, the root or the former `temp/` folder. This is a direct Python dependency and needs recovery from the offline RE workspace before the analyzer chain can run.
 
-- `tools/zmac`, `src/profpac_common.include`, `src/profpac_question_common.include`, and `roms/orig/profpac.zip`.
-- All nine `src/pps1.asm`–`src/pps9.asm` program files and fourteen `src/ppq1.asm`–`src/ppq14.asm` question files.
-- Some historical analyzer scripts and source versions under `temp/`.
+### Temporary worktree cleanup
 
-**Build status and scope**
+The former `temp/` contained 109 files, overwhelmingly dated snapshots of now-maintained source, build and documentation files.
 
-The active `build.sh` still references five absent `tools/` analyzer paths. A full build and SHA-1 verification have **not** been executed in this audit. This is a path/inventory check, not a functional validation of the candidate scripts or ROM build. Root-level scripts or historical copies should not be silently treated as interchangeable without comparing their revisions and expected command-line contracts.
+- All 109 `temp/` paths were removed from the PR working tree. Git history retains the old versions.
+- Four distinct reference artifacts were retained under `docs/reference/`: the TERSE evolution DOCX (two identical former copies deduplicated), the Astrocade arcade story DOCX, the IBS AP22 / N82S153A PDF, and an archived MAME programmable-logic reference.
+- `docs/reference/README.md` records provenance and retention decisions.
+- The self-test document was promoted separately to `docs/self_test.md`.
+- The historical analyzer snapshots used to restore the two missing scripts remain recoverable through Git history.
 
-Other source-quality observations from the original assessment remain relevant: generic native labels such as `L001B` and `L0053`, address-derived TERSE labels such as `TERSE_COLON_82E0`, and large byte-defined graphics/table regions. The earlier observation about timestamped duplicate `src/ppq*-20260905-180122.asm` files has also changed: the current `src/` tree contains the primary `ppq1.asm`–`ppq14.asm` files without those timestamped copies. Historical versions remain in `temp/`.
+### Validation and next steps
 
-**Recommended immediate action:** Check the original offline RE working directory for the five analyzer scripts, and establish their intended revision before moving or committing anything. Restore the self-test document only after verifying the historical copy. Preserve the current ROM and source baselines.
+The explicit `build.sh` file paths have been restored, but **a complete assembly, archive SHA-1 verification, and analyzer execution have not yet been performed**. In particular, the missing `analyze_question_banks.py` module must be restored before the analyzer suite can run.
+
+The previous source-quality concerns are separate RE work: generic native labels, address-derived TERSE word names, and byte-defined graphics/data. No production ROMs, build script, or active assembler source was modified by this cleanup.
 
 ## 7. Recommended next RE stages
 
