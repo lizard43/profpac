@@ -13,21 +13,8 @@ QUESTION_TIER_COUNT     equ     $08
 QUESTION_COLON_OPCODE   equ     $CF
 
 ; Shared presentation-task execution tokens used by PPQ action graphs.
-XT_ENTER_ACTION_TASK    equ     $1599
-XT_YIELD_ACTION_TASK    equ     $15F7
-XT_SET_TASK_VECTOR_0D   equ     $1BDF
-XT_APPLY_OBJECT_DESCRIPTOR equ  $1CB4
-XT_RENDER_CURRENT_OBJECT equ    $1DF3
-XT_DRAW_CURRENT_OBJECT  equ     $1E0C
-XT_SET_OBJECT_MODE_2    equ     $1EA8
-XT_SET_OBJECT_MODE_1    equ     $1ECF
-XT_SET_TASK_BYTE_0C     equ     $1F40
-XT_CLEAR_TASK_ACTIVE_BIT equ    $2254
-XT_SET_TASK_ACTIVE_BIT  equ     $225D
-XT_WAIT_FOR_CHILD_ACTIONS equ   $2302
-XT_SWAP_TASK_THREAD_IP  equ     $2337
-XT_CONFIGURE_OBJECT_RENDER equ  $24D4
-XT_APPLY_AND_DRAW_OBJECT equ    $2CF2
+; Common fixed-ROM aliases are inherited from profpac_common.include;
+; only question-bank-specific words are declared here.
 
 ; Configuration-0 presentation vocabulary.
 CFG0_XT_PLACE_CORRECT_RANDOM_SLOT equ $8B4F
