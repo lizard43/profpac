@@ -626,7 +626,10 @@ ROUND_TERSE_BE47:
         dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $BEA5 execution token
         dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $BEA7 execution token
         dw     XT_RETURN                    ; $BEA9 execution token
-        db     $01,$47,$BE,$00,$00          ; $BEAB original bytes
+ROUND_INTRO_ANIMATION_ACTIONS:
+        db      $01 ; $BEAB action count
+        dw      $BE47 ; $BEAC action task
+        db      $00,$00 ; $BEAE remaining data
         db      $00,$00,$00,$00,$00,$00,$0F,$00,$00,$0F,$0D,$0F,$00,$00,$00,$00 ; $BEB0
         db      $0D,$0F,$00,$00,$00,$00,$03,$03,$03,$00,$0A,$0F,$0D,$00,$00,$00 ; $BEC0
         db     $0A,$00,$00,$00,$0B,$0F,$0D,$00,$0F,$07,$00,$0F,$0F,$0F ; $BED0 original bytes
@@ -735,7 +738,11 @@ ROUND_TERSE_BF94:
         dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $BFBC execution token
         dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $BFBE execution token
         dw     XT_RETURN                    ; $BFC0 execution token
-        db     $03,$5C,$BF,$94,$BF,$DE,$BE  ; $BFC2 original bytes
+ROUND_MESSAGE_ANIMATION_ACTIONS:
+        db      $03 ; $BFC2 action count
+        dw      $BF5C ; $BFC3 action task
+        dw      $BF94 ; $BFC5 action task
+        dw      $BEDE ; $BFC7 action task
 TERSE_COLON_BFC9:
         rst     $08                             ; $BFC9 colon entry
         dw      XT_LIT                  ; $BFCA _LIT
