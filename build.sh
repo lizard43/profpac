@@ -231,14 +231,32 @@ if [ "$package_sha1" != "$EXPECTED_ZIP_SHA1" ]; then
 fi
 [ "$VERBOSE" -eq 0 ] || printf 'Package SHA-1: %s\n' "$package_sha1"
 printf '%s\n' "Analysis checks:"
-python3 "$QUESTION_FAMILY_ANALYZER" --check-sources --quiet "$OUTPUT"
+# Capture detailed analyzer output in build/ and present a short useful
+# diagnostic on failure. The detailed logs are preserved for RE investigation.
+run_analysis()
+{
+    label=$1
+    log_name=$2
+    shift 2
+    log="$LISTING_OUTPUT_DIR/$log_name.log"
+    if "$@" >"$log" 2>&1; then
+        if [ "$VERBOSE" -eq 1 ] && [ -s "$log" ]; then
+            cat "$log"
+        fi
+    else
+        printf 'FAIL: %s (details: %s)\n' "$label" "$log" >&2
+        tail -n 12 "$log" >&2
+        exit 1
+    fi
+}
+run_analysis "Question families" analysis_question_families python3 "$QUESTION_FAMILY_ANALYZER" --check-sources --quiet "$OUTPUT"
 echo "  Question families:   130 initializers / 45 families / 401 definitions OK"
-python3 "$QUESTION_GRAPHICS_ANALYZER" "$OUTPUT" --check-sources --quiet
+run_analysis "PPQ graphics" analysis_ppq_graphics python3 "$QUESTION_GRAPHICS_ANALYZER" "$OUTPUT" --check-sources --quiet
 echo "  PPQ graphics:        193 annotated images OK"
-python3 "$QUESTION_ROUND_ANALYZER" --check-sources --quiet "$OUTPUT"
+run_analysis "Question round" analysis_question_round python3 "$QUESTION_ROUND_ANALYZER" --check-sources --quiet "$OUTPUT"
 echo "  Question round:      130 definitions / 3989 cells / 17 lists OK"
-python3 "$GAME_PROGRESSION_ANALYZER" --check-sources --quiet "$OUTPUT"
+run_analysis "Game progression" analysis_game_progression python3 "$GAME_PROGRESSION_ANALYZER" --check-sources --quiet "$OUTPUT"
 echo "  Game progression:    60 definitions / 1960 cells / 11 lists OK"
-python3 "$PLD_ANALYZER" --check "$OUTPUT"
+run_analysis "PLD" analysis_pld python3 "$PLD_ANALYZER" --check "$OUTPUT"
 echo "  PLD:                 OK"
 echo "SUCCESS: 23 ROMs and MAME ZIP match original (SHA-1 $package_sha1)"
