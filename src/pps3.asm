@@ -112,28 +112,156 @@ SOUND_APPLY_PATTERN_8414:
         dw      SOUND_UPDATE_BOTH_CHANNEL_STATES     ; $8423 SOUND_UPDATE_BOTH_CHANNEL_STATES
         dw      XT_RETURN               ; $8425 _RETURN
         db      $7E,$4B,$35,$29,$22,$1C,$18,$1C,$22,$FC,$97,$6C,$53,$44,$39,$32 ; $8427
-        db      $39,$44,$CF,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$09,$01,$FE,$F5,$3F ; $8437
-        db      $05,$12,$01,$30,$F2,$2A,$12,$01,$00,$09,$01,$B8,$00,$2E,$2B,$09 ; $8447
-        db      $01,$FF,$F5,$3F,$05,$09,$01,$FE,$F5,$53,$01,$1A,$01,$27,$84,$53 ; $8457
-        db      $01,$44,$2B,$09,$01,$FE,$F5,$53,$01,$1A,$01,$30,$84,$53,$01,$53 ; $8467
-        db      $2B,$12,$01,$02,$A8,$2B,$09,$01,$FE,$F5,$36,$01,$49,$05,$53,$01 ; $8477
-        db      $12,$01,$08,$1C,$02,$EA,$03,$5C,$84,$09,$01,$FE,$F5,$3F,$05,$09 ; $8487
-        db      $01,$FF,$F5,$53,$01,$25,$02,$EA,$03,$5C,$84,$8C,$2B,$FD,$00,$CF ; $8497
-        db      $2A,$01,$09,$01,$3D,$FD,$EF,$2B,$09,$01,$FC,$F5,$3F,$05,$12,$01 ; $84A7
-        db      $00,$12,$01,$00,$2E,$2B,$12,$01,$02,$A8,$2B,$12,$01,$30,$F2,$2A ; $84B7
-        db      $12,$01,$00,$09,$01,$B8,$00,$2E,$2B,$09,$01,$FC,$F5,$53,$01,$1A ; $84C7
-        db      $01,$27,$84,$53,$01,$44,$2B,$09,$01,$FC,$F5,$53,$01,$1A,$01,$30 ; $84D7
-        db      $84,$53,$01,$53,$2B,$12,$01,$02,$A8,$2B,$09,$01,$FC,$F5,$36,$01 ; $84E7
-        db      $49,$05,$53,$01,$12,$01,$08,$1C,$02,$EA,$03,$D0,$84,$09,$01,$FC ; $84F7
-        db      $F5,$3F,$05,$09,$01,$FF,$F5,$53,$01,$25,$02,$EA,$03,$D0,$84,$8C ; $8507
-        db      $2B,$FD,$00                                                     ; $8517
+        db     $39,$44                      ; $8437 preserved data
+; Recovered reachable TERSE word $8439
+ROUND_TERSE_8439:
+        rst    $08                          ; $8439 colon entry
+        dw     XT_0                         ; $843A execution token
+        dw     XT_LIT                       ; $843C execution token
+        dw     $FD6D                        ; $843E inline word
+        dw     $2BEF                        ; $8440 execution token
+        dw     XT_LIT                       ; $8442 execution token
+        dw     $F5FE                        ; $8444 inline word
+        dw     XT_BZERO                     ; $8446 execution token
+        dw     XT_LITbyte                   ; $8448 execution token
+        db     $30                          ; $844A inline byte
+        dw     $2AF2                        ; $844B execution token
+        dw     XT_LITbyte                   ; $844D execution token
+        db     $00                          ; $844F inline byte
+        dw     XT_LIT                       ; $8450 execution token
+        dw     $00B8                        ; $8452 inline word
+        dw     $2B2E                        ; $8454 execution token
+        dw     XT_LIT                       ; $8456 execution token
+        dw     $F5FF                        ; $8458 inline word
+        dw     XT_BZERO                     ; $845A execution token
+ROUND_TERSE_8439_BR1:
+        dw     XT_LIT                       ; $845C execution token
+        dw     $F5FE                        ; $845E inline word
+        dw     XT_Bat                       ; $8460 execution token
+        dw     XT_BARRAY                    ; $8462 execution token
+        dw     $8427                        ; $8464 inline word
+        dw     XT_Bat                       ; $8466 execution token
+        dw     $2B44                        ; $8468 execution token
+        dw     XT_LIT                       ; $846A execution token
+        dw     $F5FE                        ; $846C inline word
+        dw     XT_Bat                       ; $846E execution token
+        dw     XT_BARRAY                    ; $8470 execution token
+        dw     $8430                        ; $8472 inline word
+        dw     XT_Bat                       ; $8474 execution token
+        dw     $2B53                        ; $8476 execution token
+        dw     XT_LITbyte                   ; $8478 execution token
+        db     $02                          ; $847A inline byte
+        dw     $2BA8                        ; $847B execution token
+        dw     XT_LIT                       ; $847D execution token
+        dw     $F5FE                        ; $847F inline word
+        dw     XT_DUP                       ; $8481 execution token
+        dw     XT_1plusBbang                ; $8483 execution token
+        dw     XT_Bat                       ; $8485 execution token
+        dw     XT_LITbyte                   ; $8487 execution token
+        db     $08                          ; $8489 inline byte
+        dw     XT_gt                        ; $848A execution token
+        dw     XT_0BRANCH                   ; $848C execution token
+        dw     ROUND_TERSE_8439_BR1         ; $848E branch target
+        dw     XT_LIT                       ; $8490 execution token
+        dw     $F5FE                        ; $8492 inline word
+        dw     XT_BZERO                     ; $8494 execution token
+        dw     XT_LIT                       ; $8496 execution token
+        dw     $F5FF                        ; $8498 inline word
+        dw     XT_Bat                       ; $849A execution token
+        dw     XT_0gt                       ; $849C execution token
+        dw     XT_0BRANCH                   ; $849E execution token
+        dw     ROUND_TERSE_8439_BR1         ; $84A0 branch target
+        dw     $2B8C                        ; $84A2 execution token
+        dw     XT_RETURN                    ; $84A4 execution token
+; Recovered reachable TERSE word $84A6
+ROUND_TERSE_84A6:
+        rst    $08                          ; $84A6 colon entry
+        dw     XT_0                         ; $84A7 execution token
+        dw     XT_LIT                       ; $84A9 execution token
+        dw     $FD3D                        ; $84AB inline word
+        dw     $2BEF                        ; $84AD execution token
+        dw     XT_LIT                       ; $84AF execution token
+        dw     $F5FC                        ; $84B1 inline word
+        dw     XT_BZERO                     ; $84B3 execution token
+        dw     XT_LITbyte                   ; $84B5 execution token
+        db     $00                          ; $84B7 inline byte
+        dw     XT_LITbyte                   ; $84B8 execution token
+        db     $00                          ; $84BA inline byte
+        dw     $2B2E                        ; $84BB execution token
+        dw     XT_LITbyte                   ; $84BD execution token
+        db     $02                          ; $84BF inline byte
+        dw     $2BA8                        ; $84C0 execution token
+        dw     XT_LITbyte                   ; $84C2 execution token
+        db     $30                          ; $84C4 inline byte
+        dw     $2AF2                        ; $84C5 execution token
+        dw     XT_LITbyte                   ; $84C7 execution token
+        db     $00                          ; $84C9 inline byte
+        dw     XT_LIT                       ; $84CA execution token
+        dw     $00B8                        ; $84CC inline word
+        dw     $2B2E                        ; $84CE execution token
+ROUND_TERSE_84A6_BR1:
+        dw     XT_LIT                       ; $84D0 execution token
+        dw     $F5FC                        ; $84D2 inline word
+        dw     XT_Bat                       ; $84D4 execution token
+        dw     XT_BARRAY                    ; $84D6 execution token
+        dw     $8427                        ; $84D8 inline word
+        dw     XT_Bat                       ; $84DA execution token
+        dw     $2B44                        ; $84DC execution token
+        dw     XT_LIT                       ; $84DE execution token
+        dw     $F5FC                        ; $84E0 inline word
+        dw     XT_Bat                       ; $84E2 execution token
+        dw     XT_BARRAY                    ; $84E4 execution token
+        dw     $8430                        ; $84E6 inline word
+        dw     XT_Bat                       ; $84E8 execution token
+        dw     $2B53                        ; $84EA execution token
+        dw     XT_LITbyte                   ; $84EC execution token
+        db     $02                          ; $84EE inline byte
+        dw     $2BA8                        ; $84EF execution token
+        dw     XT_LIT                       ; $84F1 execution token
+        dw     $F5FC                        ; $84F3 inline word
+        dw     XT_DUP                       ; $84F5 execution token
+        dw     XT_1plusBbang                ; $84F7 execution token
+        dw     XT_Bat                       ; $84F9 execution token
+        dw     XT_LITbyte                   ; $84FB execution token
+        db     $08                          ; $84FD inline byte
+        dw     XT_gt                        ; $84FE execution token
+        dw     XT_0BRANCH                   ; $8500 execution token
+        dw     ROUND_TERSE_84A6_BR1         ; $8502 branch target
+        dw     XT_LIT                       ; $8504 execution token
+        dw     $F5FC                        ; $8506 inline word
+        dw     XT_BZERO                     ; $8508 execution token
+        dw     XT_LIT                       ; $850A execution token
+        dw     $F5FF                        ; $850C inline word
+        dw     XT_Bat                       ; $850E execution token
+        dw     XT_0gt                       ; $8510 execution token
+        dw     XT_0BRANCH                   ; $8512 execution token
+        dw     ROUND_TERSE_84A6_BR1         ; $8514 branch target
+        dw     $2B8C                        ; $8516 execution token
+        dw     XT_RETURN                    ; $8518 execution token
 TERSE_COLON_851A:
         rst     $08                             ; $851A colon entry
         dw      $8439                ; $851B execution token $8439
         dw      $84A6                ; $851D execution token $84A6
         dw      XT_RETURN               ; $851F _RETURN
-        db      $CF,$12,$01,$30,$F2,$2A,$DF,$3F,$09,$01,$F9,$F5,$3F,$05,$09,$01 ; $8521
-        db      $FA,$F5,$3F,$05,$12,$01,$14,$09,$01,$FB,$F5,$32,$05,$FD,$00     ; $8531
+; Recovered reachable TERSE word $8521
+ROUND_TERSE_8521:
+        rst    $08                          ; $8521 colon entry
+        dw     XT_LITbyte                   ; $8522 execution token
+        db     $30                          ; $8524 inline byte
+        dw     $2AF2                        ; $8525 execution token
+        dw     $3FDF                        ; $8527 execution token
+        dw     XT_LIT                       ; $8529 execution token
+        dw     $F5F9                        ; $852B inline word
+        dw     XT_BZERO                     ; $852D execution token
+        dw     XT_LIT                       ; $852F execution token
+        dw     $F5FA                        ; $8531 inline word
+        dw     XT_BZERO                     ; $8533 execution token
+        dw     XT_LITbyte                   ; $8535 execution token
+        db     $14                          ; $8537 inline byte
+        dw     XT_LIT                       ; $8538 execution token
+        dw     $F5FB                        ; $853A inline word
+        dw     XT_SBbang                    ; $853C execution token
+        dw     XT_RETURN                    ; $853E execution token
 TERSE_COLON_8540:
         rst     $08                             ; $8540 colon entry
         dw      XT_LIT                  ; $8541 _LIT
@@ -175,12 +303,59 @@ TERSE_COLON_8569:
         dw      XT_1plusBbang           ; $8581 _1plusBbang
         dw      XT_Bat                  ; $8583 _Bat
         dw      XT_RETURN               ; $8585 _RETURN
-        db      $CF,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$21,$85,$40,$85,$12,$01,$02 ; $8587
-        db      $A8,$2B,$4B,$85,$12,$01,$04,$1C,$02,$EA,$03,$92,$85,$09,$01,$FA ; $8597
-        db      $F5,$3F,$05,$40,$85,$12,$01,$02,$A8,$2B,$69,$85,$12,$01,$05,$1C ; $85A7
-        db      $02,$EA,$03,$92,$85,$8C,$2B,$FD,$00,$CF,$12,$01,$30,$F2,$2A,$DF ; $85B7
-        db      $3F,$09,$01,$F6,$F5,$3F,$05,$09,$01,$F7,$F5,$3F,$05,$12,$01,$14 ; $85C7
-        db      $09,$01,$F8,$F5,$32,$05,$FD,$00                                 ; $85D7
+; Recovered reachable TERSE word $8587
+ROUND_TERSE_8587:
+        rst    $08                          ; $8587 colon entry
+        dw     XT_0                         ; $8588 execution token
+        dw     XT_LIT                       ; $858A execution token
+        dw     $FD6D                        ; $858C inline word
+        dw     $2BEF                        ; $858E execution token
+        dw     ROUND_TERSE_8521             ; $8590 execution token
+ROUND_TERSE_8587_BR1:
+        dw     $8540                        ; $8592 execution token
+        dw     XT_LITbyte                   ; $8594 execution token
+        db     $02                          ; $8596 inline byte
+        dw     $2BA8                        ; $8597 execution token
+        dw     $854B                        ; $8599 execution token
+        dw     XT_LITbyte                   ; $859B execution token
+        db     $04                          ; $859D inline byte
+        dw     XT_gt                        ; $859E execution token
+        dw     XT_0BRANCH                   ; $85A0 execution token
+        dw     ROUND_TERSE_8587_BR1         ; $85A2 branch target
+        dw     XT_LIT                       ; $85A4 execution token
+        dw     $F5FA                        ; $85A6 inline word
+        dw     XT_BZERO                     ; $85A8 execution token
+        dw     $8540                        ; $85AA execution token
+        dw     XT_LITbyte                   ; $85AC execution token
+        db     $02                          ; $85AE inline byte
+        dw     $2BA8                        ; $85AF execution token
+        dw     $8569                        ; $85B1 execution token
+        dw     XT_LITbyte                   ; $85B3 execution token
+        db     $05                          ; $85B5 inline byte
+        dw     XT_gt                        ; $85B6 execution token
+        dw     XT_0BRANCH                   ; $85B8 execution token
+        dw     ROUND_TERSE_8587_BR1         ; $85BA branch target
+        dw     $2B8C                        ; $85BC execution token
+        dw     XT_RETURN                    ; $85BE execution token
+; Recovered reachable TERSE word $85C0
+ROUND_TERSE_85C0:
+        rst    $08                          ; $85C0 colon entry
+        dw     XT_LITbyte                   ; $85C1 execution token
+        db     $30                          ; $85C3 inline byte
+        dw     $2AF2                        ; $85C4 execution token
+        dw     $3FDF                        ; $85C6 execution token
+        dw     XT_LIT                       ; $85C8 execution token
+        dw     $F5F6                        ; $85CA inline word
+        dw     XT_BZERO                     ; $85CC execution token
+        dw     XT_LIT                       ; $85CE execution token
+        dw     $F5F7                        ; $85D0 inline word
+        dw     XT_BZERO                     ; $85D2 execution token
+        dw     XT_LITbyte                   ; $85D4 execution token
+        db     $14                          ; $85D6 inline byte
+        dw     XT_LIT                       ; $85D7 execution token
+        dw     $F5F8                        ; $85D9 inline word
+        dw     XT_SBbang                    ; $85DB execution token
+        dw     XT_RETURN                    ; $85DD execution token
 TERSE_COLON_85DF:
         rst     $08                             ; $85DF colon entry
         dw      XT_LIT                  ; $85E0 _LIT
@@ -222,11 +397,48 @@ TERSE_COLON_8608:
         dw      XT_1plusBbang           ; $8620 _1plusBbang
         dw      XT_Bat                  ; $8622 _Bat
         dw      XT_RETURN               ; $8624 _RETURN
-        db      $CF,$2A,$01,$09,$01,$3D,$FD,$EF,$2B,$12,$01,$00,$12,$01,$00,$2E ; $8626
-        db      $2B,$12,$01,$02,$A8,$2B,$C0,$85,$DF,$85,$12,$01,$02,$A8,$2B,$EA ; $8636
-        db      $85,$12,$01,$05,$1C,$02,$EA,$03,$3E,$86,$09,$01,$F7,$F5,$3F,$05 ; $8646
-        db      $DF,$85,$12,$01,$02,$A8,$2B,$08,$86,$12,$01,$04,$1C,$02,$EA,$03 ; $8656
-        db      $3E,$86,$8C,$2B,$FD,$00                                         ; $8666
+; Recovered reachable TERSE word $8626
+ROUND_TERSE_8626:
+        rst    $08                          ; $8626 colon entry
+        dw     XT_0                         ; $8627 execution token
+        dw     XT_LIT                       ; $8629 execution token
+        dw     $FD3D                        ; $862B inline word
+        dw     $2BEF                        ; $862D execution token
+        dw     XT_LITbyte                   ; $862F execution token
+        db     $00                          ; $8631 inline byte
+        dw     XT_LITbyte                   ; $8632 execution token
+        db     $00                          ; $8634 inline byte
+        dw     $2B2E                        ; $8635 execution token
+        dw     XT_LITbyte                   ; $8637 execution token
+        db     $02                          ; $8639 inline byte
+        dw     $2BA8                        ; $863A execution token
+        dw     ROUND_TERSE_85C0             ; $863C execution token
+ROUND_TERSE_8626_BR1:
+        dw     $85DF                        ; $863E execution token
+        dw     XT_LITbyte                   ; $8640 execution token
+        db     $02                          ; $8642 inline byte
+        dw     $2BA8                        ; $8643 execution token
+        dw     $85EA                        ; $8645 execution token
+        dw     XT_LITbyte                   ; $8647 execution token
+        db     $05                          ; $8649 inline byte
+        dw     XT_gt                        ; $864A execution token
+        dw     XT_0BRANCH                   ; $864C execution token
+        dw     ROUND_TERSE_8626_BR1         ; $864E branch target
+        dw     XT_LIT                       ; $8650 execution token
+        dw     $F5F7                        ; $8652 inline word
+        dw     XT_BZERO                     ; $8654 execution token
+        dw     $85DF                        ; $8656 execution token
+        dw     XT_LITbyte                   ; $8658 execution token
+        db     $02                          ; $865A inline byte
+        dw     $2BA8                        ; $865B execution token
+        dw     $8608                        ; $865D execution token
+        dw     XT_LITbyte                   ; $865F execution token
+        db     $04                          ; $8661 inline byte
+        dw     XT_gt                        ; $8662 execution token
+        dw     XT_0BRANCH                   ; $8664 execution token
+        dw     ROUND_TERSE_8626_BR1         ; $8666 branch target
+        dw     $2B8C                        ; $8668 execution token
+        dw     XT_RETURN                    ; $866A execution token
 TERSE_COLON_866C:
         rst     $08                             ; $866C colon entry
         dw      $8587                ; $866D execution token $8587
@@ -236,34 +448,207 @@ TERSE_COLON_866C:
         db      $34,$34,$37,$37,$37,$00,$46,$46,$22,$22,$22,$22,$22,$00,$2E,$2E ; $8683
         db      $2E,$2E,$2E,$00,$5E,$5E,$5E,$00,$5E,$5E,$8D,$8D,$8D,$46,$46,$46 ; $8693
         db      $46,$46,$46,$46,$00,$00,$4A,$4A,$4A,$4A,$00,$00,$46,$46,$46,$46 ; $86A3
-        db      $00,$00,$8D,$8D,$8D,$8D,$8D,$8D,$CF,$2A,$01,$09,$01,$6D,$FD,$EF ; $86B3
-        db      $2B,$09,$01,$F5,$F5,$3F,$05,$12,$01,$0D,$09,$01,$8F,$00,$2E,$2B ; $86C3
-        db      $12,$01,$30,$F2,$2A,$09,$01,$F5,$F5,$53,$01,$1A,$01,$73,$86,$53 ; $86D3
-        db      $01,$09,$01,$F5,$F5,$53,$01,$1A,$01,$8B,$86,$53,$01,$09,$01,$F5 ; $86E3
-        db      $F5,$53,$01,$1A,$01,$A3,$86,$53,$01,$71,$2B,$12,$01,$03,$A8,$2B ; $86F3
-        db      $09,$01,$F5,$F5,$36,$01,$49,$05,$53,$01,$12,$01,$17,$1C,$02,$EA ; $8703
-        db      $03,$D8,$86,$09,$01,$F5,$F5,$3F,$05,$8C,$2B,$FD,$00,$CF,$2A,$01 ; $8713
-        db      $09,$01,$3D,$FD,$EF,$2B,$09,$01,$F3,$F5,$3F,$05,$12,$01,$00,$12 ; $8723
-        db      $01,$00,$2E,$2B,$12,$01,$04,$A8,$2B,$12,$01,$0D,$09,$01,$8F,$00 ; $8733
-        db      $2E,$2B,$12,$01,$30,$F2,$2A,$09,$01,$F3,$F5,$53,$01,$1A,$01,$73 ; $8743
-        db      $86,$53,$01,$09,$01,$F3,$F5,$53,$01,$1A,$01,$8B,$86,$53,$01,$09 ; $8753
-        db      $01,$F3,$F5,$53,$01,$1A,$01,$A3,$86,$53,$01,$71,$2B,$12,$01,$03 ; $8763
-        db      $A8,$2B,$09,$01,$F3,$F5,$36,$01,$49,$05,$53,$01,$12,$01,$17,$1C ; $8773
-        db      $02,$EA,$03,$4A,$87,$09,$01,$F3,$F5,$3F,$05,$09,$01,$F4,$F5,$3A ; $8783
-        db      $05,$8C,$2B,$FD,$00                                             ; $8793
+        db     $00,$00,$8D,$8D,$8D,$8D,$8D,$8D ; $86B3 preserved data
+; Recovered reachable TERSE word $86BB
+ROUND_TERSE_86BB:
+        rst    $08                          ; $86BB colon entry
+        dw     XT_0                         ; $86BC execution token
+        dw     XT_LIT                       ; $86BE execution token
+        dw     $FD6D                        ; $86C0 inline word
+        dw     $2BEF                        ; $86C2 execution token
+        dw     XT_LIT                       ; $86C4 execution token
+        dw     $F5F5                        ; $86C6 inline word
+        dw     XT_BZERO                     ; $86C8 execution token
+        dw     XT_LITbyte                   ; $86CA execution token
+        db     $0D                          ; $86CC inline byte
+        dw     XT_LIT                       ; $86CD execution token
+        dw     $008F                        ; $86CF inline word
+        dw     $2B2E                        ; $86D1 execution token
+        dw     XT_LITbyte                   ; $86D3 execution token
+        db     $30                          ; $86D5 inline byte
+        dw     $2AF2                        ; $86D6 execution token
+ROUND_TERSE_86BB_BR1:
+        dw     XT_LIT                       ; $86D8 execution token
+        dw     $F5F5                        ; $86DA inline word
+        dw     XT_Bat                       ; $86DC execution token
+        dw     XT_BARRAY                    ; $86DE execution token
+        dw     $8673                        ; $86E0 inline word
+        dw     XT_Bat                       ; $86E2 execution token
+        dw     XT_LIT                       ; $86E4 execution token
+        dw     $F5F5                        ; $86E6 inline word
+        dw     XT_Bat                       ; $86E8 execution token
+        dw     XT_BARRAY                    ; $86EA execution token
+        dw     $868B                        ; $86EC inline word
+        dw     XT_Bat                       ; $86EE execution token
+        dw     XT_LIT                       ; $86F0 execution token
+        dw     $F5F5                        ; $86F2 inline word
+        dw     XT_Bat                       ; $86F4 execution token
+        dw     XT_BARRAY                    ; $86F6 execution token
+        dw     $86A3                        ; $86F8 inline word
+        dw     XT_Bat                       ; $86FA execution token
+        dw     $2B71                        ; $86FC execution token
+        dw     XT_LITbyte                   ; $86FE execution token
+        db     $03                          ; $8700 inline byte
+        dw     $2BA8                        ; $8701 execution token
+        dw     XT_LIT                       ; $8703 execution token
+        dw     $F5F5                        ; $8705 inline word
+        dw     XT_DUP                       ; $8707 execution token
+        dw     XT_1plusBbang                ; $8709 execution token
+        dw     XT_Bat                       ; $870B execution token
+        dw     XT_LITbyte                   ; $870D execution token
+        db     $17                          ; $870F inline byte
+        dw     XT_gt                        ; $8710 execution token
+        dw     XT_0BRANCH                   ; $8712 execution token
+        dw     ROUND_TERSE_86BB_BR1         ; $8714 branch target
+        dw     XT_LIT                       ; $8716 execution token
+        dw     $F5F5                        ; $8718 inline word
+        dw     XT_BZERO                     ; $871A execution token
+        dw     $2B8C                        ; $871C execution token
+        dw     XT_RETURN                    ; $871E execution token
+; Recovered reachable TERSE word $8720
+ROUND_TERSE_8720:
+        rst    $08                          ; $8720 colon entry
+        dw     XT_0                         ; $8721 execution token
+        dw     XT_LIT                       ; $8723 execution token
+        dw     $FD3D                        ; $8725 inline word
+        dw     $2BEF                        ; $8727 execution token
+        dw     XT_LIT                       ; $8729 execution token
+        dw     $F5F3                        ; $872B inline word
+        dw     XT_BZERO                     ; $872D execution token
+        dw     XT_LITbyte                   ; $872F execution token
+        db     $00                          ; $8731 inline byte
+        dw     XT_LITbyte                   ; $8732 execution token
+        db     $00                          ; $8734 inline byte
+        dw     $2B2E                        ; $8735 execution token
+        dw     XT_LITbyte                   ; $8737 execution token
+        db     $04                          ; $8739 inline byte
+        dw     $2BA8                        ; $873A execution token
+        dw     XT_LITbyte                   ; $873C execution token
+        db     $0D                          ; $873E inline byte
+        dw     XT_LIT                       ; $873F execution token
+        dw     $008F                        ; $8741 inline word
+        dw     $2B2E                        ; $8743 execution token
+        dw     XT_LITbyte                   ; $8745 execution token
+        db     $30                          ; $8747 inline byte
+        dw     $2AF2                        ; $8748 execution token
+ROUND_TERSE_8720_BR1:
+        dw     XT_LIT                       ; $874A execution token
+        dw     $F5F3                        ; $874C inline word
+        dw     XT_Bat                       ; $874E execution token
+        dw     XT_BARRAY                    ; $8750 execution token
+        dw     $8673                        ; $8752 inline word
+        dw     XT_Bat                       ; $8754 execution token
+        dw     XT_LIT                       ; $8756 execution token
+        dw     $F5F3                        ; $8758 inline word
+        dw     XT_Bat                       ; $875A execution token
+        dw     XT_BARRAY                    ; $875C execution token
+        dw     $868B                        ; $875E inline word
+        dw     XT_Bat                       ; $8760 execution token
+        dw     XT_LIT                       ; $8762 execution token
+        dw     $F5F3                        ; $8764 inline word
+        dw     XT_Bat                       ; $8766 execution token
+        dw     XT_BARRAY                    ; $8768 execution token
+        dw     $86A3                        ; $876A inline word
+        dw     XT_Bat                       ; $876C execution token
+        dw     $2B71                        ; $876E execution token
+        dw     XT_LITbyte                   ; $8770 execution token
+        db     $03                          ; $8772 inline byte
+        dw     $2BA8                        ; $8773 execution token
+        dw     XT_LIT                       ; $8775 execution token
+        dw     $F5F3                        ; $8777 inline word
+        dw     XT_DUP                       ; $8779 execution token
+        dw     XT_1plusBbang                ; $877B execution token
+        dw     XT_Bat                       ; $877D execution token
+        dw     XT_LITbyte                   ; $877F execution token
+        db     $17                          ; $8781 inline byte
+        dw     XT_gt                        ; $8782 execution token
+        dw     XT_0BRANCH                   ; $8784 execution token
+        dw     ROUND_TERSE_8720_BR1         ; $8786 branch target
+        dw     XT_LIT                       ; $8788 execution token
+        dw     $F5F3                        ; $878A inline word
+        dw     XT_BZERO                     ; $878C execution token
+        dw     XT_LIT                       ; $878E execution token
+        dw     $F5F4                        ; $8790 inline word
+        dw     XT_BONE                      ; $8792 execution token
+        dw     $2B8C                        ; $8794 execution token
+        dw     XT_RETURN                    ; $8796 execution token
 TERSE_COLON_8798:
         rst     $08                             ; $8798 colon entry
         dw      $86BB                ; $8799 execution token $86BB
         dw      $8720                ; $879B execution token $8720
         dw      XT_RETURN               ; $879D _RETURN
-        db      $CF,$2A,$01,$09,$01,$6D,$FD,$EF,$2B,$12,$01,$00,$12,$01,$00,$2E ; $879F
-        db      $2B,$12,$01,$06,$A8,$2B,$12,$01,$30,$F2,$2A,$12,$01,$4E,$44,$2B ; $87AF
-        db      $09,$01,$9F,$00,$53,$2B,$12,$01,$4E,$62,$2B,$12,$01,$0F,$09,$01 ; $87BF
-        db      $FF,$00,$2E,$2B,$12,$01,$00,$35,$2B,$12,$01,$1A,$A8,$2B,$8C,$2B ; $87CF
-        db      $FD,$00,$CF,$2A,$01,$09,$01,$3D,$FD,$EF,$2B,$12,$01,$30,$F2,$2A ; $87DF
-        db      $12,$01,$4E,$44,$2B,$09,$01,$9F,$00,$53,$2B,$12,$01,$4E,$62,$2B ; $87EF
-        db      $12,$01,$0F,$09,$01,$FF,$00,$2E,$2B,$12,$01,$00,$35,$2B,$12,$01 ; $87FF
-        db      $1A,$A8,$2B,$8C,$2B,$FD,$00                                     ; $880F
+; Recovered reachable TERSE word $879F
+ROUND_TERSE_879F:
+        rst    $08                          ; $879F colon entry
+        dw     XT_0                         ; $87A0 execution token
+        dw     XT_LIT                       ; $87A2 execution token
+        dw     $FD6D                        ; $87A4 inline word
+        dw     $2BEF                        ; $87A6 execution token
+        dw     XT_LITbyte                   ; $87A8 execution token
+        db     $00                          ; $87AA inline byte
+        dw     XT_LITbyte                   ; $87AB execution token
+        db     $00                          ; $87AD inline byte
+        dw     $2B2E                        ; $87AE execution token
+        dw     XT_LITbyte                   ; $87B0 execution token
+        db     $06                          ; $87B2 inline byte
+        dw     $2BA8                        ; $87B3 execution token
+        dw     XT_LITbyte                   ; $87B5 execution token
+        db     $30                          ; $87B7 inline byte
+        dw     $2AF2                        ; $87B8 execution token
+        dw     XT_LITbyte                   ; $87BA execution token
+        db     $4E                          ; $87BC inline byte
+        dw     $2B44                        ; $87BD execution token
+        dw     XT_LIT                       ; $87BF execution token
+        dw     $009F                        ; $87C1 inline word
+        dw     $2B53                        ; $87C3 execution token
+        dw     XT_LITbyte                   ; $87C5 execution token
+        db     $4E                          ; $87C7 inline byte
+        dw     $2B62                        ; $87C8 execution token
+        dw     XT_LITbyte                   ; $87CA execution token
+        db     $0F                          ; $87CC inline byte
+        dw     XT_LIT                       ; $87CD execution token
+        dw     $00FF                        ; $87CF inline word
+        dw     $2B2E                        ; $87D1 execution token
+        dw     XT_LITbyte                   ; $87D3 execution token
+        db     $00                          ; $87D5 inline byte
+        dw     $2B35                        ; $87D6 execution token
+        dw     XT_LITbyte                   ; $87D8 execution token
+        db     $1A                          ; $87DA inline byte
+        dw     $2BA8                        ; $87DB execution token
+        dw     $2B8C                        ; $87DD execution token
+        dw     XT_RETURN                    ; $87DF execution token
+; Recovered reachable TERSE word $87E1
+ROUND_TERSE_87E1:
+        rst    $08                          ; $87E1 colon entry
+        dw     XT_0                         ; $87E2 execution token
+        dw     XT_LIT                       ; $87E4 execution token
+        dw     $FD3D                        ; $87E6 inline word
+        dw     $2BEF                        ; $87E8 execution token
+        dw     XT_LITbyte                   ; $87EA execution token
+        db     $30                          ; $87EC inline byte
+        dw     $2AF2                        ; $87ED execution token
+        dw     XT_LITbyte                   ; $87EF execution token
+        db     $4E                          ; $87F1 inline byte
+        dw     $2B44                        ; $87F2 execution token
+        dw     XT_LIT                       ; $87F4 execution token
+        dw     $009F                        ; $87F6 inline word
+        dw     $2B53                        ; $87F8 execution token
+        dw     XT_LITbyte                   ; $87FA execution token
+        db     $4E                          ; $87FC inline byte
+        dw     $2B62                        ; $87FD execution token
+        dw     XT_LITbyte                   ; $87FF execution token
+        db     $0F                          ; $8801 inline byte
+        dw     XT_LIT                       ; $8802 execution token
+        dw     $00FF                        ; $8804 inline word
+        dw     $2B2E                        ; $8806 execution token
+        dw     XT_LITbyte                   ; $8808 execution token
+        db     $00                          ; $880A inline byte
+        dw     $2B35                        ; $880B execution token
+        dw     XT_LITbyte                   ; $880D execution token
+        db     $1A                          ; $880F inline byte
+        dw     $2BA8                        ; $8810 execution token
+        dw     $2B8C                        ; $8812 execution token
+        dw     XT_RETURN                    ; $8814 execution token
 TERSE_COLON_8816:
         rst     $08                             ; $8816 colon entry
         dw      $879F                ; $8817 execution token $879F
@@ -276,20 +661,127 @@ TERSE_COLON_8816:
         db      $13,$00,$13,$13,$1A,$1A,$1A,$00,$1A,$1A,$27,$27,$27,$27,$27,$27 ; $885D
         db      $27,$27,$27,$00,$27,$27,$34,$34,$34,$00,$34,$34,$4F,$4F,$4F,$4F ; $886D
         db      $4F,$4F,$4F,$4F,$9F,$9F,$4F,$4F,$4F,$00,$4F,$4F,$6A,$6A,$6A,$00 ; $887D
-        db      $6A,$6A,$9F,$9F,$9F,$9F,$9F,$9F,$CF,$2A,$01,$09,$01,$6D,$FD,$EF ; $888D
-        db      $2B,$09,$01,$F2,$F5,$3F,$05,$12,$01,$30,$F2,$2A,$12,$01,$0A,$09 ; $889D
-        db      $01,$AF,$00,$2E,$2B,$09,$01,$F2,$F5,$53,$01,$1A,$01,$1D,$88,$53 ; $88AD
-        db      $01,$09,$01,$F2,$F5,$53,$01,$1A,$01,$31,$88,$53,$01,$09,$01,$F2 ; $88BD
-        db      $F5,$53,$01,$1A,$01,$45,$88,$53,$01,$71,$2B,$12,$01,$04,$A8,$2B ; $88CD
-        db      $09,$01,$F2,$F5,$36,$01,$49,$05,$53,$01,$12,$01,$13,$1C,$02,$EA ; $88DD
-        db      $03,$B2,$88,$09,$01,$F2,$F5,$3F,$05,$8C,$2B,$FD,$00,$CF,$2A,$01 ; $88ED
-        db      $09,$01,$3D,$FD,$EF,$2B,$09,$01,$F1,$F5,$3F,$05,$12,$01,$00,$12 ; $88FD
-        db      $01,$00,$2E,$2B,$12,$01,$03,$A8,$2B,$12,$01,$30,$F2,$2A,$12,$01 ; $890D
-        db      $0A,$09,$01,$AF,$00,$2E,$2B,$09,$01,$F1,$F5,$53,$01,$1A,$01,$59 ; $891D
-        db      $88,$53,$01,$09,$01,$F1,$F5,$53,$01,$1A,$01,$6D,$88,$53,$01,$09 ; $892D
-        db      $01,$F1,$F5,$53,$01,$1A,$01,$81,$88,$53,$01,$71,$2B,$12,$01,$04 ; $893D
-        db      $A8,$2B,$09,$01,$F1,$F5,$36,$01,$49,$05,$53,$01,$12,$01,$13,$1C ; $894D
-        db      $02,$EA,$03,$24,$89,$09,$01,$F1,$F5,$3F,$05,$8C,$2B,$FD,$00     ; $895D
+        db     $6A,$6A,$9F,$9F,$9F,$9F,$9F,$9F ; $888D preserved data
+; Recovered reachable TERSE word $8895
+ROUND_TERSE_8895:
+        rst    $08                          ; $8895 colon entry
+        dw     XT_0                         ; $8896 execution token
+        dw     XT_LIT                       ; $8898 execution token
+        dw     $FD6D                        ; $889A inline word
+        dw     $2BEF                        ; $889C execution token
+        dw     XT_LIT                       ; $889E execution token
+        dw     $F5F2                        ; $88A0 inline word
+        dw     XT_BZERO                     ; $88A2 execution token
+        dw     XT_LITbyte                   ; $88A4 execution token
+        db     $30                          ; $88A6 inline byte
+        dw     $2AF2                        ; $88A7 execution token
+        dw     XT_LITbyte                   ; $88A9 execution token
+        db     $0A                          ; $88AB inline byte
+        dw     XT_LIT                       ; $88AC execution token
+        dw     $00AF                        ; $88AE inline word
+        dw     $2B2E                        ; $88B0 execution token
+ROUND_TERSE_8895_BR1:
+        dw     XT_LIT                       ; $88B2 execution token
+        dw     $F5F2                        ; $88B4 inline word
+        dw     XT_Bat                       ; $88B6 execution token
+        dw     XT_BARRAY                    ; $88B8 execution token
+        dw     $881D                        ; $88BA inline word
+        dw     XT_Bat                       ; $88BC execution token
+        dw     XT_LIT                       ; $88BE execution token
+        dw     $F5F2                        ; $88C0 inline word
+        dw     XT_Bat                       ; $88C2 execution token
+        dw     XT_BARRAY                    ; $88C4 execution token
+        dw     $8831                        ; $88C6 inline word
+        dw     XT_Bat                       ; $88C8 execution token
+        dw     XT_LIT                       ; $88CA execution token
+        dw     $F5F2                        ; $88CC inline word
+        dw     XT_Bat                       ; $88CE execution token
+        dw     XT_BARRAY                    ; $88D0 execution token
+        dw     $8845                        ; $88D2 inline word
+        dw     XT_Bat                       ; $88D4 execution token
+        dw     $2B71                        ; $88D6 execution token
+        dw     XT_LITbyte                   ; $88D8 execution token
+        db     $04                          ; $88DA inline byte
+        dw     $2BA8                        ; $88DB execution token
+        dw     XT_LIT                       ; $88DD execution token
+        dw     $F5F2                        ; $88DF inline word
+        dw     XT_DUP                       ; $88E1 execution token
+        dw     XT_1plusBbang                ; $88E3 execution token
+        dw     XT_Bat                       ; $88E5 execution token
+        dw     XT_LITbyte                   ; $88E7 execution token
+        db     $13                          ; $88E9 inline byte
+        dw     XT_gt                        ; $88EA execution token
+        dw     XT_0BRANCH                   ; $88EC execution token
+        dw     ROUND_TERSE_8895_BR1         ; $88EE branch target
+        dw     XT_LIT                       ; $88F0 execution token
+        dw     $F5F2                        ; $88F2 inline word
+        dw     XT_BZERO                     ; $88F4 execution token
+        dw     $2B8C                        ; $88F6 execution token
+        dw     XT_RETURN                    ; $88F8 execution token
+; Recovered reachable TERSE word $88FA
+ROUND_TERSE_88FA:
+        rst    $08                          ; $88FA colon entry
+        dw     XT_0                         ; $88FB execution token
+        dw     XT_LIT                       ; $88FD execution token
+        dw     $FD3D                        ; $88FF inline word
+        dw     $2BEF                        ; $8901 execution token
+        dw     XT_LIT                       ; $8903 execution token
+        dw     $F5F1                        ; $8905 inline word
+        dw     XT_BZERO                     ; $8907 execution token
+        dw     XT_LITbyte                   ; $8909 execution token
+        db     $00                          ; $890B inline byte
+        dw     XT_LITbyte                   ; $890C execution token
+        db     $00                          ; $890E inline byte
+        dw     $2B2E                        ; $890F execution token
+        dw     XT_LITbyte                   ; $8911 execution token
+        db     $03                          ; $8913 inline byte
+        dw     $2BA8                        ; $8914 execution token
+        dw     XT_LITbyte                   ; $8916 execution token
+        db     $30                          ; $8918 inline byte
+        dw     $2AF2                        ; $8919 execution token
+        dw     XT_LITbyte                   ; $891B execution token
+        db     $0A                          ; $891D inline byte
+        dw     XT_LIT                       ; $891E execution token
+        dw     $00AF                        ; $8920 inline word
+        dw     $2B2E                        ; $8922 execution token
+ROUND_TERSE_88FA_BR1:
+        dw     XT_LIT                       ; $8924 execution token
+        dw     $F5F1                        ; $8926 inline word
+        dw     XT_Bat                       ; $8928 execution token
+        dw     XT_BARRAY                    ; $892A execution token
+        dw     $8859                        ; $892C inline word
+        dw     XT_Bat                       ; $892E execution token
+        dw     XT_LIT                       ; $8930 execution token
+        dw     $F5F1                        ; $8932 inline word
+        dw     XT_Bat                       ; $8934 execution token
+        dw     XT_BARRAY                    ; $8936 execution token
+        dw     $886D                        ; $8938 inline word
+        dw     XT_Bat                       ; $893A execution token
+        dw     XT_LIT                       ; $893C execution token
+        dw     $F5F1                        ; $893E inline word
+        dw     XT_Bat                       ; $8940 execution token
+        dw     XT_BARRAY                    ; $8942 execution token
+        dw     $8881                        ; $8944 inline word
+        dw     XT_Bat                       ; $8946 execution token
+        dw     $2B71                        ; $8948 execution token
+        dw     XT_LITbyte                   ; $894A execution token
+        db     $04                          ; $894C inline byte
+        dw     $2BA8                        ; $894D execution token
+        dw     XT_LIT                       ; $894F execution token
+        dw     $F5F1                        ; $8951 inline word
+        dw     XT_DUP                       ; $8953 execution token
+        dw     XT_1plusBbang                ; $8955 execution token
+        dw     XT_Bat                       ; $8957 execution token
+        dw     XT_LITbyte                   ; $8959 execution token
+        db     $13                          ; $895B inline byte
+        dw     XT_gt                        ; $895C execution token
+        dw     XT_0BRANCH                   ; $895E execution token
+        dw     ROUND_TERSE_88FA_BR1         ; $8960 branch target
+        dw     XT_LIT                       ; $8962 execution token
+        dw     $F5F1                        ; $8964 inline word
+        dw     XT_BZERO                     ; $8966 execution token
+        dw     $2B8C                        ; $8968 execution token
+        dw     XT_RETURN                    ; $896A execution token
 TERSE_COLON_896C:
         rst     $08                             ; $896C colon entry
         dw      $8895                ; $896D execution token $8895
@@ -311,32 +803,250 @@ TERSE_COLON_897F:
         dw      $00FF                ; $8985 inline word
         dw      $2B2E                ; $8987 execution token $2B2E
         dw      XT_RETURN               ; $8989 _RETURN
-        db      $CF,$30,$01,$09,$01,$6D,$FD,$EF,$2B,$12,$01,$28,$F2,$2A,$09,$01 ; $898B
-        db      $81,$00,$35,$2B,$09,$01,$F0,$F5,$3F,$05,$09,$01,$6A,$00,$12,$01 ; $899B
-        db      $34,$12,$01,$1A,$71,$2B,$7F,$89,$12,$01,$10,$A8,$2B,$12,$01,$00 ; $89AB
-        db      $12,$01,$00,$2E,$2B,$12,$01,$04,$A8,$2B,$7F,$89,$12,$01,$08,$A8 ; $89BB
-        db      $2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01,$04,$A8,$2B,$7F,$89 ; $89CB
-        db      $12,$01,$08,$A8,$2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01,$04 ; $89DB
-        db      $A8,$2B,$09,$01,$6A,$00,$09,$01,$85,$00,$12,$01,$42,$71,$2B,$7F ; $89EB
-        db      $89,$12,$01,$14,$A8,$2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01 ; $89FB
-        db      $04,$A8,$2B,$12,$01,$59,$12,$01,$3B,$12,$01,$2C,$71,$2B,$7F,$89 ; $8A0B
-        db      $12,$01,$14,$A8,$2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01,$04 ; $8A1B
-        db      $A8,$2B,$12,$01,$20,$09,$01,$85,$00,$12,$01,$42,$71,$2B,$7F,$89 ; $8A2B
-        db      $12,$01,$28,$A8,$2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01,$04 ; $8A3B
-        db      $A8,$2B,$8C,$2B,$FD,$00,$CF,$30,$01,$09,$01,$3D,$FD,$EF,$2B,$12 ; $8A4B
-        db      $01,$28,$F2,$2A,$09,$01,$81,$00,$35,$2B,$12,$01,$00,$12,$01,$00 ; $8A5B
-        db      $2E,$2B,$12,$01,$02,$A8,$2B,$12,$01,$34,$09,$01,$6A,$00,$12,$01 ; $8A6B
-        db      $2C,$71,$2B,$7F,$89,$12,$01,$10,$A8,$2B,$12,$01,$00,$12,$01,$00 ; $8A7B
-        db      $2E,$2B,$12,$01,$04,$A8,$2B,$7F,$89,$12,$01,$08,$A8,$2B,$12,$01 ; $8A8B
-        db      $00,$12,$01,$00,$2E,$2B,$12,$01,$04,$A8,$2B,$7F,$89,$12,$01,$08 ; $8A9B
-        db      $A8,$2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01,$04,$A8,$2B,$09 ; $8AAB
-        db      $01,$6A,$00,$09,$01,$85,$00,$12,$01,$42,$71,$2B,$7F,$89,$12,$01 ; $8ABB
-        db      $14,$A8,$2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01,$04,$A8,$2B ; $8ACB
-        db      $12,$01,$59,$12,$01,$3B,$12,$01,$2C,$71,$2B,$7F,$89,$12,$01,$14 ; $8ADB
-        db      $A8,$2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01,$04,$A8,$2B,$12 ; $8AEB
-        db      $01,$20,$09,$01,$85,$00,$12,$01,$42,$71,$2B,$7F,$89,$12,$01,$28 ; $8AFB
-        db      $A8,$2B,$12,$01,$00,$12,$01,$00,$2E,$2B,$12,$01,$04,$A8,$2B,$09 ; $8B0B
-        db      $01,$F0,$F5,$3A,$05,$8C,$2B,$FD,$00                             ; $8B1B
+; Recovered reachable TERSE word $898B
+ROUND_TERSE_898B:
+        rst    $08                          ; $898B colon entry
+        dw     XT_1                         ; $898C execution token
+        dw     XT_LIT                       ; $898E execution token
+        dw     $FD6D                        ; $8990 inline word
+        dw     $2BEF                        ; $8992 execution token
+        dw     XT_LITbyte                   ; $8994 execution token
+        db     $28                          ; $8996 inline byte
+        dw     $2AF2                        ; $8997 execution token
+        dw     XT_LIT                       ; $8999 execution token
+        dw     $0081                        ; $899B inline word
+        dw     $2B35                        ; $899D execution token
+        dw     XT_LIT                       ; $899F execution token
+        dw     $F5F0                        ; $89A1 inline word
+        dw     XT_BZERO                     ; $89A3 execution token
+        dw     XT_LIT                       ; $89A5 execution token
+        dw     $006A                        ; $89A7 inline word
+        dw     XT_LITbyte                   ; $89A9 execution token
+        db     $34                          ; $89AB inline byte
+        dw     XT_LITbyte                   ; $89AC execution token
+        db     $1A                          ; $89AE inline byte
+        dw     $2B71                        ; $89AF execution token
+        dw     $897F                        ; $89B1 execution token
+        dw     XT_LITbyte                   ; $89B3 execution token
+        db     $10                          ; $89B5 inline byte
+        dw     $2BA8                        ; $89B6 execution token
+        dw     XT_LITbyte                   ; $89B8 execution token
+        db     $00                          ; $89BA inline byte
+        dw     XT_LITbyte                   ; $89BB execution token
+        db     $00                          ; $89BD inline byte
+        dw     $2B2E                        ; $89BE execution token
+        dw     XT_LITbyte                   ; $89C0 execution token
+        db     $04                          ; $89C2 inline byte
+        dw     $2BA8                        ; $89C3 execution token
+        dw     $897F                        ; $89C5 execution token
+        dw     XT_LITbyte                   ; $89C7 execution token
+        db     $08                          ; $89C9 inline byte
+        dw     $2BA8                        ; $89CA execution token
+        dw     XT_LITbyte                   ; $89CC execution token
+        db     $00                          ; $89CE inline byte
+        dw     XT_LITbyte                   ; $89CF execution token
+        db     $00                          ; $89D1 inline byte
+        dw     $2B2E                        ; $89D2 execution token
+        dw     XT_LITbyte                   ; $89D4 execution token
+        db     $04                          ; $89D6 inline byte
+        dw     $2BA8                        ; $89D7 execution token
+        dw     $897F                        ; $89D9 execution token
+        dw     XT_LITbyte                   ; $89DB execution token
+        db     $08                          ; $89DD inline byte
+        dw     $2BA8                        ; $89DE execution token
+        dw     XT_LITbyte                   ; $89E0 execution token
+        db     $00                          ; $89E2 inline byte
+        dw     XT_LITbyte                   ; $89E3 execution token
+        db     $00                          ; $89E5 inline byte
+        dw     $2B2E                        ; $89E6 execution token
+        dw     XT_LITbyte                   ; $89E8 execution token
+        db     $04                          ; $89EA inline byte
+        dw     $2BA8                        ; $89EB execution token
+        dw     XT_LIT                       ; $89ED execution token
+        dw     $006A                        ; $89EF inline word
+        dw     XT_LIT                       ; $89F1 execution token
+        dw     $0085                        ; $89F3 inline word
+        dw     XT_LITbyte                   ; $89F5 execution token
+        db     $42                          ; $89F7 inline byte
+        dw     $2B71                        ; $89F8 execution token
+        dw     $897F                        ; $89FA execution token
+        dw     XT_LITbyte                   ; $89FC execution token
+        db     $14                          ; $89FE inline byte
+        dw     $2BA8                        ; $89FF execution token
+        dw     XT_LITbyte                   ; $8A01 execution token
+        db     $00                          ; $8A03 inline byte
+        dw     XT_LITbyte                   ; $8A04 execution token
+        db     $00                          ; $8A06 inline byte
+        dw     $2B2E                        ; $8A07 execution token
+        dw     XT_LITbyte                   ; $8A09 execution token
+        db     $04                          ; $8A0B inline byte
+        dw     $2BA8                        ; $8A0C execution token
+        dw     XT_LITbyte                   ; $8A0E execution token
+        db     $59                          ; $8A10 inline byte
+        dw     XT_LITbyte                   ; $8A11 execution token
+        db     $3B                          ; $8A13 inline byte
+        dw     XT_LITbyte                   ; $8A14 execution token
+        db     $2C                          ; $8A16 inline byte
+        dw     $2B71                        ; $8A17 execution token
+        dw     $897F                        ; $8A19 execution token
+        dw     XT_LITbyte                   ; $8A1B execution token
+        db     $14                          ; $8A1D inline byte
+        dw     $2BA8                        ; $8A1E execution token
+        dw     XT_LITbyte                   ; $8A20 execution token
+        db     $00                          ; $8A22 inline byte
+        dw     XT_LITbyte                   ; $8A23 execution token
+        db     $00                          ; $8A25 inline byte
+        dw     $2B2E                        ; $8A26 execution token
+        dw     XT_LITbyte                   ; $8A28 execution token
+        db     $04                          ; $8A2A inline byte
+        dw     $2BA8                        ; $8A2B execution token
+        dw     XT_LITbyte                   ; $8A2D execution token
+        db     $20                          ; $8A2F inline byte
+        dw     XT_LIT                       ; $8A30 execution token
+        dw     $0085                        ; $8A32 inline word
+        dw     XT_LITbyte                   ; $8A34 execution token
+        db     $42                          ; $8A36 inline byte
+        dw     $2B71                        ; $8A37 execution token
+        dw     $897F                        ; $8A39 execution token
+        dw     XT_LITbyte                   ; $8A3B execution token
+        db     $28                          ; $8A3D inline byte
+        dw     $2BA8                        ; $8A3E execution token
+        dw     XT_LITbyte                   ; $8A40 execution token
+        db     $00                          ; $8A42 inline byte
+        dw     XT_LITbyte                   ; $8A43 execution token
+        db     $00                          ; $8A45 inline byte
+        dw     $2B2E                        ; $8A46 execution token
+        dw     XT_LITbyte                   ; $8A48 execution token
+        db     $04                          ; $8A4A inline byte
+        dw     $2BA8                        ; $8A4B execution token
+        dw     $2B8C                        ; $8A4D execution token
+        dw     XT_RETURN                    ; $8A4F execution token
+; Recovered reachable TERSE word $8A51
+ROUND_TERSE_8A51:
+        rst    $08                          ; $8A51 colon entry
+        dw     XT_1                         ; $8A52 execution token
+        dw     XT_LIT                       ; $8A54 execution token
+        dw     $FD3D                        ; $8A56 inline word
+        dw     $2BEF                        ; $8A58 execution token
+        dw     XT_LITbyte                   ; $8A5A execution token
+        db     $28                          ; $8A5C inline byte
+        dw     $2AF2                        ; $8A5D execution token
+        dw     XT_LIT                       ; $8A5F execution token
+        dw     $0081                        ; $8A61 inline word
+        dw     $2B35                        ; $8A63 execution token
+        dw     XT_LITbyte                   ; $8A65 execution token
+        db     $00                          ; $8A67 inline byte
+        dw     XT_LITbyte                   ; $8A68 execution token
+        db     $00                          ; $8A6A inline byte
+        dw     $2B2E                        ; $8A6B execution token
+        dw     XT_LITbyte                   ; $8A6D execution token
+        db     $02                          ; $8A6F inline byte
+        dw     $2BA8                        ; $8A70 execution token
+        dw     XT_LITbyte                   ; $8A72 execution token
+        db     $34                          ; $8A74 inline byte
+        dw     XT_LIT                       ; $8A75 execution token
+        dw     $006A                        ; $8A77 inline word
+        dw     XT_LITbyte                   ; $8A79 execution token
+        db     $2C                          ; $8A7B inline byte
+        dw     $2B71                        ; $8A7C execution token
+        dw     $897F                        ; $8A7E execution token
+        dw     XT_LITbyte                   ; $8A80 execution token
+        db     $10                          ; $8A82 inline byte
+        dw     $2BA8                        ; $8A83 execution token
+        dw     XT_LITbyte                   ; $8A85 execution token
+        db     $00                          ; $8A87 inline byte
+        dw     XT_LITbyte                   ; $8A88 execution token
+        db     $00                          ; $8A8A inline byte
+        dw     $2B2E                        ; $8A8B execution token
+        dw     XT_LITbyte                   ; $8A8D execution token
+        db     $04                          ; $8A8F inline byte
+        dw     $2BA8                        ; $8A90 execution token
+        dw     $897F                        ; $8A92 execution token
+        dw     XT_LITbyte                   ; $8A94 execution token
+        db     $08                          ; $8A96 inline byte
+        dw     $2BA8                        ; $8A97 execution token
+        dw     XT_LITbyte                   ; $8A99 execution token
+        db     $00                          ; $8A9B inline byte
+        dw     XT_LITbyte                   ; $8A9C execution token
+        db     $00                          ; $8A9E inline byte
+        dw     $2B2E                        ; $8A9F execution token
+        dw     XT_LITbyte                   ; $8AA1 execution token
+        db     $04                          ; $8AA3 inline byte
+        dw     $2BA8                        ; $8AA4 execution token
+        dw     $897F                        ; $8AA6 execution token
+        dw     XT_LITbyte                   ; $8AA8 execution token
+        db     $08                          ; $8AAA inline byte
+        dw     $2BA8                        ; $8AAB execution token
+        dw     XT_LITbyte                   ; $8AAD execution token
+        db     $00                          ; $8AAF inline byte
+        dw     XT_LITbyte                   ; $8AB0 execution token
+        db     $00                          ; $8AB2 inline byte
+        dw     $2B2E                        ; $8AB3 execution token
+        dw     XT_LITbyte                   ; $8AB5 execution token
+        db     $04                          ; $8AB7 inline byte
+        dw     $2BA8                        ; $8AB8 execution token
+        dw     XT_LIT                       ; $8ABA execution token
+        dw     $006A                        ; $8ABC inline word
+        dw     XT_LIT                       ; $8ABE execution token
+        dw     $0085                        ; $8AC0 inline word
+        dw     XT_LITbyte                   ; $8AC2 execution token
+        db     $42                          ; $8AC4 inline byte
+        dw     $2B71                        ; $8AC5 execution token
+        dw     $897F                        ; $8AC7 execution token
+        dw     XT_LITbyte                   ; $8AC9 execution token
+        db     $14                          ; $8ACB inline byte
+        dw     $2BA8                        ; $8ACC execution token
+        dw     XT_LITbyte                   ; $8ACE execution token
+        db     $00                          ; $8AD0 inline byte
+        dw     XT_LITbyte                   ; $8AD1 execution token
+        db     $00                          ; $8AD3 inline byte
+        dw     $2B2E                        ; $8AD4 execution token
+        dw     XT_LITbyte                   ; $8AD6 execution token
+        db     $04                          ; $8AD8 inline byte
+        dw     $2BA8                        ; $8AD9 execution token
+        dw     XT_LITbyte                   ; $8ADB execution token
+        db     $59                          ; $8ADD inline byte
+        dw     XT_LITbyte                   ; $8ADE execution token
+        db     $3B                          ; $8AE0 inline byte
+        dw     XT_LITbyte                   ; $8AE1 execution token
+        db     $2C                          ; $8AE3 inline byte
+        dw     $2B71                        ; $8AE4 execution token
+        dw     $897F                        ; $8AE6 execution token
+        dw     XT_LITbyte                   ; $8AE8 execution token
+        db     $14                          ; $8AEA inline byte
+        dw     $2BA8                        ; $8AEB execution token
+        dw     XT_LITbyte                   ; $8AED execution token
+        db     $00                          ; $8AEF inline byte
+        dw     XT_LITbyte                   ; $8AF0 execution token
+        db     $00                          ; $8AF2 inline byte
+        dw     $2B2E                        ; $8AF3 execution token
+        dw     XT_LITbyte                   ; $8AF5 execution token
+        db     $04                          ; $8AF7 inline byte
+        dw     $2BA8                        ; $8AF8 execution token
+        dw     XT_LITbyte                   ; $8AFA execution token
+        db     $20                          ; $8AFC inline byte
+        dw     XT_LIT                       ; $8AFD execution token
+        dw     $0085                        ; $8AFF inline word
+        dw     XT_LITbyte                   ; $8B01 execution token
+        db     $42                          ; $8B03 inline byte
+        dw     $2B71                        ; $8B04 execution token
+        dw     $897F                        ; $8B06 execution token
+        dw     XT_LITbyte                   ; $8B08 execution token
+        db     $28                          ; $8B0A inline byte
+        dw     $2BA8                        ; $8B0B execution token
+        dw     XT_LITbyte                   ; $8B0D execution token
+        db     $00                          ; $8B0F inline byte
+        dw     XT_LITbyte                   ; $8B10 execution token
+        db     $00                          ; $8B12 inline byte
+        dw     $2B2E                        ; $8B13 execution token
+        dw     XT_LITbyte                   ; $8B15 execution token
+        db     $04                          ; $8B17 inline byte
+        dw     $2BA8                        ; $8B18 execution token
+        dw     XT_LIT                       ; $8B1A execution token
+        dw     $F5F0                        ; $8B1C inline word
+        dw     XT_BONE                      ; $8B1E execution token
+        dw     $2B8C                        ; $8B20 execution token
+        dw     XT_RETURN                    ; $8B22 execution token
 TERSE_COLON_8B24:
         rst     $08                             ; $8B24 colon entry
         dw      $898B                ; $8B25 execution token $898B
@@ -656,17 +1366,81 @@ TERSE_COLON_8CF2:
         db      $55,$55,$55,$55,$55,$55,$55,$50,$55,$55,$55,$55,$55,$55,$55,$55 ; $9063
         db      $55,$55,$55,$55,$50,$55,$55,$55,$55,$55,$55,$55,$55,$55,$55,$55 ; $9073
         db      $55,$50,$15,$55,$55,$55,$55,$55,$55,$55,$55,$55,$55,$55,$40,$0C ; $9083
-        db      $64,$6F,$75,$62,$6C,$65,$20,$73,$63,$6F,$72,$65,$CF,$99,$15,$09 ; $9093
-        db      $01,$46,$E1,$53,$01,$30,$01,$CF,$01,$EA,$03,$B7,$90,$12,$01,$3C ; $90A3
-        db      $E2,$03,$BB,$90,$09,$01,$64,$FF,$12,$01,$21,$54,$1D,$12,$01,$0B ; $90B3
-        db      $7D,$1E,$09,$01,$92,$90,$8E,$1E,$83,$20,$02,$23,$54,$22,$FD,$00 ; $90C3
+        db     $64,$6F,$75,$62,$6C,$65,$20,$73,$63,$6F,$72,$65 ; $9093 preserved data
+; Recovered reachable TERSE word $909F
+PLAYER_PROMPT_TASK:
+        rst    $08                          ; $909F colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $90A0 execution token
+        dw     XT_LIT                       ; $90A2 execution token
+        dw     $E146                        ; $90A4 inline word
+        dw     XT_Bat                       ; $90A6 execution token
+        dw     XT_1                         ; $90A8 execution token
+        dw     XT_equal                     ; $90AA execution token
+        dw     XT_0BRANCH                   ; $90AC execution token
+        dw     PLAYER_PROMPT_TASK_BR1       ; $90AE branch target
+        dw     XT_LITbyte                   ; $90B0 execution token
+        db     $3C                          ; $90B2 inline byte
+        dw     XT_BRANCH                    ; $90B3 execution token
+        dw     PLAYER_PROMPT_TASK_BR2       ; $90B5 branch target
+PLAYER_PROMPT_TASK_BR1:
+        dw     XT_LIT                       ; $90B7 execution token
+        dw     $FF64                        ; $90B9 inline word
+PLAYER_PROMPT_TASK_BR2:
+        dw     XT_LITbyte                   ; $90BB execution token
+        db     $21                          ; $90BD inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $90BE execution token
+        dw     XT_LITbyte                   ; $90C0 execution token
+        db     $0B                          ; $90C2 inline byte
+        dw     XT_SET_CURRENT_OBJECT_BYTE_18 ; $90C3 execution token
+        dw     XT_LIT                       ; $90C5 execution token
+        dw     $9092                        ; $90C7 inline word
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D ; $90C9 execution token
+        dw     $2083                        ; $90CB execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $90CD execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $90CF execution token
+        dw     XT_RETURN                    ; $90D1 execution token
         db      $06,$70,$75,$70,$69,$6C,$20,$01,$31,$01,$32,$0C,$20,$20,$20,$69 ; $90D3
         db      $6E,$63,$6F,$72,$72,$65,$63,$74,$05,$20,$6F,$6E,$6C,$79,$0C,$20 ; $90E3
-        db      $20,$20,$74,$72,$79,$20,$61,$67,$61,$69,$6E,$CF,$09,$01,$3D,$E1 ; $90F3
-        db      $53,$01,$30,$01,$1C,$02,$EA,$03,$33,$91,$09,$01,$D3,$90,$8E,$1E ; $9103
-        db      $7E,$20,$D4,$2C,$EA,$03,$23,$91,$09,$01,$DA,$90,$E2,$03,$27,$91 ; $9113
-        db      $09,$01,$DC,$90,$8E,$1E,$7E,$20,$09,$01,$EB,$90,$E2,$03,$37,$91 ; $9123
-        db      $09,$01,$F1,$90,$8E,$1E,$83,$20,$FD,$00,$0B,$20,$20,$20,$20,$74 ; $9133
+        db     $20,$20,$74,$72,$79,$20,$61,$67,$61,$69,$6E ; $90F3 preserved data
+; Recovered reachable TERSE word $90FE
+ROUND_TERSE_90FE:
+        rst    $08                          ; $90FE colon entry
+        dw     XT_LIT                       ; $90FF execution token
+        dw     $E13D                        ; $9101 inline word
+        dw     XT_Bat                       ; $9103 execution token
+        dw     XT_1                         ; $9105 execution token
+        dw     XT_gt                        ; $9107 execution token
+        dw     XT_0BRANCH                   ; $9109 execution token
+        dw     ROUND_TERSE_90FE_BR3         ; $910B branch target
+        dw     XT_LIT                       ; $910D execution token
+        dw     $90D3                        ; $910F inline word
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D ; $9111 execution token
+        dw     $207E                        ; $9113 execution token
+        dw     $2CD4                        ; $9115 execution token
+        dw     XT_0BRANCH                   ; $9117 execution token
+        dw     ROUND_TERSE_90FE_BR1         ; $9119 branch target
+        dw     XT_LIT                       ; $911B execution token
+        dw     $90DA                        ; $911D inline word
+        dw     XT_BRANCH                    ; $911F execution token
+        dw     ROUND_TERSE_90FE_BR2         ; $9121 branch target
+ROUND_TERSE_90FE_BR1:
+        dw     XT_LIT                       ; $9123 execution token
+        dw     $90DC                        ; $9125 inline word
+ROUND_TERSE_90FE_BR2:
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D ; $9127 execution token
+        dw     $207E                        ; $9129 execution token
+        dw     XT_LIT                       ; $912B execution token
+        dw     $90EB                        ; $912D inline word
+        dw     XT_BRANCH                    ; $912F execution token
+        dw     ROUND_TERSE_90FE_BR4         ; $9131 branch target
+ROUND_TERSE_90FE_BR3:
+        dw     XT_LIT                       ; $9133 execution token
+        dw     $90F1                        ; $9135 inline word
+ROUND_TERSE_90FE_BR4:
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D ; $9137 execution token
+        dw     $2083                        ; $9139 execution token
+        dw     XT_RETURN                    ; $913B execution token
+        db     $0B,$20,$20,$20,$20,$74      ; $913D preserved data
         db      $69,$6D,$65,$20,$75,$70                                         ; $9143
 TERSE_COLON_9149:
         rst     $08                             ; $9149 colon entry
@@ -693,20 +1467,126 @@ TERSE_COLON_9149:
         db      $CF,$12,$01,$04,$09,$01,$EA,$F6,$32,$05,$21,$1F,$12,$01,$20,$09 ; $9170
         db      $01,$BF,$00,$D8,$02,$12,$01,$08,$DF,$1B,$2C,$1A,$2A,$01,$09,$01 ; $9180
         db      $BF,$00,$D8,$02,$12,$01,$06,$DF,$1B,$2C,$1A,$09,$01,$EA,$F6,$36 ; $9190
-        db      $01,$44,$05,$53,$01,$DE,$01,$EA,$03,$7A,$91,$37,$23,$FD,$00,$CF ; $91A0
-        db      $99,$15,$02,$23,$09,$01,$24,$F7,$3F,$05,$30,$01,$40,$1F,$A8,$1E ; $91B0
-        db      $12,$01,$63,$3C,$1D,$09,$01,$23,$90,$8E,$1E,$2A,$01,$09,$01,$46 ; $91C0
-        db      $E1,$80,$1A,$EA,$03,$DE,$91,$12,$01,$60,$24,$1D,$0C,$1E,$30,$01 ; $91D0
-        db      $09,$01,$46,$E1,$80,$1A,$EA,$03,$F2,$91,$09,$01,$A0,$FF,$24,$1D ; $91E0
-        db      $0C,$1E,$12,$01,$20,$DF,$1B,$2C,$1A,$09,$01,$24,$F7,$53,$01,$EA ; $91F0
-        db      $03,$CB,$91,$54,$22,$FD,$00,$CF,$99,$15,$09,$01,$1E,$F7,$3F,$05 ; $9200
-        db      $12,$01,$0F,$7D,$1E,$09,$01,$D6,$FF,$12,$01,$23,$54,$1D,$DC,$1E ; $9210
-        db      $09,$01,$83,$8F,$B4,$1C,$0C,$1E,$A8,$1E,$C3,$2C,$DE,$01,$EA,$03 ; $9220
-        db      $7B,$92,$09,$01,$55,$F7,$53,$01,$09,$01,$3E,$E1,$53,$01,$56,$02 ; $9230
-        db      $EA,$03,$50,$92,$09,$01,$DE,$90,$B4,$1C,$83,$20,$E2,$03,$7B,$92 ; $9240
-        db      $12,$01,$05,$09,$01,$1F,$F7,$32,$05,$09,$01,$D6,$FF,$12,$01,$23 ; $9250
-        db      $54,$1D,$FE,$90,$12,$01,$10,$DF,$1B,$2C,$1A,$09,$01,$1F,$F7,$36 ; $9260
-        db      $01,$44,$05,$53,$01,$DE,$01,$EA,$03,$59,$92,$54,$22,$FD,$00     ; $9270
+        db     $01,$44,$05,$53,$01,$DE,$01,$EA,$03,$7A,$91,$37,$23,$FD,$00 ; $91A0 preserved data
+; Recovered reachable TERSE word $91AF
+ANSWER_INPUT_GATE_TASK:
+        rst    $08                          ; $91AF colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $91B0 execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $91B2 execution token
+        dw     XT_LIT                       ; $91B4 execution token
+        dw     $F724                        ; $91B6 inline word
+        dw     XT_BZERO                     ; $91B8 execution token
+        dw     XT_1                         ; $91BA execution token
+        dw     XT_SET_TASK_BYTE_0C          ; $91BC execution token
+        dw     XT_SET_OBJECT_MODE_2         ; $91BE execution token
+        dw     XT_LITbyte                   ; $91C0 execution token
+        db     $63                          ; $91C2 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_2 ; $91C3 execution token
+        dw     XT_LIT                       ; $91C5 execution token
+        dw     $9023                        ; $91C7 inline word
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D ; $91C9 execution token
+ANSWER_INPUT_GATE_TASK_BR1:
+        dw     XT_0                         ; $91CB execution token
+        dw     XT_LIT                       ; $91CD execution token
+        dw     $E146                        ; $91CF inline word
+        dw     $1A80                        ; $91D1 execution token
+        dw     XT_0BRANCH                   ; $91D3 execution token
+        dw     ANSWER_INPUT_GATE_TASK_BR2   ; $91D5 branch target
+        dw     XT_LITbyte                   ; $91D7 execution token
+        db     $60                          ; $91D9 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_1 ; $91DA execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $91DC execution token
+ANSWER_INPUT_GATE_TASK_BR2:
+        dw     XT_1                         ; $91DE execution token
+        dw     XT_LIT                       ; $91E0 execution token
+        dw     $E146                        ; $91E2 inline word
+        dw     $1A80                        ; $91E4 execution token
+        dw     XT_0BRANCH                   ; $91E6 execution token
+        dw     ANSWER_INPUT_GATE_TASK_BR3   ; $91E8 branch target
+        dw     XT_LIT                       ; $91EA execution token
+        dw     $FFA0                        ; $91EC inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_1 ; $91EE execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $91F0 execution token
+ANSWER_INPUT_GATE_TASK_BR3:
+        dw     XT_LITbyte                   ; $91F2 execution token
+        db     $20                          ; $91F4 inline byte
+        dw     XT_SET_TASK_VECTOR_0D        ; $91F5 execution token
+        dw     $1A2C                        ; $91F7 execution token
+        dw     XT_LIT                       ; $91F9 execution token
+        dw     $F724                        ; $91FB inline word
+        dw     XT_Bat                       ; $91FD execution token
+        dw     XT_0BRANCH                   ; $91FF execution token
+        dw     ANSWER_INPUT_GATE_TASK_BR1   ; $9201 branch target
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $9203 execution token
+        dw     XT_RETURN                    ; $9205 execution token
+; Recovered reachable TERSE word $9207
+ROUND_TERSE_9207:
+        rst    $08                          ; $9207 colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $9208 execution token
+        dw     XT_LIT                       ; $920A execution token
+        dw     $F71E                        ; $920C inline word
+        dw     XT_BZERO                     ; $920E execution token
+        dw     XT_LITbyte                   ; $9210 execution token
+        db     $0F                          ; $9212 inline byte
+        dw     XT_SET_CURRENT_OBJECT_BYTE_18 ; $9213 execution token
+        dw     XT_LIT                       ; $9215 execution token
+        dw     $FFD6                        ; $9217 inline word
+        dw     XT_LITbyte                   ; $9219 execution token
+        db     $23                          ; $921B inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $921C execution token
+        dw     $1EDC                        ; $921E execution token
+        dw     XT_LIT                       ; $9220 execution token
+        dw     $8F83                        ; $9222 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $9224 execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $9226 execution token
+        dw     XT_SET_OBJECT_MODE_2         ; $9228 execution token
+        dw     XT_IS_SELECTED_ANSWER_CORRECT ; $922A execution token
+        dw     XT_zeroequal                 ; $922C execution token
+        dw     XT_0BRANCH                   ; $922E execution token
+        dw     ROUND_TERSE_9207_BR3         ; $9230 branch target
+        dw     XT_LIT                       ; $9232 execution token
+        dw     $F755                        ; $9234 inline word
+        dw     XT_Bat                       ; $9236 execution token
+        dw     XT_LIT                       ; $9238 execution token
+        dw     $E13E                        ; $923A inline word
+        dw     XT_Bat                       ; $923C execution token
+        dw     XT_XOR                       ; $923E execution token
+        dw     XT_0BRANCH                   ; $9240 execution token
+        dw     ROUND_TERSE_9207_BR1         ; $9242 branch target
+        dw     XT_LIT                       ; $9244 execution token
+        dw     $90DE                        ; $9246 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $9248 execution token
+        dw     $2083                        ; $924A execution token
+        dw     XT_BRANCH                    ; $924C execution token
+        dw     ROUND_TERSE_9207_BR3         ; $924E branch target
+ROUND_TERSE_9207_BR1:
+        dw     XT_LITbyte                   ; $9250 execution token
+        db     $05                          ; $9252 inline byte
+        dw     XT_LIT                       ; $9253 execution token
+        dw     $F71F                        ; $9255 inline word
+        dw     XT_SBbang                    ; $9257 execution token
+ROUND_TERSE_9207_BR2:
+        dw     XT_LIT                       ; $9259 execution token
+        dw     $FFD6                        ; $925B inline word
+        dw     XT_LITbyte                   ; $925D execution token
+        db     $23                          ; $925F inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $9260 execution token
+        dw     ROUND_TERSE_90FE             ; $9262 execution token
+        dw     XT_LITbyte                   ; $9264 execution token
+        db     $10                          ; $9266 inline byte
+        dw     XT_SET_TASK_VECTOR_0D        ; $9267 execution token
+        dw     $1A2C                        ; $9269 execution token
+        dw     XT_LIT                       ; $926B execution token
+        dw     $F71F                        ; $926D inline word
+        dw     XT_DUP                       ; $926F execution token
+        dw     XT_1minusBbang               ; $9271 execution token
+        dw     XT_Bat                       ; $9273 execution token
+        dw     XT_zeroequal                 ; $9275 execution token
+        dw     XT_0BRANCH                   ; $9277 execution token
+        dw     ROUND_TERSE_9207_BR2         ; $9279 branch target
+ROUND_TERSE_9207_BR3:
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $927B execution token
+        dw     XT_RETURN                    ; $927D execution token
 TERSE_COLON_927F:
         rst     $08                             ; $927F colon entry
         dw      XT_LITbyte              ; $9280 _LITbyte
@@ -716,11 +1596,48 @@ TERSE_COLON_927F:
         dw      $F720                ; $9287 inline word
         dw      XT_BZERO                ; $9289 _BZERO
         dw      XT_RETURN               ; $928B _RETURN
-        db      $CF,$2A,$01,$09,$01,$46,$E1,$80,$1A,$EA,$03,$A2,$92,$09,$01,$70 ; $928D
-        db      $00,$E2,$03,$A4,$92,$2A,$01,$30,$01,$09,$01,$46,$E1,$80,$1A,$EA ; $929D
-        db      $03,$B7,$92,$12,$01,$07,$E2,$03,$B9,$92,$2A,$01,$88,$01,$36,$01 ; $92AD
-        db      $09,$01,$20,$F7,$32,$05,$09,$01,$00,$01,$FF,$02,$12,$01,$15,$5A ; $92BD
-        db      $01,$4B,$1F,$FD,$00                                             ; $92CD
+; Recovered reachable TERSE word $928D
+ROUND_TERSE_928D:
+        rst    $08                          ; $928D colon entry
+        dw     XT_0                         ; $928E execution token
+        dw     XT_LIT                       ; $9290 execution token
+        dw     $E146                        ; $9292 inline word
+        dw     $1A80                        ; $9294 execution token
+        dw     XT_0BRANCH                   ; $9296 execution token
+        dw     ROUND_TERSE_928D_BR1         ; $9298 branch target
+        dw     XT_LIT                       ; $929A execution token
+        dw     $0070                        ; $929C inline word
+        dw     XT_BRANCH                    ; $929E execution token
+        dw     ROUND_TERSE_928D_BR2         ; $92A0 branch target
+ROUND_TERSE_928D_BR1:
+        dw     XT_0                         ; $92A2 execution token
+ROUND_TERSE_928D_BR2:
+        dw     XT_1                         ; $92A4 execution token
+        dw     XT_LIT                       ; $92A6 execution token
+        dw     $E146                        ; $92A8 inline word
+        dw     $1A80                        ; $92AA execution token
+        dw     XT_0BRANCH                   ; $92AC execution token
+        dw     ROUND_TERSE_928D_BR3         ; $92AE branch target
+        dw     XT_LITbyte                   ; $92B0 execution token
+        db     $07                          ; $92B2 inline byte
+        dw     XT_BRANCH                    ; $92B3 execution token
+        dw     ROUND_TERSE_928D_BR4         ; $92B5 branch target
+ROUND_TERSE_928D_BR3:
+        dw     XT_0                         ; $92B7 execution token
+ROUND_TERSE_928D_BR4:
+        dw     XT_OR                        ; $92B9 execution token
+        dw     XT_DUP                       ; $92BB execution token
+        dw     XT_LIT                       ; $92BD execution token
+        dw     $F720                        ; $92BF inline word
+        dw     XT_SBbang                    ; $92C1 execution token
+        dw     XT_LIT                       ; $92C3 execution token
+        dw     $0100                        ; $92C5 inline word
+        dw     XT_star                      ; $92C7 execution token
+        dw     XT_LITbyte                   ; $92C9 execution token
+        db     $15                          ; $92CB inline byte
+        dw     XT_plus                      ; $92CC execution token
+        dw     $1F4B                        ; $92CE execution token
+        dw     XT_RETURN                    ; $92D0 execution token
 TERSE_COLON_92D2:
         rst     $08                             ; $92D2 colon entry
         dw      XT_LIT                  ; $92D3 _LIT
@@ -880,23 +1797,154 @@ L93E2:
         dw      TERSE_COLON_92F4     ; $93E2 TERSE_COLON_92F4
 L93E4:
         dw      XT_RETURN               ; $93E4 _RETURN
-        db      $CF,$99,$15,$02,$23,$09,$01,$E6,$F6,$3F,$05,$09,$01,$25,$F7,$3F ; $93E6
-        db      $05,$E7,$15,$12,$01,$04,$09,$01,$26,$F7,$32,$05,$2A,$01,$09,$01 ; $93F6
-        db      $46,$E1,$80,$1A,$EA,$03,$3F,$94,$12,$01,$11,$E0,$02,$B9,$2C,$18 ; $9406
-        db      $93,$36,$01,$22,$93,$EA,$03,$3D,$94,$AB,$01,$09,$01,$26,$F7,$32 ; $9416
-        db      $05,$09,$01,$27,$F7,$3A,$05,$09,$01,$E6,$F6,$3A,$05,$09,$01,$25 ; $9426
-        db      $F7,$3A,$05,$E2,$03,$3F,$94,$43,$01,$FB,$34,$E3,$01,$30,$01,$09 ; $9436
-        db      $01,$46,$E1,$80,$1A,$79,$01,$EA,$03,$83,$94,$12,$01,$11,$E0,$02 ; $9446
-        db      $18,$93,$36,$01,$22,$93,$EA,$03,$81,$94,$AB,$01,$09,$01,$26,$F7 ; $9456
-        db      $32,$05,$09,$01,$27,$F7,$3F,$05,$12,$01,$02,$09,$01,$E6,$F6,$32 ; $9466
-        db      $05,$09,$01,$25,$F7,$3A,$05,$E2,$03,$83,$94,$43,$01,$FB,$34,$09 ; $9476
-        db      $01,$05,$F7,$53,$01,$88,$01,$EA,$03,$F7,$93,$09,$01,$24,$F7,$3A ; $9486
-        db      $05,$09,$01,$E7,$F6,$3A,$05,$09,$01,$05,$F7,$53,$01,$E3,$01,$EA ; $9496
-        db      $03,$E2,$94,$A8,$1E,$63,$93,$C3,$2C,$EA,$03,$C3,$94,$0B,$83,$94 ; $94A6
-        db      $93,$09,$01,$70,$91,$DD,$2C,$37,$23,$E2,$03,$D7,$94,$09,$01,$55 ; $94B6
-        db      $F7,$53,$01,$EA,$03,$D3,$94,$6C,$89,$E2,$03,$D5,$94,$16,$88,$B1 ; $94C6
-        db      $93,$12,$01,$10,$DF,$1B,$2C,$1A,$E2,$03,$E8,$94,$09,$01,$55,$F7 ; $94D6
-        db      $3A,$05,$54,$22,$FD,$00,$1C,$14,$0D,$15,$AF,$11,$01,$00,$00,$00 ; $94E6
+; Recovered reachable TERSE word $93E6
+ANSWER_SELECTION_TASK:
+        rst    $08                          ; $93E6 colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $93E7 execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $93E9 execution token
+        dw     XT_LIT                       ; $93EB execution token
+        dw     $F6E6                        ; $93ED inline word
+        dw     XT_BZERO                     ; $93EF execution token
+        dw     XT_LIT                       ; $93F1 execution token
+        dw     $F725                        ; $93F3 inline word
+        dw     XT_BZERO                     ; $93F5 execution token
+ANSWER_SELECTION_TASK_BR1:
+        dw     $15E7                        ; $93F7 execution token
+        dw     XT_LITbyte                   ; $93F9 execution token
+        db     $04                          ; $93FB inline byte
+        dw     XT_LIT                       ; $93FC execution token
+        dw     $F726                        ; $93FE inline word
+        dw     XT_SBbang                    ; $9400 execution token
+        dw     XT_0                         ; $9402 execution token
+        dw     XT_LIT                       ; $9404 execution token
+        dw     $E146                        ; $9406 inline word
+        dw     $1A80                        ; $9408 execution token
+        dw     XT_0BRANCH                   ; $940A execution token
+        dw     ANSWER_SELECTION_TASK_BR3    ; $940C branch target
+        dw     XT_LITbyte                   ; $940E execution token
+        db     $11                          ; $9410 inline byte
+        dw     XT_INP                       ; $9411 execution token
+        dw     $2CB9                        ; $9413 execution token
+        dw     $9318                        ; $9415 execution token
+        dw     XT_DUP                       ; $9417 execution token
+        dw     $9322                        ; $9419 execution token
+        dw     XT_0BRANCH                   ; $941B execution token
+        dw     ANSWER_SELECTION_TASK_BR2    ; $941D branch target
+        dw     XT_2slash                    ; $941F execution token
+        dw     XT_LIT                       ; $9421 execution token
+        dw     $F726                        ; $9423 inline word
+        dw     XT_SBbang                    ; $9425 execution token
+        dw     XT_LIT                       ; $9427 execution token
+        dw     $F727                        ; $9429 inline word
+        dw     XT_BONE                      ; $942B execution token
+        dw     XT_LIT                       ; $942D execution token
+        dw     $F6E6                        ; $942F inline word
+        dw     XT_BONE                      ; $9431 execution token
+        dw     XT_LIT                       ; $9433 execution token
+        dw     $F725                        ; $9435 inline word
+        dw     XT_BONE                      ; $9437 execution token
+        dw     XT_BRANCH                    ; $9439 execution token
+        dw     ANSWER_SELECTION_TASK_BR3    ; $943B branch target
+ANSWER_SELECTION_TASK_BR2:
+        dw     XT_DROP                      ; $943D execution token
+ANSWER_SELECTION_TASK_BR3:
+        dw     $34FB                        ; $943F execution token
+        dw     XT_NOT                       ; $9441 execution token
+        dw     XT_1                         ; $9443 execution token
+        dw     XT_LIT                       ; $9445 execution token
+        dw     $E146                        ; $9447 inline word
+        dw     $1A80                        ; $9449 execution token
+        dw     XT_AND                       ; $944B execution token
+        dw     XT_0BRANCH                   ; $944D execution token
+        dw     ANSWER_SELECTION_TASK_BR5    ; $944F branch target
+        dw     XT_LITbyte                   ; $9451 execution token
+        db     $11                          ; $9453 inline byte
+        dw     XT_INP                       ; $9454 execution token
+        dw     $9318                        ; $9456 execution token
+        dw     XT_DUP                       ; $9458 execution token
+        dw     $9322                        ; $945A execution token
+        dw     XT_0BRANCH                   ; $945C execution token
+        dw     ANSWER_SELECTION_TASK_BR4    ; $945E branch target
+        dw     XT_2slash                    ; $9460 execution token
+        dw     XT_LIT                       ; $9462 execution token
+        dw     $F726                        ; $9464 inline word
+        dw     XT_SBbang                    ; $9466 execution token
+        dw     XT_LIT                       ; $9468 execution token
+        dw     $F727                        ; $946A inline word
+        dw     XT_BZERO                     ; $946C execution token
+        dw     XT_LITbyte                   ; $946E execution token
+        db     $02                          ; $9470 inline byte
+        dw     XT_LIT                       ; $9471 execution token
+        dw     $F6E6                        ; $9473 inline word
+        dw     XT_SBbang                    ; $9475 execution token
+        dw     XT_LIT                       ; $9477 execution token
+        dw     $F725                        ; $9479 inline word
+        dw     XT_BONE                      ; $947B execution token
+        dw     XT_BRANCH                    ; $947D execution token
+        dw     ANSWER_SELECTION_TASK_BR5    ; $947F branch target
+ANSWER_SELECTION_TASK_BR4:
+        dw     XT_DROP                      ; $9481 execution token
+ANSWER_SELECTION_TASK_BR5:
+        dw     $34FB                        ; $9483 execution token
+        dw     XT_LIT                       ; $9485 execution token
+        dw     $F705                        ; $9487 inline word
+        dw     XT_Bat                       ; $9489 execution token
+        dw     XT_OR                        ; $948B execution token
+        dw     XT_0BRANCH                   ; $948D execution token
+        dw     ANSWER_SELECTION_TASK_BR1    ; $948F branch target
+        dw     XT_LIT                       ; $9491 execution token
+        dw     $F724                        ; $9493 inline word
+        dw     XT_BONE                      ; $9495 execution token
+        dw     XT_LIT                       ; $9497 execution token
+        dw     $F6E7                        ; $9499 inline word
+        dw     XT_BONE                      ; $949B execution token
+        dw     XT_LIT                       ; $949D execution token
+        dw     $F705                        ; $949F inline word
+        dw     XT_Bat                       ; $94A1 execution token
+        dw     XT_NOT                       ; $94A3 execution token
+        dw     XT_0BRANCH                   ; $94A5 execution token
+        dw     ANSWER_SELECTION_TASK_BR10   ; $94A7 branch target
+        dw     XT_SET_OBJECT_MODE_2         ; $94A9 execution token
+        dw     $9363                        ; $94AB execution token
+        dw     XT_IS_SELECTED_ANSWER_CORRECT ; $94AD execution token
+        dw     XT_0BRANCH                   ; $94AF execution token
+        dw     ANSWER_SELECTION_TASK_BR6    ; $94B1 branch target
+        dw     $830B                        ; $94B3 execution token
+        dw     $9394                        ; $94B5 execution token
+        dw     XT_LIT                       ; $94B7 execution token
+        dw     $9170                        ; $94B9 inline word
+        dw     $2CDD                        ; $94BB execution token
+        dw     XT_SWAP_TASK_THREAD_IP       ; $94BD execution token
+        dw     XT_BRANCH                    ; $94BF execution token
+        dw     ANSWER_SELECTION_TASK_BR9    ; $94C1 branch target
+ANSWER_SELECTION_TASK_BR6:
+        dw     XT_LIT                       ; $94C3 execution token
+        dw     $F755                        ; $94C5 inline word
+        dw     XT_Bat                       ; $94C7 execution token
+        dw     XT_0BRANCH                   ; $94C9 execution token
+        dw     ANSWER_SELECTION_TASK_BR7    ; $94CB branch target
+        dw     $896C                        ; $94CD execution token
+        dw     XT_BRANCH                    ; $94CF execution token
+        dw     ANSWER_SELECTION_TASK_BR8    ; $94D1 branch target
+ANSWER_SELECTION_TASK_BR7:
+        dw     $8816                        ; $94D3 execution token
+ANSWER_SELECTION_TASK_BR8:
+        dw     $93B1                        ; $94D5 execution token
+ANSWER_SELECTION_TASK_BR9:
+        dw     XT_LITbyte                   ; $94D7 execution token
+        db     $10                          ; $94D9 inline byte
+        dw     XT_SET_TASK_VECTOR_0D        ; $94DA execution token
+        dw     $1A2C                        ; $94DC execution token
+        dw     XT_BRANCH                    ; $94DE execution token
+        dw     ANSWER_SELECTION_TASK_BR11   ; $94E0 branch target
+ANSWER_SELECTION_TASK_BR10:
+        dw     XT_LIT                       ; $94E2 execution token
+        dw     $F755                        ; $94E4 inline word
+        dw     XT_BONE                      ; $94E6 execution token
+ANSWER_SELECTION_TASK_BR11:
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $94E8 execution token
+        dw     XT_RETURN                    ; $94EA execution token
+        db     $1C,$14,$0D,$15,$AF,$11,$01,$00,$00,$00 ; $94EC preserved data
         db      $00,$00,$00,$05,$40,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00 ; $94F6
         db      $50,$14,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$05,$00,$01,$40 ; $9506
         db      $00,$00,$00,$00,$00,$00,$00,$00,$00,$50,$00,$00,$14,$04,$00,$00 ; $9516
