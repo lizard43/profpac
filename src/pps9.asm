@@ -2764,7 +2764,7 @@ TERSE_COLON_D628:
         db      $72,$77,$61,$72,$64,$73,$16,$66,$69,$6E,$64,$20,$69,$6E,$69,$74 ; $D641
         db      $69,$61,$6C,$20,$62,$61,$63,$6B,$77,$61,$72,$64,$73,$0D,$65,$6E ; $D651
         db      $74,$65,$72,$20,$69,$6E,$69,$74,$69,$61,$6C                     ; $D661
-TERSE_COLON_D66C:
+DRAW_INITIALS_ENTRY_INSTRUCTIONS:
         rst     $08                             ; $D66C colon entry
         dw      XT_0                    ; $D66D _0
         dw      XT_LITbyte              ; $D66F _LITbyte
@@ -3365,7 +3365,7 @@ ROUND_TERSE_DA22_BR3:
         dw     XT_0                         ; $DA51 execution token
 ROUND_TERSE_DA22_BR4:
         dw     XT_RETURN                    ; $DA53 execution token
-TERSE_COLON_DA55:
+INSERT_HIGH_SCORE_ENTRY:
         rst     $08                             ; $DA55 colon entry
         dw      XT_0                    ; $DA56 _0
         dw      XT_LITbyte              ; $DA58 _LITbyte
