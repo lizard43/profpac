@@ -1870,10 +1870,47 @@ LCFC8:
         dw      XT_0                    ; $CFDE _0
 LCFE0:
         dw      XT_RETURN               ; $CFE0 _RETURN
-        db      $CF,$12,$01,$05,$09,$01,$52,$F7,$32,$05,$12,$01,$10,$09,$01,$50 ; $CFE2
-        db      $F7,$32,$05,$02,$CF,$C8,$CE,$33,$CF,$9F,$34,$EA,$03,$1D,$D0,$48 ; $CFF2
-        db      $CF,$BA,$22,$09,$01,$52,$F7,$36,$01,$44,$05,$53,$01,$EA,$03,$19 ; $D002
-        db      $D0,$59,$CF,$E2,$03,$1B,$D0,$A1,$CF,$9F,$34,$EA,$03,$F7         ; $D012
+; Overlapping TERSE control flow: final 0BRANCH operand spans
+; $D01F (low byte $F7) and $D020 (colon opcode $CF). Preserve
+; the $D020 RST $08 entry as shared high operand byte.
+ROUND_TERSE_CFE2:
+        rst     $08                                ; $CFE2 colon entry
+        dw      XT_LITbyte                         ; $CFE3 execution token
+        db      $05                                ; $CFE5 inline byte
+        dw      XT_LIT                             ; $CFE6 execution token
+        dw      $F752                              ; $CFE8 inline word
+        dw      XT_SBbang                          ; $CFEA execution token
+        dw      XT_LITbyte                         ; $CFEC execution token
+        db      $10                                ; $CFEE inline byte
+        dw      XT_LIT                             ; $CFEF execution token
+        dw      $F750                              ; $CFF1 inline word
+        dw      XT_SBbang                          ; $CFF3 execution token
+        dw      $CF02                              ; $CFF5 execution token
+ROUND_TERSE_CFE2_BR1:
+        dw      $CEC8                              ; $CFF7 execution token
+        dw      $CF33                              ; $CFF9 execution token
+        dw      XT_QUESTION_MINUS_DUP              ; $CFFB execution token
+        dw      XT_0BRANCH                         ; $CFFD execution token
+        dw      ROUND_TERSE_CFE2_BR4               ; $CFFF branch target
+        dw      $CF48                              ; $D001 execution token
+        dw      XT_EXECUTE                         ; $D003 execution token
+        dw      XT_LIT                             ; $D005 execution token
+        dw      $F752                              ; $D007 inline word
+        dw      XT_DUP                             ; $D009 execution token
+        dw      XT_1minusBbang                     ; $D00B execution token
+        dw      XT_Bat                             ; $D00D execution token
+        dw      XT_0BRANCH                         ; $D00F execution token
+        dw      ROUND_TERSE_CFE2_BR2               ; $D011 branch target
+        dw      $CF59                              ; $D013 execution token
+        dw      XT_BRANCH                          ; $D015 execution token
+        dw      ROUND_TERSE_CFE2_BR3               ; $D017 branch target
+ROUND_TERSE_CFE2_BR2:
+        dw      $CFA1                              ; $D019 execution token
+ROUND_TERSE_CFE2_BR3:
+        dw      XT_QUESTION_MINUS_DUP              ; $D01B execution token
+ROUND_TERSE_CFE2_BR4:
+        dw      XT_0BRANCH                         ; $D01D execution token
+        db      $F7                                ; $D01F branch operand low; high byte at D020
 TERSE_COLON_D020:
         rst     $08                             ; $D020 colon entry
         dw      XT_DUP                  ; $D021 _DUP
