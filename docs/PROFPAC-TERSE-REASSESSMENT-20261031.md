@@ -138,15 +138,25 @@ This section supersedes the earlier missing-file inventory. The owner restored s
 
 The existing `tools/zmac`, `src/profpac_common.include`, `roms/orig/profpac.zip`, all nine `src/pps*.asm` files, and all fourteen `src/ppq*.asm` files remain present.
 
-### Actual outstanding build dependency
+### Recovered PPQ bank decoder
 
-**`tools/analyze_question_banks.py` is missing.** `tools/analyze_question_families.py` imports:
+**`tools/analyze_question_banks.py` has been reconstructed** from the
+original documented PPQ bank format and the calling interface in
+`tools/analyze_question_families.py`. The replacement strictly validates
+bank size, root and tier pointers, bucket counts, initializer ranges,
+`RST $08` signatures and the documented baseline inventory.
 
-```python
-from analyze_question_banks import BANK_BASE, PPQ_COUNT, decode_bank
-```
+A separate ROM-data check decoded all fourteen PPQ banks from the original
+archive and confirmed their documented root addresses, 201 references, and
+130 bank-local unique initializers. The full Python analyzer and zmac build
+have not yet been executed.
 
-The repository inventory contains no copy under `tools/`, the root or the former `temp/` folder. This is a direct Python dependency and needs recovery from the offline RE workspace before the analyzer chain can run.
+The dedicated RE pass in
+[RE-PASS-20261101.md](RE-PASS-20261101.md) also recovered two previously raw
+sound-control TERSE definitions in `pps2` (268 bytes), one native sound
+register writer and one state helper (43 bytes), and resolved callers and
+data-pointers in `pps3`. Native labels and function headers in `pps1`,
+`pps2` and `pps9` were improved without deliberate byte changes.
 
 ### Temporary worktree cleanup
 
@@ -160,9 +170,9 @@ The former `temp/` contained 109 files, overwhelmingly dated snapshots of now-ma
 
 ### Validation and next steps
 
-The explicit `build.sh` file paths have been restored, but **a complete assembly, archive SHA-1 verification, and analyzer execution have not yet been performed**. In particular, the missing `analyze_question_banks.py` module must be restored before the analyzer suite can run.
+All explicit `build.sh` analyzer paths and the newly recovered `analyze_question_banks.py` module now exist. The original PPQ bank-directory inventory has been independently checked against the archived ROM contents, but **a complete assembly, archive SHA-1 verification, and Python analyzer execution have not yet been performed**.
 
-The previous source-quality concerns are separate RE work: generic native labels, address-derived TERSE word names, and byte-defined graphics/data. No production ROMs, build script, or active assembler source was modified by this cleanup.
+The source-quality investigation is underway: named native helpers, a decoded sound-register writer, restored native code from raw DB spans, and two decoded audio TERSE words have been promoted. Generic native labels, other address-derived TERSE words, and unclassified data remain for further passes. No production ROMs or build script were modified. The subsequent targeted RE pass changed active assembly files only through comments, symbolic labels, and instruction/TERSE directives intended to preserve the original bytes.
 
 ## 7. Recommended next RE stages
 
