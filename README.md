@@ -287,3 +287,25 @@ execute the **same** script and checks, rather than duplicating logic.
 Analyzer details are saved in `build/analysis_*.log` on failure;
 the console shows the failing check and a short diagnostic. See
 [build and TERSE source recovery](docs/BUILD-ROUND-RE-20261101.md).
+
+
+### Hash comparisons and multi-entry TERSE validation
+
+All **23 per-ROM SHA-1 comparisons**, original-ROM byte checks, the full
+MAME archive byte comparison and the archive SHA-1 check run on every build.
+The default compact console prints passing counts; when a check fails it
+prints the ROM/package name and the **expected and built SHA-1 hashes**.
+`--verbose` shows both hashes for every successful ROM and the package.
+
+Stage 3 of the RE identifies multi-entry TERSE control flow in PPS8/PPS9 and
+fully decodes six more attract/prompt actions. Use the Node.js-only inspection
+tool for an independent original-ROM audit:
+
+```sh
+node tools/analyze_shared_threads.js --check-sources
+node tools/analyze_shared_threads.js --markdown
+```
+
+See [shared TERSE entrypoints](docs/SHARED-TERSE-ENTRYPOINTS.md) and the
+updated [TERSE dictionary](docs/terse_vocabulary.md). This optional
+inspection command does not replace the mandatory build/hash checks.
