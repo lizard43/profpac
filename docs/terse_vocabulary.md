@@ -238,3 +238,27 @@ with `node tools/analyze_shared_threads.js --markdown`.
 
 No stack effects are assigned without a complete caller/callee trace; that
 is the next semantic reconstruction task.
+
+
+## Stage 4 shared game-state vocabulary (2026-11-01)
+
+These are address-linked application words in PPS8 configuration 1. The labels
+describe verified memory access and call structure, not claimed historical
+TERSE source spellings.
+
+| Entry | Name | Implementation / stack status | Caller or memory reference |
+| --- | --- | --- | --- |
+| $BA31 | GAME_STATE_WORD_TRANSFER_BA31 | Shared colon path; stack effect pending | CORRECT_FEEDBACK_TASK at $BBCE; word access $F716/$F718/$F71A/$F71C |
+| $BACD | GAME_STATE_SHARED_ENTRY_BACD | Shared colon path; stack effect pending | Backward branch into shared path at $BA79 |
+| $BAD9 | GAME_STATE_SHARED_ENTRY_BAD9 | Shared colon path; stack effect pending | Reads/writes state-word quartet |
+| $BAED | GAME_STATE_SHARED_ENTRY_BAED | Shared colon path; stack effect pending | Reads/writes state-word quartet |
+| $BB27 | GAME_STATE_SHARED_ENTRY_BB27 | Shared colon path; stack effect pending | Reads/writes state-word quartet |
+| $BB68 | GAME_STATE_SHARED_ENTRY_BB68 | Shared colon path; stack effect pending | Reads/writes state-word quartet |
+| $BBE8 | GAME_STATE_APPLICATION_INIT_BBE8 | Shared colon path; stack effect pending | MAIN_APPLICATION at $BEE2; uses $F716/$F718/$F71C |
+| $BC83 | GAME_STATE_CONTINUATION_BC83 | Shared colon continuation; stack effect pending | Rejoins $BBE8 branch path; uses $F716/$F71C |
+| $BC8F | GAME_STATE_CONTINUATION_BC8F | Shared colon continuation; stack effect pending | Rejoins $BBE8 branch path; writes $F716/$F71C |
+| $BBB8 | CORRECT_FEEDBACK_TASK | Colon word; stack effect pending | Embedded "correct" text, $F758 state, calls $BA31 |
+
+See [Stage 4 shared game-state RE](STAGE4-SHARED-GAME-STATE.md).
+Run node tools/analyze_shared_threads.js --state --check-sources for a
+reproducible RAM-literal and next-memory-operation inventory.
