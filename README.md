@@ -83,7 +83,7 @@ through 39 are empty. A question selector maps one complete PPQ module into
 
 This **focused work-RAM submap** complements the hardware-wide CPU and question-bank diagrams above. The configuration-1 PPS8 shared threads reference a byte at `$F6EB` and four consecutive 16-bit words at `$F716–$F71D`. Correct-answer feedback (`$BBB8`) calls the real colon word at `$BA31`; `MAIN_APPLICATION` (`$BE66`) calls the other real colon word at `$BBE8`. Seven apparent RST markers embedded within their streams are actually `XT_equal` (`$01CF`) execution tokens, not additional words. The [Stage 5 runtime-aware audit](docs/STAGE5-RUNTIME-AWARE-STATE.md) and [deduplicated physical trace](docs/STAGE5-PHYSICAL-TRACE.md) document the original addressed bytes, RAM operations, and caller relationships. Two genuine state colon graphs expose 232 unique token addresses and 33 physical RAM-reference literals; 232 instruction cells in the shared source have been promoted to readable TERSE tokens without changing their byte values.
 
-The extracted target runtime in [DNA TERSE WB PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) and [DNA ICEBOX PR #104](https://github.com/lizard43/dnaIceBox/pull/104) now advances to `v20261102-0003`; its original `pps1` execution bytes and current four dictionary layers share the versioned compatibility identity. Stage 5 improves **game-word analysis**, not host interpreter/XC semantics or that extraction.
+The extracted target runtime in [DNA TERSE WB PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) and [DNA ICEBOX PR #104](https://github.com/lizard43/dnaIceBox/pull/104) now advances to `v20261102-0005`; its original `pps1` execution bytes and current four dictionary layers share the versioned compatibility identity. Stage 5 improves **game-word analysis**, not host interpreter/XC semantics or that extraction.
 
 The complete memory, I/O, banking, video, and control specification is in
 [hardware.md](docs/hardware.md).
@@ -334,3 +334,8 @@ The WB component lives at `runtime/components/profpac-current/`: one evolving ru
 For the complete 232-cell, bank-aware shared execution-token map, see [Stage 5 token map](docs/STAGE5-TOKEN-MAP.md). Regenerate it using `node tools/analyze_shared_threads.js --token-map --check-sources` against the original ROM.
 
 **Stage 5 correction:** Seven former `$CF` 'colon markers' were `$01CF` (`XT_equal`) threaded tokens. They are not additional RST `$08` words. The two true colon roots are `$BA31` and `$BBE8`; the primary game dictionary now contains **435** words. See [Stage 5 corrected analysis](docs/STAGE5-RUNTIME-AWARE-STATE.md).
+
+
+### Stage 5 graphics and verified ROM acceptance
+
+The two state roots are named `CORRECT_FEEDBACK_AXIS_ANIMATION` ($BA31) and `MAIN_APPLICATION_AXIS_ANIMATION` ($BBE8). Their target/step RAM fields and native object-axis accessors are documented in [Stage 5 hardware analysis](docs/STAGE5-RUNTIME-AWARE-STATE.md#recovered-animation-axis-semantics-and-display-hardware). The direct hardware output is to display-page port $BF, with masked-screen drawing through PPS2:$2D2B and glyph refresh at PPS2:$2083. Use `node tools/verify_stage5_rom.js` for the independent original ZIP/23-ROM/617+16-byte acceptance; `./build.sh --clean` includes this check and the complete assembled 23-ROM/TorrentZIP regression.
