@@ -3094,7 +3094,19 @@ L1B20:
         exx                             ; $1B20
         pop bc                          ; $1B21
         ret                             ; $1B22
-        db      $D5,$CD,$C3,$1A,$D1,$CD,$F4,$1A,$C9,$CD,$C3,$1A,$E5,$FD,$E9     ; $1B23
+; Native calculation helper at $1B23 (register-only subroutine).
+        push de                         ; $1B23
+        call NATIVE_1AC3                ; $1B24
+        pop de                          ; $1B27
+        call NATIVE_1AF4                ; $1B28
+        ret                             ; $1B2B
+; TERSE native drawing source producer. $1AC3 works on register state,
+; then PUSH HL places its result on the TERSE parameter stack.
+; ( -- computed-object-value ), before subsequent DROP/drawing operations.
+NATIVE_OBJECT_DRAW_SOURCE_1B2C:
+        call NATIVE_1AC3                ; $1B2C
+        push hl                         ; $1B2F
+        jp (iy)                         ; $1B30
 NATIVE_1B32:
         call NATIVE_1AC3                ; $1B32
         pop de                          ; $1B35
