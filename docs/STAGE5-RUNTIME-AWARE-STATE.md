@@ -1,63 +1,42 @@
-# Stage 5 — original-runtime-aware game-state RE
+# Stage 5 — PPS8 shared-state reverse engineering
 
-Date: 2026-11-02. ROM context: **configuration 1, PPS8**. This stage extends the existing Stage 4 physical-entry analysis; it does not change the target interpreter or any ROM bytes.
+Date: 2026-11-02. Source: Professor Pac-Man configuration-1 `pps8` program ROM.
 
-## Goals
+## Scope and implementation
 
-1. Track the physical instruction cells that load the RAM quartet `$F716`, `$F718`, `$F71A`, `$F71C` and flag byte `$F6EB`.
-2. Distinguish proved direct fetch/store operations from literals used in another way. Do not count overlapping entrypoint traversals as independent physical writes.
-3. Preserve the application call boundaries `$BBCE -> $BA31` and `$BEE2 -> $BBE8`.
-4. Align game-word annotations with the current extracted target runtime and bank-aware dictionary inventory.
-5. Improve the README with a dedicated work-RAM submap, without confusing it with the CPU-wide ROM/bank map.
+Stage 5 moves the nine overlapping entrypoints beyond address-only labels. The byte-addressed PPS8 source now expresses **184 physical TERSE instruction cells as named `dw` tokens** in place of raw `db` data, across `$BA31–$BBA6` and `$BBE8–$BCDA`. The remaining boundary bytes stay as explicit `db` because interpreting them as a single linear token stream conflicts with another entrypoint or requires more evidence. A static source-byte reconstruction compared every byte in those converted ranges with the prior source and found **zero differences**.
 
-## Runtime/library baseline: WB #38 and ICEBOX #104
+The native execution model is the separately extracted Professor Pac-Man direct-16 runtime: colon entry `$0008`, NEXT `$00F6`, 100 native-root dictionary entries. No host TERSE interpreter or XC is changed.
 
-- [WB runtime extraction PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38): `runtime/components/profpac-1983-v20261101-0001/`.
-- [ICEBOX registration PR #104](https://github.com/lizard43/dnaIceBox/pull/104): `terse/runtime/profpac-direct-threaded/`.
-- Both PRs pin **the same extracted original** `pps1.bin`, SHA-1 `f7a9606ce6d66c3e6d210cc25572904aeab2b6c8`.
-- ABI: colon `$0008`, NEXT `$00F6`, root `$00FD–$05B7`, BC threaded IP, IX control stack, SP parameter stack, IY continuation; little-endian fixed 16-bit execution addresses.
-- Dictionary layers: **100 root** words; **46 platform** aliases; **442 game** colon entries (ROM/configuration namespaces); **130 question initializers** and **201 tier references** across 14 banks.
-- These inventories are **current versioned address and provenance records**, not completed semantic definitions of all game words. The host interpreter and XC are independent; neither PR establishes a working Professor Pac-Man compiler binding.
+## Entry graphs and state behavior
 
-**Compatibility rule:** future dictionary-semantic revisions may add justified names, stack effects, cross references and RAM field descriptions. Advance the current version and compatibility ID with proven updates; do not silently merge same-address names from different bank contexts, rebind an XC, or change older host interpreter bytes.
+The feedback family is `$BA31, $BACD, $BAD9, $BAED, $BB27, $BB68`; they share their central instruction stream, including the word-read/transfer paths starting at `$BA79`. `CORRECT_FEEDBACK_TASK` at `$BBB8` executes `$BA31` through cell `$BBCE`. The application family is `$BBE8, $BC83, $BC8F`; `MAIN_APPLICATION` at `$BE66` calls `$BBE8` through `$BEE2`. These are verified address-bearing cells in the source.
 
-## Physical RAM fields
+The four adjacent work-RAM words are `$F716, $F718, $F71A, $F71C`. The shared byte `$F6EB` is read or reset as part of the feedback family. In particular, `$BAE1` is **LIT $F6EB; DUP**, not a direct read or write; the value's later consumer must be tracked separately. All five addresses occur within work RAM `$E800–$FFFF`, not the battery-backed `$E000–$E7FF` region.
 
-| Address | Width | Evidence | Conservative meaning |
-| --- | --- | --- | --- |
-| `$F6EB` | byte | LIT followed by byte-oriented operations in shared threads | Shared state flag/counter |
-| `$F716–$F717` | word | LIT `$F716` paired with word operations | Shared word state 0 |
-| `$F718–$F719` | word | LIT `$F718` paired with word operations | Shared word state 1 |
-| `$F71A–$F71B` | word | LIT `$F71A` paired with word operations | Shared word state 2 |
-| `$F71C–$F71D` | word | LIT `$F71C` paired with word operations | Shared word state 3 |
+The original addressed source yields **334 distinct reachable physical TERSE token addresses** over the nine separately traversed entry graphs. Deduplication produces **33 distinct literal cells** referencing the five watched RAM addresses: `$F6EB` 5, `$F716` 8, `$F718` 8, `$F71A` 3, `$F71C` 9. The direct fetch/store operations and shared reachability for every physical cell are in [the Stage 5 physical trace](STAGE5-PHYSICAL-TRACE.md). Do not multiply an operation merely because six alternative entrypoints share it.
 
-Addresses are observed in the original ROM's literal/primitive stream, not guessed from variable names. They reside in the **work RAM `$E800–$FFFF`** part of the CPU map, distinct from persistent `$E000–$E7FF` state.
+## Object, display, and output effects
 
-## Source execution and shared ownership
+The feedback sequence calls `OUTP` at `$BBC2` before calling the shared transfer routine, confirming a hardware output in the correct-feedback path. The shared threads call object-state setters `$1D24` (value 1), `$1D3C` (value 2), `$1D54` (value pair), object field updater `$1E8E`, and render/graphics-associated vocabulary such as `$2083`. These establish an observable path from state setup/transfer into the existing object presentation system. They do not by themselves prove an exact gameplay label such as score, difficulty, or current question.
 
-| Entry | Source word | Relationship |
-| --- | --- | --- |
-| `$BA31` | `GAME_STATE_WORD_TRANSFER_BA31` | Called at `$BBCE` by `CORRECT_FEEDBACK_TASK` (`$BBB8`) |
-| `$BACD`, `$BAD9`, `$BAED`, `$BB27`, `$BB68` | `GAME_STATE_SHARED_ENTRY_*` | Alternate entrypoints, with backward branches into common state logic |
-| `$BBE8` | `GAME_STATE_APPLICATION_INIT_BBE8` | Called at `$BEE2` by `MAIN_APPLICATION` (`$BE66`) |
-| `$BC83`, `$BC8F` | `GAME_STATE_CONTINUATION_*` | Shared continuation with `$BBE8`, converging before `$BCDB` |
+## Stack-contract boundary
 
-The first family is reached through correct-answer feedback; the second through normal application initialization. This proves **caller relationships**, not yet a definitive gameplay role or full stack contract for the shared state words. The shared entries are overlapping physical byte paths, **not nine separately allocated ROM routines**.
+The native root dictionary supplies known primitive effects (`LIT`, `@`, `!`, `B@`, `BZERO`, `DUP`, etc.). The nine **compound** entries also invoke task and object words, some outside the selected physical bank. Consequently their complete input/output stack effects cannot be established simply by summing the root primitives. Their library `stackEffect` is retained as `null` rather than fabricated. The call edges and physical state access metadata have been committed to the *primary* game dictionary.
 
-See [the Stage 5 RAM diagram](../images/professor-pacman-game-state-map.svg), [Stage 4](STAGE4-SHARED-GAME-STATE.md) and [main progression](game_progression.md).
+## Single current WB / ICEBOX runtime
 
-## Reproducible Stage 5 inspection
+WB [PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) maintains only `runtime/components/profpac-current/`; ICEBOX [PR #104](https://github.com/lizard43/dnaIceBox/pull/104) maintains only `terse/runtime/profpac-direct-threaded/`. Both carry **v20261102-0002** and the same current compatibility ID `z80-direct16-profpac-v20261102-0002-pps1-f7a9606ce6d66c3e6d210cc25572904aeab2b6c8`. Older package revisions and the redundant Stage 5 overlay were removed; there is one editable working baseline, not a frozen copy for each stage.
+
+The unchanged original PPS1 SHA-1 identifies the original ROM image as *provenance*, not a pinned software revision. Dictionary records remain bank-aware: 100 native root words, 46 platform aliases, 442 program words, and 130 question initializer words.
+
+## Reproduction and remaining acceptance checks
 
 ```sh
-node tools/analyze_shared_threads.js --state-detail --check-sources
+node tools/analyze_shared_threads.js --state-audit --check-sources
 node tools/analyze_shared_threads.js --state-check --check-sources
 ./build.sh --clean
 ```
 
-The new `--state-detail` prints a row for each physical LIT cell of an observed RAM address, its reachability entry, and the immediate next execution token. `--state-check` additionally asserts two fixed-ROM caller tokens, all nine registered entrypoints and a directly observed memory primitive for each quartet address. The analyzer reads the **original archive** and retains the existing PPS8/PPS9 SHA-1 and source-entry checks. Repeated physical cells may appear under multiple entrypoints; the report explicitly preserves that distinction.
+The source conversion was checked against the preceding `pps8.asm` byte declarations (zero differences for all converted ranges). Original-ROM analyzer execution, zmac assembly, all 23 ROM SHA-1 comparisons, and the ZIP byte-for-byte rebuild **have not been executed through this GitHub-only environment**. These remain required before merge; neither the source conversion nor its dictionary synchronization is claimed to have passed a full local build.
 
-**Acceptance boundary:** original 23 ROM SHA-1 matches, per-ROM byte equality, exact canonical MAME ZIP, and all existing source/PPQ checks must pass on a local checkout. No post-change full build or real-original-ZIP analyzer run has been performed by the GitHub connector.
-
-## Next semantic pass
-
-Trace consumers of the values written to the quartet and determine how the correct-feedback path affects those fields versus initial setup. Where the downstream use proves a concrete purpose, add the semantic name, input/output stack effect and physical caller/callee link to the **game dictionary** with configuration `1` and ROM `pps8`. Update the WB/ICEBOX current identity and primary game dictionary together as semantics improve, retaining exact original-ROM provenance.
