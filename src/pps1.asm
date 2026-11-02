@@ -2838,11 +2838,45 @@ L158E:
         ld sp,($fe87)                   ; $158E
         ld ix,($fe89)                   ; $1592
         jp L14DA                        ; $1596
-        db      $FD,$E3,$FD,$70,$01,$FD,$71,$00,$FD,$7E,$04,$CB,$4F,$CA,$AC,$15 ; $1599
-        db      $2F,$CB,$5F,$C2,$B9,$15,$CD,$4A,$0D,$3A,$A0,$FE,$3D,$FD,$77,$0A ; $15A9
-        db      $FD,$CB,$04,$9E,$FD,$CB,$04,$CE,$FD,$CB,$04,$C6,$FD,$E5,$E1,$ED ; $15B9
-        db      $5B,$8F,$FE,$B7,$ED,$52,$C2,$D9,$15,$CD,$4A,$0D,$E1,$C3,$7E,$15 ; $15C9
-        db      $FD,$E1,$DD,$4E,$00,$DD,$23,$DD,$46,$00,$DD,$23,$FD,$E9         ; $15D9
+; Task continuation dispatcher: NOT a conventional stack-balanced TERSE primitive.
+; Entry $1599 exchanges IY with the top-of-data-stack task context,
+; stores BC threaded IP to task +0/+1 and may switch scheduler context.
+; Return either resumes IX threaded control stack or jumps to $157E.
+ACTION_TASK_SCHEDULER_ENTRY:
+        ex (sp),iy                     ; $1599
+        ld (iy+1),b                     ; $159B
+        ld (iy+0),c                     ; $159E
+        ld a,(iy+4)                     ; $15A1
+        bit 1,a                         ; $15A4
+        jp z,L15AC                      ; $15A6
+        cpl                             ; $15A9
+        bit 3,a                         ; $15AA
+L15AC:
+        jp nz,L15B9                     ; $15AC
+        call NATIVE_0D4A                ; $15AF
+        ld a,($fea0)                    ; $15B2
+        dec a                            ; $15B5
+        ld (iy+10),a                    ; $15B6
+L15B9:
+        res 3,(iy+4)                    ; $15B9
+        set 1,(iy+4)                    ; $15BD
+        set 0,(iy+4)                    ; $15C1
+        push iy                         ; $15C5
+        pop hl                          ; $15C7
+        ld de,($fe8f)                   ; $15C8
+        or a                            ; $15CC
+        sbc hl,de                       ; $15CD
+        jp nz,L15D9                     ; $15CF
+        call NATIVE_0D4A                ; $15D2
+        pop hl                          ; $15D5
+        jp L157E                        ; $15D6
+L15D9:
+        pop iy                          ; $15D9
+        ld c,(ix+0)                     ; $15DB
+        inc ix                          ; $15DE
+        ld b,(ix+0)                     ; $15E0
+        inc ix                          ; $15E3
+        jp (iy)                         ; $15E5
 NATIVE_15E7:
         ld iy,($fe8f)                   ; $15E7
         ld (iy+2),c                     ; $15EB
