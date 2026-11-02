@@ -1357,9 +1357,9 @@ GAME_STATE_APPLICATION_INIT_BBE8:
         dw      XT_LITbyte ; $BBEB TERSE execution token
         db      $2A ; $BBED inline byte
         dw      XT_LIT ; $BBEE TERSE execution token
-        dw      $00BF ; $BBF0 inline word
+        dw      PORT_SCREEN_PAGE ; $BBF0 inline word
         dw      XT_OUTP ; $BBF2 TERSE execution token
-        dw      $2D2B ; $BBF4 TERSE execution token
+        dw      XT_SCREEN_INTERCEPT_ACTION ; $BBF4 TERSE execution token
         dw      XT_LIT ; $BBF6 TERSE execution token
         dw      $FFFF ; $BBF8 inline word
         dw      XT_LIT ; $BBFA TERSE execution token
@@ -1470,10 +1470,10 @@ GAME_STATE_APPLICATION_INIT_BBE8:
         dw      XT_LIT ; $BCC5 TERSE execution token
         dw      $FFDD ; $BCC7 inline word
         dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BCC9 TERSE execution token
-        dw      $2083 ; $BCCB TERSE execution token
+        dw      XT_UPDATE_OBJECT_GLYPH ; $BCCB TERSE execution token
         dw      XT_0 ; $BCCD TERSE execution token
         dw      XT_LIT ; $BCCF TERSE execution token
-        dw      $00BF ; $BCD1 inline word
+        dw      PORT_SCREEN_PAGE ; $BCD1 inline word
         dw      XT_OUTP ; $BCD3 TERSE execution token
         dw      XT_CLEAR_TASK_ACTIVE_BIT ; $BCD5 TERSE execution token
         dw      $2789 ; $BCD7 TERSE execution token
