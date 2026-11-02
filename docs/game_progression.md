@@ -173,3 +173,20 @@ regions, observed 16-bit read/write primitives, and known callers.
 ## Stage 5 — state words into object presentation
 
 The `CORRECT_FEEDBACK_TASK` ($BBB8) executes an output-port operation at `$BBC2` and enters the shared feedback state transformer at `$BBCE → $BA31`. The `MAIN_APPLICATION` ($BE66) reaches the related application setup thread at `$BEE2 → $BBE8`. These paths write/read the quartet of 16-bit work-RAM fields at `$F716/$F718/$F71A/$F71C`, and the feedback family also consults or resets `$F6EB`. Object field setters (`$1D24`, `$1D3C`, `$1D54`, `$1E8E`) and graphics-associated tokens occur along the state paths. The evidence establishes state-to-object-output relationships, not a particular score/question identity. See [the Stage 5 physical source trace](STAGE5-PHYSICAL-TRACE.md) for deduplicated literal sites, exact operations, and shared-entry ownership.
+
+## Fixed-ROM object vocabulary: recovered stack contracts
+
+The Stage 5 state threads invoke PPS1's object setter/getter words. Inspection of their native Z80 bodies supplies actual stack effects:
+
+| PPS1 execution address | Word / implementation | Proven stack effect | Implementation evidence |
+| --- | --- | --- | --- |
+| `$1D24` | Object value-1 setter | `( value1 -- )` | `POP HL`, convert via `$1B3C`, write record `+25/+26` |
+| `$1D3C` | Object value-2 setter | `( value2 -- )` | `POP HL`, convert via `$1B9E`, write record `+27/+28` |
+| `$1D54` | TERSE paired setter | `( value1 value2 -- )` | Executes `$1D3C`, then `$1D24`, then `RETURN` |
+| `$1D9B` | Object value-1 getter | `( object-record -- value1 )` | `POP HL` record pointer, read `+25/+26`, transform, `PUSH HL` |
+| `$1DAA` | Object value-2 getter | `( object-record -- value2 )` | `POP HL` record pointer, read `+27/+28`, transform, `PUSH HL` |
+| `$1E7D` | Object byte-18 setter | `( byte -- )` | `POP DE`, write E to current record `+24` |
+| `$1E8E` | Object word-1D setter | `( word -- )` | `POP DE`, write E/D to current record `+29/+30` |
+
+These seven effects are recorded in the WB/ICEBOX current **platform dictionary**, and the `$1D54` compound effect is also present in the program-word dictionary. Naming and inline function headers were added to the original `src/pps1.asm`, with the ICEBOX project copy synchronized. This proves the object-state transformation called by the shared animation threads; it does **not** automatically establish the entire task-entry word's stack contract.
+
