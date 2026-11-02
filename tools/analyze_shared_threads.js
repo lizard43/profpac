@@ -41,7 +41,7 @@ const ENTRY_GROUPS = Object.freeze([
   { rom: 'pps9', name: 'Coin/credit precursor',
     entries: [0xd426], entryOnly: true },
 ]);
-const OPTIONS = new Set(['--check-sources', '--markdown', '--state', '--state-detail', '--state-check', '--state-audit', '--help']);
+const OPTIONS = new Set(['--check-sources', '--markdown', '--state', '--state-detail', '--state-check', '--state-audit', '--token-map', '--help']);
 const hx = n => '$' + n.toString(16).toUpperCase().padStart(4, '0');
 
 function die(message) { throw new Error(message); }
@@ -310,6 +310,34 @@ function stateDetail(result, strict) {
  * when several entry points execute the exact same ROM cells. The ownership
  * column identifies all such entry points; it is not a dynamic call count.
  */
+function stateTokenMap(result) {
+  const inv = stateInventory(result);
+  const physical = new Map();
+  const labels = new Map();
+  const include = fs.readFileSync(path.join(ROOT, 'src', 'profpac_common.include'), 'utf8');
+  for (const line of include.split(/\r?\n/)) {
+    const match = line.match(/^\s*(XT_[A-Za-z0-9_]+)\s+equ\s+\$([0-9A-F]{4})/i);
+    if (match) labels.set(parseInt(match[2],16),match[1]);
+  }
+  for (const def of inv.groups) for (const cell of def.cells) {
+    if (!physical.has(cell.address)) physical.set(cell.address,{cell,owners:[]});
+    const record=physical.get(cell.address);
+    if (record.cell.token!==cell.token || record.cell.end!==cell.end)
+      die('Differing physical XT decode at '+hx(cell.address));
+    record.owners.push(def.entry);
+  }
+  console.log('# Stage 5 — physical TERSE token map');
+  console.log('Original PPS8 ROM; 9 physical entry graphs; unique cell addresses only.');
+  console.log('| Physical cell | Execution token | Inline operand | Reachable entrypoints |');
+  console.log('| --- | --- | --- | --- |');
+  for (const {cell,owners} of [...physical.values()].sort((a,b)=>a.cell.address-b.cell.address)) {
+    const token=labels.get(cell.token)||hx(cell.token);
+    console.log('| '+hx(cell.address)+' | '+token+' | '+
+      (cell.operand===null?'—':hx(cell.operand))+' | '+owners.map(hx).join(', ')+' |');
+  }
+  console.log('Unique physical XT addresses: '+physical.size);
+}
+
 function stateAudit(result) {
   const inv = stateInventory(result);
   const physical = new Map();
@@ -410,13 +438,14 @@ function report(result, markdown) {
 function main(args) {
   for (const a of args) if (a.startsWith('-') && !OPTIONS.has(a)) die('Unknown option ' + a);
   if (args.includes('--help')) {
-    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown|--state|--state-detail|--state-audit] [--state-check]');
+    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown|--state|--state-detail|--state-audit|--token-map] [--state-check]');
     return;
   }
   const archiveName = args.find(a => !a.startsWith('-')) || 'roms/orig/profpac.zip';
   const result = inventory(fs.readFileSync(path.resolve(ROOT, archiveName)),
     args.includes('--check-sources'));
-  if (args.includes('--state-audit')) stateAudit(result);
+  if (args.includes('--token-map')) stateTokenMap(result);
+  else if (args.includes('--state-audit')) stateAudit(result);
   else if (args.includes('--state-check') || args.includes('--state-detail'))
     stateDetail(result, args.includes('--state-check'));
   else if (args.includes('--state')) stateReport(result);
