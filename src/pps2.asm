@@ -72,7 +72,8 @@ L2049:
         pop iy                          ; $207B
         ret                             ; $207D
         db      $CD,$C4,$1F,$FD,$E9                                             ; $207E
-NATIVE_2083:
+; Refresh glyph/render state for the current object ( -- ); calls fixed-ROM $1FC4 and restores its object value-1 field.
+REFRESH_CURRENT_OBJECT_GLYPH:
         push iy                         ; $2083
         ld iy,($fe8f)                   ; $2085
         ld h,(iy+26)                    ; $2089
@@ -996,7 +997,7 @@ TERSE_COLON_2CA4:
         dw      XT_SWAP                 ; $2CAD _SWAP
         dw      XT_BONE                 ; $2CAF _BONE
         dw      $1EA8                ; $2CB1 execution token $1EA8
-        dw      NATIVE_2083          ; $2CB3 NATIVE_2083
+        dw      REFRESH_CURRENT_OBJECT_GLYPH          ; $2CB3 REFRESH_CURRENT_OBJECT_GLYPH
         dw      TERSE_COLON_2C8A     ; $2CB5 TERSE_COLON_2C8A
         dw      XT_RETURN               ; $2CB7 _RETURN
 NATIVE_2CB9:
@@ -1257,7 +1258,7 @@ L33D3:
         dw      $3389                ; $33DD inline word
         dw      XT_plus                 ; $33DF _plus
         dw      $1E8E                ; $33E1 execution token $1E8E
-        dw      NATIVE_2083          ; $33E3 NATIVE_2083
+        dw      REFRESH_CURRENT_OBJECT_GLYPH          ; $33E3 REFRESH_CURRENT_OBJECT_GLYPH
         dw      XT_LITbyte              ; $33E5 _LITbyte
         db      $0A                  ; $33E7 inline byte
         dw      TERSE_COLON_33B1     ; $33E8 TERSE_COLON_33B1
@@ -1272,11 +1273,11 @@ L33D3:
         dw      XT_LIT                  ; $33F8 _LIT
         dw      $33AF                ; $33FA inline word
         dw      $1E8E                ; $33FC execution token $1E8E
-        dw      NATIVE_2083          ; $33FE NATIVE_2083
+        dw      REFRESH_CURRENT_OBJECT_GLYPH          ; $33FE REFRESH_CURRENT_OBJECT_GLYPH
         dw      XT_LITbyte              ; $3400 _LITbyte
         db      $08                  ; $3402 inline byte
         dw      TERSE_COLON_33B1     ; $3403 TERSE_COLON_33B1
-        dw      NATIVE_2083          ; $3405 NATIVE_2083
+        dw      REFRESH_CURRENT_OBJECT_GLYPH          ; $3405 REFRESH_CURRENT_OBJECT_GLYPH
 L3407:
         dw      XT_LITbyte              ; $3407 _LITbyte
         db      $06                  ; $3409 inline byte
