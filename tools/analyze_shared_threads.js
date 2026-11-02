@@ -39,7 +39,7 @@ const ENTRY_GROUPS = Object.freeze([
   { rom: 'pps8', name: 'Shared application continuation',
     entries: [0xbbe8, 0xbc83, 0xbc8f] },
   { rom: 'pps9', name: 'Coin/credit precursor',
-    entries: [0xd426] },
+    entries: [0xd426], entryOnly: true },
 ]);
 const OPTIONS = new Set(['--check-sources', '--markdown', '--help']);
 const hx = n => '$' + n.toString(16).toUpperCase().padStart(4, '0');
@@ -48,8 +48,13 @@ function die(message) { throw new Error(message); }
 
 function readZipMember(archive, target) {
   // Central directory records are authoritative for compressed sizes.
-  for (let p = 0; p + 46 <= archive.length; ) {
-    if (archive.readUInt32LE(p) !== 0x02014b50) { p += 1; continue; }
+  const eocd = archive.lastIndexOf(Buffer.from('PK\x05\x06', 'binary'));
+  if (eocd < 0 || eocd + 22 > archive.length) die('Missing ZIP central directory');
+  const central = archive.readUInt32LE(eocd + 16);
+  const centralEnd = central + archive.readUInt32LE(eocd + 12);
+  for (let p = central; p + 46 <= centralEnd; ) {
+    if (archive.readUInt32LE(p) !== 0x02014b50)
+      die('Invalid ZIP central record at byte ' + p);
     const method = archive.readUInt16LE(p + 10);
     const compressed = archive.readUInt32LE(p + 20);
     const nameLength = archive.readUInt16LE(p + 28);
@@ -132,7 +137,9 @@ function inventory(archive, checkSources) {
   const findings = [];
   for (const group of ENTRY_GROUPS) {
     const definitions = group.entries.map(entry =>
-      decode(banks[group.rom], group.rom === 'pps8' ? 0xa000 : 0xc000, entry));
+      group.entryOnly
+        ? { entry, end: entry + 1, cellCount: 0, cells: [], entryOnly: true }
+        : decode(banks[group.rom], group.rom === 'pps8' ? 0xa000 : 0xc000, entry));
     findings.push({ rom: group.rom, name: group.name, definitions });
   }
   // Count shared physical bytes, not just intersecting nominal end ranges.
@@ -167,6 +174,7 @@ function inventory(archive, checkSources) {
     }
   }
   return { findings, entries: all.length,
+    decoded: all.filter(def => !def.entryOnly).length,
     sharedEntries: all.filter(def => def.overlaps.length).length };
 }
 
@@ -179,13 +187,16 @@ function report(result, markdown) {
       for (const d of group.definitions) {
         const overlaps = d.overlaps.map(x => hx(x.entry) + ' (' + x.bytes + ')').join(', ') || '—';
         console.log('| ' + group.rom + ' | ' + group.name + ' | ' +
-          hx(d.entry) + ' | ' + hx(d.end) + ' | ' + d.cellCount +
+          hx(d.entry) + ' | ' + (d.entryOnly ? 'entry only' : hx(d.end)) + ' | ' +
+          (d.entryOnly ? '—' : d.cellCount) +
           ' | ' + overlaps + ' |');
       }
     }
   } else {
-    console.log('Shared TERSE graph: ' + result.entries + ' entrypoints, ' +
-      result.sharedEntries + ' overlapping entries; original ROM hashes verified');
+    console.log('Shared TERSE graph: ' + result.entries + ' entrypoints (' +
+      result.decoded + ' decoded, ' + (result.entries - result.decoded) +
+      ' entry-only), ' + result.sharedEntries +
+      ' overlapping entries; original ROM hashes verified');
     for (const g of result.findings)
       console.log('  ' + g.rom + ' ' + g.name + ': ' + g.definitions.length + ' entries');
   }
