@@ -48,9 +48,9 @@ The native routines have meaningful labels and function headers in `src/pps1.asm
 
 ## One evolving library, not revision snapshots
 
-[WB PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) owns `runtime/components/profpac-current/`; [ICEBOX PR #104](https://github.com/lizard43/dnaIceBox/pull/104) mirrors it in `terse/runtime/profpac-direct-threaded/`. Their latest working version is **v20261102-0003**; their manifest identity and all four dictionary layers advance together. There are no historical copied runtime packages or separate Stage 5 overlay. The original PPS1 binary hash `f7a9606ce6d66c3e6d210cc25572904aeab2b6c8` is retained solely as provenance for unchanged original bytes. Host interpreters and XC are independent and untouched.
+[WB PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) owns `runtime/components/profpac-current/`; [ICEBOX PR #104](https://github.com/lizard43/dnaIceBox/pull/104) mirrors it in `terse/runtime/profpac-direct-threaded/`. Their latest working version is **v20261102-0005**; their manifest identity and all four dictionary layers advance together. There are no historical copied runtime packages or separate Stage 5 overlay. The original PPS1 binary hash `f7a9606ce6d66c3e6d210cc25572904aeab2b6c8` is retained solely as provenance for unchanged original bytes. Host interpreters and XC are independent and untouched.
 
-The corrected game dictionary contains **435 original RST $08 game words**, after seven false positives are removed. Other layers retain **100 root**, **46 platform** and **130 question-initializer** entries.
+The corrected game dictionary contains **436 original RST $08 game words**, after seven false positives are removed. Other layers retain **100 root**, **52 platform** and **130 question-initializer** entries.
 
 ## Reproduction and acceptance
 
@@ -61,4 +61,34 @@ node tools/analyze_shared_threads.js --state-check --check-sources
 ./build.sh --clean
 ```
 
-The source-byte reconstruction has been compared against its original addressed bytes. **Real-ROM analyzer execution, assembler rebuild, 23-ROM hashes and canonical ZIP equality have not been run through this GitHub-only access**, and remain merge acceptance checks. The audit and dictionary evidence distinguish verified native and root-word stack behavior from unproven compound effects.
+The source-byte reconstruction has been compared against its original addressed bytes. **Original ZIP and all 23 original ROM hashes were checked through an independent original-archive extraction; the source bytes of both Stage 5 colon words were checked against original PPS8. The zmac rebuild, reconstructed ZIP comparison and Node test-suite executions have not been run in this environment**, and remain merge acceptance checks. The audit and dictionary evidence distinguish verified native and root-word stack behavior from unproven compound effects.
+
+## Recovered animation-axis semantics and display hardware
+
+Four original PPS1 native routines operate on two presentation-axis words in the active object record:
+
+| Native XT | Data stack | Object offset | Mechanism |
+| --- | --- | --- | --- |
+| `$1C5F` `XT_SET_CURRENT_OBJECT_AXIS_A` | `( axisA -- )` | `+$34/+$35` | Convert via `$1B3C` then store |
+| `$1C71` `XT_SET_CURRENT_OBJECT_AXIS_B` | `( axisB -- )` | `+$36/+$37` | Convert via `$1B9E` then store |
+| `$1C96` `XT_GET_OBJECT_AXIS_A` | `( object-record -- axisA )` | `+$34/+$35` | Read and convert via `$1B60` |
+| `$1CA5` `XT_GET_OBJECT_AXIS_B` | `( object-record -- axisB )` | `+$36/+$37` | Read and convert via `$1BB3` |
+
+The two true PPS8 root words compare object axes with these work-RAM targets and use per-axis steps to interpolate their presentation state:
+
+| RAM | Established role | Evidence |
+| --- | --- | --- |
+| `$F716` | Axis-B terminal target | Compared with `XT_GET_OBJECT_AXIS_B` at `$BA81/$BC3F` |
+| `$F718` | Axis-A terminal target | Compared with `XT_GET_OBJECT_AXIS_A` at `$BABD/$BC7B` |
+| `$F71A` | Feedback axis-B motion step | Read at `$BA91`, doubled and applied by `XT_SET_CURRENT_OBJECT_AXIS_B` |
+| `$F71C` | Feedback axis-A step and application shared step | Read at `$BAAA/$BC4F/$BC68`, doubled before corresponding axis setters |
+| `$F6EB` | Feedback animation phase counter | Zeroed at `$BA51`, incremented at `$BAE7`, checked against 1, 2, 3, and terminal 4 |
+
+The A/B axes correspond to two native presentation dimensions. Their mapping to the visible screen's horizontal and vertical directions is intentionally not invented.
+
+**Graphics I/O rather than sound:** PPS1 `XT_OUTP` (`$02D8`) pops the port into BC and value into HL before `OUT (C),L`. Thus `$BBC2` outputs `$15` to `PORT_SCREEN_PAGE $BF`, `$BBF2` outputs `$2A` to the same port, and `$BCD3` outputs `$00`. These are **screen-page operations**, not writes to the audio ports. The normal application calls the genuine PPS2 `SCREEN_INTERCEPT_ACTION_2D2B` (`$BBF4`), whose native `$2D08` implementation writes `PORT_SCREEN_INTERCEPT $C3` and `PORT_SCREEN_WRITE_MASK $C5`. The tail calls the PPS2 glyph-refresh native XT `$2083`, which delegates to the fixed-ROM glyph routine `$1FC4`. These establish the display/drawing path from the animated state words; any sound response is outside these immediate calls.
+
+**Current runtime inventory:** `v20261102-0005`, one package per library, **100 native-root, 52 platform, 436 program-colon and 130 question-initializer words**. The extra program colon `$2D2B` is a true original `RST $08` action recovered during the Stage 5 graphics trace. There are no historical Professor Pac-Man runtime packages to preserve.
+
+**Independent original-ROM acceptance:** the original `profpac.zip` archive SHA-1 `fc2c27f04a1a173ae79b5fb91c69ff85cc479c9c` and each of the 23 program/question ROM SHA-1s were checked against the library manifest; the reconstructed **617 PPS8 bytes (including both colon entry opcodes)** were compared directly against original PPS8 with zero mismatches. New `tools/verify_stage5_rom.js` makes this check reproducible, additionally validating the 16 decoded bytes of PPS2's `$2D2B` screen action. The complete zmac-produced ROM/ZIP rebuild is separately required and is invoked by `./build.sh --clean`, which now runs the Stage 5 checks.
+
