@@ -1124,7 +1124,7 @@ TERSE_COLON_B9FF:
         dw      XT_RETURN               ; $BA2F _RETURN
 ; Stage 5 verified original byte stream; one real RST $08 entry.
 ; Embedded $CF,$01 pairs are XT_equal ($01CF), not nested colon words.
-GAME_STATE_WORD_TRANSFER_BA31:
+CORRECT_FEEDBACK_AXIS_ANIMATION:
         rst     $08 ; $BA31 genuine colon entry
         dw      XT_ENTER_ACTION_TASK ; $BA32 TERSE execution token
         dw      XT_LIT ; $BA34 TERSE execution token
@@ -1329,7 +1329,7 @@ TERSE_COLON_BBA7:
         dw      $2D3B                ; $BBB4 execution token $2D3B
         dw      XT_RETURN               ; $BBB6 _RETURN
 ; Correct-answer feedback task (based on embedded literal 'correct').
-; Calls GAME_STATE_WORD_TRANSFER_BA31 at $BBCE after setting $F758.
+; Calls CORRECT_FEEDBACK_AXIS_ANIMATION at $BBCE after setting $F758.
 ; Includes audio/output side effects; complete stack effect pending.
 CORRECT_FEEDBACK_TASK:
         rst     $08                             ; $BBB8 colon entry
@@ -1351,7 +1351,7 @@ CORRECT_FEEDBACK_TASK:
         db      $72,$65,$63,$74 ; $BBE4 retained byte data
 ; Stage 5 verified original byte stream; one real RST $08 entry.
 ; Embedded $CF,$01 pairs are XT_equal ($01CF), not nested colon words.
-GAME_STATE_APPLICATION_INIT_BBE8:
+MAIN_APPLICATION_AXIS_ANIMATION:
         rst     $08 ; $BBE8 genuine colon entry
         dw      XT_ENTER_ACTION_TASK ; $BBE9 TERSE execution token
         dw      XT_LITbyte ; $BBEB TERSE execution token
