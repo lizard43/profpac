@@ -30,13 +30,13 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BA6E | `$1E5C` | — | $BA31 |
 | $BA70 | `XT_0` | — | $BA31 |
 | $BA72 | `XT_LITbyte` | $005A | $BA31 |
-| $BA75 | `$1C71` | — | $BA31 |
-| $BA77 | `$1C5F` | — | $BA31 |
+| $BA75 | `XT_SET_CURRENT_OBJECT_AXIS_B` | — | $BA31 |
+| $BA77 | `XT_SET_CURRENT_OBJECT_AXIS_A` | — | $BA31 |
 | $BA79 | `$1B2C` | — | $BA31 |
 | $BA7B | `XT_DROP` | — | $BA31 |
 | $BA7D | `$25BB` | — | $BA31 |
 | $BA7F | `XT_GET_CURRENT_TASK` | — | $BA31 |
-| $BA81 | `$1CA5` | — | $BA31 |
+| $BA81 | `XT_GET_OBJECT_AXIS_B` | — | $BA31 |
 | $BA83 | `XT_DUP` | — | $BA31 |
 | $BA85 | `XT_LIT` | $F716 | $BA31 |
 | $BA89 | `XT_at` | — | $BA31 |
@@ -47,20 +47,20 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BA97 | `XT_LITbyte` | $0002 | $BA31 |
 | $BA9A | `XT_star` | — | $BA31 |
 | $BA9C | `XT_plus` | — | $BA31 |
-| $BA9E | `$1C71` | — | $BA31 |
+| $BA9E | `XT_SET_CURRENT_OBJECT_AXIS_B` | — | $BA31 |
 | $BAA0 | `XT_BRANCH` | $BAB9 | $BA31 |
 | $BAA4 | `XT_DROP` | — | $BA31 |
 | $BAA6 | `XT_GET_CURRENT_TASK` | — | $BA31 |
-| $BAA8 | `$1C96` | — | $BA31 |
+| $BAA8 | `XT_GET_OBJECT_AXIS_A` | — | $BA31 |
 | $BAAA | `XT_LIT` | $F71C | $BA31 |
 | $BAAE | `XT_at` | — | $BA31 |
 | $BAB0 | `XT_LITbyte` | $0002 | $BA31 |
 | $BAB3 | `XT_star` | — | $BA31 |
 | $BAB5 | `XT_plus` | — | $BA31 |
-| $BAB7 | `$1C5F` | — | $BA31 |
+| $BAB7 | `XT_SET_CURRENT_OBJECT_AXIS_A` | — | $BA31 |
 | $BAB9 | `XT_GET_CURRENT_TASK` | — | $BA31 |
 | $BABB | `XT_DUP` | — | $BA31 |
-| $BABD | `$1C96` | — | $BA31 |
+| $BABD | `XT_GET_OBJECT_AXIS_A` | — | $BA31 |
 | $BABF | `XT_LIT` | $F718 | $BA31 |
 | $BAC3 | `XT_at` | — | $BA31 |
 | $BAC5 | `XT_LIT` | $F71C | $BA31 |
@@ -68,7 +68,7 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BACB | `XT_star` | — | $BA31 |
 | $BACD | `XT_equal` | — | $BA31 |
 | $BACF | `XT_SWAP` | — | $BA31 |
-| $BAD1 | `$1CA5` | — | $BA31 |
+| $BAD1 | `XT_GET_OBJECT_AXIS_B` | — | $BA31 |
 | $BAD3 | `XT_LIT` | $F716 | $BA31 |
 | $BAD7 | `XT_at` | — | $BA31 |
 | $BAD9 | `XT_equal` | — | $BA31 |
@@ -89,9 +89,9 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BAFF | `XT_LIT` | $F71C | $BA31 |
 | $BB03 | `XT_bang` | — | $BA31 |
 | $BB05 | `XT_LITbyte` | $005A | $BA31 |
-| $BB08 | `$1C71` | — | $BA31 |
+| $BB08 | `XT_SET_CURRENT_OBJECT_AXIS_B` | — | $BA31 |
 | $BB0A | `XT_LIT` | $FFFF | $BA31 |
-| $BB0E | `$1C5F` | — | $BA31 |
+| $BB0E | `XT_SET_CURRENT_OBJECT_AXIS_A` | — | $BA31 |
 | $BB10 | `XT_LIT` | $0097 | $BA31 |
 | $BB14 | `XT_LIT` | $F718 | $BA31 |
 | $BB18 | `XT_bang` | — | $BA31 |
@@ -109,9 +109,9 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BB37 | `XT_LIT` | $F71A | $BA31 |
 | $BB3B | `XT_bang` | — | $BA31 |
 | $BB3D | `XT_LIT` | $FFA5 | $BA31 |
-| $BB41 | `$1C71` | — | $BA31 |
+| $BB41 | `XT_SET_CURRENT_OBJECT_AXIS_B` | — | $BA31 |
 | $BB43 | `XT_0` | — | $BA31 |
-| $BB45 | `$1C5F` | — | $BA31 |
+| $BB45 | `XT_SET_CURRENT_OBJECT_AXIS_A` | — | $BA31 |
 | $BB47 | `XT_LIT` | $0096 | $BA31 |
 | $BB4B | `XT_LIT` | $F718 | $BA31 |
 | $BB4F | `XT_bang` | — | $BA31 |
@@ -132,9 +132,9 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BB78 | `XT_LIT` | $F71C | $BA31 |
 | $BB7C | `XT_bang` | — | $BA31 |
 | $BB7E | `XT_LIT` | $FFA5 | $BA31 |
-| $BB82 | `$1C71` | — | $BA31 |
+| $BB82 | `XT_SET_CURRENT_OBJECT_AXIS_B` | — | $BA31 |
 | $BB84 | `XT_1` | — | $BA31 |
-| $BB86 | `$1C5F` | — | $BA31 |
+| $BB86 | `XT_SET_CURRENT_OBJECT_AXIS_A` | — | $BA31 |
 | $BB88 | `XT_LIT` | $0097 | $BA31 |
 | $BB8C | `XT_LIT` | $F718 | $BA31 |
 | $BB90 | `XT_bang` | — | $BA31 |
@@ -150,7 +150,7 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BBEB | `XT_LITbyte` | $002A | $BBE8 |
 | $BBEE | `XT_LIT` | $00BF | $BBE8 |
 | $BBF2 | `XT_OUTP` | — | $BBE8 |
-| $BBF4 | `$2D2B` | — | $BBE8 |
+| $BBF4 | `XT_SCREEN_INTERCEPT_ACTION` | — | $BBE8 |
 | $BBF6 | `XT_LIT` | $FFFF | $BBE8 |
 | $BBFA | `XT_LIT` | $F71C | $BBE8 |
 | $BBFE | `XT_bang` | — | $BBE8 |
@@ -169,8 +169,8 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BC23 | `$1E5C` | — | $BBE8 |
 | $BC25 | `XT_LIT` | $009A | $BBE8 |
 | $BC29 | `XT_LITbyte` | $002D | $BBE8 |
-| $BC2C | `$1C71` | — | $BBE8 |
-| $BC2E | `$1C5F` | — | $BBE8 |
+| $BC2C | `XT_SET_CURRENT_OBJECT_AXIS_B` | — | $BBE8 |
+| $BC2E | `XT_SET_CURRENT_OBJECT_AXIS_A` | — | $BBE8 |
 | $BC30 | `XT_LITbyte` | $0002 | $BBE8 |
 | $BC33 | `XT_0` | — | $BBE8 |
 | $BC35 | `XT_DO` | — | $BBE8 |
@@ -178,7 +178,7 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BC39 | `XT_DROP` | — | $BBE8 |
 | $BC3B | `$25BB` | — | $BBE8 |
 | $BC3D | `XT_GET_CURRENT_TASK` | — | $BBE8 |
-| $BC3F | `$1CA5` | — | $BBE8 |
+| $BC3F | `XT_GET_OBJECT_AXIS_B` | — | $BBE8 |
 | $BC41 | `XT_DUP` | — | $BBE8 |
 | $BC43 | `XT_LIT` | $F716 | $BBE8 |
 | $BC47 | `XT_at` | — | $BBE8 |
@@ -189,25 +189,25 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BC55 | `XT_LITbyte` | $0002 | $BBE8 |
 | $BC58 | `XT_star` | — | $BBE8 |
 | $BC5A | `XT_plus` | — | $BBE8 |
-| $BC5C | `$1C71` | — | $BBE8 |
+| $BC5C | `XT_SET_CURRENT_OBJECT_AXIS_B` | — | $BBE8 |
 | $BC5E | `XT_BRANCH` | $BC77 | $BBE8 |
 | $BC62 | `XT_DROP` | — | $BBE8 |
 | $BC64 | `XT_GET_CURRENT_TASK` | — | $BBE8 |
-| $BC66 | `$1C96` | — | $BBE8 |
+| $BC66 | `XT_GET_OBJECT_AXIS_A` | — | $BBE8 |
 | $BC68 | `XT_LIT` | $F71C | $BBE8 |
 | $BC6C | `XT_at` | — | $BBE8 |
 | $BC6E | `XT_LITbyte` | $0002 | $BBE8 |
 | $BC71 | `XT_star` | — | $BBE8 |
 | $BC73 | `XT_plus` | — | $BBE8 |
-| $BC75 | `$1C5F` | — | $BBE8 |
+| $BC75 | `XT_SET_CURRENT_OBJECT_AXIS_A` | — | $BBE8 |
 | $BC77 | `XT_GET_CURRENT_TASK` | — | $BBE8 |
 | $BC79 | `XT_DUP` | — | $BBE8 |
-| $BC7B | `$1C96` | — | $BBE8 |
+| $BC7B | `XT_GET_OBJECT_AXIS_A` | — | $BBE8 |
 | $BC7D | `XT_LIT` | $F718 | $BBE8 |
 | $BC81 | `XT_at` | — | $BBE8 |
 | $BC83 | `XT_equal` | — | $BBE8 |
 | $BC85 | `XT_SWAP` | — | $BBE8 |
-| $BC87 | `$1CA5` | — | $BBE8 |
+| $BC87 | `XT_GET_OBJECT_AXIS_B` | — | $BBE8 |
 | $BC89 | `XT_LIT` | $F716 | $BBE8 |
 | $BC8D | `XT_at` | — | $BBE8 |
 | $BC8F | `XT_equal` | — | $BBE8 |
@@ -231,7 +231,7 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BCC1 | `XT_LIT` | $FF74 | $BBE8 |
 | $BCC5 | `XT_LIT` | $FFDD | $BBE8 |
 | $BCC9 | `XT_SET_CURRENT_OBJECT_VALUE_PAIR` | — | $BBE8 |
-| $BCCB | `$2083` | — | $BBE8 |
+| $BCCB | `XT_UPDATE_OBJECT_GLYPH` | — | $BBE8 |
 | $BCCD | `XT_0` | — | $BBE8 |
 | $BCCF | `XT_LIT` | $00BF | $BBE8 |
 | $BCD3 | `XT_OUTP` | — | $BBE8 |
@@ -251,3 +251,5 @@ Generate from original ROM: `node tools/analyze_shared_threads.js --token-map --
 | $BC83 | `XT_equal` (`$01CF`) | $BBE8 |
 | $BC8F | `XT_equal` (`$01CF`) | $BBE8 |
 
+
+The two 232-cell PPS8 graphs reference the PPS1 coordinate accessor quartet and the PPS2 glyph and masked-drawing handlers. See [hardware and axis analysis](STAGE5-RUNTIME-AWARE-STATE.md#recovered-animation-axis-semantics-and-display-hardware).
