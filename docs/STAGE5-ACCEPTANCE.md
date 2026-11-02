@@ -1,6 +1,6 @@
 # Professor Pac-Man Stage 5 — acceptance record
 
-Date: 2026-11-02. Working runtime revision: `v20261102-0007`.
+Date: 2026-11-02. Working runtime revision: `v20261102-0008`.
 
 ## Executed validations
 
@@ -17,6 +17,7 @@ Date: 2026-11-02. Working runtime revision: `v20261102-0007`.
 | `tools/verify_stage5_rom.js` | **PASS in isolated JS replay** | Executed the actual script logic against the original ZIP using the same adapters |
 | WB `tools/verify-profpac-library.mjs` | **PASS in isolated JS replay** | Executed its default in-memory validation logic with the actual 8 KB PPS1 component and current manifests; no ZIP argument |
 | ICEBOX `tests/profpac-extracted-runtime-test.mjs` | **4 / 4 callbacks PASS in isolated JS replay** | Executed the four actual test bodies using equivalent assertions, the current JS runtime catalog and source artifacts |
+| 232-token original-ROM stack dataflow replay | **PASS in isolated JS replay** | Exact Stage 5 stack-audit transfer algorithm over the two original-ROM decoded graphs: 140 + 92 reachable XTs, all joins consistent, no underflow, both RETURN deltas zero |
 | WB/ICEBOX six JSON layers | **PASS** | Exact blob comparisons of `runtime`, `compatibility`, root, platform, game and question dictionaries |
 | ICEBOX source mirrors | **PASS** | Exact source comparisons for PPS1, PPS2, PPS8, and `profpac_common.include` |
 
@@ -44,6 +45,7 @@ Run the following in fully checked-out repositories before merging:
 # profpac
 node tools/verify_stage5_rom.js
 node tools/audit_stage5_full.js
+node tools/audit_stage5_stack.js
 node tools/analyze_shared_threads.js --state-check --check-sources
 ./build.sh --clean
 
