@@ -77,6 +77,14 @@ through 39 are empty. A question selector maps one complete PPQ module into
 
 ![Professor Pac-Man question EPROM map](images/professor-pacman-question-rom-map.png)
 
+### Stage 5: game-state RAM inside work RAM
+
+![Shared TERSE work RAM state and caller diagram](images/professor-pacman-game-state-map.svg)
+
+This **focused work-RAM submap** complements the hardware-wide CPU and question-bank diagrams above. The configuration-1 PPS8 shared threads reference a byte at `$F6EB` and four consecutive 16-bit words at `$F716–$F71D`. Correct-answer feedback (`$BBB8`) enters the shared group at `$BA31`; `MAIN_APPLICATION` (`$BE66`) enters the initialization/continuation family at `$BBE8`. Overlapping entrypoints share physical ROM bytes. The [Stage 5 runtime-aware audit](docs/STAGE5-RUNTIME-AWARE-STATE.md) documents physical addresses, entrypoint semantics and validation.
+
+The extracted target runtime in [DNA TERSE WB PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) and [DNA ICEBOX PR #104](https://github.com/lizard43/dnaIceBox/pull/104) is versioned `v20261101-0001`; its original `pps1` runtime and four bank-aware dictionaries are treated as a pinned baseline. Stage 5 improves **game-word analysis**, not host interpreter/XC semantics or that extraction.
+
 The complete memory, I/O, banking, video, and control specification is in
 [hardware.md](docs/hardware.md).
 
@@ -309,3 +317,13 @@ node tools/analyze_shared_threads.js --markdown
 See [shared TERSE entrypoints](docs/SHARED-TERSE-ENTRYPOINTS.md) and the
 updated [TERSE dictionary](docs/terse_vocabulary.md). This optional
 inspection command does not replace the mandatory build/hash checks.
+
+
+### Stage 5 original-ROM state audit
+
+```sh
+node tools/analyze_shared_threads.js --state-detail --check-sources
+node tools/analyze_shared_threads.js --state-check --check-sources
+```
+
+The detail output lists each source-addressed LIT operation and immediate memory primitive; the strict check also verifies the two fixed caller tokens and nine shared-entry roots. This is an independent inspection of the original archive, not a replacement for `./build.sh --clean` and its 23-ROM/ZIP byte-for-byte acceptance tests.
