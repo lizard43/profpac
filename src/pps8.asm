@@ -1129,60 +1129,189 @@ TERSE_COLON_B9FF:
 ; CORRECT_FEEDBACK_TASK ($BBB8) at $BBCE. See Stage 4 memory audit.
 GAME_STATE_WORD_TRANSFER_BA31:
         rst     $08                            ; $BA31 colon entry
-        db      $99,$15,$09,$01,$FF,$FF,$09,$01,$1A,$F7,$61,$05,$30,$01,$09 ; $BA32 retained byte data
-        db      $01,$1C,$F7,$61,$05,$A8,$1E,$09,$01,$96,$00,$12,$01,$5A,$54,$1D ; $BA41
-        db      $09,$01,$EB,$F6,$3F,$05,$09,$01,$96,$00,$09,$01,$18,$F7,$61,$05 ; $BA51
-        db      $2A,$01,$09,$01,$16,$F7,$61,$05,$93,$2C,$12,$01,$06,$5C,$1E,$2A ; $BA61
-        db      $01,$12,$01,$5A,$71,$1C,$5F,$1C,$2C,$1B,$43,$01,$BB,$25,$0E,$1F ; $BA71
-        db      $A5,$1C,$36,$01,$09,$01,$16,$F7,$4C,$01,$E5,$01,$EA,$03,$A4,$BA ; $BA81
-        db      $09,$01,$1A,$F7,$4C,$01,$12,$01,$02,$FF,$02,$5A,$01,$71,$1C,$E2 ; $BA91
-        db      $03,$B9,$BA,$43,$01,$0E,$1F,$96,$1C,$09,$01,$1C,$F7,$4C,$01,$12 ; $BAA1
-        db      $01,$02,$FF,$02,$5A,$01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01 ; $BAB1
-        db      $18,$F7,$4C,$01,$09,$01,$1C,$F7,$4C,$01,$FF,$02 ; $BAC1 retained byte data
+; Stage 5 physical TERSE decode; ambiguous overlapping bytes stay byte-exact.
+        dw      XT_ENTER_ACTION_TASK ; $BA32 TERSE XT
+        dw      XT_LIT ; $BA34 TERSE XT
+        dw      $FFFF ; $BA36 inline literal
+        dw      XT_LIT ; $BA38 TERSE XT
+        dw      $F71A ; $BA3A inline literal
+        dw      XT_bang ; $BA3C TERSE XT
+        dw      XT_1 ; $BA3E TERSE XT
+        dw      XT_LIT ; $BA40 TERSE XT
+        dw      $F71C ; $BA42 inline literal
+        dw      XT_bang ; $BA44 TERSE XT
+        dw      XT_SET_OBJECT_MODE_2 ; $BA46 TERSE XT
+        dw      XT_LIT ; $BA48 TERSE XT
+        dw      $0096 ; $BA4A inline literal
+        dw      XT_LITbyte ; $BA4C TERSE XT
+        db      $5A ; $BA4E inline byte
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BA4F TERSE XT
+        dw      XT_LIT ; $BA51 TERSE XT
+        dw      $F6EB ; $BA53 inline literal
+        dw      XT_BZERO ; $BA55 TERSE XT
+        dw      XT_LIT ; $BA57 TERSE XT
+        dw      $0096 ; $BA59 inline literal
+        dw      XT_LIT ; $BA5B TERSE XT
+        dw      $F718 ; $BA5D inline literal
+        dw      XT_bang ; $BA5F TERSE XT
+        dw      XT_0 ; $BA61 TERSE XT
+        dw      XT_LIT ; $BA63 TERSE XT
+        dw      $F716 ; $BA65 inline literal
+        dw      XT_bang ; $BA67 TERSE XT
+        dw      XT_RESET_OBJECT_DRAW_STATE ; $BA69 TERSE XT
+        dw      XT_LITbyte ; $BA6B TERSE XT
+        db      $06 ; $BA6D inline byte
+        dw      $1E5C ; $BA6E external execution XT
+        dw      XT_0 ; $BA70 TERSE XT
+        dw      XT_LITbyte ; $BA72 TERSE XT
+        db      $5A ; $BA74 inline byte
+        dw      $1C71 ; $BA75 external execution XT
+        dw      $1C5F ; $BA77 external execution XT
+        dw      $1B2C ; $BA79 external execution XT
+        dw      XT_DROP ; $BA7B TERSE XT
+        dw      $25BB ; $BA7D external execution XT
+        dw      XT_GET_CURRENT_TASK ; $BA7F TERSE XT
+        dw      $1CA5 ; $BA81 external execution XT
+        dw      XT_DUP ; $BA83 TERSE XT
+        dw      XT_LIT ; $BA85 TERSE XT
+        dw      $F716 ; $BA87 inline literal
+        dw      XT_at ; $BA89 TERSE XT
+        dw      XT_not_equal ; $BA8B TERSE XT
+        dw      XT_0BRANCH ; $BA8D TERSE XT
+        dw      $BAA4 ; $BA8F inline branch
+        dw      XT_LIT ; $BA91 TERSE XT
+        dw      $F71A ; $BA93 inline literal
+        dw      XT_at ; $BA95 TERSE XT
+        dw      XT_LITbyte ; $BA97 TERSE XT
+        db      $02 ; $BA99 inline byte
+        dw      XT_star ; $BA9A TERSE XT
+        dw      XT_plus ; $BA9C TERSE XT
+        dw      $1C71 ; $BA9E external execution XT
+        dw      XT_BRANCH ; $BAA0 TERSE XT
+        dw      $BAB9 ; $BAA2 inline branch
+        dw      XT_DROP ; $BAA4 TERSE XT
+        dw      XT_GET_CURRENT_TASK ; $BAA6 TERSE XT
+        dw      $1C96 ; $BAA8 external execution XT
+        dw      XT_LIT ; $BAAA TERSE XT
+        dw      $F71C ; $BAAC inline literal
+        dw      XT_at ; $BAAE TERSE XT
+        dw      XT_LITbyte ; $BAB0 TERSE XT
+        db      $02 ; $BAB2 inline byte
+        dw      XT_star ; $BAB3 TERSE XT
+        dw      XT_plus ; $BAB5 TERSE XT
+        dw      $1C5F ; $BAB7 external execution XT
+        dw      XT_GET_CURRENT_TASK ; $BAB9 TERSE XT
+        dw      XT_DUP ; $BABB TERSE XT
+        dw      $1C96 ; $BABD external execution XT
+        dw      XT_LIT ; $BABF TERSE XT
+        dw      $F718 ; $BAC1 inline literal
+        dw      XT_at ; $BAC3 TERSE XT
+        dw      XT_LIT ; $BAC5 TERSE XT
+        dw      $F71C ; $BAC7 inline literal
+        dw      XT_at ; $BAC9 TERSE XT
+        dw      XT_star ; $BACB TERSE XT
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
 ; Shared game-state entry at $BACD. Branches backward into the
 ; $BA79 transfer logic; do not duplicate bytes from $BA31 definition.
 GAME_STATE_SHARED_ENTRY_BACD:
         rst     $08                            ; $BACD colon entry
-        db      $01,$46,$01 ; $BACE retained byte data
-        db      $A5,$1C,$09,$01,$16,$F7,$4C,$01 ; $BAD1 retained byte data
+; Stage 5 physical TERSE decode; ambiguous overlapping bytes stay byte-exact.
+        db      $01,$46,$01,$A5,$1C,$09 ; $BACE overlapping or unresolved physical bytes
+        dw      $1601 ; $BAD4 external execution XT
+        db      $F7,$4C,$01 ; $BAD6 overlapping or unresolved physical bytes
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
 ; Shared game-state entry at $BAD9. Rejoins predecessor transfer code
 ; and manipulates the same $F716-$F71C word quartet.
 GAME_STATE_SHARED_ENTRY_BAD9:
         rst     $08                            ; $BAD9 colon entry
-        db      $01,$79,$01,$EA,$03,$79,$BA ; $BADA retained byte data
-        db      $09,$01,$EB,$F6,$36,$01,$49,$05,$53,$01,$30,$01 ; $BAE1 retained byte data
+; Stage 5 physical TERSE decode; ambiguous overlapping bytes stay byte-exact.
+        db      $01,$79,$01,$EA ; $BADA overlapping or unresolved physical bytes
+        dw      $7903 ; $BADE external execution XT
+        db      $BA,$09 ; $BAE0 overlapping or unresolved physical bytes
+        dw      $EB01 ; $BAE2 external execution XT
+        db      $F6,$36,$01,$49,$05,$53,$01,$30,$01 ; $BAE4 overlapping or unresolved physical bytes
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
 ; Shared game-state entry at $BAED. Returns into the common state
 ; word reader/writer region. Entry shares physical code with neighbors.
 GAME_STATE_SHARED_ENTRY_BAED:
         rst     $08                            ; $BAED colon entry
-        db      $01,$EA,$03 ; $BAEE retained byte data
-        db      $1E,$BB,$0E,$1F,$9B,$1D,$68,$01,$24,$1D,$09,$01,$FF,$FF,$09,$01 ; $BAF1
-        db      $1C,$F7,$61,$05,$12,$01,$5A,$71,$1C,$09,$01,$FF,$FF,$5F,$1C,$09 ; $BB01
-        db      $01,$97,$00,$09,$01,$18,$F7,$61,$05,$E2,$03,$92,$BB,$09,$01,$EB ; $BB11
-        db      $F6,$53,$01,$12,$01,$02 ; $BB21 retained byte data
+; Stage 5 physical TERSE decode; ambiguous overlapping bytes stay byte-exact.
+        db      $01,$EA ; $BAEE overlapping or unresolved physical bytes
+        dw      $1E03 ; $BAF0 external execution XT
+        db      $BB,$0E,$1F,$9B,$1D,$68,$01,$24,$1D,$09 ; $BAF2 overlapping or unresolved physical bytes
+        dw      $FF01 ; $BAFC external execution XT
+        db      $FF,$09 ; $BAFE overlapping or unresolved physical bytes
+        dw      $1C01 ; $BB00 external execution XT
+        db      $F7,$61,$05,$12 ; $BB02 overlapping or unresolved physical bytes
+        dw      $5A01 ; $BB06 external execution XT
+        dw      $1C71 ; $BB08 external execution XT
+        dw      XT_LIT ; $BB0A TERSE XT
+        dw      $FFFF ; $BB0C inline literal
+        dw      $1C5F ; $BB0E external execution XT
+        dw      XT_LIT ; $BB10 TERSE XT
+        dw      $0097 ; $BB12 inline literal
+        dw      XT_LIT ; $BB14 TERSE XT
+        dw      $F718 ; $BB16 inline literal
+        dw      XT_bang ; $BB18 TERSE XT
+        dw      XT_BRANCH ; $BB1A TERSE XT
+        dw      $BB92 ; $BB1C inline branch
+        dw      XT_LIT ; $BB1E TERSE XT
+        dw      $F6EB ; $BB20 inline literal
+        dw      XT_Bat ; $BB22 TERSE XT
+        dw      XT_LITbyte ; $BB24 TERSE XT
+        db      $02 ; $BB26 inline byte
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
 ; Shared game-state entry at $BB27. Conditional branches converge on
 ; $BA79-$BBA6 shared word-state logic.
 GAME_STATE_SHARED_ENTRY_BB27:
         rst     $08                            ; $BB27 colon entry
-        db      $01,$EA,$03,$5F,$BB,$0E,$1F,$AA,$1D ; $BB28 retained byte data
-        db      $68,$01,$3C,$1D,$30,$01,$09,$01,$1A,$F7,$61,$05,$09,$01,$A5,$FF ; $BB31
-        db      $71,$1C,$2A,$01,$5F,$1C,$09,$01,$96,$00,$09,$01,$18,$F7,$61,$05 ; $BB41
-        db      $09,$01,$FF,$FF,$09,$01,$16,$F7,$61,$05,$E2,$03,$92,$BB,$09,$01 ; $BB51
-        db      $EB,$F6,$53,$01,$12,$01,$03 ; $BB61 retained byte data
+; Stage 5 physical TERSE decode; ambiguous overlapping bytes stay byte-exact.
+        db      $01,$EA ; $BB28 overlapping or unresolved physical bytes
+        dw      $5F03 ; $BB2A external execution XT
+        db      $BB,$0E,$1F,$AA,$1D,$68,$01,$3C,$1D,$30,$01,$09 ; $BB2C overlapping or unresolved physical bytes
+        dw      $1A01 ; $BB38 external execution XT
+        db      $F7,$61,$05,$09 ; $BB3A overlapping or unresolved physical bytes
+        dw      $A501 ; $BB3E external execution XT
+        db      $FF,$71,$1C,$2A,$01,$5F,$1C,$09 ; $BB40 overlapping or unresolved physical bytes
+        dw      $9601 ; $BB48 external execution XT
+        db      $00,$09 ; $BB4A overlapping or unresolved physical bytes
+        dw      $1801 ; $BB4C external execution XT
+        db      $F7,$61,$05,$09 ; $BB4E overlapping or unresolved physical bytes
+        dw      $FF01 ; $BB52 external execution XT
+        db      $FF,$09 ; $BB54 overlapping or unresolved physical bytes
+        dw      $1601 ; $BB56 external execution XT
+        db      $F7,$61,$05,$E2 ; $BB58 overlapping or unresolved physical bytes
+        dw      $9203 ; $BB5C external execution XT
+        db      $BB,$09 ; $BB5E overlapping or unresolved physical bytes
+        dw      $EB01 ; $BB60 external execution XT
+        db      $F6,$53,$01,$12 ; $BB62 overlapping or unresolved physical bytes
+        dw      $0301 ; $BB66 external execution XT
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
 ; Shared game-state entry at $BB68. Reaches the shared word-state
 ; transfer path before the $BBA7 next colon definition.
 GAME_STATE_SHARED_ENTRY_BB68:
         rst     $08                            ; $BB68 colon entry
-        db      $01,$EA,$03,$92,$BB,$0E,$1F,$9B ; $BB69 retained byte data
-        db      $1D,$68,$01,$24,$1D,$30,$01,$09,$01,$1C,$F7,$61,$05,$09,$01,$A5 ; $BB71
-        db      $FF,$71,$1C,$30,$01,$5F,$1C,$09,$01,$97,$00,$09,$01,$18,$F7,$61 ; $BB81
-        db      $05,$09,$01,$EB,$F6,$53,$01,$12,$01,$04,$2A,$02,$EA,$03,$79,$BA ; $BB91
-        db      $FF,$B9,$89,$27,$FD,$00                                         ; $BBA1
+; Stage 5 physical TERSE decode; ambiguous overlapping bytes stay byte-exact.
+        db      $01,$EA ; $BB69 overlapping or unresolved physical bytes
+        dw      $9203 ; $BB6B external execution XT
+        db      $BB,$0E,$1F,$9B,$1D,$68,$01,$24,$1D,$30,$01,$09 ; $BB6D overlapping or unresolved physical bytes
+        dw      $1C01 ; $BB79 external execution XT
+        db      $F7,$61,$05,$09 ; $BB7B overlapping or unresolved physical bytes
+        dw      $A501 ; $BB7F external execution XT
+        db      $FF,$71,$1C,$30,$01,$5F,$1C,$09 ; $BB81 overlapping or unresolved physical bytes
+        dw      $9701 ; $BB89 external execution XT
+        db      $00,$09 ; $BB8B overlapping or unresolved physical bytes
+        dw      $1801 ; $BB8D external execution XT
+        db      $F7,$61,$05,$09 ; $BB8F overlapping or unresolved physical bytes
+        dw      $EB01 ; $BB93 external execution XT
+        db      $F6,$53,$01,$12 ; $BB95 overlapping or unresolved physical bytes
+        dw      $0401 ; $BB99 external execution XT
+        dw      XT_gt_equal ; $BB9B TERSE XT
+        dw      XT_0BRANCH ; $BB9D TERSE XT
+        dw      $BA79 ; $BB9F inline branch
+        dw      $B9FF ; $BBA1 external execution XT
+        dw      $2789 ; $BBA3 external execution XT
+        dw      XT_RETURN ; $BBA5 TERSE XT
 TERSE_COLON_BBA7:
         rst     $08                             ; $BBA7 colon entry
         dw      XT_0                    ; $BBA8 _0
@@ -1221,33 +1350,138 @@ CORRECT_FEEDBACK_TASK:
 ; state at $F716/$F718/$F71C; control flow shares $BC83/$BC8F.
 GAME_STATE_APPLICATION_INIT_BBE8:
         rst     $08                            ; $BBE8 colon entry
-        db      $99,$15,$12,$01,$2A,$09,$01,$BF,$00,$D8,$02 ; $BBE9 retained byte data
-        db      $2B,$2D,$09,$01,$FF,$FF,$09,$01,$1C,$F7,$61,$05,$A8,$1E,$2A,$01 ; $BBF4
-        db      $09,$01,$EA,$FF,$54,$1D,$09,$01,$64,$FF,$09,$01,$18,$F7,$61,$05 ; $BC04
-        db      $09,$01,$9D,$FF,$09,$01,$16,$F7,$61,$05,$93,$2C,$12,$01,$0D,$5C ; $BC14
-        db      $1E,$09,$01,$9A,$00,$12,$01,$2D,$71,$1C,$5F,$1C,$12,$01,$02,$2A ; $BC24
-        db      $01,$6F,$02,$2C,$1B,$43,$01,$BB,$25,$0E,$1F,$A5,$1C,$36,$01,$09 ; $BC34
-        db      $01,$16,$F7,$4C,$01,$E5,$01,$EA,$03,$62,$BC,$09,$01,$1C,$F7,$4C ; $BC44
-        db      $01,$12,$01,$02,$FF,$02,$5A,$01,$71,$1C,$E2,$03,$77,$BC,$43,$01 ; $BC54
-        db      $0E,$1F,$96,$1C,$09,$01,$1C,$F7,$4C,$01,$12,$01,$02,$FF,$02,$5A ; $BC64
-        db      $01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01,$18,$F7,$4C,$01 ; $BC74 retained byte data
+; Stage 5 physical TERSE decode; ambiguous overlapping bytes stay byte-exact.
+        dw      XT_ENTER_ACTION_TASK ; $BBE9 TERSE XT
+        dw      XT_LITbyte ; $BBEB TERSE XT
+        db      $2A ; $BBED inline byte
+        dw      XT_LIT ; $BBEE TERSE XT
+        dw      $00BF ; $BBF0 inline literal
+        dw      XT_OUTP ; $BBF2 TERSE XT
+        dw      $2D2B ; $BBF4 external execution XT
+        dw      XT_LIT ; $BBF6 TERSE XT
+        dw      $FFFF ; $BBF8 inline literal
+        dw      XT_LIT ; $BBFA TERSE XT
+        dw      $F71C ; $BBFC inline literal
+        dw      XT_bang ; $BBFE TERSE XT
+        dw      XT_SET_OBJECT_MODE_2 ; $BC00 TERSE XT
+        dw      XT_0 ; $BC02 TERSE XT
+        dw      XT_LIT ; $BC04 TERSE XT
+        dw      $FFEA ; $BC06 inline literal
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BC08 TERSE XT
+        dw      XT_LIT ; $BC0A TERSE XT
+        dw      $FF64 ; $BC0C inline literal
+        dw      XT_LIT ; $BC0E TERSE XT
+        dw      $F718 ; $BC10 inline literal
+        dw      XT_bang ; $BC12 TERSE XT
+        dw      XT_LIT ; $BC14 TERSE XT
+        dw      $FF9D ; $BC16 inline literal
+        dw      XT_LIT ; $BC18 TERSE XT
+        dw      $F716 ; $BC1A inline literal
+        dw      XT_bang ; $BC1C TERSE XT
+        dw      XT_RESET_OBJECT_DRAW_STATE ; $BC1E TERSE XT
+        dw      XT_LITbyte ; $BC20 TERSE XT
+        db      $0D ; $BC22 inline byte
+        dw      $1E5C ; $BC23 external execution XT
+        dw      XT_LIT ; $BC25 TERSE XT
+        dw      $009A ; $BC27 inline literal
+        dw      XT_LITbyte ; $BC29 TERSE XT
+        db      $2D ; $BC2B inline byte
+        dw      $1C71 ; $BC2C external execution XT
+        dw      $1C5F ; $BC2E external execution XT
+        dw      XT_LITbyte ; $BC30 TERSE XT
+        db      $02 ; $BC32 inline byte
+        dw      XT_0 ; $BC33 TERSE XT
+        dw      XT_DO ; $BC35 TERSE XT
+        dw      $1B2C ; $BC37 external execution XT
+        dw      XT_DROP ; $BC39 TERSE XT
+        dw      $25BB ; $BC3B external execution XT
+        dw      XT_GET_CURRENT_TASK ; $BC3D TERSE XT
+        dw      $1CA5 ; $BC3F external execution XT
+        dw      XT_DUP ; $BC41 TERSE XT
+        dw      XT_LIT ; $BC43 TERSE XT
+        dw      $F716 ; $BC45 inline literal
+        dw      XT_at ; $BC47 TERSE XT
+        dw      XT_not_equal ; $BC49 TERSE XT
+        dw      XT_0BRANCH ; $BC4B TERSE XT
+        dw      $BC62 ; $BC4D inline branch
+        dw      XT_LIT ; $BC4F TERSE XT
+        dw      $F71C ; $BC51 inline literal
+        dw      XT_at ; $BC53 TERSE XT
+        dw      XT_LITbyte ; $BC55 TERSE XT
+        db      $02 ; $BC57 inline byte
+        dw      XT_star ; $BC58 TERSE XT
+        dw      XT_plus ; $BC5A TERSE XT
+        dw      $1C71 ; $BC5C external execution XT
+        dw      XT_BRANCH ; $BC5E TERSE XT
+        dw      $BC77 ; $BC60 inline branch
+        dw      XT_DROP ; $BC62 TERSE XT
+        dw      XT_GET_CURRENT_TASK ; $BC64 TERSE XT
+        dw      $1C96 ; $BC66 external execution XT
+        dw      XT_LIT ; $BC68 TERSE XT
+        dw      $F71C ; $BC6A inline literal
+        dw      XT_at ; $BC6C TERSE XT
+        dw      XT_LITbyte ; $BC6E TERSE XT
+        db      $02 ; $BC70 inline byte
+        dw      XT_star ; $BC71 TERSE XT
+        dw      XT_plus ; $BC73 TERSE XT
+        dw      $1C5F ; $BC75 external execution XT
+        dw      XT_GET_CURRENT_TASK ; $BC77 TERSE XT
+        dw      XT_DUP ; $BC79 TERSE XT
+        dw      $1C96 ; $BC7B external execution XT
+        dw      XT_LIT ; $BC7D TERSE XT
+        dw      $F718 ; $BC7F inline literal
+        dw      XT_at ; $BC81 TERSE XT
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
 ; Shared application continuation entry $BC83. Reads/writes the
 ; $F716/$F71C word pair. Shares control flow with $BBE8.
 GAME_STATE_CONTINUATION_BC83:
         rst     $08                            ; $BC83 colon entry
-        db      $01,$46,$01,$A5,$1C,$09,$01,$16,$F7,$4C,$01 ; $BC84 retained byte data
+; Stage 5 physical TERSE decode; ambiguous overlapping bytes stay byte-exact.
+        db      $01,$46,$01,$A5,$1C,$09 ; $BC84 overlapping or unresolved physical bytes
+        dw      $1601 ; $BC8A external execution XT
+        db      $F7,$4C,$01 ; $BC8C overlapping or unresolved physical bytes
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
 ; Shared application continuation entry $BC8F. Writes $F716
 ; and $F71C, reaches the return before MAIN_PROGRESSION_TASK.
 GAME_STATE_CONTINUATION_BC8F:
         rst     $08                            ; $BC8F colon entry
-        db      $01,$79,$01,$EA ; $BC90 retained byte data
-        db      $03,$37,$BC,$09,$01,$9A,$00,$09,$01,$18,$F7,$61,$05,$12,$01,$2D ; $BC94
-        db      $09,$01,$16,$F7,$61,$05,$30,$01,$09,$01,$1C,$F7,$61,$05,$8A,$02 ; $BCA4
-        db      $9B,$1E,$09,$01,$D4,$BB,$8E,$1E,$12,$01,$4A,$7D,$1E,$09,$01,$74 ; $BCB4
-        db      $FF,$09,$01,$DD,$FF,$54,$1D,$83,$20,$2A,$01,$09,$01,$BF,$00,$D8 ; $BCC4
-        db     $02,$54,$22,$89,$27,$FD,$00  ; $BCD4 original bytes
+; Stage 5 physical TERSE decode; ambiguous overlapping bytes stay byte-exact.
+        db      $01,$79,$01,$EA ; $BC90 overlapping or unresolved physical bytes
+        dw      $3703 ; $BC94 external execution XT
+        db      $BC,$09 ; $BC96 overlapping or unresolved physical bytes
+        dw      $9A01 ; $BC98 external execution XT
+        db      $00,$09 ; $BC9A overlapping or unresolved physical bytes
+        dw      $1801 ; $BC9C external execution XT
+        db      $F7,$61,$05,$12 ; $BC9E overlapping or unresolved physical bytes
+        dw      $2D01 ; $BCA2 external execution XT
+        dw      XT_LIT ; $BCA4 TERSE XT
+        dw      $F716 ; $BCA6 inline literal
+        dw      XT_bang ; $BCA8 TERSE XT
+        dw      XT_1 ; $BCAA TERSE XT
+        dw      XT_LIT ; $BCAC TERSE XT
+        dw      $F71C ; $BCAE inline literal
+        dw      XT_bang ; $BCB0 TERSE XT
+        dw      XT_LOOP ; $BCB2 TERSE XT
+        dw      $1E9B ; $BCB4 external execution XT
+        dw      XT_LIT ; $BCB6 TERSE XT
+        dw      $BBD4 ; $BCB8 inline literal
+        dw      XT_SET_CURRENT_OBJECT_WORD_1D ; $BCBA TERSE XT
+        dw      XT_LITbyte ; $BCBC TERSE XT
+        db      $4A ; $BCBE inline byte
+        dw      XT_SET_CURRENT_OBJECT_BYTE_18 ; $BCBF TERSE XT
+        dw      XT_LIT ; $BCC1 TERSE XT
+        dw      $FF74 ; $BCC3 inline literal
+        dw      XT_LIT ; $BCC5 TERSE XT
+        dw      $FFDD ; $BCC7 inline literal
+        dw      XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $BCC9 TERSE XT
+        dw      $2083 ; $BCCB external execution XT
+        dw      XT_0 ; $BCCD TERSE XT
+        dw      XT_LIT ; $BCCF TERSE XT
+        dw      $00BF ; $BCD1 inline literal
+        dw      XT_OUTP ; $BCD3 TERSE XT
+        dw      XT_CLEAR_TASK_ACTIVE_BIT ; $BCD5 TERSE XT
+        dw      $2789 ; $BCD7 external execution XT
+        dw      XT_RETURN ; $BCD9 TERSE XT
 ; Reachable question-round TERSE word; decoded from original ROM bytes.
 MAIN_PROGRESSION_TASK:
         rst    $08                          ; $BCDB colon entry
