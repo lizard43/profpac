@@ -2,7 +2,7 @@
 
 Source: addressed bytes in `src/pps8.asm`, configuration 1, `$BA31–$BCDA`. Entry streams are decoded by the original-ROM analyzer's token width/branch rules. Original ROM verification remains a separate acceptance gate.
 
-Each physical LIT location appears **once** here, regardless of how many entrypoints reach it. A following `DUP` or `B@` is not equivalent to a write. Addresses are observed, not original variable names.
+Each physical LIT location appears **once** here, assigned to its genuine parent colon word. A following `DUP` or `B@` is not equivalent to a write. Addresses are observed, not original variable names.
 
 ## Genuine colon-root reachability
 
@@ -11,14 +11,12 @@ Each physical LIT location appears **once** here, regardless of how many entrypo
 | $BA31 | 140 | $BBB8 at $BBCE |
 | $BBE8 | 92 | $BE66 at $BEE2 |
 
-**232 physical token cells**, not two colon definitions. The former addresses $BACD, $BAD9, $BAED, $BB27, $BB68, $BC83, $BC8F each encode `XT_equal` ($01CF) and have been removed as false colon roots. The original source was byte-compared over the complete 615-byte two-word region.
+**232 physical token cells across two genuine colon definitions**, not nine separate colon definitions. The former addresses $BACD, $BAD9, $BAED, $BB27, $BB68, $BC83, $BC8F each encode `XT_equal` ($01CF) and have been removed as false colon roots. The original source was byte-compared over the complete 615-byte two-word region.
 
 ## Physical accesses to the shared RAM fields
 
 | LIT cell | RAM field | Following primitive | Classification | Reachable from |
 | --- | --- | --- | --- | --- |
-
-
 | $BA38 | $F71A | `! (word store)` | direct | $BA31 |
 | $BA40 | $F71C | `! (word store)` | direct | $BA31 |
 | $BA51 | $F6EB | `BZERO (byte zero)` | direct | $BA31 |
