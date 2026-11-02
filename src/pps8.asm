@@ -1163,9 +1163,9 @@ CORRECT_FEEDBACK_AXIS_ANIMATION:
         db      $5A ; $BA74 inline byte
         dw      XT_SET_CURRENT_OBJECT_AXIS_B ; $BA75 TERSE execution token
         dw      XT_SET_CURRENT_OBJECT_AXIS_A ; $BA77 TERSE execution token
-        dw      $1B2C ; $BA79 TERSE execution token
+        dw      XT_OBJECT_DRAW_SOURCE ; $BA79 TERSE execution token
         dw      XT_DROP ; $BA7B TERSE execution token
-        dw      $25BB ; $BA7D TERSE execution token
+        dw      XT_OBJECT_MASKED_DRAW ; $BA7D TERSE execution token
         dw      XT_GET_CURRENT_TASK ; $BA7F TERSE execution token
         dw      XT_GET_OBJECT_AXIS_B ; $BA81 TERSE execution token
         dw      XT_DUP ; $BA83 TERSE execution token
@@ -1394,9 +1394,9 @@ MAIN_APPLICATION_AXIS_ANIMATION:
         db      $02 ; $BC32 inline byte
         dw      XT_0 ; $BC33 TERSE execution token
         dw      XT_DO ; $BC35 TERSE execution token
-        dw      $1B2C ; $BC37 TERSE execution token
+        dw      XT_OBJECT_DRAW_SOURCE ; $BC37 TERSE execution token
         dw      XT_DROP ; $BC39 TERSE execution token
-        dw      $25BB ; $BC3B TERSE execution token
+        dw      XT_OBJECT_MASKED_DRAW ; $BC3B TERSE execution token
         dw      XT_GET_CURRENT_TASK ; $BC3D TERSE execution token
         dw      XT_GET_OBJECT_AXIS_B ; $BC3F TERSE execution token
         dw      XT_DUP ; $BC41 TERSE execution token
