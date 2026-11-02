@@ -37,6 +37,12 @@ Together these prove **distinct feedback and application initial-state presets**
 
 The feedback sequence calls `OUTP` at `$BBC2` before calling the shared transfer routine, confirming a hardware output in the correct-feedback path. The shared threads call object-state setters `$1D24` (value 1), `$1D3C` (value 2), `$1D54` (value pair), object field updater `$1E8E`, and render/graphics-associated vocabulary such as `$2083`. These establish an observable path from state setup/transfer into the existing object presentation system. They do not by themselves prove an exact gameplay label such as score, difficulty, or current question.
 
+## Cross-program-ROM reference sweep
+
+A source-level search inspected all nine program ROM assembly units (`pps1` through `pps9`) for literal operands naming `$F6EB` or the word quartet. The **explicit addressed operands** occur in PPS8 (21 `dw` operand declarations), with none in the other eight program source units. A second sweep of remaining addressed `db` bytes found no contiguous `LIT`-then-watched-address signatures in the other program sources. This supports PPS8 as the primary direct state implementation; computed addresses and unresolved assembly cannot be ruled out by a textual/source-byte sweep.
+
+The deeper decoded PPS8 entry graph is authoritative for the 33 physical LIT sites and includes raw boundary bytes that the explicit `dw` sweep does not cover. These different numbers measure different levels of source decoding and **must not be treated as contradictory**.
+
 ## Stack-contract boundary
 
 The native root dictionary supplies known primitive effects (`LIT`, `@`, `!`, `B@`, `BZERO`, `DUP`, etc.). The nine **compound** entries also invoke task and object words, some outside the selected physical bank. Consequently their complete input/output stack effects cannot be established simply by summing the root primitives. Their library `stackEffect` is retained as `null` rather than fabricated. The call edges and physical state access metadata have been committed to the *primary* game dictionary.
