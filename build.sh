@@ -33,7 +33,7 @@ if [ ! -f "$BASELINE" ]; then
 fi
 
 if ! command -v node >/dev/null 2>&1; then
-    echo "node not found; required for Stage 5 source/ROM verifier" >&2
+    echo "node not found; required for source/ROM verification" >&2
     exit 1
 fi
 
@@ -74,10 +74,29 @@ printf '%s\n' "Professor Pac-Man — reproducible ROM build"
 printf '%s\n' "Baseline: OK ($EXPECTED_ZIP_SHA1)"
 printf '%s\n' "Assembler: $ZMAC  |  outputs: $ROM_OUTPUT_DIR/ and $LISTING_OUTPUT_DIR/"
 
-node tools/verify_stage5_rom.js
-node tools/audit_stage5_full.js
-node tools/audit_stage5_stack.js
 mkdir -p "$ROM_OUTPUT_DIR" "$LISTING_OUTPUT_DIR"
+
+# Verification tools produce detailed reports in build/; show them only with --verbose
+# or when a check fails. Always run every check.
+run_verification()
+{
+    label=$1
+    log_name=$2
+    shift 2
+    log="$LISTING_OUTPUT_DIR/$log_name.log"
+    if "$@" >"$log" 2>&1; then
+        [ "$VERBOSE" -eq 0 ] || cat "$log"
+        printf '  %-21s OK\n' "$label"
+    else
+        printf 'FAIL: %s (details: %s)\n' "$label" "$log" >&2
+        tail -n 20 "$log" >&2
+        exit 1
+    fi
+}
+printf '%s\n' "ROM verification:"
+run_verification "Original ROM signatures" verify_rom node tools/verify_stage5_rom.js
+run_verification "RAM, I/O and scheduler" audit_hardware node tools/audit_stage5_full.js
+run_verification "TERSE stack contracts" audit_stack node tools/audit_stage5_stack.js
 rm -f "$OUTPUT"
 
 build_rom()
@@ -272,8 +291,8 @@ run_analysis "Question round" analysis_question_round python3 "$QUESTION_ROUND_A
 echo "  Question round:      130 definitions / 3989 cells / 17 lists OK"
 run_analysis "Game progression" analysis_game_progression python3 "$GAME_PROGRESSION_ANALYZER" --check-sources --quiet "$OUTPUT"
 echo "  Game progression:    60 definitions / 1960 cells / 11 lists OK"
-run_analysis "Stage 5 TERSE state" analysis_stage5_state node tools/analyze_shared_threads.js "$OUTPUT" --state-check --check-sources
-echo "  Stage 5 state:       two colon roots / seven XT_equal / RAM quartet OK"
+run_analysis "TERSE state" analysis_terse_state node tools/analyze_shared_threads.js "$OUTPUT" --state-check --check-sources
+echo "  TERSE state:         two colon roots / seven XT_equal / RAM quartet OK"
 run_analysis "PLD" analysis_pld python3 "$PLD_ANALYZER" --check "$OUTPUT"
 echo "  PLD:                 OK"
 echo "SUCCESS: 23 ROMs and MAME ZIP match original (SHA-1 $package_sha1)"
