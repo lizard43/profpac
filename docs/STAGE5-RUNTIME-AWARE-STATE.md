@@ -7,7 +7,7 @@ Date: 2026-11-02. ROM context: **configuration 1, PPS8**. This stage extends the
 1. Track the physical instruction cells that load the RAM quartet `$F716`, `$F718`, `$F71A`, `$F71C` and flag byte `$F6EB`.
 2. Distinguish proved direct fetch/store operations from literals used in another way. Do not count overlapping entrypoint traversals as independent physical writes.
 3. Preserve the application call boundaries `$BBCE -> $BA31` and `$BEE2 -> $BBE8`.
-4. Align game-word annotations with the extracted **original** target runtime and bank-aware dictionary inventory.
+4. Align game-word annotations with the current extracted target runtime and bank-aware dictionary inventory.
 5. Improve the README with a dedicated work-RAM submap, without confusing it with the CPU-wide ROM/bank map.
 
 ## Runtime/library baseline: WB #38 and ICEBOX #104
@@ -17,9 +17,9 @@ Date: 2026-11-02. ROM context: **configuration 1, PPS8**. This stage extends the
 - Both PRs pin **the same extracted original** `pps1.bin`, SHA-1 `f7a9606ce6d66c3e6d210cc25572904aeab2b6c8`.
 - ABI: colon `$0008`, NEXT `$00F6`, root `$00FD–$05B7`, BC threaded IP, IX control stack, SP parameter stack, IY continuation; little-endian fixed 16-bit execution addresses.
 - Dictionary layers: **100 root** words; **46 platform** aliases; **442 game** colon entries (ROM/configuration namespaces); **130 question initializers** and **201 tier references** across 14 banks.
-- These inventories are **address and provenance baselines**, not completed semantic definitions of all game words. The host interpreter and XC are independent; neither PR establishes a working Professor Pac-Man compiler binding.
+- These inventories are **current versioned address and provenance records**, not completed semantic definitions of all game words. The host interpreter and XC are independent; neither PR establishes a working Professor Pac-Man compiler binding.
 
-**Compatibility rule:** future dictionary-semantic revisions may add justified names, stack effects, cross references and RAM field descriptions. Do not overwrite the pinned v20261101-0001 extracted component, silently merge same-address names from different bank contexts, rebind an XC, or change older host interpreter bytes.
+**Compatibility rule:** future dictionary-semantic revisions may add justified names, stack effects, cross references and RAM field descriptions. Advance the current version and compatibility ID with proven updates; do not silently merge same-address names from different bank contexts, rebind an XC, or change older host interpreter bytes.
 
 ## Physical RAM fields
 
@@ -60,4 +60,4 @@ The new `--state-detail` prints a row for each physical LIT cell of an observed 
 
 ## Next semantic pass
 
-Trace consumers of the values written to the quartet and determine how the correct-feedback path affects those fields versus initial setup. Where the downstream use proves a concrete purpose, add the semantic name, input/output stack effect and physical caller/callee link to the **game dictionary** with configuration `1` and ROM `pps8`. Cross-reference the original WB/ICEBOX v20261101-0001 identity without changing its frozen extraction.
+Trace consumers of the values written to the quartet and determine how the correct-feedback path affects those fields versus initial setup. Where the downstream use proves a concrete purpose, add the semantic name, input/output stack effect and physical caller/callee link to the **game dictionary** with configuration `1` and ROM `pps8`. Update the WB/ICEBOX current identity and primary game dictionary together as semantics improve, retaining exact original-ROM provenance.
