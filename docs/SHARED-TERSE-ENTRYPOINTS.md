@@ -1,3 +1,9 @@
+# Stage 5 correction to Stage 3's shared-entry interpretation
+
+PPS8 addresses `$BACD`, `$BAD9`, `$BAED`, `$BB27`, `$BB68`, `$BC83`, `$BC8F` are `XT_equal` cells `$01CF`, not additional colon roots. Only `$BA31` and `$BBE8` are established colon words in the recovered state region, totaling 232 physical token starts. For authoritative corrected analysis see [Stage 5](STAGE5-RUNTIME-AWARE-STATE.md). This earlier Stage 3 report is retained as historical RE documentation.
+
+---
+
 # Professor Pac-Man — multi-entry TERSE recovery, stage 3
 
 **Date:** November 1, 2026  
