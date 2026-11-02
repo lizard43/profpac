@@ -152,3 +152,19 @@ The remaining shared-entry `RST $08` opcodes in PPS8 and PPS9 have
 been promoted to named source locations. Their overlapping threaded bodies
 are still retained byte-exact, rather than duplicating a shared byte
 region. See [build and TERSE recovery audit](BUILD-ROUND-RE-20261101.md).
+
+
+## Stage 4 shared game-state control flow
+
+The correct-feedback thread at $BBB8 calls the shared game-state transfer
+entry $BA31 from instruction cell $BBCE. A second verified call from
+MAIN_APPLICATION ($BE66), at $BEE2, invokes the $BBE8 application-state
+initialization/transfer thread.
+
+Both families reference shared 16-bit state at $F716/$F718/$F71A/$F71C;
+the continuation uses part of the same quartet. The exact gameplay meaning
+of those values is not established by address proximity alone.
+
+A dedicated [Stage 4 control-flow and RAM audit](STAGE4-SHARED-GAME-STATE.md)
+records nine recovered entrypoints and documents the overlapping source
+regions, observed 16-bit read/write primitives, and known callers.
