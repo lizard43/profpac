@@ -1,83 +1,64 @@
-# Stage 5 — PPS8 shared-state reverse engineering
+# Stage 5 — Professor Pac-Man PPS8 state and presentation reverse engineering
 
-Date: 2026-11-02. Source: Professor Pac-Man configuration-1 `pps8` program ROM.
+## Corrected execution model
 
-## Scope and implementation
+The configuration-1 PPS8 byte stream has **two genuine RST $08 TERSE colon definitions**, at **$BA31** and **$BBE8**. Seven addresses previously described as independent/shared colon entrypoints—$BACD, $BAD9, $BAED, $BB27, $BB68, $BC83 and $BC8F—are instead the low bytes of the normal 16-bit execution token **$01CF (XT_equal)**. The old nine-entry Stage 4 model was a false-positive caused by decoding the $CF byte as an 8080/Z80 RST instruction outside its physical instruction context. All seven false definitions have been removed from the source and runtime game dictionary.
 
-Stage 5 moves the nine overlapping entrypoints beyond address-only labels. The byte-addressed PPS8 source now expresses **184 physical TERSE instruction cells as named `dw` tokens** in place of raw `db` data, across `$BA31–$BBA6` and `$BBE8–$BCDA`. The remaining boundary bytes stay as explicit `db` because interpreting them as a single linear token stream conflicts with another entrypoint or requires more evidence. A static source-byte reconstruction compared every byte in those converted ranges with the prior source and found **zero differences**.
+The two true words comprise **140** and **92** address-reachable TERSE execution cells respectively: **232 unique physical token starts**. Their byte-exact symbolic `dw` source, with inline operands, is in `src/pps8.asm`, and a complete, physical-address-indexed listing is in [STAGE5-TOKEN-MAP.md](STAGE5-TOKEN-MAP.md). A static source-byte comparison of both reconstructed streams (615 bytes) found **zero differences** against the prior physically addressed source bytes. The original ROM ZIP / entire build remains a separate required acceptance check.
 
-The native execution model is the separately extracted Professor Pac-Man direct-16 runtime: colon entry `$0008`, NEXT `$00F6`, 100 native-root dictionary entries. No host TERSE interpreter or XC is changed.
+## Proven caller and hardware relationships
 
-## Entry graphs and state behavior
+- `CORRECT_FEEDBACK_TASK` ($BBB8) invokes `OUTP` at $BBC2 and calls the genuine state word $BA31 from token cell $BBCE. The output port action is actual I/O; a definitive audible behavior requires tracing its port/value and downstream sound handling.
+- `MAIN_APPLICATION` ($BE66) calls $BBE8 from token cell $BEE2. The $BBE8 stream includes `OUTP` at $BBF2 and $BCD3, object setters, an object update loop, and terminal task bookkeeping.
+- Both words access work RAM ($E800–$FFFF): four adjacent 16-bit fields $F716, $F718, $F71A, $F71C and a byte at $F6EB. They are not located in battery-backed $E000–$E7FF RAM.
+- The two-root traversal contains **33 physical LIT references** to those five watched fields: $F6EB 5, $F716 8, $F718 8, $F71A 3, and $F71C 9. `LIT address; DUP` is not by itself a RAM access; only subsequent operations establish reads/writes. The per-site report is [STAGE5-PHYSICAL-TRACE.md](STAGE5-PHYSICAL-TRACE.md).
 
-The feedback family is `$BA31, $BACD, $BAD9, $BAED, $BB27, $BB68`; they share their central instruction stream, including the word-read/transfer paths starting at `$BA79`. `CORRECT_FEEDBACK_TASK` at `$BBB8` executes `$BA31` through cell `$BBCE`. The application family is `$BBE8, $BC83, $BC8F`; `MAIN_APPLICATION` at `$BE66` calls `$BBE8` through `$BEE2`. These are verified address-bearing cells in the source.
+## Distinct state initialization presets
 
-The four adjacent work-RAM words are `$F716, $F718, $F71A, $F71C`. The shared byte `$F6EB` is read or reset as part of the feedback family. In particular, `$BAE1` is **LIT $F6EB; DUP**, not a direct read or write; the value's later consumer must be tracked separately. All five addresses occur within work RAM `$E800–$FFFF`, not the battery-backed `$E000–$E7FF` region.
+Each row below is a sequential TERSE constant producer, address literal, and store primitive. The hex value is the actual stored bit pattern.
 
-The original addressed source yields **334 distinct reachable physical TERSE token addresses** over the nine separately traversed entry graphs. Deduplication produces **33 distinct literal cells** referencing the five watched RAM addresses: `$F6EB` 5, `$F716` 8, `$F718` 8, `$F71A` 3, `$F71C` 9. The direct fetch/store operations and shared reachability for every physical cell are in [the Stage 5 physical trace](STAGE5-PHYSICAL-TRACE.md). Do not multiply an operation merely because six alternative entrypoints share it.
-
-## Proven constant state assignments
-
-The following are consecutive TERSE producer/address/store sequences (not labels inferred from a screenshot). Values are 16-bit little-endian; the signed forms are shown for interpretation only.
-
-| Entrypoint path | Producer and store | RAM target | Stored value |
+| True colon root | RAM | Value | Source physical producer / store |
 | --- | --- | --- | --- |
-| Feedback `$BA31` | `LIT $FFFF; LIT $F71A; !` at `$BA34–$BA3C` | `$F71A` | `$FFFF` (−1) |
-| Feedback `$BA31` | `1; LIT $F71C; !` at `$BA3E–$BA44` | `$F71C` | `$0001` |
-| Feedback `$BA31` | `LIT $F6EB; BZERO` at `$BA51–$BA55` | `$F6EB` | `$00` |
-| Feedback `$BA31` | `LIT $0096; LIT $F718; !` at `$BA57–$BA5F` | `$F718` | `$0096` (+150) |
-| Feedback `$BA31` | `0; LIT $F716; !` at `$BA61–$BA67` | `$F716` | `$0000` |
-| Application `$BBE8` | `LIT $FFFF; LIT $F71C; !` at `$BBF6–$BBFE` | `$F71C` | `$FFFF` (−1) |
-| Application `$BBE8` | `LIT $FF64; LIT $F718; !` at `$BC0A–$BC12` | `$F718` | `$FF64` (−156) |
-| Application `$BBE8` | `LIT $FF9D; LIT $F716; !` at `$BC14–$BC1C` | `$F716` | `$FF9D` (−99) |
+| $BA31 feedback | $F71A | $FFFF | $BA34 / $BA3C |
+| $BA31 feedback | $F71C | $0001 | $BA3E / $BA44 |
+| $BA31 feedback | $F6EB | $00 | $BA51 / $BA55 (`BZERO`) |
+| $BA31 feedback | $F718 | $0096 | $BA57 / $BA5F |
+| $BA31 feedback | $F716 | $0000 | $BA61 / $BA67 |
+| $BBE8 application | $F71C | $FFFF | $BBF6 / $BBFE |
+| $BBE8 application | $F718 | $FF64 | $BC0A / $BC12 |
+| $BBE8 application | $F716 | $FF9D | $BC14 / $BC1C |
 
-Together these prove **distinct feedback and application initial-state presets**: feedback initializes four words plus a byte, while application initializes three of the words. The values and subsequent object operations suggest display/presentation state; the final names of these RAM fields still require consumer tracing.
+This proves two distinct presentation-state presets rather than final field names. Other writes in conditional paths are in the physical trace.
 
-## Object, display, and output effects
+## PPS1 object-word stack recovery
 
-The feedback sequence calls `OUTP` at `$BBC2` before calling the shared transfer routine, confirming a hardware output in the correct-feedback path. The shared threads call object-state setters `$1D24` (value 1), `$1D3C` (value 2), `$1D54` (value pair), object field updater `$1E8E`, and render/graphics-associated vocabulary such as `$2083`. These establish an observable path from state setup/transfer into the existing object presentation system. They do not by themselves prove an exact gameplay label such as score, difficulty, or current question.
+The Stage 5 streams call the resident PPS1 object vocabulary. Native Z80 source establishes these data-stack effects:
 
-## Cross-program-ROM reference sweep
+| XT | Effect | Physical evidence |
+| --- | --- | --- |
+| $1D24 | `( value1 -- )` | POP HL; transform; write current-object +25/+26 |
+| $1D3C | `( value2 -- )` | POP HL; transform; write current-object +27/+28 |
+| $1D54 | `( value1 value2 -- )` | TERSE calls $1D3C then $1D24 |
+| $1D9B | `( object-record -- value1 )` | POP record address; read +25/+26; transform; PUSH result |
+| $1DAA | `( object-record -- value2 )` | POP record address; read +27/+28; transform; PUSH result |
+| $1E7D | `( byte -- )` | POP DE; store E to current-object +24 |
+| $1E8E | `( word -- )` | POP DE; store E/D to current-object +29/+30 |
 
-A source-level search inspected all nine program ROM assembly units (`pps1` through `pps9`) for literal operands naming `$F6EB` or the word quartet. The **explicit addressed operands** occur in PPS8 (21 `dw` operand declarations), with none in the other eight program source units. A second sweep of remaining addressed `db` bytes found no contiguous `LIT`-then-watched-address signatures in the other program sources. This supports PPS8 as the primary direct state implementation; computed addresses and unresolved assembly cannot be ruled out by a textual/source-byte sweep.
+The native routines have meaningful labels and function headers in `src/pps1.asm`. Their contracts are synchronized into the **primary** WB/ICEBOX platform dictionaries; $1D54 is also reflected in the game dictionary. The two whole task/state words also call additional task/object words, so their *complete compound stack contracts* remain unspecified, rather than guessed.
 
-The deeper decoded PPS8 entry graph is authoritative for the 33 physical LIT sites and includes raw boundary bytes that the explicit `dw` sweep does not cover. These different numbers measure different levels of source decoding and **must not be treated as contradictory**.
+## One evolving library, not revision snapshots
 
-## Fixed-ROM object vocabulary: recovered stack contracts
+[WB PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) owns `runtime/components/profpac-current/`; [ICEBOX PR #104](https://github.com/lizard43/dnaIceBox/pull/104) mirrors it in `terse/runtime/profpac-direct-threaded/`. Their latest working version is **v20261102-0003**; their manifest identity and all four dictionary layers advance together. There are no historical copied runtime packages or separate Stage 5 overlay. The original PPS1 binary hash `f7a9606ce6d66c3e6d210cc25572904aeab2b6c8` is retained solely as provenance for unchanged original bytes. Host interpreters and XC are independent and untouched.
 
-The Stage 5 state threads invoke PPS1's object setter/getter words. Inspection of their native Z80 bodies supplies actual stack effects:
+The corrected game dictionary contains **435 original RST $08 game words**, after seven false positives are removed. Other layers retain **100 root**, **46 platform** and **130 question-initializer** entries.
 
-| PPS1 execution address | Word / implementation | Proven stack effect | Implementation evidence |
-| --- | --- | --- | --- |
-| `$1D24` | Object value-1 setter | `( value1 -- )` | `POP HL`, convert via `$1B3C`, write record `+25/+26` |
-| `$1D3C` | Object value-2 setter | `( value2 -- )` | `POP HL`, convert via `$1B9E`, write record `+27/+28` |
-| `$1D54` | TERSE paired setter | `( value1 value2 -- )` | Executes `$1D3C`, then `$1D24`, then `RETURN` |
-| `$1D9B` | Object value-1 getter | `( object-record -- value1 )` | `POP HL` record pointer, read `+25/+26`, transform, `PUSH HL` |
-| `$1DAA` | Object value-2 getter | `( object-record -- value2 )` | `POP HL` record pointer, read `+27/+28`, transform, `PUSH HL` |
-| `$1E7D` | Object byte-18 setter | `( byte -- )` | `POP DE`, write E to current record `+24` |
-| `$1E8E` | Object word-1D setter | `( word -- )` | `POP DE`, write E/D to current record `+29/+30` |
-
-These seven effects are recorded in the WB/ICEBOX current **platform dictionary**, and the `$1D54` compound effect is also present in the program-word dictionary. Naming and inline function headers were added to the original `src/pps1.asm`, with the ICEBOX project copy synchronized. This proves the object-state transformation called by the shared animation threads; it does **not** automatically establish the entire task-entry word's stack contract.
-
-## Stack-contract boundary
-
-The native root dictionary supplies known primitive effects (`LIT`, `@`, `!`, `B@`, `BZERO`, `DUP`, etc.). The nine **compound** entries also invoke task and object words, some outside the selected physical bank. Consequently their complete input/output stack effects cannot be established simply by summing the root primitives. Their library `stackEffect` is retained as `null` rather than fabricated. The call edges and physical state access metadata have been committed to the *primary* game dictionary.
-
-## Single current WB / ICEBOX runtime
-
-WB [PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) maintains only `runtime/components/profpac-current/`; ICEBOX [PR #104](https://github.com/lizard43/dnaIceBox/pull/104) maintains only `terse/runtime/profpac-direct-threaded/`. Both carry **v20261102-0002** and the same current compatibility ID `z80-direct16-profpac-v20261102-0002-pps1-f7a9606ce6d66c3e6d210cc25572904aeab2b6c8`. Older package revisions and the redundant Stage 5 overlay were removed; there is one editable working baseline, not a frozen copy for each stage.
-
-The unchanged original PPS1 SHA-1 identifies the original ROM image as *provenance*, not a pinned software revision. Dictionary records remain bank-aware: 100 native root words, 46 platform aliases, 442 program words, and 130 question initializer words.
-
-## Reproduction and remaining acceptance checks
+## Reproduction and acceptance
 
 ```sh
+node tools/analyze_shared_threads.js --token-map --check-sources
 node tools/analyze_shared_threads.js --state-audit --check-sources
 node tools/analyze_shared_threads.js --state-check --check-sources
 ./build.sh --clean
 ```
 
-The source conversion was checked against the preceding `pps8.asm` byte declarations (zero differences for all converted ranges). Original-ROM analyzer execution, zmac assembly, all 23 ROM SHA-1 comparisons, and the ZIP byte-for-byte rebuild **have not been executed through this GitHub-only environment**. These remain required before merge; neither the source conversion nor its dictionary synchronization is claimed to have passed a full local build.
-
-
-For the complete 334-cell, bank-aware shared execution-token map, see [Stage 5 token map](STAGE5-TOKEN-MAP.md). Regenerate it using `node tools/analyze_shared_threads.js --token-map --check-sources` against the original ROM.
+The source-byte reconstruction has been compared against its original addressed bytes. **Real-ROM analyzer execution, assembler rebuild, 23-ROM hashes and canonical ZIP equality have not been run through this GitHub-only access**, and remain merge acceptance checks. The audit and dictionary evidence distinguish verified native and root-word stack behavior from unproven compound effects.
