@@ -11,6 +11,13 @@ The previously identified configuration-1 shared/overlapping TERSE entries were 
 - **Six independent TERSE words**, now fully represented as `RST $08`, execution tokens, inline operands and named branch targets in `src/pps8.asm`. These account for **613 bytes**, formerly represented in raw `DB` blocks.
 - **Thirteen additional entry points** (12 in PPS8, one in PPS9) that include overlapping or shared threads. Their addresses and entry opcodes are retained; the common byte ranges are *not* copied into separate word bodies.
 
+A synthetic ZIP/source test using the original address-annotated ROM bytes returned:
+**19 entrypoints, 18 decoded control-flow graphs, one entry-only marker,
+and 12 entries sharing physical bytes**, with all source markers present.
+The fixture used mocked SHA-1 values; execution against the actual
+`roms/orig/profpac.zip` remains the acceptance test for the archive
+checksum and compression path.
+
 The original-ROM inventory is implemented in [`tools/analyze_shared_threads.js`](../tools/analyze_shared_threads.js). It uses only Node.js built-ins, reads the original MAME ZIP, verifies the SHA-1 of both program ROMs, decodes the TERSE instruction/branch cells, and identifies code bytes shared between entrypoints.
 
 ```sh
