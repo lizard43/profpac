@@ -44,7 +44,7 @@ function extract(name) {
 const expected=[...script.matchAll(/^build_rom\s+(pps\d+|ppq\d+)\s+\S+\s+\S+\s+([a-f0-9]{40})$/gm)];
 assert(expected.length===23,'Expected 23 original program/question ROM hashes');
 for(const [,name,hash] of expected)assert(sha1(extract(name))===hash,'Original ROM hash: '+name);
-const pps8=extract('pps8'),pps2=extract('pps2');
+const pps8=extract('pps8'),pps2=extract('pps2'),pps1=extract('pps1');
 assert(pps8.length===8192&&pps2.length===8192,'Program ROM not 8 KB');
 const include=fs.readFileSync(path.join(root,'src/profpac_common.include'),'utf8');
 const equates=new Map();
@@ -93,6 +93,16 @@ assert(word(0xbbce)===0xba31&&word(0xbee2)===0xbbe8,'Stage 5 caller changed');
 assert(pps8[0xba31-0xa000]===0xcf&&pps8[0xbbe8-0xa000]===0xcf,
   'Two true colon roots changed');
 assert(pps2[0x2d2b-0x2000]===0xcf,'PPS2 screen action is not a colon entry');
+assert(pps1.subarray(0x1599,0x159b).toString('hex')==='fde3',
+ 'Task scheduler must exchange IY with parameter-stack top');
+assert(pps1.subarray(0x15d9,0x15e7).toString('hex')===
+ 'fde1dd4e00dd23dd4600dd23fde9',
+ 'Task scheduler must restore IY and advance IX control stack');
+assert(pps1.subarray(0x1b2c,0x1b32).toString('hex')==='cdc31ae5fde9',
+ 'Draw setup producer native bytes mismatch');
+assert(pps2.subarray(0x25bb-0x2000,0x25c1-0x2000).toString('hex')===
+ 'fde5fd2a8ffe','Masked-draw helper entry has changed');
+
 // Verify the native OUTP stack order: value, then port, then OUTP.
 for(const [cell,value] of [[0xbbc2,0x15],[0xbbf2,0x2a],[0xbcd3,0x00]]) {
   assert(word(cell)===0x02d8,'OUTP execution token changed: '+hex(cell));
@@ -103,4 +113,4 @@ for(const [cell,value] of [[0xbbc2,0x15],[0xbbf2,0x2a],[0xbcd3,0x00]]) {
 }
 console.log('PASS Stage 5: original ZIP SHA-1, all 23 ROM SHA-1s, '+
   pps8Bytes+' PPS8 bytes, '+pps2Bytes+' PPS2 bytes, 2 colon roots, '+
-  '7 XT_equal cells, 2 caller edges, 3 screen-page outputs');
+  '7 XT_equal cells, 2 caller edges, 3 screen-page outputs, task scheduler and native graphics bytes');
