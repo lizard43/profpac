@@ -41,7 +41,7 @@ const ENTRY_GROUPS = Object.freeze([
   { rom: 'pps9', name: 'Coin/credit precursor',
     entries: [0xd426], entryOnly: true },
 ]);
-const OPTIONS = new Set(['--check-sources', '--markdown', '--help']);
+const OPTIONS = new Set(['--check-sources', '--markdown', '--state', '--help']);
 const hx = n => '$' + n.toString(16).toUpperCase().padStart(4, '0');
 
 function die(message) { throw new Error(message); }
@@ -177,9 +177,81 @@ function inventory(archive, checkSources) {
       }
     }
   }
-  return { findings, entries: all.length,
+  return { findings, banks, entries: all.length,
     decoded: all.filter(def => !def.entryOnly).length,
     sharedEntries: all.filter(def => def.overlaps.length).length };
+}
+
+
+const STATE_GROUPS = new Set([
+  0xba31, 0xbacd, 0xbad9, 0xbaed, 0xbb27, 0xbb68,
+  0xbbe8, 0xbc83, 0xbc8f,
+]);
+const MEMORY_ACCESS = Object.freeze({
+  0x014c: 'word-read', 0x0153: 'byte-read',
+  0x0532: 'byte-write', 0x055c: 'byte-write',
+  0x0561: 'word-write', 0x053a: 'byte-one',
+  0x053f: 'byte-zero', 0x0544: 'byte-dec',
+  0x0549: 'byte-inc', 0x054e: 'byte-add',
+  0x0555: 'byte-sub', 0x0575: 'word-dec',
+  0x057d: 'word-add', 0x0588: 'word-inc',
+  0x0590: 'word-sub', 0x059e: 'word-write',
+  0x0569: 'word-zero', 0x056f: 'word-one',
+});
+
+function stateInventory(result) {
+  const all = result.findings.flatMap(g => g.definitions.map(d => ({
+    rom: g.rom, ...d,
+  })));
+  const groups = all.filter(d => STATE_GROUPS.has(d.entry));
+  const refs = new Map();
+  const incoming = new Map();
+  for (const def of all) {
+    for (const cell of def.cells) {
+      if (!STATE_GROUPS.has(cell.token)) continue;
+      const callers = incoming.get(cell.token) || new Set();
+      callers.add(def.entry); incoming.set(cell.token, callers);
+    }
+  }
+  for (const def of groups) {
+    const literals = new Map();
+    for (const cell of def.cells) {
+      // Only explicit LIT is a 16-bit inline constant. All other operands
+      // (BARRAY, ARRAY, branches, OF etc.) have separate meanings.
+      if (cell.token !== 0x0109 || cell.operand < 0xf000) continue;
+      const key = cell.operand;
+      const locations = literals.get(key) || [];
+      const next = def.cells.find(c => c.address === cell.end);
+      locations.push({
+        at: cell.address,
+        operation: next && MEMORY_ACCESS[next.token] || 'address-literal',
+        nextToken: next && next.token || null,
+      });
+      literals.set(key, locations);
+    }
+    refs.set(def.entry, literals);
+  }
+  return { groups, refs, incoming };
+}
+
+function stateReport(result) {
+  const inventory = stateInventory(result);
+  console.log('# Shared game-state TERSE memory references');
+  console.log('');
+  console.log('Source: original PPS8 ROM. An address literal alone is not proof of a RAM read or write.');
+  console.log('');
+  console.log('| Entry | Reachable cells | Backward/forward coverage | RAM literals (operation at next sequential cell) | Other decoded-entry callers |');
+  console.log('| --- | ---: | --- | --- | --- |');
+  for (const def of inventory.groups) {
+    const memory = [...inventory.refs.get(def.entry)].sort((a,b) => a[0]-b[0])
+      .map(([addr, uses]) => hx(addr) + ': ' +
+        [...new Set(uses.map(x=>x.operation))].join('/')).join('; ') || '—';
+    const callers = [...(inventory.incoming.get(def.entry) || [])]
+      .sort((a,b) => a-b).map(hx).join(', ') || '—';
+    console.log('| ' + hx(def.entry) + ' | ' + def.cellCount +
+      ' | ' + hx(def.reachedStart) + '–' + hx(def.end-1) +
+      ' | ' + memory + ' | ' + callers + ' |');
+  }
 }
 
 function report(result, markdown) {
@@ -211,13 +283,14 @@ function report(result, markdown) {
 function main(args) {
   for (const a of args) if (a.startsWith('-') && !OPTIONS.has(a)) die('Unknown option ' + a);
   if (args.includes('--help')) {
-    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown]');
+    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown|--state]');
     return;
   }
   const archiveName = args.find(a => !a.startsWith('-')) || 'roms/orig/profpac.zip';
   const result = inventory(fs.readFileSync(path.resolve(ROOT, archiveName)),
     args.includes('--check-sources'));
-  report(result, args.includes('--markdown'));
+  if (args.includes('--state')) stateReport(result);
+  else report(result, args.includes('--markdown'));
 }
 try { main(process.argv.slice(2)); }
 catch (error) { console.error('FAIL: ' + error.message); process.exitCode = 1; }
