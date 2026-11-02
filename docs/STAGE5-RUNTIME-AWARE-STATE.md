@@ -16,6 +16,23 @@ The four adjacent work-RAM words are `$F716, $F718, $F71A, $F71C`. The shared by
 
 The original addressed source yields **334 distinct reachable physical TERSE token addresses** over the nine separately traversed entry graphs. Deduplication produces **33 distinct literal cells** referencing the five watched RAM addresses: `$F6EB` 5, `$F716` 8, `$F718` 8, `$F71A` 3, `$F71C` 9. The direct fetch/store operations and shared reachability for every physical cell are in [the Stage 5 physical trace](STAGE5-PHYSICAL-TRACE.md). Do not multiply an operation merely because six alternative entrypoints share it.
 
+## Proven constant state assignments
+
+The following are consecutive TERSE producer/address/store sequences (not labels inferred from a screenshot). Values are 16-bit little-endian; the signed forms are shown for interpretation only.
+
+| Entrypoint path | Producer and store | RAM target | Stored value |
+| --- | --- | --- | --- |
+| Feedback `$BA31` | `LIT $FFFF; LIT $F71A; !` at `$BA34–$BA3C` | `$F71A` | `$FFFF` (−1) |
+| Feedback `$BA31` | `1; LIT $F71C; !` at `$BA3E–$BA44` | `$F71C` | `$0001` |
+| Feedback `$BA31` | `LIT $F6EB; BZERO` at `$BA51–$BA55` | `$F6EB` | `$00` |
+| Feedback `$BA31` | `LIT $0096; LIT $F718; !` at `$BA57–$BA5F` | `$F718` | `$0096` (+150) |
+| Feedback `$BA31` | `0; LIT $F716; !` at `$BA61–$BA67` | `$F716` | `$0000` |
+| Application `$BBE8` | `LIT $FFFF; LIT $F71C; !` at `$BBF6–$BBFE` | `$F71C` | `$FFFF` (−1) |
+| Application `$BBE8` | `LIT $FF64; LIT $F718; !` at `$BC0A–$BC12` | `$F718` | `$FF64` (−156) |
+| Application `$BBE8` | `LIT $FF9D; LIT $F716; !` at `$BC14–$BC1C` | `$F716` | `$FF9D` (−99) |
+
+Together these prove **distinct feedback and application initial-state presets**: feedback initializes four words plus a byte, while application initializes three of the words. The values and subsequent object operations suggest display/presentation state; the final names of these RAM fields still require consumer tracing.
+
 ## Object, display, and output effects
 
 The feedback sequence calls `OUTP` at `$BBC2` before calling the shared transfer routine, confirming a hardware output in the correct-feedback path. The shared threads call object-state setters `$1D24` (value 1), `$1D3C` (value 2), `$1D54` (value pair), object field updater `$1E8E`, and render/graphics-associated vocabulary such as `$2083`. These establish an observable path from state setup/transfer into the existing object presentation system. They do not by themselves prove an exact gameplay label such as score, difficulty, or current question.
