@@ -119,9 +119,12 @@ function decode(image, base, entry) {
   const covered = new Set([entry]);
   for (const cell of ordered)
     for (let i = cell.address; i < cell.end; i++) covered.add(i);
-  if (covered.size !== end - entry)
-    die('Unclassified gap in ' + hx(entry) + ' ending ' + hx(end));
-  return { entry, end, cellCount: ordered.length, cells: ordered };
+  // A multi-entry word can branch around bytes belonging to another entry.
+  // Track skipped physical bytes rather than incorrectly treating them as a
+  // decode failure. Every *visited* token and inline operand is range-checked.
+  const skippedBytes = end - entry - covered.size;
+  if (skippedBytes < 0) die('Invalid overlapping cell boundaries at ' + hx(entry));
+  return { entry, end, cellCount: ordered.length, skippedBytes, cells: ordered };
 }
 
 function inventory(archive, checkSources) {
@@ -181,14 +184,15 @@ function inventory(archive, checkSources) {
 function report(result, markdown) {
   if (markdown) {
     console.log('# Shared TERSE entrypoints — original ROM analysis\n');
-    console.log('| ROM | Group | Entry | End | Decoded cells | Shared physical bytes with |');
-    console.log('| --- | --- | --- | --- | ---: | --- |');
+    console.log('| ROM | Group | Entry | End | Decoded cells | Skipped bytes | Shared physical bytes with |');
+    console.log('| --- | --- | --- | --- | ---: | ---: | --- |');
     for (const group of result.findings) {
       for (const d of group.definitions) {
         const overlaps = d.overlaps.map(x => hx(x.entry) + ' (' + x.bytes + ')').join(', ') || '—';
         console.log('| ' + group.rom + ' | ' + group.name + ' | ' +
           hx(d.entry) + ' | ' + (d.entryOnly ? 'entry only' : hx(d.end)) + ' | ' +
-          (d.entryOnly ? '—' : d.cellCount) +
+          (d.entryOnly ? '—' : d.cellCount) + ' | ' +
+          (d.entryOnly ? '—' : d.skippedBytes) +
           ' | ' + overlaps + ' |');
       }
     }
