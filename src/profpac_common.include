@@ -253,6 +253,8 @@ XT_SELECT_SUPER_GAME_CONFIGURATION_1 equ $D0D4
 ; Fixed object/task vocabulary used by the question-presentation threads.
 ; Neutral field names are retained where the record representation is proven
 ; but the original source spelling is not.
+XT_SCREEN_INTERCEPT_ACTION equ $2D2B
+XT_UPDATE_OBJECT_GLYPH equ $2083
 XT_SET_CURRENT_OBJECT_AXIS_A equ $1C5F
 XT_SET_CURRENT_OBJECT_AXIS_B equ $1C71
 XT_GET_OBJECT_AXIS_A equ $1C96
