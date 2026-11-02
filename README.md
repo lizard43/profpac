@@ -81,9 +81,9 @@ through 39 are empty. A question selector maps one complete PPQ module into
 
 ![Shared TERSE work RAM state and caller diagram](images/professor-pacman-game-state-map.svg)
 
-This **focused work-RAM submap** complements the hardware-wide CPU and question-bank diagrams above. The configuration-1 PPS8 shared threads reference a byte at `$F6EB` and four consecutive 16-bit words at `$F716–$F71D`. Correct-answer feedback (`$BBB8`) enters the shared group at `$BA31`; `MAIN_APPLICATION` (`$BE66`) enters the initialization/continuation family at `$BBE8`. Overlapping entrypoints share physical ROM bytes. The [Stage 5 runtime-aware audit](docs/STAGE5-RUNTIME-AWARE-STATE.md) documents physical addresses, entrypoint semantics and validation.
+This **focused work-RAM submap** complements the hardware-wide CPU and question-bank diagrams above. The configuration-1 PPS8 shared threads reference a byte at `$F6EB` and four consecutive 16-bit words at `$F716–$F71D`. Correct-answer feedback (`$BBB8`) enters the shared group at `$BA31`; `MAIN_APPLICATION` (`$BE66`) enters the initialization/continuation family at `$BBE8`. Overlapping entrypoints share physical ROM bytes. The [Stage 5 runtime-aware audit](docs/STAGE5-RUNTIME-AWARE-STATE.md) and [deduplicated physical trace](docs/STAGE5-PHYSICAL-TRACE.md) document the original addressed bytes, RAM operations, and caller relationships. Nine shared entry graphs expose 334 unique token addresses and 33 physical RAM-reference literals; 184 instruction cells in the shared source have been promoted to readable TERSE tokens without changing their byte values.
 
-The extracted target runtime in [DNA TERSE WB PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) and [DNA ICEBOX PR #104](https://github.com/lizard43/dnaIceBox/pull/104) now advances to `v20261102-0001`; its original `pps1` execution bytes and current four dictionary layers share the versioned compatibility identity. Stage 5 improves **game-word analysis**, not host interpreter/XC semantics or that extraction.
+The extracted target runtime in [DNA TERSE WB PR #38](https://github.com/lizard43/dnaTERSE-WB/pull/38) and [DNA ICEBOX PR #104](https://github.com/lizard43/dnaIceBox/pull/104) now advances to `v20261102-0002`; its original `pps1` execution bytes and current four dictionary layers share the versioned compatibility identity. Stage 5 improves **game-word analysis**, not host interpreter/XC semantics or that extraction.
 
 The complete memory, I/O, banking, video, and control specification is in
 [hardware.md](docs/hardware.md).
@@ -322,8 +322,11 @@ inspection command does not replace the mandatory build/hash checks.
 ### Stage 5 original-ROM state audit
 
 ```sh
+node tools/analyze_shared_threads.js --state-audit --check-sources
 node tools/analyze_shared_threads.js --state-detail --check-sources
 node tools/analyze_shared_threads.js --state-check --check-sources
 ```
 
-The detail output lists each source-addressed LIT operation and immediate memory primitive; the strict check also verifies the two fixed caller tokens and nine shared-entry roots. This is an independent inspection of the original archive, not a replacement for `./build.sh --clean` and its 23-ROM/ZIP byte-for-byte acceptance tests.
+The physical audit emits one row per unique instruction address even when multiple entries share it. The detail output lists each reachable source-addressed LIT operation and immediate memory primitive; the strict check also verifies the two fixed caller tokens and nine shared-entry roots. This is an independent inspection of the original archive, not a replacement for `./build.sh --clean` and its 23-ROM/ZIP byte-for-byte acceptance tests.
+
+The WB component lives at `runtime/components/profpac-current/`: one evolving runtime baseline with the ICEBOX mirror at `terse/runtime/profpac-direct-threaded/`, not multiple frozen Stage revisions. The original PPS1 SHA-1 is retained as binary provenance. Full local ROM build and structural acceptance remain required.
