@@ -34,10 +34,10 @@ const ENTRY_GROUPS = Object.freeze([
     entries: [0xb613, 0xb642, 0xb67f] },
   { rom: 'pps8', name: 'Credit/start prompt',
     entries: [0xb846] },
-  { rom: 'pps8', name: 'Shared application-state threads',
-    entries: [0xba31, 0xbacd, 0xbad9, 0xbaed, 0xbb27, 0xbb68] },
-  { rom: 'pps8', name: 'Shared application continuation',
-    entries: [0xbbe8, 0xbc83, 0xbc8f] },
+  { rom: 'pps8', name: 'Correct-feedback state thread; one colon root',
+    entries: [0xba31] },
+  { rom: 'pps8', name: 'Normal-application state thread; one colon root',
+    entries: [0xbbe8] },
   { rom: 'pps9', name: 'Coin/credit precursor',
     entries: [0xd426], entryOnly: true },
 ]);
@@ -183,9 +183,9 @@ function inventory(archive, checkSources) {
 }
 
 
-const STATE_GROUPS = new Set([
-  0xba31, 0xbacd, 0xbad9, 0xbaed, 0xbb27, 0xbb68,
-  0xbbe8, 0xbc83, 0xbc8f,
+const STATE_GROUPS = new Set([0xba31, 0xbbe8]);
+const EMBEDDED_EQUAL_CELLS = Object.freeze([
+  0xbacd, 0xbad9, 0xbaed, 0xbb27, 0xbb68, 0xbc83, 0xbc8f,
 ]);
 const MEMORY_ACCESS = Object.freeze({
   0x014c: 'word-read', 0x0153: 'byte-read',
@@ -287,12 +287,18 @@ function stateDetail(result, strict) {
       if (!rows.some(row => row.ram === address &&
           row.operation !== 'address-literal'))
         die('Stage 5: missing directly observed RAM operation for ' + hx(address));
-    const expected = [0xba31, 0xbacd, 0xbad9, 0xbaed, 0xbb27,
-      0xbb68, 0xbbe8, 0xbc83, 0xbc8f];
+    const expected = [0xba31, 0xbbe8];
     for (const entry of expected)
       if (!inv.groups.some(def => def.entry === entry))
-        die('Stage 5: missing shared-state entry ' + hx(entry));
-    console.log('Stage 5 state check: 9 entrypoints, 4 word addresses, 2 fixed callers verified against original ROM');
+        die('Stage 5: missing genuine colon word ' + hx(entry));
+    for (const address of EMBEDDED_EQUAL_CELLS) {
+      if (word(address) !== 0x01cf)
+        die('Stage 5: false colon marker was not XT_equal at ' + hx(address));
+      if (inv.groups.some(def => def.entry === address))
+        die('Stage 5: XT_equal falsely registered as colon at ' + hx(address));
+    }
+    console.log('Stage 5 state check: 2 true colon words, 7 embedded XT_equal cells, ' +
+      '4 word RAM addresses, 2 fixed callers verified');
   }
   console.log('| Entry | Physical LIT cell | RAM address | Immediate operation | Next token |');
   console.log('| --- | --- | --- | --- | --- |');
@@ -327,7 +333,7 @@ function stateTokenMap(result) {
     record.owners.push(def.entry);
   }
   console.log('# Stage 5 — physical TERSE token map');
-  console.log('Original PPS8 ROM; 9 physical entry graphs; unique cell addresses only.');
+  console.log('Original PPS8 ROM; 2 genuine colon roots; unique cell addresses only.');
   console.log('| Physical cell | Execution token | Inline operand | Reachable entrypoints |');
   console.log('| --- | --- | --- | --- |');
   for (const {cell,owners} of [...physical.values()].sort((a,b)=>a.cell.address-b.cell.address)) {
