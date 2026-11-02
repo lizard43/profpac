@@ -345,6 +345,37 @@ function stateAudit(result) {
   for (const r of references)
     console.log('| '+hx(r.at)+' | '+hx(r.ram)+' | '+r.op+' | '+r.classification+
       ' | '+r.owners.map(hx).join(', ')+' |');
+  // A consecutive producer, LIT address, store is evidence of an exact
+  // initialization value. Never extrapolate across branch/call boundaries.
+  const byEnd = new Map(owned.map(x=>[x.cell.end,x.cell]));
+  const initializers = [];
+  for (const r of references) {
+    const lit = byAddress.get(r.at);
+    const store = byAddress.get(lit.end);
+    if (!store || ![0x0561, 0x053f].includes(store.token)) continue;
+    if (store.token === 0x053f) {
+      initializers.push({at:lit.address, ram:r.ram, value:0, width:8,
+        producer:'BZERO', owners:r.owners});
+      continue;
+    }
+    const producer = byEnd.get(lit.address);
+    if (!producer) continue;
+    let value = null;
+    if (producer.token === 0x0109) value = producer.operand;
+    if (producer.token === 0x012a) value = 0;
+    if (producer.token === 0x0130) value = 1;
+    if (value === null) continue;
+    initializers.push({at:lit.address, ram:r.ram, value, width:16,
+      producer:hx(producer.address), owners:r.owners});
+  }
+  console.log('');
+  console.log('## Proven constant assignments (sequential producer, address, store)');
+  console.log('| Store address token | RAM | Value | Width | Producer cell |');
+  console.log('| --- | --- | --- | ---: | --- |');
+  for (const init of initializers)
+    console.log('| '+hx(init.at)+' | '+hx(init.ram)+' | '+hx(init.value)+
+      ' | '+init.width+' | '+init.producer+' |');
+  console.log('Physical constant assignments: '+initializers.length);
   const counts = Object.fromEntries([...watched].map(a=>[hx(a),references.filter(x=>x.ram===a).length]));
   console.log('Unique physical LIT references: '+references.length+'; counts: '+JSON.stringify(counts));
   console.log('ROM bytes are not rewritten. Stack effects are not inferred from address literals.');
