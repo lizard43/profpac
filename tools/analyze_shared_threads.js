@@ -41,7 +41,7 @@ const ENTRY_GROUPS = Object.freeze([
   { rom: 'pps9', name: 'Coin/credit precursor',
     entries: [0xd426], entryOnly: true },
 ]);
-const OPTIONS = new Set(['--check-sources', '--markdown', '--state', '--help']);
+const OPTIONS = new Set(['--check-sources', '--markdown', '--state', '--state-detail', '--state-check', '--help']);
 const hx = n => '$' + n.toString(16).toUpperCase().padStart(4, '0');
 
 function die(message) { throw new Error(message); }
@@ -254,6 +254,57 @@ function stateReport(result) {
   }
 }
 
+
+/**
+ * Stage 5: address-literal audit with physical instruction locations.
+ * Only report a memory access when the immediate sequential cell after LIT
+ * is a known fetch/store primitive. Each entry is decoded separately:
+ * overlapping entries are intentionally NOT summed into independent bytes.
+ */
+function stateDetail(result, strict) {
+  const inv = stateInventory(result);
+  const watched = new Set([0xf6eb, 0xf716, 0xf718, 0xf71a, 0xf71c]);
+  const rows = [];
+  for (const def of inv.groups) {
+    for (const [address, uses] of inv.refs.get(def.entry)) {
+      if (!watched.has(address)) continue;
+      for (const use of uses) {
+        rows.push({ entry: def.entry, at: use.at, ram: address,
+          operation: use.operation, nextToken: use.nextToken });
+      }
+    }
+  }
+  rows.sort((a,b) => a.entry-b.entry || a.at-b.at || a.ram-b.ram);
+  if (strict) {
+    const image = result.banks.pps8;
+    const word = at => image.readUInt16LE(at - 0xa000);
+    if (word(0xbbce) !== 0xba31)
+      die('Stage 5: CORRECT_FEEDBACK_TASK call at $BBCE changed');
+    if (word(0xbee2) !== 0xbbe8)
+      die('Stage 5: MAIN_APPLICATION call at $BEE2 changed');
+    const quartet = [0xf716, 0xf718, 0xf71a, 0xf71c];
+    for (const address of quartet)
+      if (!rows.some(row => row.ram === address &&
+          row.operation !== 'address-literal'))
+        die('Stage 5: missing directly observed RAM operation for ' + hx(address));
+    const expected = [0xba31, 0xbacd, 0xbad9, 0xbaed, 0xbb27,
+      0xbb68, 0xbbe8, 0xbc83, 0xbc8f];
+    for (const entry of expected)
+      if (!inv.groups.some(def => def.entry === entry))
+        die('Stage 5: missing shared-state entry ' + hx(entry));
+    console.log('Stage 5 state check: 9 entrypoints, 4 word addresses, 2 fixed callers verified against original ROM');
+  }
+  console.log('| Entry | Physical LIT cell | RAM address | Immediate operation | Next token |');
+  console.log('| --- | --- | --- | --- | --- |');
+  for (const row of rows)
+    console.log('| ' + hx(row.entry) + ' | ' + hx(row.at) + ' | ' +
+      hx(row.ram) + ' | ' + row.operation + ' | ' +
+      (row.nextToken === null ? '—' : hx(row.nextToken)) + ' |');
+  console.log('');
+  console.log('Observations are per-entry reachability, NOT unique physical writes. ' +
+    'A literal without a direct operation is labelled address-literal.');
+}
+
 function report(result, markdown) {
   if (markdown) {
     console.log('# Shared TERSE entrypoints — original ROM analysis\n');
@@ -283,13 +334,14 @@ function report(result, markdown) {
 function main(args) {
   for (const a of args) if (a.startsWith('-') && !OPTIONS.has(a)) die('Unknown option ' + a);
   if (args.includes('--help')) {
-    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown|--state]');
+    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown|--state|--state-detail] [--state-check]');
     return;
   }
   const archiveName = args.find(a => !a.startsWith('-')) || 'roms/orig/profpac.zip';
   const result = inventory(fs.readFileSync(path.resolve(ROOT, archiveName)),
     args.includes('--check-sources'));
-  if (args.includes('--state')) stateReport(result);
+  if (args.includes('--state-check') || args.includes('--state-detail'))
+    stateDetail(result, args.includes('--state-check'));\n  else if (args.includes('--state')) stateReport(result);
   else report(result, args.includes('--markdown'));
 }
 try { main(process.argv.slice(2)); }
