@@ -122,9 +122,10 @@ function decode(image, base, entry) {
   // A multi-entry word can branch around bytes belonging to another entry.
   // Track skipped physical bytes rather than incorrectly treating them as a
   // decode failure. Every *visited* token and inline operand is range-checked.
-  const skippedBytes = end - entry - covered.size;
-  if (skippedBytes < 0) die('Invalid overlapping cell boundaries at ' + hx(entry));
-  return { entry, end, cellCount: ordered.length, skippedBytes, cells: ordered };
+  const reachedStart = Math.min(entry, ...ordered.map(cell => cell.address));
+  const skippedBytes = end - reachedStart - covered.size;
+  if (skippedBytes < 0) die('Invalid physical byte coverage at ' + hx(entry));
+  return { entry, reachedStart, end, cellCount: ordered.length, skippedBytes, cells: ordered };
 }
 
 function inventory(archive, checkSources) {
@@ -184,13 +185,14 @@ function inventory(archive, checkSources) {
 function report(result, markdown) {
   if (markdown) {
     console.log('# Shared TERSE entrypoints — original ROM analysis\n');
-    console.log('| ROM | Group | Entry | End | Decoded cells | Skipped bytes | Shared physical bytes with |');
-    console.log('| --- | --- | --- | --- | ---: | ---: | --- |');
+    console.log('| ROM | Group | Entry | Reachable from | End | Decoded cells | Skipped bytes | Shared physical bytes with |');
+    console.log('| --- | --- | --- | --- | --- | ---: | ---: | --- |');
     for (const group of result.findings) {
       for (const d of group.definitions) {
         const overlaps = d.overlaps.map(x => hx(x.entry) + ' (' + x.bytes + ')').join(', ') || '—';
         console.log('| ' + group.rom + ' | ' + group.name + ' | ' +
-          hx(d.entry) + ' | ' + (d.entryOnly ? 'entry only' : hx(d.end)) + ' | ' +
+          hx(d.entry) + ' | ' + (d.entryOnly ? 'entry only' : hx(d.reachedStart)) +
+          ' | ' + (d.entryOnly ? 'entry only' : hx(d.end)) + ' | ' +
           (d.entryOnly ? '—' : d.cellCount) + ' | ' +
           (d.entryOnly ? '—' : d.skippedBytes) +
           ' | ' + overlaps + ' |');
