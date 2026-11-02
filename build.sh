@@ -32,6 +32,11 @@ if [ ! -f "$BASELINE" ]; then
     exit 1
 fi
 
+if ! command -v node >/dev/null 2>&1; then
+    echo "node not found; required for Stage 5 source/ROM verifier" >&2
+    exit 1
+fi
+
 if ! command -v python3 >/dev/null 2>&1; then
     echo "python3 not found; required for deterministic MAME ZIP creation" >&2
     exit 1
@@ -69,6 +74,7 @@ printf '%s\n' "Professor Pac-Man — reproducible ROM build"
 printf '%s\n' "Baseline: OK ($EXPECTED_ZIP_SHA1)"
 printf '%s\n' "Assembler: $ZMAC  |  outputs: $ROM_OUTPUT_DIR/ and $LISTING_OUTPUT_DIR/"
 
+node tools/verify_stage5_rom.js
 mkdir -p "$ROM_OUTPUT_DIR" "$LISTING_OUTPUT_DIR"
 rm -f "$OUTPUT"
 
@@ -264,6 +270,8 @@ run_analysis "Question round" analysis_question_round python3 "$QUESTION_ROUND_A
 echo "  Question round:      130 definitions / 3989 cells / 17 lists OK"
 run_analysis "Game progression" analysis_game_progression python3 "$GAME_PROGRESSION_ANALYZER" --check-sources --quiet "$OUTPUT"
 echo "  Game progression:    60 definitions / 1960 cells / 11 lists OK"
+run_analysis "Stage 5 TERSE state" analysis_stage5_state node tools/analyze_shared_threads.js "$OUTPUT" --state-check --check-sources
+echo "  Stage 5 state:       two colon roots / seven XT_equal / RAM quartet OK"
 run_analysis "PLD" analysis_pld python3 "$PLD_ANALYZER" --check "$OUTPUT"
 echo "  PLD:                 OK"
 echo "SUCCESS: 23 ROMs and MAME ZIP match original (SHA-1 $package_sha1)"
