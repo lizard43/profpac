@@ -1161,13 +1161,13 @@ GAME_STATE_WORD_TRANSFER_BA31:
         dw      XT_0 ; $BA70 TERSE execution token
         dw      XT_LITbyte ; $BA72 TERSE execution token
         db      $5A ; $BA74 inline byte
-        dw      $1C71 ; $BA75 TERSE execution token
-        dw      $1C5F ; $BA77 TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_B ; $BA75 TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_A ; $BA77 TERSE execution token
         dw      $1B2C ; $BA79 TERSE execution token
         dw      XT_DROP ; $BA7B TERSE execution token
         dw      $25BB ; $BA7D TERSE execution token
         dw      XT_GET_CURRENT_TASK ; $BA7F TERSE execution token
-        dw      $1CA5 ; $BA81 TERSE execution token
+        dw      XT_GET_OBJECT_AXIS_B ; $BA81 TERSE execution token
         dw      XT_DUP ; $BA83 TERSE execution token
         dw      XT_LIT ; $BA85 TERSE execution token
         dw      $F716 ; $BA87 inline word
@@ -1182,12 +1182,12 @@ GAME_STATE_WORD_TRANSFER_BA31:
         db      $02 ; $BA99 inline byte
         dw      XT_star ; $BA9A TERSE execution token
         dw      XT_plus ; $BA9C TERSE execution token
-        dw      $1C71 ; $BA9E TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_B ; $BA9E TERSE execution token
         dw      XT_BRANCH ; $BAA0 TERSE execution token
         dw      $BAB9 ; $BAA2 inline branch
         dw      XT_DROP ; $BAA4 TERSE execution token
         dw      XT_GET_CURRENT_TASK ; $BAA6 TERSE execution token
-        dw      $1C96 ; $BAA8 TERSE execution token
+        dw      XT_GET_OBJECT_AXIS_A ; $BAA8 TERSE execution token
         dw      XT_LIT ; $BAAA TERSE execution token
         dw      $F71C ; $BAAC inline word
         dw      XT_at ; $BAAE TERSE execution token
@@ -1195,10 +1195,10 @@ GAME_STATE_WORD_TRANSFER_BA31:
         db      $02 ; $BAB2 inline byte
         dw      XT_star ; $BAB3 TERSE execution token
         dw      XT_plus ; $BAB5 TERSE execution token
-        dw      $1C5F ; $BAB7 TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_A ; $BAB7 TERSE execution token
         dw      XT_GET_CURRENT_TASK ; $BAB9 TERSE execution token
         dw      XT_DUP ; $BABB TERSE execution token
-        dw      $1C96 ; $BABD TERSE execution token
+        dw      XT_GET_OBJECT_AXIS_A ; $BABD TERSE execution token
         dw      XT_LIT ; $BABF TERSE execution token
         dw      $F718 ; $BAC1 inline word
         dw      XT_at ; $BAC3 TERSE execution token
@@ -1208,7 +1208,7 @@ GAME_STATE_WORD_TRANSFER_BA31:
         dw      XT_star ; $BACB TERSE execution token
         dw      XT_equal ; $BACD TERSE execution token
         dw      XT_SWAP ; $BACF TERSE execution token
-        dw      $1CA5 ; $BAD1 TERSE execution token
+        dw      XT_GET_OBJECT_AXIS_B ; $BAD1 TERSE execution token
         dw      XT_LIT ; $BAD3 TERSE execution token
         dw      $F716 ; $BAD5 inline word
         dw      XT_at ; $BAD7 TERSE execution token
@@ -1236,10 +1236,10 @@ GAME_STATE_WORD_TRANSFER_BA31:
         dw      XT_bang ; $BB03 TERSE execution token
         dw      XT_LITbyte ; $BB05 TERSE execution token
         db      $5A ; $BB07 inline byte
-        dw      $1C71 ; $BB08 TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_B ; $BB08 TERSE execution token
         dw      XT_LIT ; $BB0A TERSE execution token
         dw      $FFFF ; $BB0C inline word
-        dw      $1C5F ; $BB0E TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_A ; $BB0E TERSE execution token
         dw      XT_LIT ; $BB10 TERSE execution token
         dw      $0097 ; $BB12 inline word
         dw      XT_LIT ; $BB14 TERSE execution token
@@ -1265,9 +1265,9 @@ GAME_STATE_WORD_TRANSFER_BA31:
         dw      XT_bang ; $BB3B TERSE execution token
         dw      XT_LIT ; $BB3D TERSE execution token
         dw      $FFA5 ; $BB3F inline word
-        dw      $1C71 ; $BB41 TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_B ; $BB41 TERSE execution token
         dw      XT_0 ; $BB43 TERSE execution token
-        dw      $1C5F ; $BB45 TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_A ; $BB45 TERSE execution token
         dw      XT_LIT ; $BB47 TERSE execution token
         dw      $0096 ; $BB49 inline word
         dw      XT_LIT ; $BB4B TERSE execution token
@@ -1298,9 +1298,9 @@ GAME_STATE_WORD_TRANSFER_BA31:
         dw      XT_bang ; $BB7C TERSE execution token
         dw      XT_LIT ; $BB7E TERSE execution token
         dw      $FFA5 ; $BB80 inline word
-        dw      $1C71 ; $BB82 TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_B ; $BB82 TERSE execution token
         dw      XT_1 ; $BB84 TERSE execution token
-        dw      $1C5F ; $BB86 TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_A ; $BB86 TERSE execution token
         dw      XT_LIT ; $BB88 TERSE execution token
         dw      $0097 ; $BB8A inline word
         dw      XT_LIT ; $BB8C TERSE execution token
@@ -1388,8 +1388,8 @@ GAME_STATE_APPLICATION_INIT_BBE8:
         dw      $009A ; $BC27 inline word
         dw      XT_LITbyte ; $BC29 TERSE execution token
         db      $2D ; $BC2B inline byte
-        dw      $1C71 ; $BC2C TERSE execution token
-        dw      $1C5F ; $BC2E TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_B ; $BC2C TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_A ; $BC2E TERSE execution token
         dw      XT_LITbyte ; $BC30 TERSE execution token
         db      $02 ; $BC32 inline byte
         dw      XT_0 ; $BC33 TERSE execution token
@@ -1398,7 +1398,7 @@ GAME_STATE_APPLICATION_INIT_BBE8:
         dw      XT_DROP ; $BC39 TERSE execution token
         dw      $25BB ; $BC3B TERSE execution token
         dw      XT_GET_CURRENT_TASK ; $BC3D TERSE execution token
-        dw      $1CA5 ; $BC3F TERSE execution token
+        dw      XT_GET_OBJECT_AXIS_B ; $BC3F TERSE execution token
         dw      XT_DUP ; $BC41 TERSE execution token
         dw      XT_LIT ; $BC43 TERSE execution token
         dw      $F716 ; $BC45 inline word
@@ -1413,12 +1413,12 @@ GAME_STATE_APPLICATION_INIT_BBE8:
         db      $02 ; $BC57 inline byte
         dw      XT_star ; $BC58 TERSE execution token
         dw      XT_plus ; $BC5A TERSE execution token
-        dw      $1C71 ; $BC5C TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_B ; $BC5C TERSE execution token
         dw      XT_BRANCH ; $BC5E TERSE execution token
         dw      $BC77 ; $BC60 inline branch
         dw      XT_DROP ; $BC62 TERSE execution token
         dw      XT_GET_CURRENT_TASK ; $BC64 TERSE execution token
-        dw      $1C96 ; $BC66 TERSE execution token
+        dw      XT_GET_OBJECT_AXIS_A ; $BC66 TERSE execution token
         dw      XT_LIT ; $BC68 TERSE execution token
         dw      $F71C ; $BC6A inline word
         dw      XT_at ; $BC6C TERSE execution token
@@ -1426,16 +1426,16 @@ GAME_STATE_APPLICATION_INIT_BBE8:
         db      $02 ; $BC70 inline byte
         dw      XT_star ; $BC71 TERSE execution token
         dw      XT_plus ; $BC73 TERSE execution token
-        dw      $1C5F ; $BC75 TERSE execution token
+        dw      XT_SET_CURRENT_OBJECT_AXIS_A ; $BC75 TERSE execution token
         dw      XT_GET_CURRENT_TASK ; $BC77 TERSE execution token
         dw      XT_DUP ; $BC79 TERSE execution token
-        dw      $1C96 ; $BC7B TERSE execution token
+        dw      XT_GET_OBJECT_AXIS_A ; $BC7B TERSE execution token
         dw      XT_LIT ; $BC7D TERSE execution token
         dw      $F718 ; $BC7F inline word
         dw      XT_at ; $BC81 TERSE execution token
         dw      XT_equal ; $BC83 TERSE execution token
         dw      XT_SWAP ; $BC85 TERSE execution token
-        dw      $1CA5 ; $BC87 TERSE execution token
+        dw      XT_GET_OBJECT_AXIS_B ; $BC87 TERSE execution token
         dw      XT_LIT ; $BC89 TERSE execution token
         dw      $F716 ; $BC8B inline word
         dw      XT_at ; $BC8D TERSE execution token
