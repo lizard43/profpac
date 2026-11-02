@@ -63,3 +63,5 @@ node tools/analyze_shared_threads.js --state-check --check-sources
 
 The source conversion was checked against the preceding `pps8.asm` byte declarations (zero differences for all converted ranges). Original-ROM analyzer execution, zmac assembly, all 23 ROM SHA-1 comparisons, and the ZIP byte-for-byte rebuild **have not been executed through this GitHub-only environment**. These remain required before merge; neither the source conversion nor its dictionary synchronization is claimed to have passed a full local build.
 
+
+For the complete 334-cell, bank-aware shared execution-token map, see [Stage 5 token map](STAGE5-TOKEN-MAP.md). Regenerate it using `node tools/analyze_shared_threads.js --token-map --check-sources` against the original ROM.
