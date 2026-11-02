@@ -100,8 +100,8 @@ assert(pps1.subarray(0x15d9,0x15e7).toString('hex')===
  'Task scheduler must restore IY and advance IX control stack');
 assert(pps1.subarray(0x1b2c,0x1b32).toString('hex')==='cdc31ae5fde9',
  'Draw setup producer native bytes mismatch');
-assert(pps2.subarray(0x25bb-0x2000,0x25c1-0x2000).toString('hex')===
- 'fde5fd2a8ffe','Masked-draw helper entry has changed');
+assert(pps2.subarray(0x25bb-0x2000,0x25c3-0x2000).toString('hex')===
+ 'f3c5fde5fd2a8ffe','Masked-draw helper entry has changed');
 
 // Verify the native OUTP stack order: value, then port, then OUTP.
 for(const [cell,value] of [[0xbbc2,0x15],[0xbbf2,0x2a],[0xbcd3,0x00]]) {
