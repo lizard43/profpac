@@ -75,6 +75,7 @@ printf '%s\n' "Baseline: OK ($EXPECTED_ZIP_SHA1)"
 printf '%s\n' "Assembler: $ZMAC  |  outputs: $ROM_OUTPUT_DIR/ and $LISTING_OUTPUT_DIR/"
 
 node tools/verify_stage5_rom.js
+node tools/audit_stage5_full.js
 mkdir -p "$ROM_OUTPUT_DIR" "$LISTING_OUTPUT_DIR"
 rm -f "$OUTPUT"
 
