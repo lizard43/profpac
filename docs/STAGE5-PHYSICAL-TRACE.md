@@ -56,6 +56,23 @@ Each physical LIT location appears **once** here, regardless of how many entrypo
 | $BCA4 | $F716 | `! (word store)` | direct | $BBE8, $BC83, $BC8F |
 | $BCAC | $F71C | `! (word store)` | direct | $BBE8, $BC83, $BC8F |
 
+## Proven constant state assignments
+
+The following are consecutive TERSE producer/address/store sequences (not labels inferred from a screenshot). Values are 16-bit little-endian; the signed forms are shown for interpretation only.
+
+| Entrypoint path | Producer and store | RAM target | Stored value |
+| --- | --- | --- | --- |
+| Feedback `$BA31` | `LIT $FFFF; LIT $F71A; !` at `$BA34–$BA3C` | `$F71A` | `$FFFF` (−1) |
+| Feedback `$BA31` | `1; LIT $F71C; !` at `$BA3E–$BA44` | `$F71C` | `$0001` |
+| Feedback `$BA31` | `LIT $F6EB; BZERO` at `$BA51–$BA55` | `$F6EB` | `$00` |
+| Feedback `$BA31` | `LIT $0096; LIT $F718; !` at `$BA57–$BA5F` | `$F718` | `$0096` (+150) |
+| Feedback `$BA31` | `0; LIT $F716; !` at `$BA61–$BA67` | `$F716` | `$0000` |
+| Application `$BBE8` | `LIT $FFFF; LIT $F71C; !` at `$BBF6–$BBFE` | `$F71C` | `$FFFF` (−1) |
+| Application `$BBE8` | `LIT $FF64; LIT $F718; !` at `$BC0A–$BC12` | `$F718` | `$FF64` (−156) |
+| Application `$BBE8` | `LIT $FF9D; LIT $F716; !` at `$BC14–$BC1C` | `$F716` | `$FF9D` (−99) |
+
+Together these prove **distinct feedback and application initial-state presets**: feedback initializes four words plus a byte, while application initializes three of the words. The values and subsequent object operations suggest display/presentation state; the final names of these RAM fields still require consumer tracing.
+
 ## Evidence and interpretation
 
 - The `$BA31` entry writes the quartet via word-store at `$BA38`, `$BA40`, `$BA5B`, `$BA63`, and zeroes the `$F6EB` byte at `$BA51`.
