@@ -97,7 +97,7 @@ assert(pps2[0x2d2b-0x2000]===0xcf,'PPS2 screen action is not a colon entry');
 for(const [cell,value] of [[0xbbc2,0x15],[0xbbf2,0x2a],[0xbcd3,0x00]]) {
   assert(word(cell)===0x02d8,'OUTP execution token changed: '+hex(cell));
   assert(word(cell-2)===0x00bf,'OUTP must use screen-page port $BF');
-  if(value===0)assert(word(cell-8)===0x012a,'Expected literal zero before OUTP');
+  if(value===0)assert(word(cell-6)===0x012a,'Expected literal zero before OUTP');
   else assert(pps8.subarray(cell-0xa000-7,cell-0xa000-4).includes(value),
     'Expected screen page constant '+hex(value));
 }
