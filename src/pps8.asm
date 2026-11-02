@@ -264,6 +264,8 @@
         db      $20,$68,$69,$74,$20,$74,$68,$65,$20,$62,$75,$74,$74,$6F,$6E,$21 ; $AFE0
         db      $21 ; $AFF0 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Sole attract-screen action at $B4F2.
+; Fully decoded 113-cell TERSE definition.
 ATTRACT_SCREEN_ACTION_ENTRY:
 ; ATTRACT_SCREEN_ACTION_ENTRY: decoded TERSE action; original bytes $AFF1–$B115.
 ; Recovered execution-token control flow; branch destinations are byte-exact.
@@ -484,20 +486,27 @@ ATTRACT_DEMO_STAGE_ENTRY:
         db      $2C,$1A,$09,$01,$B0,$FF,$24,$1D,$09,$01,$16,$B1,$F2,$2C,$12,$01 ; $B450
         db      $3C,$24,$1D,$14,$1F ; $B460 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_B465:
+; Shared entry $B465 participates in the overlapping $B41C/$B499
+; attract-demonstration thread. Bytes are retained pending a unified
+; control-flow rendering, rather than duplicated across definitions.
+ATTRACT_DEMO_SHARED_CONTINUATION:
         rst     $08                            ; $B465 colon entry
         db      $1E,$09,$01,$10,$B4,$B4,$1C,$02,$23,$09 ; $B466 retained byte data
         db      $01,$64,$00,$DF,$1B,$09,$01,$56,$F7,$1D,$1C,$E9,$19,$30,$1C,$EA ; $B470
         db      $03,$8D,$B4,$09,$01,$DB,$F6,$3A,$05,$E2,$03,$95,$B4,$09,$01,$16 ; $B480
         db      $B1,$B4,$1C,$34,$1E,$54,$22,$FD,$00 ; $B490 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_B499:
+; Second task in ATTRACT_DEMO_QUESTION_ACTIONS ($B4F5).
+; Shares control flow with the preceding $B465 entry.
+ATTRACT_DEMO_SECOND_ACTION:
         rst     $08                            ; $B499 colon entry
         db      $99,$15,$A8,$1E,$09,$01 ; $B49A retained byte data
         db      $74,$FF,$12,$01,$05,$54,$1D,$09,$01,$AA,$31,$B4,$1C,$0C,$1E,$09 ; $B4A0
         db      $01,$B0,$FF,$24,$1D,$09,$01,$16,$B1,$B4,$1C,$C2,$1E,$0C,$1E,$02 ; $B4B0
         db      $23,$54,$22,$FD,$00 ; $B4C0 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Third task in ATTRACT_DEMO_QUESTION_ACTIONS ($B4F5).
+; Standalone non-overlapping 17-cell TERSE word.
 ATTRACT_DEMO_THIRD_ACTION:
 ; ATTRACT_DEMO_THIRD_ACTION: decoded TERSE action; original bytes $B4C5–$B4F1.
 ; Recovered execution-token control flow; branch destinations are byte-exact.
@@ -530,7 +539,7 @@ ATTRACT_SCREEN_ACTIONS:
 ATTRACT_DEMO_QUESTION_ACTIONS:
         db      $03 ; $B4F5 action count
         dw      ATTRACT_DEMO_STAGE_ENTRY ; $B4F6 action word
-        dw      GAME_TERSE_B499 ; $B4F8 action word
+        dw      ATTRACT_DEMO_SECOND_ACTION ; $B4F8 action word
         dw      ATTRACT_DEMO_THIRD_ACTION ; $B4FA action word
 ; Reachable question-round TERSE word; decoded from original ROM bytes.
 ATTRACT_DEMO_QUESTION_TASK:
@@ -646,6 +655,8 @@ ROUND_TERSE_B5D7:
         dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $B60F execution token
         dw     XT_RETURN                    ; $B611 execution token
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; First action in ATTRACT_CHALLENGE_PROMPT_ACTIONS ($B6C2).
+; Fully decoded 15-cell TERSE definition.
 ATTRACT_PROMPT_STAGE_ENTRY:
 ; ATTRACT_PROMPT_STAGE_ENTRY: decoded TERSE action; original bytes $B613–$B63A.
 ; Recovered execution-token control flow; branch destinations are byte-exact.
@@ -677,6 +688,8 @@ TERSE_COLON_B63B:
         dw      $1C43                ; $B63E execution token $1C43
         dw      XT_RETURN               ; $B640 _RETURN
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Second action in ATTRACT_CHALLENGE_PROMPT_ACTIONS ($B6C2).
+; Fully decoded 23-cell TERSE definition.
 ATTRACT_PROMPT_SECOND_ACTION:
 ; ATTRACT_PROMPT_SECOND_ACTION: decoded TERSE action; original bytes $B642–$B67E.
 ; Recovered execution-token control flow; branch destinations are byte-exact.
@@ -713,6 +726,8 @@ ATTRACT_PROMPT_SECOND_ACTION:
         dw     XT_CLEAR_TASK_ACTIVE_BIT             ; $B67B execution token
         dw     XT_RETURN                            ; $B67D execution token
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Third action in ATTRACT_CHALLENGE_PROMPT_ACTIONS ($B6C2).
+; Fully decoded 25-cell TERSE definition.
 ATTRACT_PROMPT_THIRD_ACTION:
 ; ATTRACT_PROMPT_THIRD_ACTION: decoded TERSE action; original bytes $B67F–$B6C1.
 ; Recovered execution-token control flow; branch destinations are byte-exact.
@@ -902,6 +917,8 @@ TERSE_COLON_B83B:
         dw      $2CA4                ; $B842 execution token $2CA4
         dw      XT_RETURN               ; $B844 _RETURN
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Sole action in CREDIT_START_PROMPT_ACTIONS ($B8B1).
+; Fully decoded 37-cell TERSE definition.
 CREDIT_PROMPT_STAGE_ENTRY:
 ; CREDIT_PROMPT_STAGE_ENTRY: decoded TERSE action; original bytes $B846–$B8B0.
 ; Recovered execution-token control flow; branch destinations are byte-exact.
