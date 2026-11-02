@@ -76,6 +76,7 @@ printf '%s\n' "Assembler: $ZMAC  |  outputs: $ROM_OUTPUT_DIR/ and $LISTING_OUTPU
 
 node tools/verify_stage5_rom.js
 node tools/audit_stage5_full.js
+node tools/audit_stage5_stack.js
 mkdir -p "$ROM_OUTPUT_DIR" "$LISTING_OUTPUT_DIR"
 rm -f "$OUTPUT"
 
