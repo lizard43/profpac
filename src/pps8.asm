@@ -1123,7 +1123,11 @@ TERSE_COLON_B9FF:
         dw      $2083                ; $BA2D execution token $2083
         dw      XT_RETURN               ; $BA2F _RETURN
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_BA31:
+; Game-state shared thread rooted at $BA31. Reaches shared transfer code
+; through $BBA6; literal word addresses $F716/$F718/$F71A/$F71C
+; are followed by 16-bit fetch/store words. Direct TERSE caller:
+; CORRECT_FEEDBACK_TASK ($BBB8) at $BBCE. See Stage 4 memory audit.
+GAME_STATE_WORD_TRANSFER_BA31:
         rst     $08                            ; $BA31 colon entry
         db      $99,$15,$09,$01,$FF,$FF,$09,$01,$1A,$F7,$61,$05,$30,$01,$09 ; $BA32 retained byte data
         db      $01,$1C,$F7,$61,$05,$A8,$1E,$09,$01,$96,$00,$12,$01,$5A,$54,$1D ; $BA41
@@ -1136,17 +1140,23 @@ GAME_TERSE_BA31:
         db      $01,$02,$FF,$02,$5A,$01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01 ; $BAB1
         db      $18,$F7,$4C,$01,$09,$01,$1C,$F7,$4C,$01,$FF,$02 ; $BAC1 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_BACD:
+; Shared game-state entry at $BACD. Branches backward into the
+; $BA79 transfer logic; do not duplicate bytes from $BA31 definition.
+GAME_STATE_SHARED_ENTRY_BACD:
         rst     $08                            ; $BACD colon entry
         db      $01,$46,$01 ; $BACE retained byte data
         db      $A5,$1C,$09,$01,$16,$F7,$4C,$01 ; $BAD1 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_BAD9:
+; Shared game-state entry at $BAD9. Rejoins predecessor transfer code
+; and manipulates the same $F716-$F71C word quartet.
+GAME_STATE_SHARED_ENTRY_BAD9:
         rst     $08                            ; $BAD9 colon entry
         db      $01,$79,$01,$EA,$03,$79,$BA ; $BADA retained byte data
         db      $09,$01,$EB,$F6,$36,$01,$49,$05,$53,$01,$30,$01 ; $BAE1 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_BAED:
+; Shared game-state entry at $BAED. Returns into the common state
+; word reader/writer region. Entry shares physical code with neighbors.
+GAME_STATE_SHARED_ENTRY_BAED:
         rst     $08                            ; $BAED colon entry
         db      $01,$EA,$03 ; $BAEE retained byte data
         db      $1E,$BB,$0E,$1F,$9B,$1D,$68,$01,$24,$1D,$09,$01,$FF,$FF,$09,$01 ; $BAF1
@@ -1154,7 +1164,9 @@ GAME_TERSE_BAED:
         db      $01,$97,$00,$09,$01,$18,$F7,$61,$05,$E2,$03,$92,$BB,$09,$01,$EB ; $BB11
         db      $F6,$53,$01,$12,$01,$02 ; $BB21 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_BB27:
+; Shared game-state entry at $BB27. Conditional branches converge on
+; $BA79-$BBA6 shared word-state logic.
+GAME_STATE_SHARED_ENTRY_BB27:
         rst     $08                            ; $BB27 colon entry
         db      $01,$EA,$03,$5F,$BB,$0E,$1F,$AA,$1D ; $BB28 retained byte data
         db      $68,$01,$3C,$1D,$30,$01,$09,$01,$1A,$F7,$61,$05,$09,$01,$A5,$FF ; $BB31
@@ -1162,7 +1174,9 @@ GAME_TERSE_BB27:
         db      $09,$01,$FF,$FF,$09,$01,$16,$F7,$61,$05,$E2,$03,$92,$BB,$09,$01 ; $BB51
         db      $EB,$F6,$53,$01,$12,$01,$03 ; $BB61 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_BB68:
+; Shared game-state entry at $BB68. Reaches the shared word-state
+; transfer path before the $BBA7 next colon definition.
+GAME_STATE_SHARED_ENTRY_BB68:
         rst     $08                            ; $BB68 colon entry
         db      $01,$EA,$03,$92,$BB,$0E,$1F,$9B ; $BB69 retained byte data
         db      $1D,$68,$01,$24,$1D,$30,$01,$09,$01,$1C,$F7,$61,$05,$09,$01,$A5 ; $BB71
@@ -1180,7 +1194,10 @@ TERSE_COLON_BBA7:
         db      $0C                  ; $BBB3 inline byte
         dw      $2D3B                ; $BBB4 execution token $2D3B
         dw      XT_RETURN               ; $BBB6 _RETURN
-TERSE_COLON_BBB8:
+; Correct-answer feedback task (based on embedded literal 'correct').
+; Calls GAME_STATE_WORD_TRANSFER_BA31 at $BBCE after setting $F758.
+; Includes audio/output side effects; complete stack effect pending.
+CORRECT_FEEDBACK_TASK:
         rst     $08                             ; $BBB8 colon entry
         dw      $34B1                ; $BBB9 execution token $34B1
         dw      XT_LITbyte              ; $BBBB _LITbyte
@@ -1199,7 +1216,10 @@ TERSE_COLON_BBB8:
         db      $13,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$63,$6F,$72 ; $BBD4
         db      $72,$65,$63,$74 ; $BBE4 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_BBE8:
+; Application state initialization / transfer thread at $BBE8.
+; Called by MAIN_APPLICATION from $BEE2. Reads and writes the word
+; state at $F716/$F718/$F71C; control flow shares $BC83/$BC8F.
+GAME_STATE_APPLICATION_INIT_BBE8:
         rst     $08                            ; $BBE8 colon entry
         db      $99,$15,$12,$01,$2A,$09,$01,$BF,$00,$D8,$02 ; $BBE9 retained byte data
         db      $2B,$2D,$09,$01,$FF,$FF,$09,$01,$1C,$F7,$61,$05,$A8,$1E,$2A,$01 ; $BBF4
@@ -1212,11 +1232,15 @@ GAME_TERSE_BBE8:
         db      $0E,$1F,$96,$1C,$09,$01,$1C,$F7,$4C,$01,$12,$01,$02,$FF,$02,$5A ; $BC64
         db      $01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01,$18,$F7,$4C,$01 ; $BC74 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_BC83:
+; Shared application continuation entry $BC83. Reads/writes the
+; $F716/$F71C word pair. Shares control flow with $BBE8.
+GAME_STATE_CONTINUATION_BC83:
         rst     $08                            ; $BC83 colon entry
         db      $01,$46,$01,$A5,$1C,$09,$01,$16,$F7,$4C,$01 ; $BC84 retained byte data
 ; Reachable TERSE entry in shared/overlapping game-thread bytes.
-GAME_TERSE_BC8F:
+; Shared application continuation entry $BC8F. Writes $F716
+; and $F71C, reaches the return before MAIN_PROGRESSION_TASK.
+GAME_STATE_CONTINUATION_BC8F:
         rst     $08                            ; $BC8F colon entry
         db      $01,$79,$01,$EA ; $BC90 retained byte data
         db      $03,$37,$BC,$09,$01,$9A,$00,$09,$01,$18,$F7,$61,$05,$12,$01,$2D ; $BC94
@@ -1500,7 +1524,7 @@ LBEB3:
         dw      $FDAB                ; $BED2 inline word
         dw      XT_bang                 ; $BED4 _bang
         dw      $34C3                ; $BED6 execution token $34C3
-        dw      TERSE_COLON_BBB8     ; $BED8 TERSE_COLON_BBB8
+        dw      CORRECT_FEEDBACK_TASK     ; $BED8 CORRECT_FEEDBACK_TASK
         dw      XT_LIT                  ; $BEDA _LIT
         dw      $F758                ; $BEDC inline word
         dw      XT_DUP                  ; $BEDE _DUP
