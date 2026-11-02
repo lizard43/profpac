@@ -95,14 +95,17 @@ build_rom()
     actual_sha1_line=$(sha1sum "$ROM_OUTPUT_DIR/$rom_name")
     actual_sha1=${actual_sha1_line%% *}
     if [ "$VERBOSE" -eq 1 ]; then
-        printf "  %-6s SHA-1 %s\n" "$rom_name" "$actual_sha1"
+        printf '  %s SHA-1 comparison\n    expected: %s\n    built:    %s\n' "$rom_name" "$expected_sha1" "$actual_sha1"
     fi
     if [ "$actual_sha1" != "$expected_sha1" ]; then
         printf "FAIL %s SHA-1\n expected: %s\n actual:   %s\n" "$rom_name" "$expected_sha1" "$actual_sha1" >&2
         exit 1
     fi
 
-    unzip -p "$BASELINE" "$rom_name" | cmp - "$ROM_OUTPUT_DIR/$rom_name"
+    if ! unzip -p "$BASELINE" "$rom_name" | cmp -s - "$rom_file"; then
+        printf 'FAIL: %s differs from original ROM bytes\n expected SHA-1: %s\n built SHA-1:    %s\n' "$rom_name" "$expected_sha1" "$actual_sha1" >&2
+        exit 1
+    fi
     [ "$VERBOSE" -eq 0 ] || echo "  Verified $rom_name against original ROM"
 }
 
@@ -220,16 +223,20 @@ temporary.replace(output)
 PY
 
 unzip -t "$OUTPUT" >/dev/null
-cmp "$OUTPUT" "$BASELINE"
-echo "MAME ZIP: byte-exact"
-
 package_sha1_line=$(sha1sum "$OUTPUT")
 package_sha1=${package_sha1_line%% *}
 if [ "$package_sha1" != "$EXPECTED_ZIP_SHA1" ]; then
-    printf "FAIL: packaged ZIP SHA-1\n expected: %s\n actual:   %s\n" "$EXPECTED_ZIP_SHA1" "$package_sha1" >&2
+    printf 'FAIL: packaged MAME ZIP SHA-1\n expected: %s\n built:    %s\n' "$EXPECTED_ZIP_SHA1" "$package_sha1" >&2
     exit 1
 fi
-[ "$VERBOSE" -eq 0 ] || printf 'Package SHA-1: %s\n' "$package_sha1"
+if ! cmp -s "$OUTPUT" "$BASELINE"; then
+    printf 'FAIL: packaged MAME ZIP differs from original\n expected SHA-1: %s\n built SHA-1:    %s\n' "$EXPECTED_ZIP_SHA1" "$package_sha1" >&2
+    exit 1
+fi
+echo "MAME ZIP: byte-exact"
+if [ "$VERBOSE" -eq 1 ]; then
+    printf 'Package SHA-1 comparison\n expected: %s\n built:    %s\n' "$EXPECTED_ZIP_SHA1" "$package_sha1"
+fi
 printf '%s\n' "Analysis checks:"
 # Capture detailed analyzer output in build/ and present a short useful
 # diagnostic on failure. The detailed logs are preserved for RE investigation.
