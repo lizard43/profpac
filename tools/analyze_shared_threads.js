@@ -457,5 +457,8 @@ function main(args) {
   else if (args.includes('--state')) stateReport(result);
   else report(result, args.includes('--markdown'));
 }
-try { main(process.argv.slice(2)); }
-catch (error) { console.error('FAIL: ' + error.message); process.exitCode = 1; }
+if (require.main === module) {
+  try { main(process.argv.slice(2)); }
+  catch (error) { console.error('FAIL: ' + error.message); process.exitCode = 1; }
+}
+module.exports = {readZipMember, decode, inventory, stateInventory, MEMORY_ACCESS};
