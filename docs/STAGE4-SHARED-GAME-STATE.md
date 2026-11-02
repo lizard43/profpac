@@ -1,3 +1,9 @@
+# Historical Stage 4 note — corrected by Stage 5
+
+**Correction (2026-11-02):** The Stage 4 nine-entry shared-word interpretation was a byte-alignment error. `$BACD`, `$BAD9`, `$BAED`, `$BB27`, `$BB68`, `$BC83` and `$BC8F` are the *low bytes* of execution token `$01CF` (`XT_equal`), not Z80 `RST $08` definitions. The real `$BA31` and `$BBE8` colon words account for 140 and 92 executable tokens, respectively. See [corrected Stage 5 trace](STAGE5-RUNTIME-AWARE-STATE.md) and [232-cell token map](STAGE5-TOKEN-MAP.md). The historical analysis follows for context, but its table of nine colon entries is superseded.
+
+---
+
 # Stage 4 — Shared game-state TERSE recovery
 
 Date: 2026-11-01 | Target: configuration-1 PPS8 ROM.
