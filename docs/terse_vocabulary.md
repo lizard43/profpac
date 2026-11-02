@@ -267,3 +267,20 @@ reproducible RAM-literal and next-memory-operation inventory.
 ## Stage 5 — physical shared-state tokens
 
 The configuration-1 PPS8 multi-entry streams `$BA31–$BBA6` and `$BBE8–$BCDA` now expose 184 byte-preserving symbolic TERSE token cells in `src/pps8.asm`, with unmatched or overlapping boundary bytes retained as raw data. Both families together reach 334 distinct token start addresses, including 33 distinct physical literal references to `$F6EB/$F716/$F718/$F71A/$F71C`. The read/write and address-only distinctions are enumerated in [the physical trace](STAGE5-PHYSICAL-TRACE.md). The primitive `XT_LIT` pushes a literal; `XT_at` fetches a word; `XT_bang` stores a word; `XT_Bat` fetches a byte; `XT_BZERO` clears a byte. A `LIT` followed by `DUP` is an address duplication, not a direct memory operation. Compound-word stack effects remain undefined until all external object/task token contracts are reconstructed.
+
+## Fixed-ROM object vocabulary: recovered stack contracts
+
+The Stage 5 state threads invoke PPS1's object setter/getter words. Inspection of their native Z80 bodies supplies actual stack effects:
+
+| PPS1 execution address | Word / implementation | Proven stack effect | Implementation evidence |
+| --- | --- | --- | --- |
+| `$1D24` | Object value-1 setter | `( value1 -- )` | `POP HL`, convert via `$1B3C`, write record `+25/+26` |
+| `$1D3C` | Object value-2 setter | `( value2 -- )` | `POP HL`, convert via `$1B9E`, write record `+27/+28` |
+| `$1D54` | TERSE paired setter | `( value1 value2 -- )` | Executes `$1D3C`, then `$1D24`, then `RETURN` |
+| `$1D9B` | Object value-1 getter | `( object-record -- value1 )` | `POP HL` record pointer, read `+25/+26`, transform, `PUSH HL` |
+| `$1DAA` | Object value-2 getter | `( object-record -- value2 )` | `POP HL` record pointer, read `+27/+28`, transform, `PUSH HL` |
+| `$1E7D` | Object byte-18 setter | `( byte -- )` | `POP DE`, write E to current record `+24` |
+| `$1E8E` | Object word-1D setter | `( word -- )` | `POP DE`, write E/D to current record `+29/+30` |
+
+These seven effects are recorded in the WB/ICEBOX current **platform dictionary**, and the `$1D54` compound effect is also present in the program-word dictionary. Naming and inline function headers were added to the original `src/pps1.asm`, with the ICEBOX project copy synchronized. This proves the object-state transformation called by the shared animation threads; it does **not** automatically establish the entire task-entry word's stack contract.
+
