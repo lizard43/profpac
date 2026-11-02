@@ -329,3 +329,12 @@ SERVICE_THREAD_IP                    equ $DEBE
 CFG1_SERVICE_APPLICATION_XT          equ $BE66
 XT_SOUND_UPDATE_STATE_F6E2           equ $3D67
 XT_SOUND_UPDATE_STATE_F6E0           equ $3DE7
+
+; Stage 4 recovered application state quartet (PPS8 shared TERSE threads).
+; These are observed 16-bit read/write addresses; the original game field
+; names and exact gameplay interpretation have not yet been established.
+GAME_STATE_WORD_0_ADDR  equ     $F716
+GAME_STATE_WORD_1_ADDR  equ     $F718
+GAME_STATE_WORD_2_ADDR  equ     $F71A
+GAME_STATE_WORD_3_ADDR  equ     $F71C
+GAME_STATE_FLAG_F6EB_ADDR equ   $F6EB
