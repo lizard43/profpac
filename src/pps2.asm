@@ -1056,6 +1056,8 @@ TERSE_COLON_2D00:
         dw      XT_RETURN               ; $2D05 _RETURN
 NATIVE_2D07:
         ld d,l                          ; $2D07
+SCREEN_INTERCEPT_DRAW_NATIVE_2D08:
+        ; ( four arguments -- ): configure screen intercept/masked drawing.
         di                              ; $2D08
         pop hl                          ; $2D09
         ld a,$10                        ; $2D0A
@@ -1077,7 +1079,18 @@ NATIVE_2D07:
         pop bc                          ; $2D27
         ei                              ; $2D28
         jp (iy)                         ; $2D29
-        db      $CF,$2A,$01,$12,$01,$4F,$09,$01,$C8,$00,$2A,$01,$08,$2D,$FD,$00 ; $2D2B
+; Stage 5: display-intercept action; invoked by normal application at PPS8:$BBF4.
+; Sets up a four-parameter screen masked-write native entry at $2D08.
+SCREEN_INTERCEPT_ACTION_2D2B:
+        rst     $08                      ; $2D2B actual colon entry
+        dw      XT_0                      ; $2D2C zero
+        dw      XT_LITbyte                ; $2D2E byte literal
+        db      $4F                      ; $2D30 source value
+        dw      XT_LIT                    ; $2D31 word literal
+        dw      $00C8                    ; $2D33 source value
+        dw      XT_0                      ; $2D35 zero
+        dw      SCREEN_INTERCEPT_DRAW_NATIVE_2D08 ; $2D37 native drawing action
+        dw      XT_RETURN                 ; $2D39 return
         db      $CF,$08,$2D,$FD,$00,$CF,$09,$01,$E1,$10,$12,$01,$4C,$09,$01,$90 ; $2D3B
         db      $00,$2A,$01,$08,$2D,$FD,$00                                     ; $2D4B
 TERSE_COLON_2D52:
