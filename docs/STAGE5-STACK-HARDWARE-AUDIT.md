@@ -50,3 +50,18 @@ node tools/analyze_shared_threads.js --state-check --check-sources
 ```
 
 The original ZIP and its 23 component ROM hashes were directly checked in the analysis environment. The 615-body-byte PPS8 reconstruction and the two real `RST $08` root bytes were compared with original PPS8, with no mismatches. The original-byte checker also asserts the native scheduler signature, two caller cells, seven false RST markers, and the PPS2 masked-screen colon. The Node checks are integrated in `build.sh`, but a successful *local* zmac output/repack and the WB/ICEBOX runtime suites still require a runnable full checkout. Do not report those as passed without command output.
+
+## Proven body-level stack effects (all 232 ROM execution cells)
+
+The branch-aware original-ROM stack simulation establishes the **complete deterministic data-stack effect of each task body after the native scheduler transition**:
+
+| Genuine task word | Executed token starts | Branch and loop joins | Data-stack underflows | Normal RETURN delta |
+| --- | ---: | --- | ---: | ---: |
+| `CORRECT_FEEDBACK_AXIS_ANIMATION` `$BA31` | 140 | All consistent | 0 | 0 |
+| `MAIN_APPLICATION_AXIS_ANIMATION` `$BBE8` | 92 | All consistent, including DO/LOOP | 0 | 0 |
+
+Thus both post-scheduler bodies have `( -- )` stack contracts. The *whole* task-entry contract is `task-context exchange → {resume | nonlocal scheduler transfer} → balanced animation body on resume`. A single unconditional numerical input/output contract across a task switch is not meaningful. The primary WB and ICEBOX game dictionaries now contain both `stage5.postSchedulerStackEffect` and the two-path `taskControlContract`; they deliberately retain `stackEffect: null` for whole task invocations.
+
+The proof uses the original PPS8 instruction-cell decoder and the *actual native* root effect of `XT_MINUS` `$0168`: `( n -- -n )`, **zero stack-depth change**, distinct from binary subtraction `XT_minussign` `$0160`: `( a b -- a-b )`. Mistaking these two words for one another produces false stack underflows and inconsistent joins. Source: `tools/audit_stage5_stack.js`, replayed with its 232 address-decoded original-ROM cells; both roots returned `0` at all verified exits.
+
+The native masked renderer `$25BB` begins with `DI, PUSH BC, PUSH IY`, and saves/restores its CPU registers before returning; its data-stack effect is `( -- )`. The source producer `$1B2C` pushes one computed value, which the immediately following `DROP` consumes.
