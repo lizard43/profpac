@@ -330,3 +330,5 @@ node tools/analyze_shared_threads.js --state-check --check-sources
 The physical audit emits one row per unique instruction address even when multiple entries share it. The detail output lists each reachable source-addressed LIT operation and immediate memory primitive; the strict check also verifies the two fixed caller tokens and nine shared-entry roots. This is an independent inspection of the original archive, not a replacement for `./build.sh --clean` and its 23-ROM/ZIP byte-for-byte acceptance tests.
 
 The WB component lives at `runtime/components/profpac-current/`: one evolving runtime baseline with the ICEBOX mirror at `terse/runtime/profpac-direct-threaded/`, not multiple frozen Stage revisions. The original PPS1 SHA-1 is retained as binary provenance. Full local ROM build and structural acceptance remain required.
+
+For the complete 334-cell, bank-aware shared execution-token map, see [Stage 5 token map](docs/STAGE5-TOKEN-MAP.md). Regenerate it using `node tools/analyze_shared_threads.js --token-map --check-sources` against the original ROM.
