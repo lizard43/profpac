@@ -41,7 +41,7 @@ const ENTRY_GROUPS = Object.freeze([
   { rom: 'pps9', name: 'Coin/credit precursor',
     entries: [0xd426], entryOnly: true },
 ]);
-const OPTIONS = new Set(['--check-sources', '--markdown', '--state', '--state-detail', '--state-check', '--help']);
+const OPTIONS = new Set(['--check-sources', '--markdown', '--state', '--state-detail', '--state-check', '--state-audit', '--help']);
 const hx = n => '$' + n.toString(16).toUpperCase().padStart(4, '0');
 
 function die(message) { throw new Error(message); }
@@ -305,6 +305,51 @@ function stateDetail(result, strict) {
     'A literal without a direct operation is labelled address-literal.');
 }
 
+/**
+ * Stage 5 physical-byte audit: report each reachable instruction once, even
+ * when several entry points execute the exact same ROM cells. The ownership
+ * column identifies all such entry points; it is not a dynamic call count.
+ */
+function stateAudit(result) {
+  const inv = stateInventory(result);
+  const physical = new Map();
+  const watched = new Set([0xf6eb, 0xf716, 0xf718, 0xf71a, 0xf71c]);
+  const opNames = { 0x014c:'@', 0x0153:'B@', 0x0561:'!', 0x053f:'BZERO',
+    0x0532:'SB!', 0x055c:'B!', 0x059e:'S!', 0x0569:'ZERO',
+    0x056f:'ONE', 0x0588:'1+!', 0x0575:'1-!', 0x057d:'+!',
+    0x0590:'-!', 0x053a:'BONE', 0x0544:'1-B!', 0x0549:'1+B!',
+    0x054e:'+B!', 0x0555:'-B!' };
+  for (const def of inv.groups) for (const cell of def.cells) {
+    const id = cell.address;
+    if (!physical.has(id))
+      physical.set(id, { cell, owners: new Set() });
+    const record = physical.get(id);
+    if (record.cell.token !== cell.token || record.cell.end !== cell.end)
+      die('Conflicting physical-cell decode at ' + hx(id));
+    record.owners.add(def.entry);
+  }
+  const owned = [...physical.values()].sort((a,b)=>a.cell.address-b.cell.address);
+  const byAddress = new Map(owned.map(x=>[x.cell.address,x.cell]));
+  const references = owned.filter(({cell})=>cell.token===0x0109 && watched.has(cell.operand))
+    .map(({cell,owners})=>{
+      const next = byAddress.get(cell.end);
+      const op = next ? (opNames[next.token] || ('XT ' + hx(next.token))) : 'no sequential cell';
+      const classification = next && MEMORY_ACCESS[next.token]
+        ? MEMORY_ACCESS[next.token] : 'literal (not direct memory access)';
+      return { at:cell.address, ram:cell.operand, op, classification, owners:[...owners] };
+    });
+  console.log('# Stage 5 physical RAM-reference audit');
+  console.log('Original PPS8 SHA-1 verified by inventory(); deduplicated physical LIT cells.');
+  console.log('| LIT address | RAM | Following XT | Direct access | Reachable entries |');
+  console.log('| --- | --- | --- | --- | --- |');
+  for (const r of references)
+    console.log('| '+hx(r.at)+' | '+hx(r.ram)+' | '+r.op+' | '+r.classification+
+      ' | '+r.owners.map(hx).join(', ')+' |');
+  const counts = Object.fromEntries([...watched].map(a=>[hx(a),references.filter(x=>x.ram===a).length]));
+  console.log('Unique physical LIT references: '+references.length+'; counts: '+JSON.stringify(counts));
+  console.log('ROM bytes are not rewritten. Stack effects are not inferred from address literals.');
+}
+
 function report(result, markdown) {
   if (markdown) {
     console.log('# Shared TERSE entrypoints — original ROM analysis\n');
@@ -334,14 +379,16 @@ function report(result, markdown) {
 function main(args) {
   for (const a of args) if (a.startsWith('-') && !OPTIONS.has(a)) die('Unknown option ' + a);
   if (args.includes('--help')) {
-    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown|--state|--state-detail] [--state-check]');
+    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown|--state|--state-detail|--state-audit] [--state-check]');
     return;
   }
   const archiveName = args.find(a => !a.startsWith('-')) || 'roms/orig/profpac.zip';
   const result = inventory(fs.readFileSync(path.resolve(ROOT, archiveName)),
     args.includes('--check-sources'));
-  if (args.includes('--state-check') || args.includes('--state-detail'))
-    stateDetail(result, args.includes('--state-check'));\n  else if (args.includes('--state')) stateReport(result);
+  if (args.includes('--state-audit')) stateAudit(result);
+  else if (args.includes('--state-check') || args.includes('--state-detail'))
+    stateDetail(result, args.includes('--state-check'));
+  else if (args.includes('--state')) stateReport(result);
   else report(result, args.includes('--markdown'));
 }
 try { main(process.argv.slice(2)); }
