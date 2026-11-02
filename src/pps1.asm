@@ -2838,11 +2838,45 @@ L158E:
         ld sp,($fe87)                   ; $158E
         ld ix,($fe89)                   ; $1592
         jp L14DA                        ; $1596
-        db      $FD,$E3,$FD,$70,$01,$FD,$71,$00,$FD,$7E,$04,$CB,$4F,$CA,$AC,$15 ; $1599
-        db      $2F,$CB,$5F,$C2,$B9,$15,$CD,$4A,$0D,$3A,$A0,$FE,$3D,$FD,$77,$0A ; $15A9
-        db      $FD,$CB,$04,$9E,$FD,$CB,$04,$CE,$FD,$CB,$04,$C6,$FD,$E5,$E1,$ED ; $15B9
-        db      $5B,$8F,$FE,$B7,$ED,$52,$C2,$D9,$15,$CD,$4A,$0D,$E1,$C3,$7E,$15 ; $15C9
-        db      $FD,$E1,$DD,$4E,$00,$DD,$23,$DD,$46,$00,$DD,$23,$FD,$E9         ; $15D9
+; Task continuation dispatcher: NOT a conventional stack-balanced TERSE primitive.
+; Entry $1599 exchanges IY with the top-of-data-stack task context,
+; stores BC threaded IP to task +0/+1 and may switch scheduler context.
+; Return either resumes IX threaded control stack or jumps to $157E.
+ACTION_TASK_SCHEDULER_ENTRY:
+        ex (sp),iy                     ; $1599
+        ld (iy+1),b                     ; $159B
+        ld (iy+0),c                     ; $159E
+        ld a,(iy+4)                     ; $15A1
+        bit 1,a                         ; $15A4
+        jp z,L15AC                      ; $15A6
+        cpl                             ; $15A9
+        bit 3,a                         ; $15AA
+L15AC:
+        jp nz,L15B9                     ; $15AC
+        call NATIVE_0D4A                ; $15AF
+        ld a,($fea0)                    ; $15B2
+        dec a                            ; $15B5
+        ld (iy+10),a                    ; $15B6
+L15B9:
+        res 3,(iy+4)                    ; $15B9
+        set 1,(iy+4)                    ; $15BD
+        set 0,(iy+4)                    ; $15C1
+        push iy                         ; $15C5
+        pop hl                          ; $15C7
+        ld de,($fe8f)                   ; $15C8
+        or a                            ; $15CC
+        sbc hl,de                       ; $15CD
+        jp nz,L15D9                     ; $15CF
+        call NATIVE_0D4A                ; $15D2
+        pop hl                          ; $15D5
+        jp L157E                        ; $15D6
+L15D9:
+        pop iy                          ; $15D9
+        ld c,(ix+0)                     ; $15DB
+        inc ix                          ; $15DE
+        ld b,(ix+0)                     ; $15E0
+        inc ix                          ; $15E3
+        jp (iy)                         ; $15E5
 NATIVE_15E7:
         ld iy,($fe8f)                   ; $15E7
         ld (iy+2),c                     ; $15EB
@@ -3060,7 +3094,19 @@ L1B20:
         exx                             ; $1B20
         pop bc                          ; $1B21
         ret                             ; $1B22
-        db      $D5,$CD,$C3,$1A,$D1,$CD,$F4,$1A,$C9,$CD,$C3,$1A,$E5,$FD,$E9     ; $1B23
+; Native calculation helper at $1B23 (register-only subroutine).
+        push de                         ; $1B23
+        call NATIVE_1AC3                ; $1B24
+        pop de                          ; $1B27
+        call NATIVE_1AF4                ; $1B28
+        ret                             ; $1B2B
+; TERSE native drawing source producer. $1AC3 works on register state,
+; then PUSH HL places its result on the TERSE parameter stack.
+; ( -- computed-object-value ), before subsequent DROP/drawing operations.
+NATIVE_OBJECT_DRAW_SOURCE_1B2C:
+        call NATIVE_1AC3                ; $1B2C
+        push hl                         ; $1B2F
+        jp (iy)                         ; $1B30
 NATIVE_1B32:
         call NATIVE_1AC3                ; $1B32
         pop de                          ; $1B35
@@ -3251,7 +3297,8 @@ NATIVE_1C51:
         inc hl                          ; $1C5A
         set 4,(hl)                      ; $1C5B
         jp (iy)                         ; $1C5D
-NATIVE_1C5F:
+; Object axis A setter ( value -- ): normalize by $1B3C; write current-object record +$34/+$35.
+SET_CURRENT_OBJECT_AXIS_A:
         pop hl                          ; $1C5F
         call NATIVE_1B3C                ; $1C60
         push hl                         ; $1C63
@@ -3263,7 +3310,8 @@ NATIVE_1C5F:
         inc hl                          ; $1C6D
         ld (hl),d                       ; $1C6E
         jp (iy)                         ; $1C6F
-NATIVE_1C71:
+; Object axis B setter ( value -- ): normalize by $1B9E; write current-object record +$36/+$37.
+SET_CURRENT_OBJECT_AXIS_B:
         pop hl                          ; $1C71
         call NATIVE_1B9E                ; $1C72
         push hl                         ; $1C75
@@ -3286,7 +3334,8 @@ NATIVE_1C83:
 L1C93:
         push de                         ; $1C93
         jp (iy)                         ; $1C94
-NATIVE_1C96:
+; Object axis A getter ( object-record -- value ): read +$34/+$35, transform by $1B60.
+GET_OBJECT_AXIS_A:
         pop hl                          ; $1C96
         ld de,$0034                     ; $1C97
         add hl,de                       ; $1C9A
@@ -3297,7 +3346,8 @@ NATIVE_1C96:
         call NATIVE_1B60                ; $1C9F
         push hl                         ; $1CA2
         jp (iy)                         ; $1CA3
-NATIVE_1CA5:
+; Object axis B getter ( object-record -- value ): read +$36/+$37, transform by $1BB3.
+GET_OBJECT_AXIS_B:
         pop hl                          ; $1CA5
         ld de,$0036                     ; $1CA6
         add hl,de                       ; $1CA9
@@ -3368,7 +3418,8 @@ NATIVE_1D19:
         add hl,de                       ; $1D1F
         res 4,(hl)                      ; $1D20
         jp (iy)                         ; $1D22
-NATIVE_1D24:
+; Native object value-1 setter ( value1 -- ). Convert by $1B3C; store current-object offsets +25/+26; mark update.
+SET_OBJECT_VALUE1_NATIVE:
         pop hl                          ; $1D24
         call NATIVE_1B3C                ; $1D25
         push iy                         ; $1D28
@@ -3378,7 +3429,8 @@ NATIVE_1D24:
         set 0,(iy+33)                   ; $1D34
         pop iy                          ; $1D38
         jp (iy)                         ; $1D3A
-NATIVE_1D3C:
+; Native object value-2 setter ( value2 -- ). Convert by $1B9E; store current-object offsets +27/+28; mark update.
+SET_OBJECT_VALUE2_NATIVE:
         pop hl                          ; $1D3C
         call NATIVE_1B9E                ; $1D3D
         push iy                         ; $1D40
@@ -3388,10 +3440,11 @@ NATIVE_1D3C:
         set 0,(iy+33)                   ; $1D4C
         pop iy                          ; $1D50
         jp (iy)                         ; $1D52
+; Pair object value setter ( value1 value2 -- ); invokes SET_OBJECT_VALUE2_NATIVE then SET_OBJECT_VALUE1_NATIVE.
 TERSE_COLON_1D54:
         rst     $08                             ; $1D54 colon entry
-        dw      NATIVE_1D3C          ; $1D55 NATIVE_1D3C
-        dw      NATIVE_1D24          ; $1D57 NATIVE_1D24
+        dw      SET_OBJECT_VALUE2_NATIVE          ; $1D55 SET_OBJECT_VALUE2_NATIVE
+        dw      SET_OBJECT_VALUE1_NATIVE          ; $1D57 SET_OBJECT_VALUE1_NATIVE
         dw      _RETURN              ; $1D59 _RETURN
 NATIVE_1D5B:
         ld hl,($fe8f)                   ; $1D5B
@@ -3433,7 +3486,8 @@ NATIVE_1D8B:
         inc hl                          ; $1D97
         ld (hl),d                       ; $1D98
         jp (iy)                         ; $1D99
-NATIVE_1D9B:
+; Native object value-1 fetch ( object-record -- value1 ). Read +25/+26 and inverse-convert.
+FETCH_OBJECT_VALUE1_NATIVE:
         pop hl                          ; $1D9B
         ld de,$0019                     ; $1D9C
         add hl,de                       ; $1D9F
@@ -3444,7 +3498,8 @@ NATIVE_1D9B:
         call NATIVE_1B60                ; $1DA4
         push hl                         ; $1DA7
         jp (iy)                         ; $1DA8
-NATIVE_1DAA:
+; Native object value-2 fetch ( object-record -- value2 ). Read +27/+28 and inverse-convert.
+FETCH_OBJECT_VALUE2_NATIVE:
         pop hl                          ; $1DAA
         ld de,$001b                     ; $1DAB
         add hl,de                       ; $1DAE
@@ -3478,9 +3533,9 @@ NATIVE_1DC7:
 TERSE_COLON_1DD5:
         rst     $08                             ; $1DD5 colon entry
         dw      _0                   ; $1DD6 _0
-        dw      NATIVE_1D24          ; $1DD8 NATIVE_1D24
+        dw      SET_OBJECT_VALUE1_NATIVE          ; $1DD8 SET_OBJECT_VALUE1_NATIVE
         dw      _0                   ; $1DDA _0
-        dw      NATIVE_1D3C          ; $1DDC NATIVE_1D3C
+        dw      SET_OBJECT_VALUE2_NATIVE          ; $1DDC SET_OBJECT_VALUE2_NATIVE
         dw      _RETURN              ; $1DDE _RETURN
 TERSE_COLON_1DE0:
         rst     $08                             ; $1DE0 colon entry
@@ -3558,7 +3613,8 @@ NATIVE_1E72:
         add hl,de                       ; $1E78
         res 3,(hl)                      ; $1E79
         jp (iy)                         ; $1E7B
-NATIVE_1E7D:
+; Native object metadata setter ( byte -- ). Write low byte to current-object +24.
+SET_OBJECT_BYTE18_NATIVE:
         ld hl,($fe8f)                   ; $1E7D
         ld de,$0018                     ; $1E80
         add hl,de                       ; $1E83
@@ -3568,7 +3624,8 @@ NATIVE_1E7D:
         add hl,de                       ; $1E89
         set 3,(hl)                      ; $1E8A
         jp (iy)                         ; $1E8C
-NATIVE_1E8E:
+; Native object metadata setter ( word -- ). Write to current-object +29/+30.
+SET_OBJECT_WORD1D_NATIVE:
         ld hl,($fe8f)                   ; $1E8E
         ld de,$001d                     ; $1E91
         add hl,de                       ; $1E94

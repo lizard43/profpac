@@ -72,7 +72,8 @@ L2049:
         pop iy                          ; $207B
         ret                             ; $207D
         db      $CD,$C4,$1F,$FD,$E9                                             ; $207E
-NATIVE_2083:
+; Refresh glyph/render state for the current object ( -- ); calls fixed-ROM $1FC4 and restores its object value-1 field.
+REFRESH_CURRENT_OBJECT_GLYPH:
         push iy                         ; $2083
         ld iy,($fe8f)                   ; $2085
         ld h,(iy+26)                    ; $2089
@@ -474,7 +475,18 @@ TERSE_COLON_23C0:
         db      $D9,$5F,$DD,$09,$2B,$7C,$B5,$20,$DB,$C9,$7B,$08,$B3,$D3,$0C,$E6 ; $2589
         db      $30,$08,$DD,$72,$00,$D9,$CB,$7C,$20,$07,$D9,$DD,$09,$D9,$19,$18 ; $2599
         db      $01,$09,$D9,$3C,$FE,$04,$38,$03,$DD,$23,$AF,$5F,$2B,$7C,$B5,$20 ; $25A9
-        db      $D9,$C9,$F3,$C5,$FD,$E5,$FD,$2A,$8F,$FE,$FD,$66,$37,$FD,$6E,$36 ; $25B9
+; The preceding $25B9 EXX/RET terminates an adjacent native helper.
+        db      $D9,$C9 ; $25B9
+; PPS2 masked object renderer. Own prologue saves BC and IY, balanced by
+; POP IX / POP IY / POP BC and EI / JP (IY) at $2627–$262E.
+; Its data-stack effect is ( -- ); register/CPU control context is preserved.
+NATIVE_OBJECT_MASKED_DRAW_25BB:
+        di                              ; $25BB
+        push bc                         ; $25BC
+        push iy                         ; $25BD
+        ld iy,($fe8f)                   ; $25BF
+        ld h,(iy+55)                    ; $25C3
+        ld l,(iy+54)                    ; $25C6
         db      $FD,$56,$1C,$FD,$5E,$1B,$D9,$FD,$66,$35,$FD,$6E,$34,$FD,$56,$1A ; $25C9
         db      $FD,$5E,$19,$D9,$DD,$E5,$7D,$E6,$C0,$6F,$7B,$E6,$C0,$5F,$E5,$CD ; $25D9
         db      $07,$25,$E3,$D9,$08,$7D,$E6,$C0,$6F,$7B,$E6,$C0,$5F,$E5,$CD,$07 ; $25E9
@@ -996,7 +1008,7 @@ TERSE_COLON_2CA4:
         dw      XT_SWAP                 ; $2CAD _SWAP
         dw      XT_BONE                 ; $2CAF _BONE
         dw      $1EA8                ; $2CB1 execution token $1EA8
-        dw      NATIVE_2083          ; $2CB3 NATIVE_2083
+        dw      REFRESH_CURRENT_OBJECT_GLYPH          ; $2CB3 REFRESH_CURRENT_OBJECT_GLYPH
         dw      TERSE_COLON_2C8A     ; $2CB5 TERSE_COLON_2C8A
         dw      XT_RETURN               ; $2CB7 _RETURN
 NATIVE_2CB9:
@@ -1056,6 +1068,8 @@ TERSE_COLON_2D00:
         dw      XT_RETURN               ; $2D05 _RETURN
 NATIVE_2D07:
         ld d,l                          ; $2D07
+SCREEN_INTERCEPT_DRAW_NATIVE_2D08:
+        ; ( four arguments -- ): configure screen intercept/masked drawing.
         di                              ; $2D08
         pop hl                          ; $2D09
         ld a,$10                        ; $2D0A
@@ -1077,7 +1091,18 @@ NATIVE_2D07:
         pop bc                          ; $2D27
         ei                              ; $2D28
         jp (iy)                         ; $2D29
-        db      $CF,$2A,$01,$12,$01,$4F,$09,$01,$C8,$00,$2A,$01,$08,$2D,$FD,$00 ; $2D2B
+; Stage 5: display-intercept action; invoked by normal application at PPS8:$BBF4.
+; Sets up a four-parameter screen masked-write native entry at $2D08.
+SCREEN_INTERCEPT_ACTION_2D2B:
+        rst     $08                      ; $2D2B actual colon entry
+        dw      XT_0                      ; $2D2C zero
+        dw      XT_LITbyte                ; $2D2E byte literal
+        db      $4F                      ; $2D30 source value
+        dw      XT_LIT                    ; $2D31 word literal
+        dw      $00C8                    ; $2D33 source value
+        dw      XT_0                      ; $2D35 zero
+        dw      SCREEN_INTERCEPT_DRAW_NATIVE_2D08 ; $2D37 native drawing action
+        dw      XT_RETURN                 ; $2D39 return
         db      $CF,$08,$2D,$FD,$00,$CF,$09,$01,$E1,$10,$12,$01,$4C,$09,$01,$90 ; $2D3B
         db      $00,$2A,$01,$08,$2D,$FD,$00                                     ; $2D4B
 TERSE_COLON_2D52:
@@ -1244,7 +1269,7 @@ L33D3:
         dw      $3389                ; $33DD inline word
         dw      XT_plus                 ; $33DF _plus
         dw      $1E8E                ; $33E1 execution token $1E8E
-        dw      NATIVE_2083          ; $33E3 NATIVE_2083
+        dw      REFRESH_CURRENT_OBJECT_GLYPH          ; $33E3 REFRESH_CURRENT_OBJECT_GLYPH
         dw      XT_LITbyte              ; $33E5 _LITbyte
         db      $0A                  ; $33E7 inline byte
         dw      TERSE_COLON_33B1     ; $33E8 TERSE_COLON_33B1
@@ -1259,11 +1284,11 @@ L33D3:
         dw      XT_LIT                  ; $33F8 _LIT
         dw      $33AF                ; $33FA inline word
         dw      $1E8E                ; $33FC execution token $1E8E
-        dw      NATIVE_2083          ; $33FE NATIVE_2083
+        dw      REFRESH_CURRENT_OBJECT_GLYPH          ; $33FE REFRESH_CURRENT_OBJECT_GLYPH
         dw      XT_LITbyte              ; $3400 _LITbyte
         db      $08                  ; $3402 inline byte
         dw      TERSE_COLON_33B1     ; $3403 TERSE_COLON_33B1
-        dw      NATIVE_2083          ; $3405 NATIVE_2083
+        dw      REFRESH_CURRENT_OBJECT_GLYPH          ; $3405 REFRESH_CURRENT_OBJECT_GLYPH
 L3407:
         dw      XT_LITbyte              ; $3407 _LITbyte
         db      $06                  ; $3409 inline byte

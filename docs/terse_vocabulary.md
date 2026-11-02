@@ -262,3 +262,57 @@ TERSE source spellings.
 See [Stage 4 shared game-state RE](STAGE4-SHARED-GAME-STATE.md).
 Run node tools/analyze_shared_threads.js --state --check-sources for a
 reproducible RAM-literal and next-memory-operation inventory.
+
+
+## Stage 5 — physical shared-state tokens
+
+The configuration-1 PPS8 multi-entry streams `$BA31–$BBA6` and `$BBE8–$BCDA` now expose 184 byte-preserving symbolic TERSE token cells in `src/pps8.asm`, with unmatched or overlapping boundary bytes retained as raw data. Both families together reach 232 distinct token start addresses, including 33 distinct physical literal references to `$F6EB/$F716/$F718/$F71A/$F71C`. The read/write and address-only distinctions are enumerated in [the physical trace](STAGE5-PHYSICAL-TRACE.md). The primitive `XT_LIT` pushes a literal; `XT_at` fetches a word; `XT_bang` stores a word; `XT_Bat` fetches a byte; `XT_BZERO` clears a byte. A `LIT` followed by `DUP` is an address duplication, not a direct memory operation. Compound-word stack effects remain undefined until all external object/task token contracts are reconstructed.
+
+## Fixed-ROM object vocabulary: recovered stack contracts
+
+The Stage 5 state threads invoke PPS1's object setter/getter words. Inspection of their native Z80 bodies supplies actual stack effects:
+
+| PPS1 execution address | Word / implementation | Proven stack effect | Implementation evidence |
+| --- | --- | --- | --- |
+| `$1D24` | Object value-1 setter | `( value1 -- )` | `POP HL`, convert via `$1B3C`, write record `+25/+26` |
+| `$1D3C` | Object value-2 setter | `( value2 -- )` | `POP HL`, convert via `$1B9E`, write record `+27/+28` |
+| `$1D54` | TERSE paired setter | `( value1 value2 -- )` | Executes `$1D3C`, then `$1D24`, then `RETURN` |
+| `$1D9B` | Object value-1 getter | `( object-record -- value1 )` | `POP HL` record pointer, read `+25/+26`, transform, `PUSH HL` |
+| `$1DAA` | Object value-2 getter | `( object-record -- value2 )` | `POP HL` record pointer, read `+27/+28`, transform, `PUSH HL` |
+| `$1E7D` | Object byte-18 setter | `( byte -- )` | `POP DE`, write E to current record `+24` |
+| `$1E8E` | Object word-1D setter | `( word -- )` | `POP DE`, write E/D to current record `+29/+30` |
+
+These seven effects are recorded in the WB/ICEBOX current **platform dictionary**, and the `$1D54` compound effect is also present in the program-word dictionary. Naming and inline function headers were added to the original `src/pps1.asm`, with the ICEBOX project copy synchronized. This proves the object-state transformation called by the shared animation threads; it does **not** automatically establish the entire task-entry word's stack contract.
+
+
+## Recovered animation-axis semantics and display hardware
+
+Four original PPS1 native routines operate on two presentation-axis words in the active object record:
+
+| Native XT | Data stack | Object offset | Mechanism |
+| --- | --- | --- | --- |
+| `$1C5F` `XT_SET_CURRENT_OBJECT_AXIS_A` | `( axisA -- )` | `+$34/+$35` | Convert via `$1B3C` then store |
+| `$1C71` `XT_SET_CURRENT_OBJECT_AXIS_B` | `( axisB -- )` | `+$36/+$37` | Convert via `$1B9E` then store |
+| `$1C96` `XT_GET_OBJECT_AXIS_A` | `( object-record -- axisA )` | `+$34/+$35` | Read and convert via `$1B60` |
+| `$1CA5` `XT_GET_OBJECT_AXIS_B` | `( object-record -- axisB )` | `+$36/+$37` | Read and convert via `$1BB3` |
+
+The two true PPS8 root words compare object axes with these work-RAM targets and use per-axis steps to interpolate their presentation state:
+
+| RAM | Established role | Evidence |
+| --- | --- | --- |
+| `$F716` | Axis-B terminal target | Compared with `XT_GET_OBJECT_AXIS_B` at `$BA81/$BC3F` |
+| `$F718` | Axis-A terminal target | Compared with `XT_GET_OBJECT_AXIS_A` at `$BABD/$BC7B` |
+| `$F71A` | Feedback axis-B motion step | Read at `$BA91`, doubled and applied by `XT_SET_CURRENT_OBJECT_AXIS_B` |
+| `$F71C` | Feedback axis-A step and application shared step | Read at `$BAAA/$BC4F/$BC68`, doubled before corresponding axis setters |
+| `$F6EB` | Feedback animation phase counter | Zeroed at `$BA51`, incremented at `$BAE7`, checked against 1, 2, 3, and terminal 4 |
+
+The A/B axes correspond to two native presentation dimensions. Their mapping to the visible screen's horizontal and vertical directions is intentionally not invented.
+
+**Graphics I/O rather than sound:** PPS1 `XT_OUTP` (`$02D8`) pops the port into BC and value into HL before `OUT (C),L`. Thus `$BBC2` outputs `$15` to `PORT_SCREEN_PAGE $BF`, `$BBF2` outputs `$2A` to the same port, and `$BCD3` outputs `$00`. These are **screen-page operations**, not writes to the audio ports. The normal application calls the genuine PPS2 `SCREEN_INTERCEPT_ACTION_2D2B` (`$BBF4`), whose native `$2D08` implementation writes `PORT_SCREEN_INTERCEPT $C3` and `PORT_SCREEN_WRITE_MASK $C5`. The tail calls the PPS2 glyph-refresh native XT `$2083`, which delegates to the fixed-ROM glyph routine `$1FC4`. These establish the display/drawing path from the animated state words; any sound response is outside these immediate calls.
+
+**Current runtime inventory:** `v20261102-0008`, one package per library, **100 native-root, 52 platform, 436 program-colon and 130 question-initializer words**. The extra program colon `$2D2B` is a true original `RST $08` action recovered during the Stage 5 graphics trace. There are no historical Professor Pac-Man runtime packages to preserve.
+
+**Independent original-ROM acceptance:** the original `profpac.zip` archive SHA-1 `fc2c27f04a1a173ae79b5fb91c69ff85cc479c9c` and each of the 23 program/question ROM SHA-1s were checked against the library manifest; the reconstructed **617 PPS8 bytes (including both colon entry opcodes)** were compared directly against original PPS8 with zero mismatches. New `tools/verify_stage5_rom.js` makes this check reproducible, additionally validating the 16 decoded bytes of PPS2's `$2D2B` screen action. The complete zmac-produced ROM/ZIP rebuild is separately required and is invoked by `./build.sh --clean`, which now runs the Stage 5 checks.
+
+
+Stage 5 validated `XT_MINUS` ($0168) as unary negation `( n -- -n )`, distinct from binary `XT_minussign` ($0160). Using these native-root effects, 140 feedback and 92 application ROM token cells are balanced on every branch, with a post-scheduler `( -- )` stack contract for each animation word. The nonlocal task-entry/scheduler ABI is described separately in [the Stage 5 stack audit](STAGE5-STACK-HARDWARE-AUDIT.md).

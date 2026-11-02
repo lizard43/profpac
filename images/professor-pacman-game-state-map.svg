@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" role="img" aria-labelledby="t d">
+<title id="t">Professor Pac-Man Stage 5 game-state RAM</title>
+<desc id="d">Work RAM addresses F6EB and F716 through F71D, linked to two physical TERSE caller and shared-entry families in configuration 1 PPS8.</desc>
+<rect width="1000" height="640" fill="#10141b"/>
+<text x="35" y="48" font-family="sans-serif" font-size="27" font-weight="bold" fill="#f0f3f8">PROFESSOR PAC-MAN · STAGE 5</text>
+<text x="35" y="78" font-family="sans-serif" font-size="16" fill="#aebdcc">Original configuration 1 · PPS8 · two real colon words · work-RAM submap</text>
+<rect x="35" y="111" width="420" height="138" rx="7" fill="#1b2734" stroke="#6f8ba6"/>
+<text x="53" y="139" font-family="monospace" font-size="17" fill="#f1f5fa">CORRECT_FEEDBACK_TASK  $BBB8</text>
+<text x="53" y="169" font-family="monospace" font-size="15" fill="#b8d2e8">cell $BBCE calls $BA31</text>
+<text x="53" y="195" font-family="monospace" font-size="15" fill="#b8d2e8">$BA31: 140 TERSE tokens</text>
+<text x="53" y="220" font-family="monospace" font-size="15" fill="#b8d2e8">Seven false RSTs are XT_equal</text>
+<rect x="545" y="111" width="420" height="138" rx="7" fill="#1b2734" stroke="#6f8ba6"/>
+<text x="563" y="139" font-family="monospace" font-size="17" fill="#f1f5fa">MAIN_APPLICATION  $BE66</text>
+<text x="563" y="169" font-family="monospace" font-size="15" fill="#b8d2e8">cell $BEE2 calls $BBE8</text>
+<text x="563" y="195" font-family="monospace" font-size="15" fill="#b8d2e8">$BBE8: 92 TERSE tokens</text>
+<text x="563" y="220" font-family="monospace" font-size="15" fill="#b8d2e8">internal branch/loop and return</text>
+<path d="M245 249 V290 H500 V315 M755 249 V290 H500" fill="none" stroke="#c9d7e5" stroke-width="2"/>
+<path d="M494 309 L500 319 L506 309" fill="none" stroke="#c9d7e5" stroke-width="2"/>
+<rect x="75" y="318" width="850" height="122" rx="7" fill="#203125" stroke="#92b8a1"/>
+<text x="94" y="346" font-family="sans-serif" font-size="17" font-weight="bold" fill="#edf7ee">WORK RAM · $E800–$FFFF</text>
+<text x="94" y="374" font-family="monospace" font-size="17" fill="#dbf5df">$F6EB  feedback phase</text>
+<text x="94" y="406" font-family="monospace" font-size="17" fill="#dbf5df">$F716–$F717  axis B target</text>
+<text x="490" y="374" font-family="monospace" font-size="17" fill="#dbf5df">$F718–$F719  axis A target</text>
+<text x="490" y="406" font-family="monospace" font-size="17" fill="#dbf5df">$F71A–$F71B  feedback B step</text>
+<text x="94" y="430" font-family="monospace" font-size="15" fill="#b8d6bd">$F71C–$F71D  axis A / app step</text>
+<text x="35" y="475" font-family="sans-serif" font-size="15" fill="#bdc5d0">Two genuine RST $08 roots. Seven embedded $01CF tokens are XT_equal, not colon entries.</text>
+<rect x="75" y="495" width="850" height="113" rx="7" fill="#1b2734" stroke="#6f8ba6"/>
+<text x="94" y="519" font-family="sans-serif" font-size="17" font-weight="bold" fill="#f0f3f8">PROVEN CONSTANT PRESETS</text>
+<text x="94" y="545" font-family="monospace" font-size="14" fill="#b8d2e8">FEEDBACK $BA31: F716=0000  F718=0096  F71A=FFFF  F71C=0001  F6EB=00</text>
+<text x="94" y="575" font-family="monospace" font-size="14" fill="#b8d2e8">APPLICATION $BBE8: F716=FF9D  F718=FF64  F71C=FFFF</text>
+<text x="35" y="627" font-family="sans-serif" font-size="14" fill="#bdc5d0">Display-page I/O $BF: 15 / 2A / 00; masked screen action $2D2B, glyph refresh $2083.</text>
+</svg>

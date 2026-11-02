@@ -253,6 +253,14 @@ XT_SELECT_SUPER_GAME_CONFIGURATION_1 equ $D0D4
 ; Fixed object/task vocabulary used by the question-presentation threads.
 ; Neutral field names are retained where the record representation is proven
 ; but the original source spelling is not.
+XT_OBJECT_DRAW_SOURCE equ $1B2C
+XT_OBJECT_MASKED_DRAW equ $25BB
+XT_SCREEN_INTERCEPT_ACTION equ $2D2B
+XT_UPDATE_OBJECT_GLYPH equ $2083
+XT_SET_CURRENT_OBJECT_AXIS_A equ $1C5F
+XT_SET_CURRENT_OBJECT_AXIS_B equ $1C71
+XT_GET_OBJECT_AXIS_A equ $1C96
+XT_GET_OBJECT_AXIS_B equ $1CA5
 XT_SET_CURRENT_OBJECT_VALUE_1 equ $1D24
 XT_SET_CURRENT_OBJECT_VALUE_2 equ $1D3C
 XT_SET_CURRENT_OBJECT_VALUE_PAIR equ $1D54
@@ -338,3 +346,12 @@ GAME_STATE_WORD_1_ADDR  equ     $F718
 GAME_STATE_WORD_2_ADDR  equ     $F71A
 GAME_STATE_WORD_3_ADDR  equ     $F71C
 GAME_STATE_FLAG_F6EB_ADDR equ   $F6EB
+
+; Stage 5: derived from the $1C96/$1CA5 object-axis getters and
+; $1C5F/$1C71 setters. The A/B coordinate axes are preserved without
+; assuming which one is screen X or screen Y.
+ANIM_AXIS_B_TARGET_ADDR   equ $F716
+ANIM_AXIS_A_TARGET_ADDR   equ $F718
+ANIM_FEEDBACK_B_STEP_ADDR equ $F71A
+ANIM_AXIS_A_STEP_ADDR     equ $F71C
+ANIM_PHASE_COUNTER_ADDR   equ $F6EB

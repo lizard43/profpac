@@ -34,14 +34,14 @@ const ENTRY_GROUPS = Object.freeze([
     entries: [0xb613, 0xb642, 0xb67f] },
   { rom: 'pps8', name: 'Credit/start prompt',
     entries: [0xb846] },
-  { rom: 'pps8', name: 'Shared application-state threads',
-    entries: [0xba31, 0xbacd, 0xbad9, 0xbaed, 0xbb27, 0xbb68] },
-  { rom: 'pps8', name: 'Shared application continuation',
-    entries: [0xbbe8, 0xbc83, 0xbc8f] },
+  { rom: 'pps8', name: 'Correct-feedback state thread; one colon root',
+    entries: [0xba31] },
+  { rom: 'pps8', name: 'Normal-application state thread; one colon root',
+    entries: [0xbbe8] },
   { rom: 'pps9', name: 'Coin/credit precursor',
     entries: [0xd426], entryOnly: true },
 ]);
-const OPTIONS = new Set(['--check-sources', '--markdown', '--state', '--help']);
+const OPTIONS = new Set(['--check-sources', '--markdown', '--state', '--state-detail', '--state-check', '--state-audit', '--token-map', '--help']);
 const hx = n => '$' + n.toString(16).toUpperCase().padStart(4, '0');
 
 function die(message) { throw new Error(message); }
@@ -183,9 +183,9 @@ function inventory(archive, checkSources) {
 }
 
 
-const STATE_GROUPS = new Set([
-  0xba31, 0xbacd, 0xbad9, 0xbaed, 0xbb27, 0xbb68,
-  0xbbe8, 0xbc83, 0xbc8f,
+const STATE_GROUPS = new Set([0xba31, 0xbbe8]);
+const EMBEDDED_EQUAL_CELLS = Object.freeze([
+  0xbacd, 0xbad9, 0xbaed, 0xbb27, 0xbb68, 0xbc83, 0xbc8f,
 ]);
 const MEMORY_ACCESS = Object.freeze({
   0x014c: 'word-read', 0x0153: 'byte-read',
@@ -254,6 +254,167 @@ function stateReport(result) {
   }
 }
 
+
+/**
+ * Stage 5: address-literal audit with physical instruction locations.
+ * Only report a memory access when the immediate sequential cell after LIT
+ * is a known fetch/store primitive. Each entry is decoded separately:
+ * overlapping entries are intentionally NOT summed into independent bytes.
+ */
+function stateDetail(result, strict) {
+  const inv = stateInventory(result);
+  const watched = new Set([0xf6eb, 0xf716, 0xf718, 0xf71a, 0xf71c]);
+  const rows = [];
+  for (const def of inv.groups) {
+    for (const [address, uses] of inv.refs.get(def.entry)) {
+      if (!watched.has(address)) continue;
+      for (const use of uses) {
+        rows.push({ entry: def.entry, at: use.at, ram: address,
+          operation: use.operation, nextToken: use.nextToken });
+      }
+    }
+  }
+  rows.sort((a,b) => a.entry-b.entry || a.at-b.at || a.ram-b.ram);
+  if (strict) {
+    const image = result.banks.pps8;
+    const word = at => image.readUInt16LE(at - 0xa000);
+    if (word(0xbbce) !== 0xba31)
+      die('Stage 5: CORRECT_FEEDBACK_TASK call at $BBCE changed');
+    if (word(0xbee2) !== 0xbbe8)
+      die('Stage 5: MAIN_APPLICATION call at $BEE2 changed');
+    const quartet = [0xf716, 0xf718, 0xf71a, 0xf71c];
+    for (const address of quartet)
+      if (!rows.some(row => row.ram === address &&
+          row.operation !== 'address-literal'))
+        die('Stage 5: missing directly observed RAM operation for ' + hx(address));
+    const expected = [0xba31, 0xbbe8];
+    for (const entry of expected)
+      if (!inv.groups.some(def => def.entry === entry))
+        die('Stage 5: missing genuine colon word ' + hx(entry));
+    for (const address of EMBEDDED_EQUAL_CELLS) {
+      if (word(address) !== 0x01cf)
+        die('Stage 5: false colon marker was not XT_equal at ' + hx(address));
+      if (inv.groups.some(def => def.entry === address))
+        die('Stage 5: XT_equal falsely registered as colon at ' + hx(address));
+    }
+    console.log('Stage 5 state check: 2 true colon words, 7 embedded XT_equal cells, ' +
+      '4 word RAM addresses, 2 fixed callers verified');
+  }
+  console.log('| Entry | Physical LIT cell | RAM address | Immediate operation | Next token |');
+  console.log('| --- | --- | --- | --- | --- |');
+  for (const row of rows)
+    console.log('| ' + hx(row.entry) + ' | ' + hx(row.at) + ' | ' +
+      hx(row.ram) + ' | ' + row.operation + ' | ' +
+      (row.nextToken === null ? '—' : hx(row.nextToken)) + ' |');
+  console.log('');
+  console.log('Observations are per-entry reachability, NOT unique physical writes. ' +
+    'A literal without a direct operation is labelled address-literal.');
+}
+
+/**
+ * Stage 5 physical-byte audit: report each reachable instruction once, even
+ * when several entry points execute the exact same ROM cells. The ownership
+ * column identifies all such entry points; it is not a dynamic call count.
+ */
+function stateTokenMap(result) {
+  const inv = stateInventory(result);
+  const physical = new Map();
+  const labels = new Map();
+  const include = fs.readFileSync(path.join(ROOT, 'src', 'profpac_common.include'), 'utf8');
+  for (const line of include.split(/\r?\n/)) {
+    const match = line.match(/^\s*(XT_[A-Za-z0-9_]+)\s+equ\s+\$([0-9A-F]{4})/i);
+    if (match) labels.set(parseInt(match[2],16),match[1]);
+  }
+  for (const def of inv.groups) for (const cell of def.cells) {
+    if (!physical.has(cell.address)) physical.set(cell.address,{cell,owners:[]});
+    const record=physical.get(cell.address);
+    if (record.cell.token!==cell.token || record.cell.end!==cell.end)
+      die('Differing physical XT decode at '+hx(cell.address));
+    record.owners.push(def.entry);
+  }
+  console.log('# Stage 5 — physical TERSE token map');
+  console.log('Original PPS8 ROM; 2 genuine colon roots; unique cell addresses only.');
+  console.log('| Physical cell | Execution token | Inline operand | Reachable entrypoints |');
+  console.log('| --- | --- | --- | --- |');
+  for (const {cell,owners} of [...physical.values()].sort((a,b)=>a.cell.address-b.cell.address)) {
+    const token=labels.get(cell.token)||hx(cell.token);
+    console.log('| '+hx(cell.address)+' | '+token+' | '+
+      (cell.operand===null?'—':hx(cell.operand))+' | '+owners.map(hx).join(', ')+' |');
+  }
+  console.log('Unique physical XT addresses: '+physical.size);
+}
+
+function stateAudit(result) {
+  const inv = stateInventory(result);
+  const physical = new Map();
+  const watched = new Set([0xf6eb, 0xf716, 0xf718, 0xf71a, 0xf71c]);
+  const opNames = { 0x014c:'@', 0x0153:'B@', 0x0561:'!', 0x053f:'BZERO',
+    0x0532:'SB!', 0x055c:'B!', 0x059e:'S!', 0x0569:'ZERO',
+    0x056f:'ONE', 0x0588:'1+!', 0x0575:'1-!', 0x057d:'+!',
+    0x0590:'-!', 0x053a:'BONE', 0x0544:'1-B!', 0x0549:'1+B!',
+    0x054e:'+B!', 0x0555:'-B!' };
+  for (const def of inv.groups) for (const cell of def.cells) {
+    const id = cell.address;
+    if (!physical.has(id))
+      physical.set(id, { cell, owners: new Set() });
+    const record = physical.get(id);
+    if (record.cell.token !== cell.token || record.cell.end !== cell.end)
+      die('Conflicting physical-cell decode at ' + hx(id));
+    record.owners.add(def.entry);
+  }
+  const owned = [...physical.values()].sort((a,b)=>a.cell.address-b.cell.address);
+  const byAddress = new Map(owned.map(x=>[x.cell.address,x.cell]));
+  const references = owned.filter(({cell})=>cell.token===0x0109 && watched.has(cell.operand))
+    .map(({cell,owners})=>{
+      const next = byAddress.get(cell.end);
+      const op = next ? (opNames[next.token] || ('XT ' + hx(next.token))) : 'no sequential cell';
+      const classification = next && MEMORY_ACCESS[next.token]
+        ? MEMORY_ACCESS[next.token] : 'literal (not direct memory access)';
+      return { at:cell.address, ram:cell.operand, op, classification, owners:[...owners] };
+    });
+  console.log('# Stage 5 physical RAM-reference audit');
+  console.log('Original PPS8 SHA-1 verified by inventory(); deduplicated physical LIT cells.');
+  console.log('| LIT address | RAM | Following XT | Direct access | Reachable entries |');
+  console.log('| --- | --- | --- | --- | --- |');
+  for (const r of references)
+    console.log('| '+hx(r.at)+' | '+hx(r.ram)+' | '+r.op+' | '+r.classification+
+      ' | '+r.owners.map(hx).join(', ')+' |');
+  // A consecutive producer, LIT address, store is evidence of an exact
+  // initialization value. Never extrapolate across branch/call boundaries.
+  const byEnd = new Map(owned.map(x=>[x.cell.end,x.cell]));
+  const initializers = [];
+  for (const r of references) {
+    const lit = byAddress.get(r.at);
+    const store = byAddress.get(lit.end);
+    if (!store || ![0x0561, 0x053f].includes(store.token)) continue;
+    if (store.token === 0x053f) {
+      initializers.push({at:lit.address, ram:r.ram, value:0, width:8,
+        producer:'BZERO', owners:r.owners});
+      continue;
+    }
+    const producer = byEnd.get(lit.address);
+    if (!producer) continue;
+    let value = null;
+    if (producer.token === 0x0109) value = producer.operand;
+    if (producer.token === 0x012a) value = 0;
+    if (producer.token === 0x0130) value = 1;
+    if (value === null) continue;
+    initializers.push({at:lit.address, ram:r.ram, value, width:16,
+      producer:hx(producer.address), owners:r.owners});
+  }
+  console.log('');
+  console.log('## Proven constant assignments (sequential producer, address, store)');
+  console.log('| Store address token | RAM | Value | Width | Producer cell |');
+  console.log('| --- | --- | --- | ---: | --- |');
+  for (const init of initializers)
+    console.log('| '+hx(init.at)+' | '+hx(init.ram)+' | '+hx(init.value)+
+      ' | '+init.width+' | '+init.producer+' |');
+  console.log('Physical constant assignments: '+initializers.length);
+  const counts = Object.fromEntries([...watched].map(a=>[hx(a),references.filter(x=>x.ram===a).length]));
+  console.log('Unique physical LIT references: '+references.length+'; counts: '+JSON.stringify(counts));
+  console.log('ROM bytes are not rewritten. Stack effects are not inferred from address literals.');
+}
+
 function report(result, markdown) {
   if (markdown) {
     console.log('# Shared TERSE entrypoints — original ROM analysis\n');
@@ -283,14 +444,21 @@ function report(result, markdown) {
 function main(args) {
   for (const a of args) if (a.startsWith('-') && !OPTIONS.has(a)) die('Unknown option ' + a);
   if (args.includes('--help')) {
-    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown|--state]');
+    console.log('Usage: node tools/analyze_shared_threads.js [roms/orig/profpac.zip] [--check-sources] [--markdown|--state|--state-detail|--state-audit|--token-map] [--state-check]');
     return;
   }
   const archiveName = args.find(a => !a.startsWith('-')) || 'roms/orig/profpac.zip';
   const result = inventory(fs.readFileSync(path.resolve(ROOT, archiveName)),
     args.includes('--check-sources'));
-  if (args.includes('--state')) stateReport(result);
+  if (args.includes('--token-map')) stateTokenMap(result);
+  else if (args.includes('--state-audit')) stateAudit(result);
+  else if (args.includes('--state-check') || args.includes('--state-detail'))
+    stateDetail(result, args.includes('--state-check'));
+  else if (args.includes('--state')) stateReport(result);
   else report(result, args.includes('--markdown'));
 }
-try { main(process.argv.slice(2)); }
-catch (error) { console.error('FAIL: ' + error.message); process.exitCode = 1; }
+if (require.main === module) {
+  try { main(process.argv.slice(2)); }
+  catch (error) { console.error('FAIL: ' + error.message); process.exitCode = 1; }
+}
+module.exports = {readZipMember, decode, inventory, stateInventory, MEMORY_ACCESS};
