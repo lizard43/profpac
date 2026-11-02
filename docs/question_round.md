@@ -145,3 +145,24 @@ python3 tools/analyze_question_round.py --check-sources roms/profpac.zip
 `build.sh` runs the same check after assembling all 23 processor-visible ROMs,
 constructing the MAME archive, comparing it byte-for-byte with the baseline,
 and verifying the canonical archive SHA-1.
+
+
+## Source expansion pass — November 1, 2026
+
+The remaining reachable question-round `RST $08` definitions were
+identified in the native ROM and promoted from raw byte spans to
+structured TERSE source: 20 in PPS3, 6 in PPS4, 5 in PPS8 and 30 in PPS9.
+The former raw `pps3:$928D` definition is now explicitly decoded.
+Branch targets, literal operands and counted data are annotated without
+changing emitted addresses. All 17 counted question-round action lists are
+now explicitly represented by their counts and word pointers.
+
+The `pps9:$CFE2` control-flow entry uses an intentional shared byte:
+`$D020` is a colon-entry opcode and the high byte of a conditional branch
+operand. The source represents the final operand byte separately to
+preserve that overlap.
+
+Additional configuration-1 shared TERSE entrypoints in PPS8 and PPS9 are
+identified; their overlapping bodies are retained as raw bytes pending
+a dedicated multi-entry disassembly. See
+[build and TERSE recovery audit](BUILD-ROUND-RE-20261101.md).

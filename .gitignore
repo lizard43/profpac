@@ -12,3 +12,8 @@ src/*.lst
 src/*.hex
 src/*.cmd
 zout/
+
+# Generated question ROMs and Python bytecode
+roms/ppq*
+__pycache__/
+*.py[cod]

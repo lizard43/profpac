@@ -266,3 +266,46 @@ verifies all original per-ROM checksums and the complete ROM archive.
 
 The shared include files are under `src/`. There is no Windows
 `build.bat` in this repository.
+
+
+### Build console and cleanup
+
+The default `./build.sh` output is grouped by PPS assembly, PPQ assembly,
+the complete MAME ZIP, and five analysis checks. Passing per-ROM hashes and
+listing-file sizes are hidden by default, but **all 23 SHA-1 comparisons,
+ROM content comparisons, and the complete ZIP byte comparison still run**.
+Run `./build.sh --verbose` for each hash and file listing.
+
+Use `./build.sh --clean` to remove stale `src/pps*.bin`,
+`src/ppq*.bin`, corresponding `.lst` files and `tools/__pycache__`
+before building. Python bytecode and generated PPQ ROMs are ignored by Git.
+
+Windows: run `build.bat` (also accepts `--verbose` or `--clean`).
+It uses Git for Windows/Git Bash, Python 3, and `tools/zmac.exe` to
+execute the **same** script and checks, rather than duplicating logic.
+
+Analyzer details are saved in `build/analysis_*.log` on failure;
+the console shows the failing check and a short diagnostic. See
+[build and TERSE source recovery](docs/BUILD-ROUND-RE-20261101.md).
+
+
+### Hash comparisons and multi-entry TERSE validation
+
+All **23 per-ROM SHA-1 comparisons**, original-ROM byte checks, the full
+MAME archive byte comparison and the archive SHA-1 check run on every build.
+The default compact console prints passing counts; when a check fails it
+prints the ROM/package name and the **expected and built SHA-1 hashes**.
+`--verbose` shows both hashes for every successful ROM and the package.
+
+Stage 3 of the RE identifies multi-entry TERSE control flow in PPS8/PPS9 and
+fully decodes six more attract/prompt actions. Use the Node.js-only inspection
+tool for an independent original-ROM audit:
+
+```sh
+node tools/analyze_shared_threads.js --check-sources
+node tools/analyze_shared_threads.js --markdown
+```
+
+See [shared TERSE entrypoints](docs/SHARED-TERSE-ENTRYPOINTS.md) and the
+updated [TERSE dictionary](docs/terse_vocabulary.md). This optional
+inspection command does not replace the mandatory build/hash checks.

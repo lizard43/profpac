@@ -138,3 +138,33 @@ python3 tools/analyze_game_progression.py --check-sources roms/profpac.zip
 `build.sh` runs this check after all 23 ROMs have matched their member SHA-1s
 and the rebuilt 33-member MAME archive has matched the canonical archive byte
 for byte and by SHA-1.
+
+
+## Structured entrypoint recovery — November 1, 2026
+
+The game-progression roots now use the explicit labels
+`MAIN_APPLICATION` at `$BE66`, `INSERT_HIGH_SCORE_ENTRY` at
+`$DA55`, and `DRAW_INITIALS_ENTRY_INSTRUCTIONS` at `$D66C`.
+The PPS8 attract/credit counted action lists at
+`$B4F2`, `$B4F5`, `$B6C2` and `$B8B1` are also explicit.
+
+The remaining shared-entry `RST $08` opcodes in PPS8 and PPS9 have
+been promoted to named source locations. Their overlapping threaded bodies
+are still retained byte-exact, rather than duplicating a shared byte
+region. See [build and TERSE recovery audit](BUILD-ROUND-RE-20261101.md).
+
+
+## Stage 4 shared game-state control flow
+
+The correct-feedback thread at $BBB8 calls the shared game-state transfer
+entry $BA31 from instruction cell $BBCE. A second verified call from
+MAIN_APPLICATION ($BE66), at $BEE2, invokes the $BBE8 application-state
+initialization/transfer thread.
+
+Both families reference shared 16-bit state at $F716/$F718/$F71A/$F71C;
+the continuation uses part of the same quartet. The exact gameplay meaning
+of those values is not established by address proximity alone.
+
+A dedicated [Stage 4 control-flow and RAM audit](STAGE4-SHARED-GAME-STATE.md)
+records nine recovered entrypoints and documents the overlapping source
+regions, observed 16-bit read/write primitives, and known callers.

@@ -262,25 +262,172 @@
         db      $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00 ; $AFC0
         db      $00,$00,$1E,$66,$72,$65,$65,$20,$70,$6C,$61,$79,$2C,$20,$73,$6F ; $AFD0
         db      $20,$68,$69,$74,$20,$74,$68,$65,$20,$62,$75,$74,$74,$6F,$6E,$21 ; $AFE0
-        db      $21,$CF,$99,$15,$2B,$2D,$D5,$36,$9B,$1E,$93,$2C,$12,$01,$60,$12 ; $AFF0
-        db      $01,$63,$54,$1D,$DE,$3C,$09,$01,$A7,$37,$09,$01,$AE,$38,$8E,$1E ; $B000
-        db      $0C,$1E,$09,$01,$A0,$FF,$24,$1D,$DE,$3C,$09,$01,$37,$39,$8E,$1E ; $B010
-        db      $0C,$1E,$2A,$01,$12,$01,$63,$54,$1D,$09,$01,$7C,$3C,$8E,$1E,$0C ; $B020
-        db      $1E,$12,$01,$48,$3C,$1D,$09,$01,$53,$3A,$B4,$1C,$0C,$1E,$09,$01 ; $B030
-        db      $C0,$39,$B4,$1C,$0C,$1E,$12,$01,$0A,$7D,$1E,$09,$01,$FB,$FF,$12 ; $B040
-        db      $01,$3B,$54,$1D,$09,$01,$FD,$F6,$36,$01,$8E,$1E,$09,$01,$47,$E1 ; $B050
-        db      $09,$01,$FF,$E1,$53,$01,$E3,$01,$EA,$03,$70,$B0,$36,$01,$49,$05 ; $B060
-        db      $53,$01,$2A,$01,$12,$01,$03,$F1,$02,$12,$01,$02,$6D,$21,$12,$01 ; $B070
-        db      $02,$CA,$02,$32,$05,$86,$21,$83,$20,$12,$01,$0F,$5C,$1E,$12,$01 ; $B080
-        db      $48,$3C,$1D,$9B,$1E,$12,$01,$49,$24,$1D,$09,$01,$FD,$F6,$36,$01 ; $B090
-        db      $8E,$1E,$09,$01,$E2,$E1,$A2,$20,$12,$01,$03,$F1,$02,$12,$01,$06 ; $B0A0
-        db      $6D,$21,$12,$01,$06,$CA,$02,$32,$05,$86,$21,$83,$20,$09,$01,$89 ; $B0B0
-        db      $FF,$24,$1D,$09,$01,$FD,$F6,$09,$01,$DE,$E1,$A2,$20,$12,$01,$03 ; $B0C0
-        db      $F1,$02,$12,$01,$06,$6D,$21,$12,$01,$06,$CA,$02,$32,$05,$86,$21 ; $B0D0
-        db      $83,$20,$09,$01,$27,$F7,$3F,$05,$9F,$35,$09,$01,$27,$F7,$3A,$05 ; $B0E0
-        db      $9F,$35,$BC,$33,$09,$01,$F0,$E1,$53,$01,$EA,$03,$10,$B1,$09,$01 ; $B0F0
-        db      $B0,$FF,$09,$01,$A0,$FF,$54,$1D,$09,$01,$D2,$AF,$B4,$1C,$83,$20 ; $B100
-        db      $02,$23,$54,$22,$FD,$00,$11,$13,$0D,$23,$12,$25,$30,$00,$00,$00 ; $B110
+        db      $21 ; $AFF0 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Sole attract-screen action at $B4F2.
+; Fully decoded 113-cell TERSE definition.
+ATTRACT_SCREEN_ACTION_ENTRY:
+; ATTRACT_SCREEN_ACTION_ENTRY: decoded TERSE action; original bytes $AFF1–$B115.
+; Recovered execution-token control flow; branch destinations are byte-exact.
+        rst    $08                                  ; $AFF1 colon entry
+        dw     XT_ENTER_ACTION_TASK                 ; $AFF2 execution token
+        dw     $2D2B                                ; $AFF4 execution token
+        dw     $36D5                                ; $AFF6 execution token
+        dw     $1E9B                                ; $AFF8 execution token
+        dw     XT_RESET_OBJECT_DRAW_STATE           ; $AFFA execution token
+        dw     XT_LITbyte                           ; $AFFC execution token
+        db     $60                                  ; $AFFE inline byte
+        dw     XT_LITbyte                           ; $AFFF execution token
+        db     $63                                  ; $B001 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR     ; $B002 execution token
+        dw     $3CDE                                ; $B004 execution token
+        dw     XT_LIT                               ; $B006 execution token
+        dw     $37A7                                ; $B008 inline word
+        dw     XT_LIT                               ; $B00A execution token
+        dw     $38AE                                ; $B00C inline word
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D        ; $B00E execution token
+        dw     XT_DRAW_CURRENT_OBJECT               ; $B010 execution token
+        dw     XT_LIT                               ; $B012 execution token
+        dw     $FFA0                                ; $B014 inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_1        ; $B016 execution token
+        dw     $3CDE                                ; $B018 execution token
+        dw     XT_LIT                               ; $B01A execution token
+        dw     $3937                                ; $B01C inline word
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D        ; $B01E execution token
+        dw     XT_DRAW_CURRENT_OBJECT               ; $B020 execution token
+        dw     XT_0                                 ; $B022 execution token
+        dw     XT_LITbyte                           ; $B024 execution token
+        db     $63                                  ; $B026 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR     ; $B027 execution token
+        dw     XT_LIT                               ; $B029 execution token
+        dw     $3C7C                                ; $B02B inline word
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D        ; $B02D execution token
+        dw     XT_DRAW_CURRENT_OBJECT               ; $B02F execution token
+        dw     XT_LITbyte                           ; $B031 execution token
+        db     $48                                  ; $B033 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_2        ; $B034 execution token
+        dw     XT_LIT                               ; $B036 execution token
+        dw     $3A53                                ; $B038 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR           ; $B03A execution token
+        dw     XT_DRAW_CURRENT_OBJECT               ; $B03C execution token
+        dw     XT_LIT                               ; $B03E execution token
+        dw     $39C0                                ; $B040 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR           ; $B042 execution token
+        dw     XT_DRAW_CURRENT_OBJECT               ; $B044 execution token
+        dw     XT_LITbyte                           ; $B046 execution token
+        db     $0A                                  ; $B048 inline byte
+        dw     XT_SET_CURRENT_OBJECT_BYTE_18        ; $B049 execution token
+        dw     XT_LIT                               ; $B04B execution token
+        dw     $FFFB                                ; $B04D inline word
+        dw     XT_LITbyte                           ; $B04F execution token
+        db     $3B                                  ; $B051 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR     ; $B052 execution token
+        dw     XT_LIT                               ; $B054 execution token
+        dw     $F6FD                                ; $B056 inline word
+        dw     XT_DUP                               ; $B058 execution token
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D        ; $B05A execution token
+        dw     XT_LIT                               ; $B05C execution token
+        dw     $E147                                ; $B05E inline word
+        dw     XT_LIT                               ; $B060 execution token
+        dw     $E1FF                                ; $B062 inline word
+        dw     XT_Bat                               ; $B064 execution token
+        dw     XT_NOT                               ; $B066 execution token
+        dw     XT_0BRANCH                           ; $B068 execution token
+        dw     ATTRACT_SCREEN_ACTION_ENTRY_BR1      ; $B06A branch target
+        dw     XT_DUP                               ; $B06C execution token
+        dw     XT_1plusBbang                        ; $B06E execution token
+ATTRACT_SCREEN_ACTION_ENTRY_BR1:
+        dw     XT_Bat                               ; $B070 execution token
+        dw     XT_0                                 ; $B072 execution token
+        dw     XT_LITbyte                           ; $B074 execution token
+        db     $03                                  ; $B076 inline byte
+        dw     XT_PICK                              ; $B077 execution token
+        dw     XT_LITbyte                           ; $B079 execution token
+        db     $02                                  ; $B07B inline byte
+        dw     $216D                                ; $B07C execution token
+        dw     XT_LITbyte                           ; $B07E execution token
+        db     $02                                  ; $B080 inline byte
+        dw     XT_OVER                              ; $B081 execution token
+        dw     XT_SBbang                            ; $B083 execution token
+        dw     $2186                                ; $B085 execution token
+        dw     $2083                                ; $B087 execution token
+        dw     XT_LITbyte                           ; $B089 execution token
+        db     $0F                                  ; $B08B inline byte
+        dw     $1E5C                                ; $B08C execution token
+        dw     XT_LITbyte                           ; $B08E execution token
+        db     $48                                  ; $B090 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_2        ; $B091 execution token
+        dw     $1E9B                                ; $B093 execution token
+        dw     XT_LITbyte                           ; $B095 execution token
+        db     $49                                  ; $B097 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_1        ; $B098 execution token
+        dw     XT_LIT                               ; $B09A execution token
+        dw     $F6FD                                ; $B09C inline word
+        dw     XT_DUP                               ; $B09E execution token
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D        ; $B0A0 execution token
+        dw     XT_LIT                               ; $B0A2 execution token
+        dw     $E1E2                                ; $B0A4 inline word
+        dw     $20A2                                ; $B0A6 execution token
+        dw     XT_LITbyte                           ; $B0A8 execution token
+        db     $03                                  ; $B0AA inline byte
+        dw     XT_PICK                              ; $B0AB execution token
+        dw     XT_LITbyte                           ; $B0AD execution token
+        db     $06                                  ; $B0AF inline byte
+        dw     $216D                                ; $B0B0 execution token
+        dw     XT_LITbyte                           ; $B0B2 execution token
+        db     $06                                  ; $B0B4 inline byte
+        dw     XT_OVER                              ; $B0B5 execution token
+        dw     XT_SBbang                            ; $B0B7 execution token
+        dw     $2186                                ; $B0B9 execution token
+        dw     $2083                                ; $B0BB execution token
+        dw     XT_LIT                               ; $B0BD execution token
+        dw     $FF89                                ; $B0BF inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_1        ; $B0C1 execution token
+        dw     XT_LIT                               ; $B0C3 execution token
+        dw     $F6FD                                ; $B0C5 inline word
+        dw     XT_LIT                               ; $B0C7 execution token
+        dw     $E1DE                                ; $B0C9 inline word
+        dw     $20A2                                ; $B0CB execution token
+        dw     XT_LITbyte                           ; $B0CD execution token
+        db     $03                                  ; $B0CF inline byte
+        dw     XT_PICK                              ; $B0D0 execution token
+        dw     XT_LITbyte                           ; $B0D2 execution token
+        db     $06                                  ; $B0D4 inline byte
+        dw     $216D                                ; $B0D5 execution token
+        dw     XT_LITbyte                           ; $B0D7 execution token
+        db     $06                                  ; $B0D9 inline byte
+        dw     XT_OVER                              ; $B0DA execution token
+        dw     XT_SBbang                            ; $B0DC execution token
+        dw     $2186                                ; $B0DE execution token
+        dw     $2083                                ; $B0E0 execution token
+        dw     XT_LIT                               ; $B0E2 execution token
+        dw     $F727                                ; $B0E4 inline word
+        dw     XT_BZERO                             ; $B0E6 execution token
+        dw     $359F                                ; $B0E8 execution token
+        dw     XT_LIT                               ; $B0EA execution token
+        dw     $F727                                ; $B0EC inline word
+        dw     XT_BONE                              ; $B0EE execution token
+        dw     $359F                                ; $B0F0 execution token
+        dw     $33BC                                ; $B0F2 execution token
+        dw     XT_LIT                               ; $B0F4 execution token
+        dw     $E1F0                                ; $B0F6 inline word
+        dw     XT_Bat                               ; $B0F8 execution token
+        dw     XT_0BRANCH                           ; $B0FA execution token
+        dw     ATTRACT_SCREEN_ACTION_ENTRY_BR2      ; $B0FC branch target
+        dw     XT_LIT                               ; $B0FE execution token
+        dw     $FFB0                                ; $B100 inline word
+        dw     XT_LIT                               ; $B102 execution token
+        dw     $FFA0                                ; $B104 inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR     ; $B106 execution token
+        dw     XT_LIT                               ; $B108 execution token
+        dw     $AFD2                                ; $B10A inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR           ; $B10C execution token
+        dw     $2083                                ; $B10E execution token
+ATTRACT_SCREEN_ACTION_ENTRY_BR2:
+        dw     XT_WAIT_FOR_CHILD_ACTIONS            ; $B110 execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT             ; $B112 execution token
+        dw     XT_RETURN                            ; $B114 execution token
+        db     $11,$13,$0D,$23,$12,$25,$30,$00,$00,$00 ; $B116 unchanged trailing data
         db      $00,$00,$00,$00,$00,$00,$02,$00,$00,$00,$00,$00,$00,$00,$00,$00 ; $B120
         db      $00,$00,$00,$28,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$02 ; $B130
         db      $A0,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$0A,$80,$00,$00 ; $B140
@@ -328,29 +475,141 @@
         db      $00,$00,$00,$00,$00,$00,$00,$00,$15,$55,$50,$00,$00,$00,$00,$00 ; $B3E0
         db      $00,$00,$00,$00,$00,$1A,$77,$68,$69,$63,$68,$20,$69,$73,$20,$74 ; $B3F0
         db      $68,$65,$20,$6D,$69,$72,$72,$6F,$72,$20,$69,$6D,$61,$67,$65,$3F ; $B400
-        db      $02,$00,$81,$06,$16,$B1,$04,$E4,$B2,$00,$13,$B4,$CF,$99,$15,$A8 ; $B410
+        db      $02,$00,$81,$06,$16,$B1,$04,$E4,$B2,$00,$13,$B4 ; $B410 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+ATTRACT_DEMO_STAGE_ENTRY:
+        rst     $08                            ; $B41C colon entry
+        db      $99,$15,$A8 ; $B41D retained byte data
         db      $1E,$09,$01,$B0,$FF,$09,$01,$D8,$FF,$54,$1D,$09,$01,$16,$B1,$B4 ; $B420
         db      $1C,$0C,$1E,$09,$01,$74,$FF,$24,$1D,$09,$01,$2F,$32,$B4,$1C,$0C ; $B430
         db      $1E,$09,$01,$96,$00,$DF,$1B,$2C,$1A,$F3,$1D,$12,$01,$32,$DF,$1B ; $B440
         db      $2C,$1A,$09,$01,$B0,$FF,$24,$1D,$09,$01,$16,$B1,$F2,$2C,$12,$01 ; $B450
-        db      $3C,$24,$1D,$14,$1F,$CF,$1E,$09,$01,$10,$B4,$B4,$1C,$02,$23,$09 ; $B460
+        db      $3C,$24,$1D,$14,$1F ; $B460 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Shared entry $B465 participates in the overlapping $B41C/$B499
+; attract-demonstration thread. Bytes are retained pending a unified
+; control-flow rendering, rather than duplicated across definitions.
+ATTRACT_DEMO_SHARED_CONTINUATION:
+        rst     $08                            ; $B465 colon entry
+        db      $1E,$09,$01,$10,$B4,$B4,$1C,$02,$23,$09 ; $B466 retained byte data
         db      $01,$64,$00,$DF,$1B,$09,$01,$56,$F7,$1D,$1C,$E9,$19,$30,$1C,$EA ; $B470
         db      $03,$8D,$B4,$09,$01,$DB,$F6,$3A,$05,$E2,$03,$95,$B4,$09,$01,$16 ; $B480
-        db      $B1,$B4,$1C,$34,$1E,$54,$22,$FD,$00,$CF,$99,$15,$A8,$1E,$09,$01 ; $B490
+        db      $B1,$B4,$1C,$34,$1E,$54,$22,$FD,$00 ; $B490 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Second task in ATTRACT_DEMO_QUESTION_ACTIONS ($B4F5).
+; Shares control flow with the preceding $B465 entry.
+ATTRACT_DEMO_SECOND_ACTION:
+        rst     $08                            ; $B499 colon entry
+        db      $99,$15,$A8,$1E,$09,$01 ; $B49A retained byte data
         db      $74,$FF,$12,$01,$05,$54,$1D,$09,$01,$AA,$31,$B4,$1C,$0C,$1E,$09 ; $B4A0
         db      $01,$B0,$FF,$24,$1D,$09,$01,$16,$B1,$B4,$1C,$C2,$1E,$0C,$1E,$02 ; $B4B0
-        db      $23,$54,$22,$FD,$00,$CF,$99,$15,$A8,$1E,$09,$01,$74,$FF,$09,$01 ; $B4C0
-        db      $B5,$FF,$54,$1D,$09,$01,$9A,$32,$B4,$1C,$0C,$1E,$09,$01,$BA,$FF ; $B4D0
-        db      $24,$1D,$09,$01,$16,$B1,$B4,$1C,$E9,$1E,$0C,$1E,$02,$23,$54,$22 ; $B4E0
-        db      $FD,$00,$01,$F1,$AF,$03,$1C,$B4,$99,$B4,$C5,$B4,$CF,$99,$15,$12 ; $B4F0
-        db      $01,$14,$DF,$1B,$2C,$1A,$09,$01,$F2,$B4,$BB,$22,$F7,$15,$09,$01 ; $B500
-        db      $B0,$FF,$12,$01,$17,$54,$1D,$09,$01,$F5,$B3,$8E,$1E,$12,$01,$01 ; $B510
-        db      $7D,$1E,$A4,$2C,$93,$2C,$CF,$1E,$12,$01,$5A,$09,$01,$F1,$FF,$54 ; $B520
-        db      $1D,$09,$01,$10,$B4,$B4,$1C,$12,$01,$50,$DF,$1B,$09,$01,$56,$F7 ; $B530
-        db      $1D,$1C,$E9,$19,$30,$1C,$E3,$01,$EA,$03,$71,$B5,$09,$01,$F5,$B4 ; $B540
-        db      $BB,$22,$F7,$15,$09,$01,$64,$00,$DF,$1B,$09,$01,$DB,$F6,$1D,$1C ; $B550
-        db      $E9,$19,$30,$1C,$E3,$01,$EA,$03,$71,$B5,$12,$01,$50,$DF,$1B,$2C ; $B560
-        db      $1A,$02,$23,$54,$22,$FD,$00,$5E,$5E,$00,$4A,$4A,$00,$3E,$3E,$00 ; $B570
+        db      $23,$54,$22,$FD,$00 ; $B4C0 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Third task in ATTRACT_DEMO_QUESTION_ACTIONS ($B4F5).
+; Standalone non-overlapping 17-cell TERSE word.
+ATTRACT_DEMO_THIRD_ACTION:
+; ATTRACT_DEMO_THIRD_ACTION: decoded TERSE action; original bytes $B4C5–$B4F1.
+; Recovered execution-token control flow; branch destinations are byte-exact.
+        rst    $08                                  ; $B4C5 colon entry
+        dw     XT_ENTER_ACTION_TASK                 ; $B4C6 execution token
+        dw     XT_SET_OBJECT_MODE_2                 ; $B4C8 execution token
+        dw     XT_LIT                               ; $B4CA execution token
+        dw     $FF74                                ; $B4CC inline word
+        dw     XT_LIT                               ; $B4CE execution token
+        dw     $FFB5                                ; $B4D0 inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR     ; $B4D2 execution token
+        dw     XT_LIT                               ; $B4D4 execution token
+        dw     $329A                                ; $B4D6 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR           ; $B4D8 execution token
+        dw     XT_DRAW_CURRENT_OBJECT               ; $B4DA execution token
+        dw     XT_LIT                               ; $B4DC execution token
+        dw     $FFBA                                ; $B4DE inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_1        ; $B4E0 execution token
+        dw     XT_LIT                               ; $B4E2 execution token
+        dw     $B116                                ; $B4E4 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR           ; $B4E6 execution token
+        dw     $1EE9                                ; $B4E8 execution token
+        dw     XT_DRAW_CURRENT_OBJECT               ; $B4EA execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS            ; $B4EC execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT             ; $B4EE execution token
+        dw     XT_RETURN                            ; $B4F0 execution token
+ATTRACT_SCREEN_ACTIONS:
+        db      $01 ; $B4F2 action count
+        dw      ATTRACT_SCREEN_ACTION_ENTRY ; $B4F3 action word
+ATTRACT_DEMO_QUESTION_ACTIONS:
+        db      $03 ; $B4F5 action count
+        dw      ATTRACT_DEMO_STAGE_ENTRY ; $B4F6 action word
+        dw      ATTRACT_DEMO_SECOND_ACTION ; $B4F8 action word
+        dw      ATTRACT_DEMO_THIRD_ACTION ; $B4FA action word
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+ATTRACT_DEMO_QUESTION_TASK:
+        rst    $08                          ; $B4FC colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $B4FD execution token
+        dw     XT_LITbyte                   ; $B4FF execution token
+        db     $14                          ; $B501 inline byte
+        dw     XT_SET_TASK_VECTOR_0D        ; $B502 execution token
+        dw     $1A2C                        ; $B504 execution token
+        dw     XT_LIT                       ; $B506 execution token
+        dw     $B4F2                        ; $B508 inline word
+        dw     XT_START_COUNTED_ACTION_LIST ; $B50A execution token
+        dw     XT_YIELD_ACTION_TASK         ; $B50C execution token
+        dw     XT_LIT                       ; $B50E execution token
+        dw     $FFB0                        ; $B510 inline word
+        dw     XT_LITbyte                   ; $B512 execution token
+        db     $17                          ; $B514 inline byte
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $B515 execution token
+        dw     XT_LIT                       ; $B517 execution token
+        dw     $B3F5                        ; $B519 inline word
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D ; $B51B execution token
+        dw     XT_LITbyte                   ; $B51D execution token
+        db     $01                          ; $B51F inline byte
+        dw     XT_SET_CURRENT_OBJECT_BYTE_18 ; $B520 execution token
+        dw     XT_INITIALIZE_OBJECT_DRAW_STATE ; $B522 execution token
+        dw     XT_RESET_OBJECT_DRAW_STATE   ; $B524 execution token
+        dw     XT_SET_OBJECT_MODE_1         ; $B526 execution token
+        dw     XT_LITbyte                   ; $B528 execution token
+        db     $5A                          ; $B52A inline byte
+        dw     XT_LIT                       ; $B52B execution token
+        dw     $FFF1                        ; $B52D inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $B52F execution token
+        dw     XT_LIT                       ; $B531 execution token
+        dw     $B410                        ; $B533 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $B535 execution token
+        dw     XT_LITbyte                   ; $B537 execution token
+        db     $50                          ; $B539 inline byte
+        dw     XT_SET_TASK_VECTOR_0D        ; $B53A execution token
+        dw     XT_LIT                       ; $B53C execution token
+        dw     $F756                        ; $B53E inline word
+        dw     $1C1D                        ; $B540 execution token
+        dw     $19E9                        ; $B542 execution token
+        dw     $1C30                        ; $B544 execution token
+        dw     XT_NOT                       ; $B546 execution token
+        dw     XT_0BRANCH                   ; $B548 execution token
+        dw     ATTRACT_DEMO_QUESTION_TASK_BR1 ; $B54A branch target
+        dw     XT_LIT                       ; $B54C execution token
+        dw     $B4F5                        ; $B54E inline word
+        dw     XT_START_COUNTED_ACTION_LIST ; $B550 execution token
+        dw     XT_YIELD_ACTION_TASK         ; $B552 execution token
+        dw     XT_LIT                       ; $B554 execution token
+        dw     $0064                        ; $B556 inline word
+        dw     XT_SET_TASK_VECTOR_0D        ; $B558 execution token
+        dw     XT_LIT                       ; $B55A execution token
+        dw     $F6DB                        ; $B55C inline word
+        dw     $1C1D                        ; $B55E execution token
+        dw     $19E9                        ; $B560 execution token
+        dw     $1C30                        ; $B562 execution token
+        dw     XT_NOT                       ; $B564 execution token
+        dw     XT_0BRANCH                   ; $B566 execution token
+        dw     ATTRACT_DEMO_QUESTION_TASK_BR1 ; $B568 branch target
+        dw     XT_LITbyte                   ; $B56A execution token
+        db     $50                          ; $B56C inline byte
+        dw     XT_SET_TASK_VECTOR_0D        ; $B56D execution token
+        dw     $1A2C                        ; $B56F execution token
+ATTRACT_DEMO_QUESTION_TASK_BR1:
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $B571 execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $B573 execution token
+        dw     XT_RETURN                    ; $B575 execution token
+        db     $5E,$5E,$00,$4A,$4A,$00,$3E,$3E,$00 ; $B577 original bytes
         db      $2E,$2E,$2E,$2E,$2E,$2E,$2E,$00,$00,$00,$7E,$7E,$7E,$7E,$7E,$00 ; $B580
         db      $BD,$BD,$BD,$BD,$BD,$BD,$BD,$77,$B5,$87,$B5,$01,$0F,$FF,$97,$B5 ; $B590
         db      $97,$B5,$99,$B5,$30,$00,$00,$01,$01,$00,$02,$00,$81,$08,$FF,$9A ; $B5A0
@@ -361,42 +620,287 @@ TERSE_COLON_B5D0:
         dw      $1CB4                ; $B5D1 execution token $1CB4
         dw      $1D54                ; $B5D3 execution token $1D54
         dw      XT_RETURN               ; $B5D5 _RETURN
-        db      $CF,$99,$15,$12,$01,$04,$2F,$1F,$09,$01,$64,$00,$12,$01,$02,$09 ; $B5D7
-        db      $01,$DA,$9A,$D0,$B5,$0C,$1E,$A8,$1E,$09,$01,$18,$9B,$B4,$1C,$0C ; $B5E7
-        db      $1E,$14,$1F,$09,$01,$AA,$B5,$B4,$1C,$12,$01,$02,$1A,$01,$2C,$F7 ; $B5F7
-        db      $36,$01,$3F,$05,$1D,$1C,$E9,$19,$54,$22,$FD,$00,$CF,$99,$15,$A8 ; $B607
-        db      $1E,$09,$01,$64,$00,$12,$01,$02,$09,$01,$6D,$9D,$D0,$B5,$02,$23 ; $B617
-        db      $12,$01,$02,$2F,$1F,$12,$01,$03,$1A,$01,$2C,$F7,$1D,$1C,$E9,$19 ; $B627
-        db      $54,$22,$FD,$00                                                 ; $B637
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+ROUND_TERSE_B5D7:
+        rst    $08                          ; $B5D7 colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $B5D8 execution token
+        dw     XT_LITbyte                   ; $B5DA execution token
+        db     $04                          ; $B5DC inline byte
+        dw     $1F2F                        ; $B5DD execution token
+        dw     XT_LIT                       ; $B5DF execution token
+        dw     $0064                        ; $B5E1 inline word
+        dw     XT_LITbyte                   ; $B5E3 execution token
+        db     $02                          ; $B5E5 inline byte
+        dw     XT_LIT                       ; $B5E6 execution token
+        dw     $9ADA                        ; $B5E8 inline word
+        dw     $B5D0                        ; $B5EA execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $B5EC execution token
+        dw     XT_SET_OBJECT_MODE_2         ; $B5EE execution token
+        dw     XT_LIT                       ; $B5F0 execution token
+        dw     $9B18                        ; $B5F2 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $B5F4 execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $B5F6 execution token
+        dw     XT_MARK_CURRENT_OBJECT_FOR_UPDATE ; $B5F8 execution token
+        dw     XT_LIT                       ; $B5FA execution token
+        dw     $B5AA                        ; $B5FC inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $B5FE execution token
+        dw     XT_LITbyte                   ; $B600 execution token
+        db     $02                          ; $B602 inline byte
+        dw     XT_BARRAY                    ; $B603 execution token
+        dw     $F72C                        ; $B605 inline word
+        dw     XT_DUP                       ; $B607 execution token
+        dw     XT_BZERO                     ; $B609 execution token
+        dw     $1C1D                        ; $B60B execution token
+        dw     $19E9                        ; $B60D execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $B60F execution token
+        dw     XT_RETURN                    ; $B611 execution token
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; First action in ATTRACT_CHALLENGE_PROMPT_ACTIONS ($B6C2).
+; Fully decoded 15-cell TERSE definition.
+ATTRACT_PROMPT_STAGE_ENTRY:
+; ATTRACT_PROMPT_STAGE_ENTRY: decoded TERSE action; original bytes $B613–$B63A.
+; Recovered execution-token control flow; branch destinations are byte-exact.
+        rst    $08                                  ; $B613 colon entry
+        dw     XT_ENTER_ACTION_TASK                 ; $B614 execution token
+        dw     XT_SET_OBJECT_MODE_2                 ; $B616 execution token
+        dw     XT_LIT                               ; $B618 execution token
+        dw     $0064                                ; $B61A inline word
+        dw     XT_LITbyte                           ; $B61C execution token
+        db     $02                                  ; $B61E inline byte
+        dw     XT_LIT                               ; $B61F execution token
+        dw     $9D6D                                ; $B621 inline word
+        dw     $B5D0                                ; $B623 execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS            ; $B625 execution token
+        dw     XT_LITbyte                           ; $B627 execution token
+        db     $02                                  ; $B629 inline byte
+        dw     $1F2F                                ; $B62A execution token
+        dw     XT_LITbyte                           ; $B62C execution token
+        db     $03                                  ; $B62E inline byte
+        dw     XT_BARRAY                            ; $B62F execution token
+        dw     $F72C                                ; $B631 inline word
+        dw     $1C1D                                ; $B633 execution token
+        dw     $19E9                                ; $B635 execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT             ; $B637 execution token
+        dw     XT_RETURN                            ; $B639 execution token
 TERSE_COLON_B63B:
         rst     $08                             ; $B63B colon entry
         dw      $1C5F                ; $B63C execution token $1C5F
         dw      $1C43                ; $B63E execution token $1C43
         dw      XT_RETURN               ; $B640 _RETURN
-        db      $CF,$99,$15,$A8,$1E,$12,$01,$02,$2F,$1F,$09,$01,$88,$FF,$12,$01 ; $B642
-        db      $19,$09,$01,$45,$86,$D0,$B5,$0C,$1E,$09,$01,$B1,$92,$B4,$1C,$09 ; $B652
-        db      $01,$36,$01,$5B,$1D,$2A,$01,$1A,$01,$2C,$F7,$1D,$1C,$09,$01,$96 ; $B662
-        db      $00,$3B,$B6,$E9,$19,$F3,$1D,$02,$23,$54,$22,$FD,$00,$CF,$99,$15 ; $B672
-        db      $A8,$1E,$09,$01,$6E,$00,$DF,$1B,$2C,$1A,$12,$01,$02,$2F,$1F,$09 ; $B682
-        db      $01,$86,$FF,$12,$01,$14,$09,$01,$00,$80,$D0,$B5,$09,$01,$C9,$92 ; $B692
-        db      $B4,$1C,$09,$01,$54,$01,$5B,$1D,$30,$01,$1A,$01,$2C,$F7,$1D,$1C ; $B6A2
-        db      $09,$01,$96,$00,$3B,$B6,$E9,$19,$F3,$1D,$02,$23,$54,$22,$FD,$00 ; $B6B2
-        db      $03,$13,$B6,$42,$B6,$7F,$B6,$CF,$99,$15,$2B,$2D,$14,$1F,$9B,$1E ; $B6C2
-        db      $12,$01,$04,$2A,$01,$6F,$02,$B8,$02,$1A,$01,$2C,$F7,$3F,$05,$8A ; $B6D2
-        db      $02,$09,$01,$63,$FF,$09,$01,$A8,$FF,$09,$01,$DB,$92,$D0,$B5,$0C ; $B6E2
-        db      $1E,$09,$01,$EC,$E1,$53,$01,$DE,$01,$EA,$03,$27,$B7,$12,$01,$02 ; $B6F2
-        db      $7D,$1E,$09,$01,$B5,$FF,$12,$01,$40,$09,$01,$F0,$E1,$53,$01,$EA ; $B702
-        db      $03,$1D,$B7,$09,$01,$D2,$AF,$E2,$03,$21,$B7,$09,$01,$B6,$B5,$D0 ; $B712
-        db      $B5,$83,$20,$93,$2C,$2A,$01,$09,$01,$AA,$FF,$09,$01,$FD,$AA,$D0 ; $B722
-        db      $B5,$0C,$1E,$09,$01,$62,$FF,$12,$01,$0A,$09,$01,$9E,$A5,$D0,$B5 ; $B732
-        db      $0C,$1E,$09,$01,$BF,$FF,$09,$01,$E7,$FF,$09,$01,$7F,$9D,$D0,$B5 ; $B742
-        db      $0C,$1E,$AB,$22,$D7,$B5,$09,$01,$9B,$B5,$36,$01,$67,$3D,$E7,$3D ; $B752
-        db      $09,$01,$96,$00,$DF,$1B,$2C,$1A,$09,$01,$C2,$B6,$BB,$22,$E7,$15 ; $B762
-        db      $09,$01,$E7,$E1,$53,$01,$29,$23,$09,$01,$FF,$E1,$53,$01,$E3,$01 ; $B772
-        db      $88,$01,$88,$01,$EA,$03,$70,$B7,$09,$01,$E7,$E1,$53,$01,$EA,$03 ; $B782
-        db      $96,$B7,$C8,$36,$12,$01,$04,$2A,$01,$6F,$02,$B8,$02,$1A,$01,$2C ; $B792
-        db      $F7,$3A,$05,$8A,$02,$E7,$15,$29,$23,$EA,$03,$A7,$B7,$02,$23,$54 ; $B7A2
-        db      $22,$FD,$00,$07,$63,$72,$65,$64,$69,$74,$20,$25,$20,$20,$20,$20 ; $B7B2
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Second action in ATTRACT_CHALLENGE_PROMPT_ACTIONS ($B6C2).
+; Fully decoded 23-cell TERSE definition.
+ATTRACT_PROMPT_SECOND_ACTION:
+; ATTRACT_PROMPT_SECOND_ACTION: decoded TERSE action; original bytes $B642–$B67E.
+; Recovered execution-token control flow; branch destinations are byte-exact.
+        rst    $08                                  ; $B642 colon entry
+        dw     XT_ENTER_ACTION_TASK                 ; $B643 execution token
+        dw     XT_SET_OBJECT_MODE_2                 ; $B645 execution token
+        dw     XT_LITbyte                           ; $B647 execution token
+        db     $02                                  ; $B649 inline byte
+        dw     $1F2F                                ; $B64A execution token
+        dw     XT_LIT                               ; $B64C execution token
+        dw     $FF88                                ; $B64E inline word
+        dw     XT_LITbyte                           ; $B650 execution token
+        db     $19                                  ; $B652 inline byte
+        dw     XT_LIT                               ; $B653 execution token
+        dw     $8645                                ; $B655 inline word
+        dw     $B5D0                                ; $B657 execution token
+        dw     XT_DRAW_CURRENT_OBJECT               ; $B659 execution token
+        dw     XT_LIT                               ; $B65B execution token
+        dw     $92B1                                ; $B65D inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR           ; $B65F execution token
+        dw     XT_LIT                               ; $B661 execution token
+        dw     $0136                                ; $B663 inline word
+        dw     $1D5B                                ; $B665 execution token
+        dw     XT_0                                 ; $B667 execution token
+        dw     XT_BARRAY                            ; $B669 execution token
+        dw     $F72C                                ; $B66B inline word
+        dw     $1C1D                                ; $B66D execution token
+        dw     XT_LIT                               ; $B66F execution token
+        dw     $0096                                ; $B671 inline word
+        dw     $B63B                                ; $B673 execution token
+        dw     $19E9                                ; $B675 execution token
+        dw     XT_RENDER_CURRENT_OBJECT             ; $B677 execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS            ; $B679 execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT             ; $B67B execution token
+        dw     XT_RETURN                            ; $B67D execution token
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Third action in ATTRACT_CHALLENGE_PROMPT_ACTIONS ($B6C2).
+; Fully decoded 25-cell TERSE definition.
+ATTRACT_PROMPT_THIRD_ACTION:
+; ATTRACT_PROMPT_THIRD_ACTION: decoded TERSE action; original bytes $B67F–$B6C1.
+; Recovered execution-token control flow; branch destinations are byte-exact.
+        rst    $08                                  ; $B67F colon entry
+        dw     XT_ENTER_ACTION_TASK                 ; $B680 execution token
+        dw     XT_SET_OBJECT_MODE_2                 ; $B682 execution token
+        dw     XT_LIT                               ; $B684 execution token
+        dw     $006E                                ; $B686 inline word
+        dw     XT_SET_TASK_VECTOR_0D                ; $B688 execution token
+        dw     $1A2C                                ; $B68A execution token
+        dw     XT_LITbyte                           ; $B68C execution token
+        db     $02                                  ; $B68E inline byte
+        dw     $1F2F                                ; $B68F execution token
+        dw     XT_LIT                               ; $B691 execution token
+        dw     $FF86                                ; $B693 inline word
+        dw     XT_LITbyte                           ; $B695 execution token
+        db     $14                                  ; $B697 inline byte
+        dw     XT_LIT                               ; $B698 execution token
+        dw     $8000                                ; $B69A inline word
+        dw     $B5D0                                ; $B69C execution token
+        dw     XT_LIT                               ; $B69E execution token
+        dw     $92C9                                ; $B6A0 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR           ; $B6A2 execution token
+        dw     XT_LIT                               ; $B6A4 execution token
+        dw     $0154                                ; $B6A6 inline word
+        dw     $1D5B                                ; $B6A8 execution token
+        dw     XT_1                                 ; $B6AA execution token
+        dw     XT_BARRAY                            ; $B6AC execution token
+        dw     $F72C                                ; $B6AE inline word
+        dw     $1C1D                                ; $B6B0 execution token
+        dw     XT_LIT                               ; $B6B2 execution token
+        dw     $0096                                ; $B6B4 inline word
+        dw     $B63B                                ; $B6B6 execution token
+        dw     $19E9                                ; $B6B8 execution token
+        dw     XT_RENDER_CURRENT_OBJECT             ; $B6BA execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS            ; $B6BC execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT             ; $B6BE execution token
+        dw     XT_RETURN                            ; $B6C0 execution token
+ATTRACT_CHALLENGE_PROMPT_ACTIONS:
+        db      $03 ; $B6C2 action count
+        dw      ATTRACT_PROMPT_STAGE_ENTRY ; $B6C3 action word
+        dw      ATTRACT_PROMPT_SECOND_ACTION ; $B6C5 action word
+        dw      ATTRACT_PROMPT_THIRD_ACTION ; $B6C7 action word
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+ATTRACT_CHALLENGE_PROMPT_TASK:
+        rst    $08                          ; $B6C9 colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $B6CA execution token
+        dw     $2D2B                        ; $B6CC execution token
+        dw     XT_MARK_CURRENT_OBJECT_FOR_UPDATE ; $B6CE execution token
+        dw     $1E9B                        ; $B6D0 execution token
+        dw     XT_LITbyte                   ; $B6D2 execution token
+        db     $04                          ; $B6D4 inline byte
+        dw     XT_0                         ; $B6D5 execution token
+        dw     XT_DO                        ; $B6D7 execution token
+        dw     XT_I                         ; $B6D9 execution token
+        dw     XT_BARRAY                    ; $B6DB execution token
+        dw     $F72C                        ; $B6DD inline word
+        dw     XT_BZERO                     ; $B6DF execution token
+        dw     XT_LOOP                      ; $B6E1 execution token
+        dw     XT_LIT                       ; $B6E3 execution token
+        dw     $FF63                        ; $B6E5 inline word
+        dw     XT_LIT                       ; $B6E7 execution token
+        dw     $FFA8                        ; $B6E9 inline word
+        dw     XT_LIT                       ; $B6EB execution token
+        dw     $92DB                        ; $B6ED inline word
+        dw     $B5D0                        ; $B6EF execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $B6F1 execution token
+        dw     XT_LIT                       ; $B6F3 execution token
+        dw     $E1EC                        ; $B6F5 inline word
+        dw     XT_Bat                       ; $B6F7 execution token
+        dw     XT_zeroequal                 ; $B6F9 execution token
+        dw     XT_0BRANCH                   ; $B6FB execution token
+        dw     ATTRACT_CHALLENGE_PROMPT_TASK_BR3 ; $B6FD branch target
+        dw     XT_LITbyte                   ; $B6FF execution token
+        db     $02                          ; $B701 inline byte
+        dw     XT_SET_CURRENT_OBJECT_BYTE_18 ; $B702 execution token
+        dw     XT_LIT                       ; $B704 execution token
+        dw     $FFB5                        ; $B706 inline word
+        dw     XT_LITbyte                   ; $B708 execution token
+        db     $40                          ; $B70A inline byte
+        dw     XT_LIT                       ; $B70B execution token
+        dw     $E1F0                        ; $B70D inline word
+        dw     XT_Bat                       ; $B70F execution token
+        dw     XT_0BRANCH                   ; $B711 execution token
+        dw     ATTRACT_CHALLENGE_PROMPT_TASK_BR1 ; $B713 branch target
+        dw     XT_LIT                       ; $B715 execution token
+        dw     $AFD2                        ; $B717 inline word
+        dw     XT_BRANCH                    ; $B719 execution token
+        dw     ATTRACT_CHALLENGE_PROMPT_TASK_BR2 ; $B71B branch target
+ATTRACT_CHALLENGE_PROMPT_TASK_BR1:
+        dw     XT_LIT                       ; $B71D execution token
+        dw     $B5B6                        ; $B71F inline word
+ATTRACT_CHALLENGE_PROMPT_TASK_BR2:
+        dw     $B5D0                        ; $B721 execution token
+        dw     $2083                        ; $B723 execution token
+        dw     XT_RESET_OBJECT_DRAW_STATE   ; $B725 execution token
+ATTRACT_CHALLENGE_PROMPT_TASK_BR3:
+        dw     XT_0                         ; $B727 execution token
+        dw     XT_LIT                       ; $B729 execution token
+        dw     $FFAA                        ; $B72B inline word
+        dw     XT_LIT                       ; $B72D execution token
+        dw     $AAFD                        ; $B72F inline word
+        dw     $B5D0                        ; $B731 execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $B733 execution token
+        dw     XT_LIT                       ; $B735 execution token
+        dw     $FF62                        ; $B737 inline word
+        dw     XT_LITbyte                   ; $B739 execution token
+        db     $0A                          ; $B73B inline byte
+        dw     XT_LIT                       ; $B73C execution token
+        dw     $A59E                        ; $B73E inline word
+        dw     $B5D0                        ; $B740 execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $B742 execution token
+        dw     XT_LIT                       ; $B744 execution token
+        dw     $FFBF                        ; $B746 inline word
+        dw     XT_LIT                       ; $B748 execution token
+        dw     $FFE7                        ; $B74A inline word
+        dw     XT_LIT                       ; $B74C execution token
+        dw     $9D7F                        ; $B74E inline word
+        dw     $B5D0                        ; $B750 execution token
+        dw     XT_DRAW_CURRENT_OBJECT       ; $B752 execution token
+        dw     $22AB                        ; $B754 execution token
+        dw     ROUND_TERSE_B5D7             ; $B756 execution token
+        dw     XT_LIT                       ; $B758 execution token
+        dw     $B59B                        ; $B75A inline word
+        dw     XT_DUP                       ; $B75C execution token
+        dw     XT_SOUND_UPDATE_STATE_F6E2   ; $B75E execution token
+        dw     XT_SOUND_UPDATE_STATE_F6E0   ; $B760 execution token
+        dw     XT_LIT                       ; $B762 execution token
+        dw     $0096                        ; $B764 inline word
+        dw     XT_SET_TASK_VECTOR_0D        ; $B766 execution token
+        dw     $1A2C                        ; $B768 execution token
+        dw     XT_LIT                       ; $B76A execution token
+        dw     $B6C2                        ; $B76C inline word
+        dw     XT_START_COUNTED_ACTION_LIST ; $B76E execution token
+ATTRACT_CHALLENGE_PROMPT_TASK_BR4:
+        dw     $15E7                        ; $B770 execution token
+        dw     XT_LIT                       ; $B772 execution token
+        dw     $E1E7                        ; $B774 inline word
+        dw     XT_Bat                       ; $B776 execution token
+        dw     $2329                        ; $B778 execution token
+        dw     XT_LIT                       ; $B77A execution token
+        dw     $E1FF                        ; $B77C inline word
+        dw     XT_Bat                       ; $B77E execution token
+        dw     XT_NOT                       ; $B780 execution token
+        dw     XT_OR                        ; $B782 execution token
+        dw     XT_OR                        ; $B784 execution token
+        dw     XT_0BRANCH                   ; $B786 execution token
+        dw     ATTRACT_CHALLENGE_PROMPT_TASK_BR4 ; $B788 branch target
+        dw     XT_LIT                       ; $B78A execution token
+        dw     $E1E7                        ; $B78C inline word
+        dw     XT_Bat                       ; $B78E execution token
+        dw     XT_0BRANCH                   ; $B790 execution token
+        dw     ATTRACT_CHALLENGE_PROMPT_TASK_BR5 ; $B792 branch target
+        dw     $36C8                        ; $B794 execution token
+ATTRACT_CHALLENGE_PROMPT_TASK_BR5:
+        dw     XT_LITbyte                   ; $B796 execution token
+        db     $04                          ; $B798 inline byte
+        dw     XT_0                         ; $B799 execution token
+        dw     XT_DO                        ; $B79B execution token
+        dw     XT_I                         ; $B79D execution token
+        dw     XT_BARRAY                    ; $B79F execution token
+        dw     $F72C                        ; $B7A1 inline word
+        dw     XT_BONE                      ; $B7A3 execution token
+        dw     XT_LOOP                      ; $B7A5 execution token
+ATTRACT_CHALLENGE_PROMPT_TASK_BR6:
+        dw     $15E7                        ; $B7A7 execution token
+        dw     $2329                        ; $B7A9 execution token
+        dw     XT_0BRANCH                   ; $B7AB execution token
+        dw     ATTRACT_CHALLENGE_PROMPT_TASK_BR6 ; $B7AD branch target
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $B7AF execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $B7B1 execution token
+        dw     XT_RETURN                    ; $B7B3 execution token
+        db     $07,$63,$72,$65,$64,$69,$74,$20,$25,$20,$20,$20,$20 ; $B7B5 original bytes
         db      $20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$70,$72,$65,$73 ; $B7C2
         db      $73,$20,$31,$20,$70,$6C,$61,$79,$65,$72,$20,$62,$75,$74,$74,$6F ; $B7D2
         db      $6E,$2B,$6F,$72,$20,$69,$6E,$73,$65,$72,$74,$20,$61,$64,$64,$69 ; $B7E2
@@ -412,23 +916,165 @@ TERSE_COLON_B83B:
         dw      $1D3C                ; $B840 execution token $1D3C
         dw      $2CA4                ; $B842 execution token $2CA4
         dw      XT_RETURN               ; $B844 _RETURN
-        db      $CF,$99,$15,$9B,$1E,$2A,$01,$7D,$1E,$9B,$1E,$09,$01,$7E,$FF,$24 ; $B846
-        db      $1D,$09,$01,$E2,$FF,$12,$01,$02,$09,$01,$EC,$E1,$53,$01,$9F,$34 ; $B856
-        db      $EA,$03,$A0,$B8,$12,$01,$03,$08,$02,$EA,$03,$75,$B8,$40,$2D,$09 ; $B866
-        db      $01,$EC,$E1,$53,$01,$30,$01,$1C,$02,$EA,$03,$8B,$B8,$09,$01,$0F ; $B876
-        db      $B8,$E2,$03,$9C,$B8,$09,$01,$F6,$FF,$12,$01,$02,$09,$01,$BD,$B7 ; $B886
-        db      $3B,$B8,$09,$01,$E3,$B7,$E2,$03,$A9,$B8,$12,$01,$02,$60,$01,$09 ; $B896
-        db      $01,$B6,$B5,$3B,$B8,$02,$23,$54,$22,$FD,$00,$01,$46,$B8,$CF,$99 ; $B8A6
-        db      $15,$2B,$2D,$D5,$36,$12,$01,$0F,$7D,$1E,$9B,$1E,$09,$01,$EC,$E1 ; $B8B6
-        db      $53,$01,$12,$01,$03,$08,$02,$EA,$03,$D9,$B8,$09,$01,$B1,$B8,$BB ; $B8C6
-        db      $22,$F7,$15,$09,$01,$EC,$FF,$09,$01,$A6,$FF,$54,$1D,$09,$01,$B5 ; $B8D6
-        db      $B7,$B4,$1C,$7E,$20,$09,$01,$FD,$F6,$09,$01,$EC,$E1,$53,$01,$2A ; $B8E6
-        db      $01,$12,$01,$03,$F1,$02,$12,$01,$02,$6D,$21,$12,$01,$02,$CA,$02 ; $B8F6
-        db      $32,$05,$36,$01,$8E,$1E,$86,$21,$DC,$1E,$83,$20,$E7,$15,$09,$01 ; $B906
-        db      $E7,$E1,$53,$01,$09,$01,$FF,$E1,$53,$01,$E3,$01,$88,$01,$EA,$03 ; $B916
-        db      $12,$B9,$09,$01,$E7,$E1,$53,$01,$EA,$03,$40,$B9,$C8,$36,$2A,$01 ; $B926
-        db      $09,$01,$E7,$E1,$3F,$05,$E2,$03,$48,$B9,$09,$01,$54,$F7,$3A,$05 ; $B936
-        db      $30,$01,$EA,$03,$C0,$B8,$02,$23,$54,$22,$FD,$00                 ; $B946
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Sole action in CREDIT_START_PROMPT_ACTIONS ($B8B1).
+; Fully decoded 37-cell TERSE definition.
+CREDIT_PROMPT_STAGE_ENTRY:
+; CREDIT_PROMPT_STAGE_ENTRY: decoded TERSE action; original bytes $B846–$B8B0.
+; Recovered execution-token control flow; branch destinations are byte-exact.
+        rst    $08                                  ; $B846 colon entry
+        dw     XT_ENTER_ACTION_TASK                 ; $B847 execution token
+        dw     $1E9B                                ; $B849 execution token
+        dw     XT_0                                 ; $B84B execution token
+        dw     XT_SET_CURRENT_OBJECT_BYTE_18        ; $B84D execution token
+        dw     $1E9B                                ; $B84F execution token
+        dw     XT_LIT                               ; $B851 execution token
+        dw     $FF7E                                ; $B853 inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_1        ; $B855 execution token
+        dw     XT_LIT                               ; $B857 execution token
+        dw     $FFE2                                ; $B859 inline word
+        dw     XT_LITbyte                           ; $B85B execution token
+        db     $02                                  ; $B85D inline byte
+        dw     XT_LIT                               ; $B85E execution token
+        dw     $E1EC                                ; $B860 inline word
+        dw     XT_Bat                               ; $B862 execution token
+        dw     XT_QUESTION_MINUS_DUP                ; $B864 execution token
+        dw     XT_0BRANCH                           ; $B866 execution token
+        dw     CREDIT_PROMPT_STAGE_ENTRY_BR4        ; $B868 branch target
+        dw     XT_LITbyte                           ; $B86A execution token
+        db     $03                                  ; $B86C inline byte
+        dw     XT_less                              ; $B86D execution token
+        dw     XT_0BRANCH                           ; $B86F execution token
+        dw     CREDIT_PROMPT_STAGE_ENTRY_BR1        ; $B871 branch target
+        dw     $2D40                                ; $B873 execution token
+CREDIT_PROMPT_STAGE_ENTRY_BR1:
+        dw     XT_LIT                               ; $B875 execution token
+        dw     $E1EC                                ; $B877 inline word
+        dw     XT_Bat                               ; $B879 execution token
+        dw     XT_1                                 ; $B87B execution token
+        dw     XT_gt                                ; $B87D execution token
+        dw     XT_0BRANCH                           ; $B87F execution token
+        dw     CREDIT_PROMPT_STAGE_ENTRY_BR2        ; $B881 branch target
+        dw     XT_LIT                               ; $B883 execution token
+        dw     $B80F                                ; $B885 inline word
+        dw     XT_BRANCH                            ; $B887 execution token
+        dw     CREDIT_PROMPT_STAGE_ENTRY_BR3        ; $B889 branch target
+CREDIT_PROMPT_STAGE_ENTRY_BR2:
+        dw     XT_LIT                               ; $B88B execution token
+        dw     $FFF6                                ; $B88D inline word
+        dw     XT_LITbyte                           ; $B88F execution token
+        db     $02                                  ; $B891 inline byte
+        dw     XT_LIT                               ; $B892 execution token
+        dw     $B7BD                                ; $B894 inline word
+        dw     $B83B                                ; $B896 execution token
+        dw     XT_LIT                               ; $B898 execution token
+        dw     $B7E3                                ; $B89A inline word
+CREDIT_PROMPT_STAGE_ENTRY_BR3:
+        dw     XT_BRANCH                            ; $B89C execution token
+        dw     CREDIT_PROMPT_STAGE_ENTRY_BR5        ; $B89E branch target
+CREDIT_PROMPT_STAGE_ENTRY_BR4:
+        dw     XT_LITbyte                           ; $B8A0 execution token
+        db     $02                                  ; $B8A2 inline byte
+        dw     XT_minussign                         ; $B8A3 execution token
+        dw     XT_LIT                               ; $B8A5 execution token
+        dw     $B5B6                                ; $B8A7 inline word
+CREDIT_PROMPT_STAGE_ENTRY_BR5:
+        dw     $B83B                                ; $B8A9 execution token
+        dw     XT_WAIT_FOR_CHILD_ACTIONS            ; $B8AB execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT             ; $B8AD execution token
+        dw     XT_RETURN                            ; $B8AF execution token
+CREDIT_START_PROMPT_ACTIONS:
+        db      $01 ; $B8B1 action count
+        dw      CREDIT_PROMPT_STAGE_ENTRY ; $B8B2 action word
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+CREDIT_START_PROMPT_TASK:
+        rst    $08                          ; $B8B4 colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $B8B5 execution token
+        dw     $2D2B                        ; $B8B7 execution token
+        dw     $36D5                        ; $B8B9 execution token
+        dw     XT_LITbyte                   ; $B8BB execution token
+        db     $0F                          ; $B8BD inline byte
+        dw     XT_SET_CURRENT_OBJECT_BYTE_18 ; $B8BE execution token
+CREDIT_START_PROMPT_TASK_BR1:
+        dw     $1E9B                        ; $B8C0 execution token
+        dw     XT_LIT                       ; $B8C2 execution token
+        dw     $E1EC                        ; $B8C4 inline word
+        dw     XT_Bat                       ; $B8C6 execution token
+        dw     XT_LITbyte                   ; $B8C8 execution token
+        db     $03                          ; $B8CA inline byte
+        dw     XT_less                      ; $B8CB execution token
+        dw     XT_0BRANCH                   ; $B8CD execution token
+        dw     CREDIT_START_PROMPT_TASK_BR2 ; $B8CF branch target
+        dw     XT_LIT                       ; $B8D1 execution token
+        dw     $B8B1                        ; $B8D3 inline word
+        dw     XT_START_COUNTED_ACTION_LIST ; $B8D5 execution token
+        dw     XT_YIELD_ACTION_TASK         ; $B8D7 execution token
+CREDIT_START_PROMPT_TASK_BR2:
+        dw     XT_LIT                       ; $B8D9 execution token
+        dw     $FFEC                        ; $B8DB inline word
+        dw     XT_LIT                       ; $B8DD execution token
+        dw     $FFA6                        ; $B8DF inline word
+        dw     XT_SET_CURRENT_OBJECT_VALUE_PAIR ; $B8E1 execution token
+        dw     XT_LIT                       ; $B8E3 execution token
+        dw     $B7B5                        ; $B8E5 inline word
+        dw     XT_APPLY_OBJECT_DESCRIPTOR   ; $B8E7 execution token
+        dw     $207E                        ; $B8E9 execution token
+        dw     XT_LIT                       ; $B8EB execution token
+        dw     $F6FD                        ; $B8ED inline word
+        dw     XT_LIT                       ; $B8EF execution token
+        dw     $E1EC                        ; $B8F1 inline word
+        dw     XT_Bat                       ; $B8F3 execution token
+        dw     XT_0                         ; $B8F5 execution token
+        dw     XT_LITbyte                   ; $B8F7 execution token
+        db     $03                          ; $B8F9 inline byte
+        dw     XT_PICK                      ; $B8FA execution token
+        dw     XT_LITbyte                   ; $B8FC execution token
+        db     $02                          ; $B8FE inline byte
+        dw     $216D                        ; $B8FF execution token
+        dw     XT_LITbyte                   ; $B901 execution token
+        db     $02                          ; $B903 inline byte
+        dw     XT_OVER                      ; $B904 execution token
+        dw     XT_SBbang                    ; $B906 execution token
+        dw     XT_DUP                       ; $B908 execution token
+        dw     XT_SET_CURRENT_OBJECT_WORD_1D ; $B90A execution token
+        dw     $2186                        ; $B90C execution token
+        dw     $1EDC                        ; $B90E execution token
+        dw     $2083                        ; $B910 execution token
+CREDIT_START_PROMPT_TASK_BR3:
+        dw     $15E7                        ; $B912 execution token
+        dw     XT_LIT                       ; $B914 execution token
+        dw     $E1E7                        ; $B916 inline word
+        dw     XT_Bat                       ; $B918 execution token
+        dw     XT_LIT                       ; $B91A execution token
+        dw     $E1FF                        ; $B91C inline word
+        dw     XT_Bat                       ; $B91E execution token
+        dw     XT_NOT                       ; $B920 execution token
+        dw     XT_OR                        ; $B922 execution token
+        dw     XT_0BRANCH                   ; $B924 execution token
+        dw     CREDIT_START_PROMPT_TASK_BR3 ; $B926 branch target
+        dw     XT_LIT                       ; $B928 execution token
+        dw     $E1E7                        ; $B92A inline word
+        dw     XT_Bat                       ; $B92C execution token
+        dw     XT_0BRANCH                   ; $B92E execution token
+        dw     CREDIT_START_PROMPT_TASK_BR4 ; $B930 branch target
+        dw     $36C8                        ; $B932 execution token
+        dw     XT_0                         ; $B934 execution token
+        dw     XT_LIT                       ; $B936 execution token
+        dw     $E1E7                        ; $B938 inline word
+        dw     XT_BZERO                     ; $B93A execution token
+        dw     XT_BRANCH                    ; $B93C execution token
+        dw     CREDIT_START_PROMPT_TASK_BR5 ; $B93E branch target
+CREDIT_START_PROMPT_TASK_BR4:
+        dw     XT_LIT                       ; $B940 execution token
+        dw     $F754                        ; $B942 inline word
+        dw     XT_BONE                      ; $B944 execution token
+        dw     XT_1                         ; $B946 execution token
+CREDIT_START_PROMPT_TASK_BR5:
+        dw     XT_0BRANCH                   ; $B948 execution token
+        dw     CREDIT_START_PROMPT_TASK_BR1 ; $B94A branch target
+        dw     XT_WAIT_FOR_CHILD_ACTIONS    ; $B94C execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $B94E execution token
+        dw     XT_RETURN                    ; $B950 execution token
 TERSE_COLON_B952:
         rst     $08                             ; $B952 colon entry
         dw      XT_0                    ; $B953 _0
@@ -476,7 +1122,14 @@ TERSE_COLON_B9FF:
         dw      $1E5C                ; $BA2B execution token $1E5C
         dw      $2083                ; $BA2D execution token $2083
         dw      XT_RETURN               ; $BA2F _RETURN
-        db      $CF,$99,$15,$09,$01,$FF,$FF,$09,$01,$1A,$F7,$61,$05,$30,$01,$09 ; $BA31
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Game-state shared thread rooted at $BA31. Reaches shared transfer code
+; through $BBA6; literal word addresses $F716/$F718/$F71A/$F71C
+; are followed by 16-bit fetch/store words. Direct TERSE caller:
+; CORRECT_FEEDBACK_TASK ($BBB8) at $BBCE. See Stage 4 memory audit.
+GAME_STATE_WORD_TRANSFER_BA31:
+        rst     $08                            ; $BA31 colon entry
+        db      $99,$15,$09,$01,$FF,$FF,$09,$01,$1A,$F7,$61,$05,$30,$01,$09 ; $BA32 retained byte data
         db      $01,$1C,$F7,$61,$05,$A8,$1E,$09,$01,$96,$00,$12,$01,$5A,$54,$1D ; $BA41
         db      $09,$01,$EB,$F6,$3F,$05,$09,$01,$96,$00,$09,$01,$18,$F7,$61,$05 ; $BA51
         db      $2A,$01,$09,$01,$16,$F7,$61,$05,$93,$2C,$12,$01,$06,$5C,$1E,$2A ; $BA61
@@ -485,17 +1138,47 @@ TERSE_COLON_B9FF:
         db      $09,$01,$1A,$F7,$4C,$01,$12,$01,$02,$FF,$02,$5A,$01,$71,$1C,$E2 ; $BA91
         db      $03,$B9,$BA,$43,$01,$0E,$1F,$96,$1C,$09,$01,$1C,$F7,$4C,$01,$12 ; $BAA1
         db      $01,$02,$FF,$02,$5A,$01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01 ; $BAB1
-        db      $18,$F7,$4C,$01,$09,$01,$1C,$F7,$4C,$01,$FF,$02,$CF,$01,$46,$01 ; $BAC1
-        db      $A5,$1C,$09,$01,$16,$F7,$4C,$01,$CF,$01,$79,$01,$EA,$03,$79,$BA ; $BAD1
-        db      $09,$01,$EB,$F6,$36,$01,$49,$05,$53,$01,$30,$01,$CF,$01,$EA,$03 ; $BAE1
+        db      $18,$F7,$4C,$01,$09,$01,$1C,$F7,$4C,$01,$FF,$02 ; $BAC1 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Shared game-state entry at $BACD. Branches backward into the
+; $BA79 transfer logic; do not duplicate bytes from $BA31 definition.
+GAME_STATE_SHARED_ENTRY_BACD:
+        rst     $08                            ; $BACD colon entry
+        db      $01,$46,$01 ; $BACE retained byte data
+        db      $A5,$1C,$09,$01,$16,$F7,$4C,$01 ; $BAD1 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Shared game-state entry at $BAD9. Rejoins predecessor transfer code
+; and manipulates the same $F716-$F71C word quartet.
+GAME_STATE_SHARED_ENTRY_BAD9:
+        rst     $08                            ; $BAD9 colon entry
+        db      $01,$79,$01,$EA,$03,$79,$BA ; $BADA retained byte data
+        db      $09,$01,$EB,$F6,$36,$01,$49,$05,$53,$01,$30,$01 ; $BAE1 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Shared game-state entry at $BAED. Returns into the common state
+; word reader/writer region. Entry shares physical code with neighbors.
+GAME_STATE_SHARED_ENTRY_BAED:
+        rst     $08                            ; $BAED colon entry
+        db      $01,$EA,$03 ; $BAEE retained byte data
         db      $1E,$BB,$0E,$1F,$9B,$1D,$68,$01,$24,$1D,$09,$01,$FF,$FF,$09,$01 ; $BAF1
         db      $1C,$F7,$61,$05,$12,$01,$5A,$71,$1C,$09,$01,$FF,$FF,$5F,$1C,$09 ; $BB01
         db      $01,$97,$00,$09,$01,$18,$F7,$61,$05,$E2,$03,$92,$BB,$09,$01,$EB ; $BB11
-        db      $F6,$53,$01,$12,$01,$02,$CF,$01,$EA,$03,$5F,$BB,$0E,$1F,$AA,$1D ; $BB21
+        db      $F6,$53,$01,$12,$01,$02 ; $BB21 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Shared game-state entry at $BB27. Conditional branches converge on
+; $BA79-$BBA6 shared word-state logic.
+GAME_STATE_SHARED_ENTRY_BB27:
+        rst     $08                            ; $BB27 colon entry
+        db      $01,$EA,$03,$5F,$BB,$0E,$1F,$AA,$1D ; $BB28 retained byte data
         db      $68,$01,$3C,$1D,$30,$01,$09,$01,$1A,$F7,$61,$05,$09,$01,$A5,$FF ; $BB31
         db      $71,$1C,$2A,$01,$5F,$1C,$09,$01,$96,$00,$09,$01,$18,$F7,$61,$05 ; $BB41
         db      $09,$01,$FF,$FF,$09,$01,$16,$F7,$61,$05,$E2,$03,$92,$BB,$09,$01 ; $BB51
-        db      $EB,$F6,$53,$01,$12,$01,$03,$CF,$01,$EA,$03,$92,$BB,$0E,$1F,$9B ; $BB61
+        db      $EB,$F6,$53,$01,$12,$01,$03 ; $BB61 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Shared game-state entry at $BB68. Reaches the shared word-state
+; transfer path before the $BBA7 next colon definition.
+GAME_STATE_SHARED_ENTRY_BB68:
+        rst     $08                            ; $BB68 colon entry
+        db      $01,$EA,$03,$92,$BB,$0E,$1F,$9B ; $BB69 retained byte data
         db      $1D,$68,$01,$24,$1D,$30,$01,$09,$01,$1C,$F7,$61,$05,$09,$01,$A5 ; $BB71
         db      $FF,$71,$1C,$30,$01,$5F,$1C,$09,$01,$97,$00,$09,$01,$18,$F7,$61 ; $BB81
         db      $05,$09,$01,$EB,$F6,$53,$01,$12,$01,$04,$2A,$02,$EA,$03,$79,$BA ; $BB91
@@ -511,7 +1194,10 @@ TERSE_COLON_BBA7:
         db      $0C                  ; $BBB3 inline byte
         dw      $2D3B                ; $BBB4 execution token $2D3B
         dw      XT_RETURN               ; $BBB6 _RETURN
-TERSE_COLON_BBB8:
+; Correct-answer feedback task (based on embedded literal 'correct').
+; Calls GAME_STATE_WORD_TRANSFER_BA31 at $BBCE after setting $F758.
+; Includes audio/output side effects; complete stack effect pending.
+CORRECT_FEEDBACK_TASK:
         rst     $08                             ; $BBB8 colon entry
         dw      $34B1                ; $BBB9 execution token $34B1
         dw      XT_LITbyte              ; $BBBB _LITbyte
@@ -528,7 +1214,14 @@ TERSE_COLON_BBB8:
         dw      $2784                ; $BBD0 execution token $2784
         dw      XT_RETURN               ; $BBD2 _RETURN
         db      $13,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$20,$63,$6F,$72 ; $BBD4
-        db      $72,$65,$63,$74,$CF,$99,$15,$12,$01,$2A,$09,$01,$BF,$00,$D8,$02 ; $BBE4
+        db      $72,$65,$63,$74 ; $BBE4 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Application state initialization / transfer thread at $BBE8.
+; Called by MAIN_APPLICATION from $BEE2. Reads and writes the word
+; state at $F716/$F718/$F71C; control flow shares $BC83/$BC8F.
+GAME_STATE_APPLICATION_INIT_BBE8:
+        rst     $08                            ; $BBE8 colon entry
+        db      $99,$15,$12,$01,$2A,$09,$01,$BF,$00,$D8,$02 ; $BBE9 retained byte data
         db      $2B,$2D,$09,$01,$FF,$FF,$09,$01,$1C,$F7,$61,$05,$A8,$1E,$2A,$01 ; $BBF4
         db      $09,$01,$EA,$FF,$54,$1D,$09,$01,$64,$FF,$09,$01,$18,$F7,$61,$05 ; $BC04
         db      $09,$01,$9D,$FF,$09,$01,$16,$F7,$61,$05,$93,$2C,$12,$01,$0D,$5C ; $BC14
@@ -537,27 +1230,152 @@ TERSE_COLON_BBB8:
         db      $01,$16,$F7,$4C,$01,$E5,$01,$EA,$03,$62,$BC,$09,$01,$1C,$F7,$4C ; $BC44
         db      $01,$12,$01,$02,$FF,$02,$5A,$01,$71,$1C,$E2,$03,$77,$BC,$43,$01 ; $BC54
         db      $0E,$1F,$96,$1C,$09,$01,$1C,$F7,$4C,$01,$12,$01,$02,$FF,$02,$5A ; $BC64
-        db      $01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01,$18,$F7,$4C,$01,$CF ; $BC74
-        db      $01,$46,$01,$A5,$1C,$09,$01,$16,$F7,$4C,$01,$CF,$01,$79,$01,$EA ; $BC84
+        db      $01,$5F,$1C,$0E,$1F,$36,$01,$96,$1C,$09,$01,$18,$F7,$4C,$01 ; $BC74 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Shared application continuation entry $BC83. Reads/writes the
+; $F716/$F71C word pair. Shares control flow with $BBE8.
+GAME_STATE_CONTINUATION_BC83:
+        rst     $08                            ; $BC83 colon entry
+        db      $01,$46,$01,$A5,$1C,$09,$01,$16,$F7,$4C,$01 ; $BC84 retained byte data
+; Reachable TERSE entry in shared/overlapping game-thread bytes.
+; Shared application continuation entry $BC8F. Writes $F716
+; and $F71C, reaches the return before MAIN_PROGRESSION_TASK.
+GAME_STATE_CONTINUATION_BC8F:
+        rst     $08                            ; $BC8F colon entry
+        db      $01,$79,$01,$EA ; $BC90 retained byte data
         db      $03,$37,$BC,$09,$01,$9A,$00,$09,$01,$18,$F7,$61,$05,$12,$01,$2D ; $BC94
         db      $09,$01,$16,$F7,$61,$05,$30,$01,$09,$01,$1C,$F7,$61,$05,$8A,$02 ; $BCA4
         db      $9B,$1E,$09,$01,$D4,$BB,$8E,$1E,$12,$01,$4A,$7D,$1E,$09,$01,$74 ; $BCB4
         db      $FF,$09,$01,$DD,$FF,$54,$1D,$83,$20,$2A,$01,$09,$01,$BF,$00,$D8 ; $BCC4
-        db      $02,$54,$22,$89,$27,$FD,$00,$CF,$99,$15,$09,$01,$95,$2D,$7C,$2D ; $BCD4
-        db      $09,$01,$E7,$E1,$3F,$05,$09,$01,$EB,$E1,$3F,$05,$09,$01,$04,$C0 ; $BCE4
-        db      $4C,$01,$BB,$22,$F7,$15,$09,$01,$EC,$E1,$36,$01,$53,$01,$12,$01 ; $BCF4
-        db      $09,$1C,$02,$EA,$03,$12,$BD,$12,$01,$09,$CA,$02,$32,$05,$53,$01 ; $BD04
-        db      $DE,$01,$09,$01,$F0,$E1,$53,$01,$88,$01,$EA,$03,$B6,$BD,$09,$01 ; $BD14
-        db      $06,$C0,$4C,$01,$BB,$22,$E7,$15,$09,$01,$E7,$E1,$53,$01,$29,$23 ; $BD24
-        db      $88,$01,$EA,$03,$2A,$BD,$09,$01,$E7,$E1,$53,$01,$E3,$01,$EA,$03 ; $BD34
-        db      $92,$BD,$1A,$2C,$09,$01,$EF,$E1,$53,$01,$09,$01,$83,$FD,$32,$05 ; $BD44
-        db      $09,$01,$08,$C0,$4C,$01,$BB,$22,$E7,$15,$09,$01,$E7,$E1,$53,$01 ; $BD54
-        db      $29,$23,$88,$01,$EA,$03,$5C,$BD,$09,$01,$E7,$E1,$53,$01,$E3,$01 ; $BD64
-        db      $EA,$03,$92,$BD,$E7,$15,$09,$01,$0C,$C0,$4C,$01,$BB,$22,$E7,$15 ; $BD74
-        db      $09,$01,$E7,$E1,$53,$01,$29,$23,$88,$01,$EA,$03,$82,$BD,$09,$01 ; $BD84
-        db      $E7,$E1,$53,$01,$EA,$03,$A6,$BD,$C8,$36,$09,$01,$56,$F7,$3A,$05 ; $BD94
-        db      $F7,$15,$09,$01,$E7,$E1,$3F,$05,$09,$01,$EC,$E1,$53,$01,$EA,$03 ; $BDA4
-        db      $22,$BD,$09,$01,$0A,$C0,$4C,$01,$BB,$22,$F7,$15,$54,$22,$FD,$00 ; $BDB4
+        db     $02,$54,$22,$89,$27,$FD,$00  ; $BCD4 original bytes
+; Reachable question-round TERSE word; decoded from original ROM bytes.
+MAIN_PROGRESSION_TASK:
+        rst    $08                          ; $BCDB colon entry
+        dw     XT_ENTER_ACTION_TASK         ; $BCDC execution token
+        dw     XT_LIT                       ; $BCDE execution token
+        dw     $2D95                        ; $BCE0 inline word
+        dw     $2D7C                        ; $BCE2 execution token
+        dw     XT_LIT                       ; $BCE4 execution token
+        dw     $E1E7                        ; $BCE6 inline word
+        dw     XT_BZERO                     ; $BCE8 execution token
+        dw     XT_LIT                       ; $BCEA execution token
+        dw     $E1EB                        ; $BCEC inline word
+        dw     XT_BZERO                     ; $BCEE execution token
+        dw     XT_LIT                       ; $BCF0 execution token
+        dw     $C004                        ; $BCF2 inline word
+        dw     XT_at                        ; $BCF4 execution token
+        dw     XT_START_COUNTED_ACTION_LIST ; $BCF6 execution token
+        dw     XT_YIELD_ACTION_TASK         ; $BCF8 execution token
+        dw     XT_LIT                       ; $BCFA execution token
+        dw     $E1EC                        ; $BCFC inline word
+        dw     XT_DUP                       ; $BCFE execution token
+        dw     XT_Bat                       ; $BD00 execution token
+        dw     XT_LITbyte                   ; $BD02 execution token
+        db     $09                          ; $BD04 inline byte
+        dw     XT_gt                        ; $BD05 execution token
+        dw     XT_0BRANCH                   ; $BD07 execution token
+        dw     MAIN_PROGRESSION_TASK_BR1    ; $BD09 branch target
+        dw     XT_LITbyte                   ; $BD0B execution token
+        db     $09                          ; $BD0D inline byte
+        dw     XT_OVER                      ; $BD0E execution token
+        dw     XT_SBbang                    ; $BD10 execution token
+MAIN_PROGRESSION_TASK_BR1:
+        dw     XT_Bat                       ; $BD12 execution token
+        dw     XT_zeroequal                 ; $BD14 execution token
+        dw     XT_LIT                       ; $BD16 execution token
+        dw     $E1F0                        ; $BD18 inline word
+        dw     XT_Bat                       ; $BD1A execution token
+        dw     XT_OR                        ; $BD1C execution token
+        dw     XT_0BRANCH                   ; $BD1E execution token
+        dw     MAIN_PROGRESSION_TASK_BR8    ; $BD20 branch target
+MAIN_PROGRESSION_TASK_BR2:
+        dw     XT_LIT                       ; $BD22 execution token
+        dw     $C006                        ; $BD24 inline word
+        dw     XT_at                        ; $BD26 execution token
+        dw     XT_START_COUNTED_ACTION_LIST ; $BD28 execution token
+MAIN_PROGRESSION_TASK_BR3:
+        dw     $15E7                        ; $BD2A execution token
+        dw     XT_LIT                       ; $BD2C execution token
+        dw     $E1E7                        ; $BD2E inline word
+        dw     XT_Bat                       ; $BD30 execution token
+        dw     $2329                        ; $BD32 execution token
+        dw     XT_OR                        ; $BD34 execution token
+        dw     XT_0BRANCH                   ; $BD36 execution token
+        dw     MAIN_PROGRESSION_TASK_BR3    ; $BD38 branch target
+        dw     XT_LIT                       ; $BD3A execution token
+        dw     $E1E7                        ; $BD3C inline word
+        dw     XT_Bat                       ; $BD3E execution token
+        dw     XT_NOT                       ; $BD40 execution token
+        dw     XT_0BRANCH                   ; $BD42 execution token
+        dw     MAIN_PROGRESSION_TASK_BR6    ; $BD44 branch target
+        dw     $2C1A                        ; $BD46 execution token
+        dw     XT_LIT                       ; $BD48 execution token
+        dw     $E1EF                        ; $BD4A inline word
+        dw     XT_Bat                       ; $BD4C execution token
+        dw     XT_LIT                       ; $BD4E execution token
+        dw     $FD83                        ; $BD50 inline word
+        dw     XT_SBbang                    ; $BD52 execution token
+        dw     XT_LIT                       ; $BD54 execution token
+        dw     $C008                        ; $BD56 inline word
+        dw     XT_at                        ; $BD58 execution token
+        dw     XT_START_COUNTED_ACTION_LIST ; $BD5A execution token
+MAIN_PROGRESSION_TASK_BR4:
+        dw     $15E7                        ; $BD5C execution token
+        dw     XT_LIT                       ; $BD5E execution token
+        dw     $E1E7                        ; $BD60 inline word
+        dw     XT_Bat                       ; $BD62 execution token
+        dw     $2329                        ; $BD64 execution token
+        dw     XT_OR                        ; $BD66 execution token
+        dw     XT_0BRANCH                   ; $BD68 execution token
+        dw     MAIN_PROGRESSION_TASK_BR4    ; $BD6A branch target
+        dw     XT_LIT                       ; $BD6C execution token
+        dw     $E1E7                        ; $BD6E inline word
+        dw     XT_Bat                       ; $BD70 execution token
+        dw     XT_NOT                       ; $BD72 execution token
+        dw     XT_0BRANCH                   ; $BD74 execution token
+        dw     MAIN_PROGRESSION_TASK_BR6    ; $BD76 branch target
+        dw     $15E7                        ; $BD78 execution token
+        dw     XT_LIT                       ; $BD7A execution token
+        dw     $C00C                        ; $BD7C inline word
+        dw     XT_at                        ; $BD7E execution token
+        dw     XT_START_COUNTED_ACTION_LIST ; $BD80 execution token
+MAIN_PROGRESSION_TASK_BR5:
+        dw     $15E7                        ; $BD82 execution token
+        dw     XT_LIT                       ; $BD84 execution token
+        dw     $E1E7                        ; $BD86 inline word
+        dw     XT_Bat                       ; $BD88 execution token
+        dw     $2329                        ; $BD8A execution token
+        dw     XT_OR                        ; $BD8C execution token
+        dw     XT_0BRANCH                   ; $BD8E execution token
+        dw     MAIN_PROGRESSION_TASK_BR5    ; $BD90 branch target
+MAIN_PROGRESSION_TASK_BR6:
+        dw     XT_LIT                       ; $BD92 execution token
+        dw     $E1E7                        ; $BD94 inline word
+        dw     XT_Bat                       ; $BD96 execution token
+        dw     XT_0BRANCH                   ; $BD98 execution token
+        dw     MAIN_PROGRESSION_TASK_BR7    ; $BD9A branch target
+        dw     $36C8                        ; $BD9C execution token
+        dw     XT_LIT                       ; $BD9E execution token
+        dw     $F756                        ; $BDA0 inline word
+        dw     XT_BONE                      ; $BDA2 execution token
+        dw     XT_YIELD_ACTION_TASK         ; $BDA4 execution token
+MAIN_PROGRESSION_TASK_BR7:
+        dw     XT_LIT                       ; $BDA6 execution token
+        dw     $E1E7                        ; $BDA8 inline word
+        dw     XT_BZERO                     ; $BDAA execution token
+        dw     XT_LIT                       ; $BDAC execution token
+        dw     $E1EC                        ; $BDAE inline word
+        dw     XT_Bat                       ; $BDB0 execution token
+        dw     XT_0BRANCH                   ; $BDB2 execution token
+        dw     MAIN_PROGRESSION_TASK_BR2    ; $BDB4 branch target
+MAIN_PROGRESSION_TASK_BR8:
+        dw     XT_LIT                       ; $BDB6 execution token
+        dw     $C00A                        ; $BDB8 inline word
+        dw     XT_at                        ; $BDBA execution token
+        dw     XT_START_COUNTED_ACTION_LIST ; $BDBC execution token
+        dw     XT_YIELD_ACTION_TASK         ; $BDBE execution token
+        dw     XT_CLEAR_TASK_ACTIVE_BIT     ; $BDC0 execution token
+        dw     XT_RETURN                    ; $BDC2 execution token
         db      $1E,$72,$61,$66,$21,$21,$21,$6D,$73,$70,$21,$21,$21,$6D,$61,$63 ; $BDC4
         db      $21,$21,$21,$73,$65,$66,$21,$21,$21,$64,$6E,$61,$21,$21,$21     ; $BDD4
 TERSE_COLON_BDE3:
@@ -644,7 +1462,7 @@ ADDRESS_SUM_CHECKSUM_LOOP:
 REINITIALIZE_BOOKKEEPING_STATE:
         call $0673                      ; $BE61
         jp (iy)                         ; $BE64
-SERVICE_APPLICATION_WORD:
+MAIN_APPLICATION:
         rst     $08                             ; $BE66 colon entry
         dw      XT_LITbyte              ; $BE67 _LITbyte
         db      $2C                  ; $BE69 inline byte
@@ -706,7 +1524,7 @@ LBEB3:
         dw      $FDAB                ; $BED2 inline word
         dw      XT_bang                 ; $BED4 _bang
         dw      $34C3                ; $BED6 execution token $34C3
-        dw      TERSE_COLON_BBB8     ; $BED8 TERSE_COLON_BBB8
+        dw      CORRECT_FEEDBACK_TASK     ; $BED8 CORRECT_FEEDBACK_TASK
         dw      XT_LIT                  ; $BEDA _LIT
         dw      $F758                ; $BEDC inline word
         dw      XT_DUP                  ; $BEDE _DUP

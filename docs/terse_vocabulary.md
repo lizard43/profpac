@@ -206,3 +206,59 @@ data-flow roles without inventing sound-effect names.
 | `SOUND_SETUP_BOTH_CHANNELS` `$2C1A` | Execute common initialization and both channel setup words | Fixed-ROM colon word |
 | `SOUND_RECORD_CHANNEL_STATE` `$2BEF` | Consume channel state operands, call bounds helper, restore threaded IP | Native TERSE word |
 | `SOUND_UPDATE_CHANNEL_BOUNDS` `$2BCE` | Compare value against cached threshold and update channel-state fields | Native helper |
+
+
+## Stage 3 — configuration-1 game-action words (2026-11-01)
+
+These words are distinct from the core resident TERSE vocabulary. They are
+executable application definitions in the banked PPS8 ROM; their names are
+reconstructed from the action-list scheduler and decoded control flow.
+
+| Name | Address | TERSE form | Known caller / action list | Stack effect |
+| --- | --- | --- | --- | --- |
+| `ATTRACT_SCREEN_ACTION_ENTRY` | `$AFF1` | 113-cell colon word | `ATTRACT_SCREEN_ACTIONS` at `$B4F2` | To be traced through renderer calls |
+| `ATTRACT_DEMO_STAGE_ENTRY` | `$B41C` | Shared-entry colon word | First action, `$B4F5` | Shared exit; analysis pending |
+| `ATTRACT_DEMO_SHARED_CONTINUATION` | `$B465` | Shared-entry colon word | Overlaps first/second demo action | Shared exit; analysis pending |
+| `ATTRACT_DEMO_SECOND_ACTION` | `$B499` | Shared-entry colon word | Second action, `$B4F5` | Shared exit; analysis pending |
+| `ATTRACT_DEMO_THIRD_ACTION` | `$B4C5` | 17-cell colon word | Third action, `$B4F5` | To be traced |
+| `ATTRACT_PROMPT_STAGE_ENTRY` | `$B613` | 15-cell colon word | First action, `$B6C2` | To be traced |
+| `ATTRACT_PROMPT_SECOND_ACTION` | `$B642` | 23-cell colon word | Second action, `$B6C2` | To be traced |
+| `ATTRACT_PROMPT_THIRD_ACTION` | `$B67F` | 25-cell colon word | Third action, `$B6C2` | To be traced |
+| `CREDIT_PROMPT_STAGE_ENTRY` | `$B846` | 37-cell colon word | `CREDIT_START_PROMPT_ACTIONS` at `$B8B1` | To be traced |
+
+Six of these words have been expanded from `DB` to explicit execution
+tokens, literals and branches without changing emitted ROM bytes. The shared
+entries remain address-exact in a single physical source image.
+
+For the wider shared control-flow and state-update families
+(`$BA31–$BBA6`, `$BBE8–$BCDA`), see
+[the stage 3 multi-entry analysis](SHARED-TERSE-ENTRYPOINTS.md). The
+standalone Node.js analyzer can derive a table from the original ROM
+with `node tools/analyze_shared_threads.js --markdown`.
+
+No stack effects are assigned without a complete caller/callee trace; that
+is the next semantic reconstruction task.
+
+
+## Stage 4 shared game-state vocabulary (2026-11-01)
+
+These are address-linked application words in PPS8 configuration 1. The labels
+describe verified memory access and call structure, not claimed historical
+TERSE source spellings.
+
+| Entry | Name | Implementation / stack status | Caller or memory reference |
+| --- | --- | --- | --- |
+| $BA31 | GAME_STATE_WORD_TRANSFER_BA31 | Shared colon path; stack effect pending | CORRECT_FEEDBACK_TASK at $BBCE; word access $F716/$F718/$F71A/$F71C |
+| $BACD | GAME_STATE_SHARED_ENTRY_BACD | Shared colon path; stack effect pending | Backward branch into shared path at $BA79 |
+| $BAD9 | GAME_STATE_SHARED_ENTRY_BAD9 | Shared colon path; stack effect pending | Reads/writes state-word quartet |
+| $BAED | GAME_STATE_SHARED_ENTRY_BAED | Shared colon path; stack effect pending | Reads/writes state-word quartet |
+| $BB27 | GAME_STATE_SHARED_ENTRY_BB27 | Shared colon path; stack effect pending | Reads/writes state-word quartet |
+| $BB68 | GAME_STATE_SHARED_ENTRY_BB68 | Shared colon path; stack effect pending | Reads/writes state-word quartet |
+| $BBE8 | GAME_STATE_APPLICATION_INIT_BBE8 | Shared colon path; stack effect pending | MAIN_APPLICATION at $BEE2; uses $F716/$F718/$F71C |
+| $BC83 | GAME_STATE_CONTINUATION_BC83 | Shared colon continuation; stack effect pending | Rejoins $BBE8 branch path; uses $F716/$F71C |
+| $BC8F | GAME_STATE_CONTINUATION_BC8F | Shared colon continuation; stack effect pending | Rejoins $BBE8 branch path; writes $F716/$F71C |
+| $BBB8 | CORRECT_FEEDBACK_TASK | Colon word; stack effect pending | Embedded "correct" text, $F758 state, calls $BA31 |
+
+See [Stage 4 shared game-state RE](STAGE4-SHARED-GAME-STATE.md).
+Run node tools/analyze_shared_threads.js --state --check-sources for a
+reproducible RAM-literal and next-memory-operation inventory.
