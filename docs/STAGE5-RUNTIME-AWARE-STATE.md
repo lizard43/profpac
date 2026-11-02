@@ -43,6 +43,22 @@ A source-level search inspected all nine program ROM assembly units (`pps1` thro
 
 The deeper decoded PPS8 entry graph is authoritative for the 33 physical LIT sites and includes raw boundary bytes that the explicit `dw` sweep does not cover. These different numbers measure different levels of source decoding and **must not be treated as contradictory**.
 
+## Fixed-ROM object vocabulary: recovered stack contracts
+
+The Stage 5 state threads invoke PPS1's object setter/getter words. Inspection of their native Z80 bodies supplies actual stack effects:
+
+| PPS1 execution address | Word / implementation | Proven stack effect | Implementation evidence |
+| --- | --- | --- | --- |
+| `$1D24` | Object value-1 setter | `( value1 -- )` | `POP HL`, convert via `$1B3C`, write record `+25/+26` |
+| `$1D3C` | Object value-2 setter | `( value2 -- )` | `POP HL`, convert via `$1B9E`, write record `+27/+28` |
+| `$1D54` | TERSE paired setter | `( value1 value2 -- )` | Executes `$1D3C`, then `$1D24`, then `RETURN` |
+| `$1D9B` | Object value-1 getter | `( object-record -- value1 )` | `POP HL` record pointer, read `+25/+26`, transform, `PUSH HL` |
+| `$1DAA` | Object value-2 getter | `( object-record -- value2 )` | `POP HL` record pointer, read `+27/+28`, transform, `PUSH HL` |
+| `$1E7D` | Object byte-18 setter | `( byte -- )` | `POP DE`, write E to current record `+24` |
+| `$1E8E` | Object word-1D setter | `( word -- )` | `POP DE`, write E/D to current record `+29/+30` |
+
+These seven effects are recorded in the WB/ICEBOX current **platform dictionary**, and the `$1D54` compound effect is also present in the program-word dictionary. Naming and inline function headers were added to the original `src/pps1.asm`, with the ICEBOX project copy synchronized. This proves the object-state transformation called by the shared animation threads; it does **not** automatically establish the entire task-entry word's stack contract.
+
 ## Stack-contract boundary
 
 The native root dictionary supplies known primitive effects (`LIT`, `@`, `!`, `B@`, `BZERO`, `DUP`, etc.). The nine **compound** entries also invoke task and object words, some outside the selected physical bank. Consequently their complete input/output stack effects cannot be established simply by summing the root primitives. Their library `stackEffect` is retained as `null` rather than fabricated. The call edges and physical state access metadata have been committed to the *primary* game dictionary.
