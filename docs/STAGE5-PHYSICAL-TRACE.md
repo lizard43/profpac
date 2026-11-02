@@ -86,3 +86,5 @@ Together these prove **distinct feedback and application initial-state presets**
 ## Verification
 
 Run `node tools/analyze_shared_threads.js --state-audit --check-sources` and `node tools/analyze_shared_threads.js --state-check --check-sources` against `roms/orig/profpac.zip`, then `./build.sh --clean` for the original-ROM byte comparison. This trace is statically derived from the repository's addressed source and is **not** a claim that those local commands were executed.
+
+For the complete 334-cell, bank-aware shared execution-token map, see [Stage 5 token map](STAGE5-TOKEN-MAP.md). Regenerate it using `node tools/analyze_shared_threads.js --token-map --check-sources` against the original ROM.
