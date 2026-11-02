@@ -3251,7 +3251,8 @@ NATIVE_1C51:
         inc hl                          ; $1C5A
         set 4,(hl)                      ; $1C5B
         jp (iy)                         ; $1C5D
-NATIVE_1C5F:
+; Object axis A setter ( value -- ): normalize by $1B3C; write current-object record +$34/+$35.
+SET_CURRENT_OBJECT_AXIS_A:
         pop hl                          ; $1C5F
         call NATIVE_1B3C                ; $1C60
         push hl                         ; $1C63
@@ -3263,7 +3264,8 @@ NATIVE_1C5F:
         inc hl                          ; $1C6D
         ld (hl),d                       ; $1C6E
         jp (iy)                         ; $1C6F
-NATIVE_1C71:
+; Object axis B setter ( value -- ): normalize by $1B9E; write current-object record +$36/+$37.
+SET_CURRENT_OBJECT_AXIS_B:
         pop hl                          ; $1C71
         call NATIVE_1B9E                ; $1C72
         push hl                         ; $1C75
@@ -3286,7 +3288,8 @@ NATIVE_1C83:
 L1C93:
         push de                         ; $1C93
         jp (iy)                         ; $1C94
-NATIVE_1C96:
+; Object axis A getter ( object-record -- value ): read +$34/+$35, transform by $1B60.
+GET_OBJECT_AXIS_A:
         pop hl                          ; $1C96
         ld de,$0034                     ; $1C97
         add hl,de                       ; $1C9A
@@ -3297,7 +3300,8 @@ NATIVE_1C96:
         call NATIVE_1B60                ; $1C9F
         push hl                         ; $1CA2
         jp (iy)                         ; $1CA3
-NATIVE_1CA5:
+; Object axis B getter ( object-record -- value ): read +$36/+$37, transform by $1BB3.
+GET_OBJECT_AXIS_B:
         pop hl                          ; $1CA5
         ld de,$0036                     ; $1CA6
         add hl,de                       ; $1CA9
