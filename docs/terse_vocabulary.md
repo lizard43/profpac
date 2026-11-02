@@ -262,3 +262,8 @@ TERSE source spellings.
 See [Stage 4 shared game-state RE](STAGE4-SHARED-GAME-STATE.md).
 Run node tools/analyze_shared_threads.js --state --check-sources for a
 reproducible RAM-literal and next-memory-operation inventory.
+
+
+## Stage 5 — physical shared-state tokens
+
+The configuration-1 PPS8 multi-entry streams `$BA31–$BBA6` and `$BBE8–$BCDA` now expose 184 byte-preserving symbolic TERSE token cells in `src/pps8.asm`, with unmatched or overlapping boundary bytes retained as raw data. Both families together reach 334 distinct token start addresses, including 33 distinct physical literal references to `$F6EB/$F716/$F718/$F71A/$F71C`. The read/write and address-only distinctions are enumerated in [the physical trace](STAGE5-PHYSICAL-TRACE.md). The primitive `XT_LIT` pushes a literal; `XT_at` fetches a word; `XT_bang` stores a word; `XT_Bat` fetches a byte; `XT_BZERO` clears a byte. A `LIT` followed by `DUP` is an address duplication, not a direct memory operation. Compound-word stack effects remain undefined until all external object/task token contracts are reconstructed.
