@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="510" viewBox="0 0 1000 510" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" role="img" aria-labelledby="t d">
 <title id="t">Professor Pac-Man Stage 5 game-state RAM</title>
 <desc id="d">Work RAM addresses F6EB and F716 through F71D, linked to two physical TERSE caller and shared-entry families in configuration 1 PPS8.</desc>
 <rect width="1000" height="510" fill="#10141b"/>
@@ -23,5 +23,10 @@
 <text x="490" y="374" font-family="monospace" font-size="17" fill="#dbf5df">$F718–$F719  word 1</text>
 <text x="490" y="406" font-family="monospace" font-size="17" fill="#dbf5df">$F71A–$F71B  word 2</text>
 <text x="94" y="430" font-family="monospace" font-size="15" fill="#b8d6bd">$F71C–$F71D  word 3</text>
-<text x="35" y="475" font-family="sans-serif" font-size="15" fill="#bdc5d0">Arrows show observed shared-state references, not independently allocated ROM bodies.</text>
+<text x="35" y="475" font-family="sans-serif" font-size="15" fill="#bdc5d0">Arrows show shared-state references; overlapping entrypoints do not allocate separate ROM bodies.</text>
+<rect x="75" y="495" width="850" height="113" rx="7" fill="#1b2734" stroke="#6f8ba6"/>
+<text x="94" y="519" font-family="sans-serif" font-size="17" font-weight="bold" fill="#f0f3f8">PROVEN CONSTANT PRESETS</text>
+<text x="94" y="545" font-family="monospace" font-size="14" fill="#b8d2e8">FEEDBACK $BA31: F716=0000  F718=0096  F71A=FFFF  F71C=0001  F6EB=00</text>
+<text x="94" y="575" font-family="monospace" font-size="14" fill="#b8d2e8">APPLICATION $BBE8: F716=FF9D  F718=FF64  F71C=FFFF</text>
+<text x="35" y="627" font-family="sans-serif" font-size="14" fill="#bdc5d0">Values are hexadecimal and refer to the entrypoint's observed initialization sequence.</text>
 </svg>
