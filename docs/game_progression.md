@@ -168,3 +168,8 @@ of those values is not established by address proximity alone.
 A dedicated [Stage 4 control-flow and RAM audit](STAGE4-SHARED-GAME-STATE.md)
 records nine recovered entrypoints and documents the overlapping source
 regions, observed 16-bit read/write primitives, and known callers.
+
+
+## Stage 5 — state words into object presentation
+
+The `CORRECT_FEEDBACK_TASK` ($BBB8) executes an output-port operation at `$BBC2` and enters the shared feedback state transformer at `$BBCE → $BA31`. The `MAIN_APPLICATION` ($BE66) reaches the related application setup thread at `$BEE2 → $BBE8`. These paths write/read the quartet of 16-bit work-RAM fields at `$F716/$F718/$F71A/$F71C`, and the feedback family also consults or resets `$F6EB`. Object field setters (`$1D24`, `$1D3C`, `$1D54`, `$1E8E`) and graphics-associated tokens occur along the state paths. The evidence establishes state-to-object-output relationships, not a particular score/question identity. See [the Stage 5 physical source trace](STAGE5-PHYSICAL-TRACE.md) for deduplicated literal sites, exact operations, and shared-entry ownership.
