@@ -475,7 +475,18 @@ TERSE_COLON_23C0:
         db      $D9,$5F,$DD,$09,$2B,$7C,$B5,$20,$DB,$C9,$7B,$08,$B3,$D3,$0C,$E6 ; $2589
         db      $30,$08,$DD,$72,$00,$D9,$CB,$7C,$20,$07,$D9,$DD,$09,$D9,$19,$18 ; $2599
         db      $01,$09,$D9,$3C,$FE,$04,$38,$03,$DD,$23,$AF,$5F,$2B,$7C,$B5,$20 ; $25A9
-        db      $D9,$C9,$F3,$C5,$FD,$E5,$FD,$2A,$8F,$FE,$FD,$66,$37,$FD,$6E,$36 ; $25B9
+; The preceding $25B9 EXX/RET terminates an adjacent native helper.
+        db      $D9,$C9 ; $25B9
+; PPS2 masked object renderer. Own prologue saves BC and IY, balanced by
+; POP IX / POP IY / POP BC and EI / JP (IY) at $2627–$262E.
+; Its data-stack effect is ( -- ); register/CPU control context is preserved.
+NATIVE_OBJECT_MASKED_DRAW_25BB:
+        di                              ; $25BB
+        push bc                         ; $25BC
+        push iy                         ; $25BD
+        ld iy,($fe8f)                   ; $25BF
+        ld h,(iy+55)                    ; $25C3
+        ld l,(iy+54)                    ; $25C6
         db      $FD,$56,$1C,$FD,$5E,$1B,$D9,$FD,$66,$35,$FD,$6E,$34,$FD,$56,$1A ; $25C9
         db      $FD,$5E,$19,$D9,$DD,$E5,$7D,$E6,$C0,$6F,$7B,$E6,$C0,$5F,$E5,$CD ; $25D9
         db      $07,$25,$E3,$D9,$08,$7D,$E6,$C0,$6F,$7B,$E6,$C0,$5F,$E5,$CD,$07 ; $25E9
