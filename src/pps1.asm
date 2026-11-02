@@ -3368,7 +3368,8 @@ NATIVE_1D19:
         add hl,de                       ; $1D1F
         res 4,(hl)                      ; $1D20
         jp (iy)                         ; $1D22
-NATIVE_1D24:
+; Native object value-1 setter ( value1 -- ). Convert by $1B3C; store current-object offsets +25/+26; mark update.
+SET_OBJECT_VALUE1_NATIVE:
         pop hl                          ; $1D24
         call NATIVE_1B3C                ; $1D25
         push iy                         ; $1D28
@@ -3378,7 +3379,8 @@ NATIVE_1D24:
         set 0,(iy+33)                   ; $1D34
         pop iy                          ; $1D38
         jp (iy)                         ; $1D3A
-NATIVE_1D3C:
+; Native object value-2 setter ( value2 -- ). Convert by $1B9E; store current-object offsets +27/+28; mark update.
+SET_OBJECT_VALUE2_NATIVE:
         pop hl                          ; $1D3C
         call NATIVE_1B9E                ; $1D3D
         push iy                         ; $1D40
@@ -3388,10 +3390,11 @@ NATIVE_1D3C:
         set 0,(iy+33)                   ; $1D4C
         pop iy                          ; $1D50
         jp (iy)                         ; $1D52
+; Pair object value setter ( value1 value2 -- ); invokes SET_OBJECT_VALUE2_NATIVE then SET_OBJECT_VALUE1_NATIVE.
 TERSE_COLON_1D54:
         rst     $08                             ; $1D54 colon entry
-        dw      NATIVE_1D3C          ; $1D55 NATIVE_1D3C
-        dw      NATIVE_1D24          ; $1D57 NATIVE_1D24
+        dw      SET_OBJECT_VALUE2_NATIVE          ; $1D55 SET_OBJECT_VALUE2_NATIVE
+        dw      SET_OBJECT_VALUE1_NATIVE          ; $1D57 SET_OBJECT_VALUE1_NATIVE
         dw      _RETURN              ; $1D59 _RETURN
 NATIVE_1D5B:
         ld hl,($fe8f)                   ; $1D5B
@@ -3433,7 +3436,8 @@ NATIVE_1D8B:
         inc hl                          ; $1D97
         ld (hl),d                       ; $1D98
         jp (iy)                         ; $1D99
-NATIVE_1D9B:
+; Native object value-1 fetch ( object-record -- value1 ). Read +25/+26 and inverse-convert.
+FETCH_OBJECT_VALUE1_NATIVE:
         pop hl                          ; $1D9B
         ld de,$0019                     ; $1D9C
         add hl,de                       ; $1D9F
@@ -3444,7 +3448,8 @@ NATIVE_1D9B:
         call NATIVE_1B60                ; $1DA4
         push hl                         ; $1DA7
         jp (iy)                         ; $1DA8
-NATIVE_1DAA:
+; Native object value-2 fetch ( object-record -- value2 ). Read +27/+28 and inverse-convert.
+FETCH_OBJECT_VALUE2_NATIVE:
         pop hl                          ; $1DAA
         ld de,$001b                     ; $1DAB
         add hl,de                       ; $1DAE
@@ -3478,9 +3483,9 @@ NATIVE_1DC7:
 TERSE_COLON_1DD5:
         rst     $08                             ; $1DD5 colon entry
         dw      _0                   ; $1DD6 _0
-        dw      NATIVE_1D24          ; $1DD8 NATIVE_1D24
+        dw      SET_OBJECT_VALUE1_NATIVE          ; $1DD8 SET_OBJECT_VALUE1_NATIVE
         dw      _0                   ; $1DDA _0
-        dw      NATIVE_1D3C          ; $1DDC NATIVE_1D3C
+        dw      SET_OBJECT_VALUE2_NATIVE          ; $1DDC SET_OBJECT_VALUE2_NATIVE
         dw      _RETURN              ; $1DDE _RETURN
 TERSE_COLON_1DE0:
         rst     $08                             ; $1DE0 colon entry
@@ -3558,7 +3563,8 @@ NATIVE_1E72:
         add hl,de                       ; $1E78
         res 3,(hl)                      ; $1E79
         jp (iy)                         ; $1E7B
-NATIVE_1E7D:
+; Native object metadata setter ( byte -- ). Write low byte to current-object +24.
+SET_OBJECT_BYTE18_NATIVE:
         ld hl,($fe8f)                   ; $1E7D
         ld de,$0018                     ; $1E80
         add hl,de                       ; $1E83
@@ -3568,7 +3574,8 @@ NATIVE_1E7D:
         add hl,de                       ; $1E89
         set 3,(hl)                      ; $1E8A
         jp (iy)                         ; $1E8C
-NATIVE_1E8E:
+; Native object metadata setter ( word -- ). Write to current-object +29/+30.
+SET_OBJECT_WORD1D_NATIVE:
         ld hl,($fe8f)                   ; $1E8E
         ld de,$001d                     ; $1E91
         add hl,de                       ; $1E94
